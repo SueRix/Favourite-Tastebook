@@ -1,0 +1,46 @@
+# General
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.swp
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+*.venv
+venv/
+ENV/
+env.bak/
+.env.bak
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Django
+db.sqlite3
+media/
+staticfiles/
+local_settings.py
+
+# Migrations
+**/migrations/*
+!**/migrations/__init__.py
+
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.ipr
+*.iws
+
