@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -20,9 +21,15 @@ def register_view(request):
             email = form.cleaned_data.get('email')
             first_name = form.cleaned_data.get('first_name')
             last_name = form.cleaned_data.get('last_name')
-            user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
-            login(request, user)
-            return redirect('success')
+
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'Username already exists')
+            elif User.objects.filter(email=email).exists():
+                messages.error(request, 'Email already exists')
+            else:
+                user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
+                login(request, user)
+                return redirect('success')
     else:
         form = RegisterForm()
 
@@ -64,6 +71,8 @@ def logout_view(request):
 def success_of_auth_view(request):
     return render(request, 'success_of_auth.html')
 
+
+#TODO: write redirect to another page including authenticate validating after auth
 #logic to redirect on protected pages in future
 #
 # class ProtectedView(LoginRequiredMixin, View):
