@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 from decouple import config
 
@@ -115,3 +114,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'home'
+
+APPEND_SLASH=False
