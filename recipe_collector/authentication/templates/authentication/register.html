@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Register</title>
     <style>
         /* General styles */
         body {
@@ -18,7 +18,7 @@
         }
 
         /* Container for the form */
-        .login-container {
+        .register-container {
             background-color: white;
             padding: 30px;
             border-radius: 8px;
@@ -29,7 +29,7 @@
         }
 
         /* Header */
-        .login-container h2 {
+        .register-container h2 {
             margin-bottom: 20px;
             font-size: 24px;
             color: #333;
@@ -50,7 +50,7 @@
         }
 
         /* Button styles */
-        .login-container button {
+        .register-container button {
             background-color: #007bff;
             color: white;
             padding: 10px 15px;
@@ -62,39 +62,39 @@
             transition: background-color 0.3s ease;
         }
 
-        .login-container button:hover {
+        .register-container button:hover {
             background-color: #0056b3;
         }
 
-        /* Link to register */
-        .register-link {
+        /* Link to login */
+        .login-link {
             margin-top: 20px;
             font-size: 14px;
             color: #555;
         }
 
-        .register-link a {
+        .login-link a {
             color: #007bff;
             text-decoration: none;
             font-weight: bold;
         }
 
-        .register-link a:hover {
+        .login-link a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
+    <div class="register-container">
+        <h2>Register</h2>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Login</button>
+            <button type="submit">Register</button>
         </form>
 
-        <p class="register-link">Don't have an account?
-            <a href="{% url 'register' %}">Register Here</a>
+        <p class="login-link">Already have an account?
+            <a href="{% url 'login' %}">Login Here</a>
         </p>
     </div>
 </body>

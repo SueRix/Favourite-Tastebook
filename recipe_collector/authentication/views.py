@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+
 from .forms import LoginForm, RegisterForm
 
 
@@ -21,6 +23,9 @@ def register_view(request):
 
     return render(request, 'register.html', {'form': form})
 
+
+#for test decorator
+@csrf_exempt
 def login_view(request):
     if request.method == "POST":
         form = LoginForm(request.POST)
@@ -30,7 +35,7 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                next_url = request.POST.get('next') or request.GET.get('next') or 'home'
+                next_url = request.POST.get('next') or request.GET.get('next') or 'success'
                 return redirect(next_url)
             else:
                 form.add_error(None, 'Invalid username or password')
@@ -40,22 +45,25 @@ def login_view(request):
 
     return render(request, 'login.html', {'form': form})
 
+@csrf_exempt
 def logout_view(request):
-    if request.method == "POST":
+    if request.method == "POST" or "GET": #GET added to test in browser
         logout(request)
-        return redirect('login')
+        return render(request, 'logout_redirect.html', {'redirect_url': 'login'})
     else:
-        return redirect('home')
+        return redirect('login')
+
 
 
 @login_required
-def home_view(request):
-    return render(request, 'home.html')
+def success_of_auth_view(request):
+    return render(request, 'success_of_auth.html')
 
-
-class ProtectedView(LoginRequiredMixin, View):
-    login_url = '/login/'
-    redirect_field_name = 'redirect_to'
-
-    def get(self, request):
-        return render(request, 'protected.html')
+#logic to redirect on protected pages in future
+#
+# class ProtectedView(LoginRequiredMixin, View):
+#     login_url = '/login/'
+#     redirect_field_name = 'redirect_to'
+#
+#     def get(self, request):
+#         return render(request, 'protected.html')
