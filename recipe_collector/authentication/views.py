@@ -1,14 +1,16 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-
 from .forms import LoginForm, RegisterForm
+# from django.views import View
+# from django.contrib.auth.mixins import LoginRequiredMixin
 
 
+
+#testing decorator in browser(csrf error)
+@csrf_exempt
 def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -17,7 +19,7 @@ def register_view(request):
             password = form.cleaned_data.get('password')
             user = User.objects.create_user(username=username, password=password)
             login(request, user)
-            return redirect('home')
+            return redirect('success')
     else:
         form = RegisterForm()
 
