@@ -42,6 +42,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'authentication/templates/authentication'),
+            os.path.join(BASE_DIR, 'collector_logic/templates/main'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
