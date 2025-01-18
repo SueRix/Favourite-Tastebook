@@ -5,12 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from .forms import LoginForm, RegisterForm
-# from django.views import View
-# from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-
-#testing decorator in browser(csrf error)
 @csrf_exempt
 def register_view(request):
     if request.method == 'POST':
@@ -36,7 +32,6 @@ def register_view(request):
     return render(request, 'register.html', {'form': form})
 
 
-#for test decorator
 @csrf_exempt
 def login_view(request):
     if request.method == "POST":
@@ -47,7 +42,7 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                next_url = request.POST.get('next') or request.GET.get('next') or 'success'
+                next_url = request.POST.get('next') or 'success'
                 return redirect(next_url)
             else:
                 form.add_error(None, 'Invalid username or password')
@@ -59,7 +54,7 @@ def login_view(request):
 
 @csrf_exempt
 def logout_view(request):
-    if request.method == "POST" or "GET": #GET added to test in browser
+    if request.method == "POST":
         logout(request)
         return render(request, 'logout_redirect.html', {'redirect_url': 'login'})
     else:
@@ -71,13 +66,3 @@ def logout_view(request):
 def success_of_auth_view(request):
     return render(request, 'success_of_auth.html')
 
-
-#TODO: write redirect to another page including authenticate validating after auth
-#logic to redirect on protected pages in future
-#
-# class ProtectedView(LoginRequiredMixin, View):
-#     login_url = '/login/'
-#     redirect_field_name = 'redirect_to'
-#
-#     def get(self, request):
-#         return render(request, 'protected.html')

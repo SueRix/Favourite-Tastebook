@@ -29,9 +29,6 @@ media/
 staticfiles/
 local_settings.py
 
-# Migrations
-**/migrations/*
-!**/migrations/__init__.py
 
 
 # VS Code
