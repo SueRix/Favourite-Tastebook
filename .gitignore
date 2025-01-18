@@ -30,7 +30,6 @@ staticfiles/
 local_settings.py
 
 
-
 # VS Code
 .vscode/
 *.code-workspace

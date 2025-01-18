@@ -1,15 +1,20 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.views.decorators.csrf import csrf_exempt
+from django.views import View
 from .forms import LoginForm, RegisterForm
 
 
-@csrf_exempt
-def register_view(request):
-    if request.method == 'POST':
+
+class RegisterView(View):
+    @staticmethod
+    def get(request):
+        form = RegisterForm()
+        return render(request, 'register.html', {'form': form})
+
+    @staticmethod
+    def post(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
@@ -25,16 +30,22 @@ def register_view(request):
             else:
                 user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
                 login(request, user)
-                return redirect('success')
-    else:
-        form = RegisterForm()
+                return redirect('main_page')
+        else:
+            form = RegisterForm()
 
-    return render(request, 'register.html', {'form': form})
+        return render(request, 'register.html', {'form': form})
 
 
-@csrf_exempt
-def login_view(request):
-    if request.method == "POST":
+
+class LoginView(View):
+    @staticmethod
+    def get(request):
+        form = LoginForm()
+        return render(request, 'login.html', {'form': form})
+
+    @staticmethod
+    def post(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -42,27 +53,18 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                next_url = request.POST.get('next') or 'success'
-                return redirect(next_url)
+                return redirect('main_page')
             else:
                 form.add_error(None, 'Invalid username or password')
 
-    else:
-        form = LoginForm()
+        else:
+            form = LoginForm()
 
-    return render(request, 'login.html', {'form': form})
+        return render(request, 'login.html', {'form': form})
 
-@csrf_exempt
-def logout_view(request):
-    if request.method == "POST":
+
+class LogoutView(View):
+    @staticmethod
+    def post(request):
         logout(request)
-        return render(request, 'logout_redirect.html', {'redirect_url': 'login'})
-    else:
         return redirect('login')
-
-
-
-@login_required
-def success_of_auth_view(request):
-    return render(request, 'success_of_auth.html')
-
