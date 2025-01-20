@@ -33,22 +33,29 @@
         }
 
         form {
-            margin-bottom: 20px;
+            text-align: left;
         }
 
         form input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        form input:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
 
         .register-container button {
             background-color: #007bff;
             color: white;
-            padding: 10px 15px;
+            padding: 12px 20px;
             border: none;
             border-radius: 5px;
             font-size: 16px;
@@ -76,18 +83,29 @@
         .login-link a:hover {
             text-decoration: underline;
         }
+
+        .error-messages {
+            color: red;
+            text-align: left;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
     <div class="register-container">
         <h2>Register</h2>
-            {% if messages %}
-        <ul style="color: red; text-align: left;">
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+
+        {% if messages %}
+        <div class="error-messages">
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}

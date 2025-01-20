@@ -1,9 +1,6 @@
 import os
 from decouple import config
 
-
-
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
@@ -40,7 +37,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'features/authentication/templates/authentication'),
+            os.path.join(BASE_DIR, 'features/authentication/templates/registration'),
             os.path.join(BASE_DIR, 'collector_logic/templates/main'),
         ],
         'APP_DIRS': True,
@@ -116,3 +113,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 APPEND_SLASH = False
+
+LOGIN_REDIRECT_URL = config('LOGIN_REDIRECT_URL')
+LOGOUT_REDIRECT_URL = config('LOGOUT_REDIRECT_URL')
+LOGIN_URL = config('LOGIN_URL')
