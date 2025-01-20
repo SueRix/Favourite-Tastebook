@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'authentication',
+    'features.authentication',
 ]
 
 MIDDLEWARE = [
@@ -34,13 +34,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'recipe_collector.urls'
+ROOT_URLCONF = 'base_of_project.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'authentication/templates/authentication'),
+            os.path.join(BASE_DIR, 'features/authentication/templates/authentication'),
             os.path.join(BASE_DIR, 'collector_logic/templates/main'),
         ],
         'APP_DIRS': True,
@@ -55,7 +55,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'recipe_collector.wsgi.application'
+WSGI_APPLICATION = 'base_of_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
