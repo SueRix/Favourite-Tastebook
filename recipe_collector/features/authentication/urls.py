@@ -1,7 +1,6 @@
-from django.urls import path, re_path
-from django.views.generic import RedirectView
-
-from .views import LoginView, RegisterView, LogoutView
+from django.urls import path
+from django.contrib.auth.views import LoginView, LogoutView
+from .views import RegisterView
 
 urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),

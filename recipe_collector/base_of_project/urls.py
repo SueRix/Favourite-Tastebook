@@ -7,6 +7,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('features.authentication.urls')),
 
-    # Security to home page if user do not authenticated
+    # Security to home page(not start page) if user do not authenticated yet
     path('home/', login_required(TemplateView.as_view(template_name='home.html')), name='home_page'),
 ]
