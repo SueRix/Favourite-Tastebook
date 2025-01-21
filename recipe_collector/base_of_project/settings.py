@@ -1,5 +1,6 @@
 import os
 from decouple import config
+from django.urls import reverse_lazy
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -114,6 +115,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 APPEND_SLASH = False
 
-LOGIN_REDIRECT_URL = config('LOGIN_REDIRECT_URL')
-LOGOUT_REDIRECT_URL = config('LOGOUT_REDIRECT_URL')
-LOGIN_URL = config('LOGIN_URL')
+LOGIN_REDIRECT_URL = reverse_lazy('home_page')
+LOGOUT_REDIRECT_URL = reverse_lazy('login')
+LOGIN_URL = reverse_lazy('login')
