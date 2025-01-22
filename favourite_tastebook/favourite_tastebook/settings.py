@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'features.authentication',
+    'recipe_manager',
 ]
 
 MIDDLEWARE = [
@@ -34,14 +34,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'project_config.urls'
+ROOT_URLCONF = 'favourite_tastebook.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'features/authentication/templates/authentication'),
-            os.path.join(BASE_DIR, 'collector_logic/templates/main'),
+            os.path.join(BASE_DIR, 'favourite_tastebook/templates/main'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -55,7 +55,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'project_config.wsgi.application'
+WSGI_APPLICATION = 'favourite_tastebook.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
