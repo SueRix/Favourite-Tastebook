@@ -1,5 +1,5 @@
 """
-WSGI config for base_of_project project.
+WSGI config for favourite_tastebook project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'base_of_project.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'favourite_tastebook.settings')
 
 application = get_wsgi_application()
