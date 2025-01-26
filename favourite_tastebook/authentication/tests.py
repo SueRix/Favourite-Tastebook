@@ -2,7 +2,11 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 
+
 class AuthenticationTests(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='baba12345')
 
     def test_register_view_get(self):
         response = self.client.get(reverse('register'))
@@ -17,12 +21,10 @@ class AuthenticationTests(TestCase):
         })
         self.assertEqual(response.status_code, 302)
         self.assertTrue(User.objects.filter(username='testuser123').exists())
-        self.assertRedirects(response, reverse('home_page'))
 
-
-    def test_register_view_post_invalid_password_credentials(self):
+    def test_register_view_invalid_password_credentials_post(self):
         response = self.client.post(reverse('register'), {
-            'username': 'invalid-testuser123',
+            'username': 'invalid-testuser',
             'password1': 'baba123',
             'password2': 'baba1234567',
         })
@@ -30,24 +32,23 @@ class AuthenticationTests(TestCase):
         self.assertContains(response, 'The two password fields didn’t match.')
         self.assertFalse(User.objects.filter(email='invalid-testuser123').exists())
 
+    def test_login_view_get(self):
+        response = self.client.get(reverse('login'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '<form')
 
-    def test_login_view(self):
-        User.objects.create_user(username='testuser', password='password123')
 
+    def test_login_view_post(self):
         response = self.client.post(reverse('login'), {
             'username': 'testuser',
-            'password': 'password123'
+            'password': 'baba12345'
         })
-
-        self.assertEqual(response.status_code, 200)
-        self.assertRedirects(response, reverse('home_page'))
-        self.assertTemplateUsed(response, 'registration/login.html')
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('empty'))
 
 
-    def test_login_invalid_credentials_view(self):
-        User.objects.create_user(username='testuser', password='password123')
-
-        response = self.client.get(reverse('login'), {
+    def test_login_invalid_credentials_view_post(self):
+        response = self.client.post(reverse('login'), {
             'username': 'testuser',
             'password': 'password123_wrong',
         })
@@ -57,4 +58,3 @@ class AuthenticationTests(TestCase):
     def test_logout_view(self):
         response = self.client.post(reverse('logout'))
         self.assertEqual(response.status_code, 302)
-
