@@ -115,6 +115,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 APPEND_SLASH = False
 
-LOGIN_REDIRECT_URL = reverse_lazy('home_page')
+LOGIN_REDIRECT_URL = reverse_lazy('empty')
 LOGOUT_REDIRECT_URL = reverse_lazy('login')
 LOGIN_URL = reverse_lazy('login')
