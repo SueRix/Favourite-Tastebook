@@ -59,8 +59,6 @@ Ensure you have the following installed:
      DB_USER=<database_user>
      DB_HOST=<database_host>
      DB_PORT=<database_port>
-     CSRF_COOKIE_SECURE=<true_or_false>
-     SESSION_COOKIE_SECURE=<true_or_false>
      ```
 
 2. **Apply database migrations:**

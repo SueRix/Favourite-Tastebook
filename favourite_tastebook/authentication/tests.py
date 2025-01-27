@@ -44,7 +44,7 @@ class AuthenticationTests(TestCase):
             'password': 'baba12345'
         })
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse('empty'))
+        self.assertRedirects(response, reverse('home'))
 
 
     def test_login_invalid_credentials_view_post(self):
