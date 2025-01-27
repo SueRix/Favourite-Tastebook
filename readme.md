@@ -89,7 +89,7 @@ http://127.0.0.1:8000/accounts/register
 http://127.0.0.1:8000/accounts/login
 ```
 ```
-http://127.0.0.1:8000/accounts/empty
+http://127.0.0.1:8000/accounts/home
 ```
 
 
