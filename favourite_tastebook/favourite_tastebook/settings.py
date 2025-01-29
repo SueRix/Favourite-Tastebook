@@ -40,7 +40,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'authentication/templates/registration'),
-            os.path.join(BASE_DIR, 'recipe_manager/templates/registration'),
+            os.path.join(BASE_DIR, 'recipe_manager/templates/main_pages'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
