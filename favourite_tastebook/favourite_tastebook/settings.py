@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authentication',
+    'recipe_manager',
 ]
 
 MIDDLEWARE = [
@@ -39,7 +40,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'authentication/templates/registration'),
-            os.path.join(BASE_DIR, 'collector_logic/templates/main'),
+            os.path.join(BASE_DIR, 'recipe_manager/templates/registration'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
