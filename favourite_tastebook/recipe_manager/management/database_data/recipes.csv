@@ -1,0 +1,11 @@
+id,name,tags,instructions,cook_time,created_by,ingredients
+1,Recipe 1,Mexican,Step 1: Do something. Step 2: Do something else. (1),85,73,"Carrot, Tomato, Olive Oil, Onion, Basil"
+2,Recipe 2,Asian,Step 1: Do something. Step 2: Do something else. (2),103,74,"Tomato, Pepper, Salt, Olive Oil, Chicken"
+3,Recipe 3,Mexican,Step 1: Do something. Step 2: Do something else. (3),80,75,"Onion, Salt, Carrot, Chicken"
+4,Recipe 4,American,Step 1: Do something. Step 2: Do something else. (4),53,76,"Tomato, Chicken, Carrot"
+5,Recipe 5,Asian,Step 1: Do something. Step 2: Do something else. (5),51,77,"Carrot, Pepper, Garlic, Potato"
+6,Recipe 6,Mexican,Step 1: Do something. Step 2: Do something else. (6),110,78,"Potato, Tomato, Onion, Salt"
+7,Recipe 7,American,Step 1: Do something. Step 2: Do something else. (7),101,79,"Carrot, Basil"
+8,Recipe 8,Gluten-Free,Step 1: Do something. Step 2: Do something else. (8),101,80,"Tomato, Salt, Onion, Chicken, Pepper"
+9,Recipe 9,Asian,Step 1: Do something. Step 2: Do something else. (9),51,81,"Chicken, Olive Oil, Carrot, Salt"
+10,Recipe 10,American,Step 1: Do something. Step 2: Do something else. (10),44,82,"Carrot, Potato, Salt"
