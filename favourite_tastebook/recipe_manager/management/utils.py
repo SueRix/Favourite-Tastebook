@@ -37,61 +37,69 @@ user,ingredients,quantity,unit,created_by
 def import_ingredients(file_name, folder_path="recipe_manager/management/database_data"):
     file_path = f"{folder_path}/{file_name}"
 
-    if not os.path.exists(file_path):
-        print(f"File {file_path} did not exist!")
+    if not file_path or not file_name:
+        print("Invalid file path or file name!")
         return
 
-    with open(file_path, newline='', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile)
-        records = []
+    try:
+        with open(file_path, newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            records = [Ingredient(name=row['name'], category=row.get('category', None)) for row in reader]
 
-        for row in reader:
-            records.append(Ingredient(name=row['name'], category=row.get('category', None)))
+        if records:
+            with transaction.atomic():
+                Ingredient.objects.bulk_create(records)
 
-        with transaction.atomic():
-            Ingredient.objects.bulk_create(records)
+        print(f" Successfully imported {len(records)} ingredients from {file_path}.")
 
-    print(f" Successfully imported {len(records)} ingredients from {file_path}.")
+    except FileNotFoundError:
+        print(f"File {file_path} not found!")
 
 
 def import_recipes(file_name, folder_path="recipe_manager/management/database_data"):
     file_path = f"{folder_path}/{file_name}"
 
-    if not os.path.exists(file_path):
-        print(f"File {file_path} did not exist!")
+    if not file_path or not file_name:
+        print("Invalid file path or file name!")
         return
 
-    with open(file_path, newline='', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile)
-        records = []
+    try:
+        with open(file_path, newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            records = []
 
-        for row in reader:
-            try:
-                user = User.objects.get(id=row['created_by'])
-            except User.DoesNotExist:
-                print(f"User with ID {row['created_by']} not found. Skipping...")
-                continue
+            for row in reader:
+                try:
+                    user = User.objects.get(id=row['created_by'])
+                except User.DoesNotExist:
+                    print(f"User with ID {row['created_by']} not found. Skipping...")
+                    continue
 
-            recipe = Recipe(
-                name=row['name'],
-                tags=row.get('tags', None),
-                instructions=row['instructions'],
-                created_by=user,
-                cook_time=int(row['cook_time']) if row.get('cook_time') else None
-            )
-            recipe.save()
+                recipe = Recipe(
+                    name=row['name'],
+                    tags=row.get('tags', None),
+                    instructions=row['instructions'],
+                    created_by=user,
+                    cook_time=int(row['cook_time']) if row.get('cook_time') else None
+                )
+                recipe.save()
 
-            ingredient_names = row['ingredients'].split(",")
-            for ing_name in ingredient_names:
-                ingredient = Ingredient.objects.filter(name=ing_name.strip()).first()
-                if ingredient:
-                    recipe.ingredients.add(ingredient)
-                else:
-                    print(f"⚠ Ingredient '{ing_name.strip()}' not found. Skipping...")
+                if 'ingredients' in row and row['ingredients']:
+                    ingredient_names = row['ingredients'].split(",")
+                    for ing_name in ingredient_names:
+                        ingredient = Ingredient.objects.filter(name=ing_name.strip()).first()
+                        if ingredient:
+                            recipe.ingredients.add(ingredient)
+                        else:
+                            print(f"Ingredient '{ing_name.strip()}' not found. Skipping...")
 
-            records.append(recipe)
+                records.append(recipe)
 
-    print(f"Successfully imported {len(records)} recipes from {file_path}.")
+        print(f"Successfully imported {len(records)} recipes from {file_path}.")
+
+    except FileNotFoundError:
+        print(f"File {file_path} not found!")
+
 
 
 
