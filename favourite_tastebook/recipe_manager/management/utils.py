@@ -37,69 +37,164 @@ user,ingredients,quantity,unit,created_by
 def import_ingredients(file_name, folder_path="recipe_manager/management/database_data"):
     file_path = f"{folder_path}/{file_name}"
 
-    if not file_path or not file_name:
-        print("Invalid file path or file name!")
+    if not os.path.exists(file_path):
+        print(f"File {file_path} not found!")
         return
 
+    records = []
     try:
-        with open(file_path, newline='', encoding='utf-8') as csvfile:
+        with open(file_path, "r", encoding="utf-8-sig") as csvfile:
             reader = csv.DictReader(csvfile)
-            records = [Ingredient(name=row['name'], category=row.get('category', None)) for row in reader]
+
+            required_fields = {"name", "category"}
+            if not required_fields.issubset(reader.fieldnames):
+                print(f"Error: CSV file missing required columns. Found: {reader.fieldnames}")
+                return
+
+            for row in reader:
+                records.append(Ingredient(name=row['name'].strip(), category=row.get('category', "").strip()))
 
         if records:
             with transaction.atomic():
                 Ingredient.objects.bulk_create(records)
 
-        print(f" Successfully imported {len(records)} ingredients from {file_path}.")
+            print(f"Successfully imported {len(records)} ingredients from {file_path}.")
+        else:
+            print("No valid ingredients found to import.")
 
-    except FileNotFoundError:
-        print(f"File {file_path} not found!")
+    except Exception as e:
+        print(f"Error processing file: {e}")
 
 
 def import_recipes(file_name, folder_path="recipe_manager/management/database_data"):
     file_path = f"{folder_path}/{file_name}"
 
-    if not file_path or not file_name:
-        print("Invalid file path or file name!")
+    if not os.path.exists(file_path):
+        print(f"File {file_path} not found!")
         return
 
+    records = []
     try:
-        with open(file_path, newline='', encoding='utf-8') as csvfile:
+        with open(file_path, "r", encoding="utf-8-sig") as csvfile:
             reader = csv.DictReader(csvfile)
-            records = []
+
+            required_fields = {"name", "tags", "instructions", "created_by", "cook_time", "ingredients"}
+            if not required_fields.issubset(reader.fieldnames):
+                print(f"Error: CSV file missing required columns. Found: {reader.fieldnames}")
+                return
 
             for row in reader:
                 try:
-                    user = User.objects.get(id=row['created_by'])
+                    user = User.objects.get(id=row['created_by'].strip())
+
+                    recipe = Recipe(
+                        name=row['name'].strip(),
+                        tags=row.get('tags', "").strip(),
+                        instructions=row['instructions'].strip(),
+                        created_by=user,
+                        cook_time=int(row['cook_time']) if row['cook_time'].isdigit() else None
+                    )
+                    records.append(recipe)
+
                 except User.DoesNotExist:
-                    print(f"User with ID {row['created_by']} not found. Skipping...")
-                    continue
+                    print(f"Warning: User with ID {row['created_by']} not found. Skipping row.")
 
-                recipe = Recipe(
-                    name=row['name'],
-                    tags=row.get('tags', None),
-                    instructions=row['instructions'],
-                    created_by=user,
-                    cook_time=int(row['cook_time']) if row.get('cook_time') else None
-                )
-                recipe.save()
+        if records:
+            with transaction.atomic():
+                Recipe.objects.bulk_create(records)
 
-                if 'ingredients' in row and row['ingredients']:
-                    ingredient_names = row['ingredients'].split(",")
-                    for ing_name in ingredient_names:
-                        ingredient = Ingredient.objects.filter(name=ing_name.strip()).first()
-                        if ingredient:
-                            recipe.ingredients.add(ingredient)
-                        else:
-                            print(f"Ingredient '{ing_name.strip()}' not found. Skipping...")
+            print(f"Successfully imported {len(records)} recipes from {file_path}.")
+        else:
+            print("No valid recipes found to import.")
 
-                records.append(recipe)
+    except Exception as e:
+        print(f"Error processing file: {e}")
 
-        print(f"Successfully imported {len(records)} recipes from {file_path}.")
 
-    except FileNotFoundError:
+def import_dishes(file_name, folder_path="recipe_manager/management/database_data"):
+    file_path = f"{folder_path}/{file_name}"
+
+    if not os.path.exists(file_path):
         print(f"File {file_path} not found!")
+        return
+
+    records = []
+    try:
+        with open(file_path, "r", encoding="utf-8-sig") as csvfile:
+            reader = csv.DictReader(csvfile)
+
+            required_fields = {"name", "recipe_id", "created_by_id"}
+            if not required_fields.issubset(reader.fieldnames):
+                print(f"Error: CSV file missing required columns. Found: {reader.fieldnames}")
+                return
+
+            for row in reader:
+                try:
+                    user = User.objects.get(id=row['created_by_id'].strip())
+                    recipe = Recipe.objects.get(id=row['recipe_id'].strip())
+
+                    records.append(Dish(name=row['name'].strip(), recipe=recipe, created_by=user))
+
+                except User.DoesNotExist:
+                    print(f"Warning: User with ID {row['created_by_id']} not found. Skipping row.")
+                except Recipe.DoesNotExist:
+                    print(f"Warning: Recipe with ID {row['recipe_id']} not found. Skipping row.")
+
+        if records:
+            with transaction.atomic():
+                Dish.objects.bulk_create(records)
+
+            print(f"Successfully imported {len(records)} dishes from {file_path}.")
+        else:
+            print("No valid dishes found to import.")
+
+    except Exception as e:
+        print(f"Error processing file: {e}")
 
 
+def import_user_ingredients(file_name, folder_path="recipe_manager/management/database_data"):
+    file_path = f"{folder_path}/{file_name}"
 
+    if not os.path.exists(file_path):
+        print(f"File {file_path} not found!")
+        return
 
+    records = []
+    try:
+        with open(file_path, "r", encoding="utf-8-sig") as csvfile:
+            reader = csv.DictReader(csvfile)
+
+            required_fields = {"user_id", "ingredients_id", "quantity", "unit", "created_by_id"}
+            if not required_fields.issubset(reader.fieldnames):
+                print(f"Error: CSV file missing required columns. Found: {reader.fieldnames}")
+                return
+
+            for row in reader:
+                try:
+                    user = User.objects.get(id=row['user_id'].strip())
+                    ingredient = Ingredient.objects.get(id=row['ingredients_id'].strip())
+                    created_by = User.objects.get(id=row['created_by_id'].strip())
+
+                    records.append(UserIngredients(
+                        user=user,
+                        ingredients=ingredient,
+                        quantity=int(row['quantity'].strip()) if row['quantity'].isdigit() else 0,
+                        unit=row['unit'].strip(),
+                        created_by=created_by
+                    ))
+
+                except User.DoesNotExist:
+                    print(f"Warning: User with ID {row['user']} not found. Skipping row.")
+                except Ingredient.DoesNotExist:
+                    print(f"Warning: Ingredient with ID {row['ingredients']} not found. Skipping row.")
+
+        if records:
+            with transaction.atomic():
+                UserIngredients.objects.bulk_create(records)
+
+            print(f"Successfully imported {len(records)} user ingredients from {file_path}.")
+        else:
+            print("No valid user ingredients found to import.")
+
+    except Exception as e:
+        print(f"Error processing file: {e}")
