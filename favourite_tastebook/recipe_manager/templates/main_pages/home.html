@@ -1,0 +1,89 @@
+
+{% block content %}
+    <div class="container">
+        <h2>Welcome, {{ user.username }}!</h2>
+        <p>Select data from the database:</p>
+
+        <div class="section">
+            <h3>Your Ingredients:</h3>
+            <ul class="ingredient-list">
+                {% for user_ingredient in user_ingredients %}
+                    <li>{{ user_ingredient.ingredients.name }} - {{ user_ingredient.quantity }} {{ user_ingredient.unit }}</li>
+                {% empty %}
+                    <li>You have no ingredients yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>Select a Recipe:</h3>
+            <form method="POST" class="form">
+                {% csrf_token %}
+                <label for="recipe">Recipes:</label>
+                <select name="recipe" id="recipe" class="dropdown">
+                    {% for recipe in recipes %}
+                        <option value="{{ recipe.id }}">{{ recipe.name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn">Select</button>
+            </form>
+        </div>
+
+        <div class="section">
+            <h3>Your Dishes:</h3>
+            <ul class="dish-list">
+                {% for dish in dishes %}
+                    <li>{{ dish.name }} (Recipe: {{ dish.recipe.name }})</li>
+                {% empty %}
+                    <li>You haven't added any dishes yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .ingredient-list, .dish-list {
+            list-style: none;
+            padding: 0;
+        }
+        .ingredient-list li, .dish-list li {
+            background: #fff;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .form {
+            display: flex;
+            flex-direction: column;
+        }
+        .dropdown {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+        .btn {
+            padding: 10px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+    </style>
+{% endblock %}
