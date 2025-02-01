@@ -3,39 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Recipe Manager - Organize and Discover Recipes Easily">
-    <title>Recipe Manager</title>
+    <meta name="description" content="Favourite Tastebook - Your Ultimate Recipe Manager">
+    <title>Favourite Tastebook - Recipe Manager</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /* 🌈 Новый стиль фона */
         body {
-            background-color: #f3f4f6;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #032c85, #2a52bb, #118d7c, #06304b);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            margin: 0;
+            padding: 0;
         }
+
+        /* 🎨 Анимация переливания градиента */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 20%; }
+            100% { background-position: 0% 80%; }
+}
+        /* 📌 Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 12px 0;
+        }
+
+        /* 🏆 Hero Section */
         .hero {
             text-align: center;
             padding: 100px 20px;
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
             color: white;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            transition: transform 0.3s ease-in-out;
         }
-        .navbar {
-            background: #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        .hero:hover {
+            transform: scale(1.02);
         }
+
+        .hero h1 {
+            font-size: 50px;
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        /* 🔘 Buttons */
         .btn-primary {
-            background-color: #ff7e5f;
+            background-color: #ff758c;
             border: none;
+            padding: 12px 25px;
+            font-size: 18px;
+            border-radius: 30px;
+            transition: all 0.3s ease-in-out;
         }
+
         .btn-primary:hover {
-            background-color: #feb47b;
+            background-color: #ff4d6d;
+            transform: scale(1.05);
+        }
+
+        /* 📦 Information Section */
+        .info-section {
+            padding: 60px 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .info-section h2 {
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            flex: 1;
+            min-width: 300px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .info-card:hover {
+            transform: scale(1.05);
+        }
+
+        .info-card h3 {
+            font-size: 22px;
+            color: #ff758c;
+            margin-bottom: 10px;
+        }
+
+        .info-card p {
+            color: #555;
+            font-size: 16px;
+        }
+
+        /* 📢 Call to Action */
+        .cta-section {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(to right, #FF512F, #DD2476);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            margin-top: 50px;
+        }
+
+        .cta-section h2 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* 📱 Responsive */
+        @media screen and (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            .hero p {
+                font-size: 18px;
+            }
+            .info-section h2 {
+                font-size: 28px;
+            }
+            .info-card {
+                min-width: 90%;
+            }
+            .cta-section h2 {
+                font-size: 26px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="/">Recipe Manager</a>
+            <a class="navbar-brand fw-bold" href="/">Favourite Tastebook</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -46,11 +174,53 @@
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <div class="container mt-5">
         <div class="hero">
-            <h1 class="display-4 fw-bold">Welcome to Recipe Manager</h1>
-            <p class="lead">Discover, organize, and enjoy your favorite recipes with ease.</p>
-            <a class="btn btn-lg btn-primary shadow" href="{% url 'welcome' %}">Explore Now</a>
+            <h1 class="display-4 fw-bold">Welcome to Favourite Tastebook</h1>
+            <p class="lead">Your ultimate recipe manager. Organize, save, and share your favorite recipes effortlessly.</p>
+            <a class="btn btn-lg btn-primary shadow" href="{% url 'register' %}">Explore Now</a>
+        </div>
+    </div>
+
+    <!-- Information Section -->
+    <div class="container">
+        <div class="info-section">
+            <h2>Why Choose Favourite Tastebook?</h2>
+            <div class="info-box">
+                <div class="info-card">
+                    <h3>📖 Easy Recipe Management</h3>
+                    <p>Store all your favorite recipes in one place, easily accessible anytime.</p>
+                </div>
+                <div class="info-card">
+                    <h3>🛒 Smart Ingredient List</h3>
+                    <p>Generate a shopping list automatically based on your saved recipes.</p>
+                </div>
+                <div class="info-card">
+                    <h3>🏷️ Custom Categories</h3>
+                    <p>Organize your recipes by cuisine, diet, or personal preference.</p>
+                </div>
+                <div class="info-card">
+                    <h3>🔍 Advanced Search</h3>
+                    <p>Find recipes easily using filters like ingredients, keywords, or categories.</p>
+                </div>
+                <div class="info-card">
+                    <h3>🌍 Share with Friends</h3>
+                    <p>Send recipes to family and friends with just one click.</p>
+                </div>
+                <div class="info-card">
+                    <h3>☁️ Cloud Sync</h3>
+                    <p>Access your recipes from any device, anytime, anywhere.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action Section -->
+    <div class="container">
+        <div class="cta-section">
+            <h2>Start Organizing Your Recipes Today!</h2>
+            <a class="btn btn-lg btn-light shadow" href="{% url 'register' %}">Get Started for Free</a>
         </div>
     </div>
 

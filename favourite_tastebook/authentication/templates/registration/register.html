@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <style>
+        /* 🌈 Background Gradient */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #1D4350, #A43931);
             margin: 0;
             padding: 0;
             display: flex;
@@ -16,85 +17,88 @@
             height: 100vh;
         }
 
-        .register-container {
+        /* 📦 Register Box */
+        .auth-container {
             background-color: white;
             padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: min(90%, 400px);  /* ✅ Fixed Right-Side Issue */
             text-align: center;
-        }
-
-        .register-container h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #333;
-        }
-
-        form {
-            text-align: left;
-        }
-
-        form input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
             box-sizing: border-box;
         }
 
-        form input:focus {
-            border-color: #007bff;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        .auth-container h2 {
+            font-size: 26px;
+            margin-bottom: 20px;
+            color: #333;
         }
 
-        .register-container button {
-            background-color: #007bff;
+        /* 🔘 Form Styling */
+        form input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: 0.3s ease;
+            box-sizing: border-box;  /* ✅ Fixes Overlapping */
+        }
+
+        form input:focus {
+            border-color: #FF5722;
+            box-shadow: 0 0 5px rgba(255, 87, 34, 0.5);
+            outline: none;
+        }
+
+        .auth-container button {
+            background: #FF5722;
             color: white;
-            padding: 12px 20px;
+            padding: 12px;
             border: none;
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
             width: 100%;
-            transition: background-color 0.3s ease;
+            transition: 0.3s ease;
+            box-sizing: border-box;
         }
 
-        .register-container button:hover {
-            background-color: #0056b3;
+        .auth-container button:hover {
+            background: #E64A19;
+            transform: scale(1.05);
         }
 
-        .login-link {
-            margin-top: 20px;
+        /* 📢 Login Link */
+        .extra-link {
+            margin-top: 15px;
             font-size: 14px;
             color: #555;
         }
 
-        .login-link a {
-            color: #007bff;
+        .extra-link a {
+            color: #FF5722;
             text-decoration: none;
             font-weight: bold;
         }
 
-        .login-link a:hover {
+        .extra-link a:hover {
             text-decoration: underline;
         }
 
+        /* 🔴 Error Messages */
         .error-messages {
             color: red;
-            text-align: left;
             font-size: 14px;
             margin-bottom: 15px;
+            text-align: left;
         }
     </style>
 </head>
 <body>
-    <div class="register-container">
-        <h2>Register</h2>
+    <div class="auth-container">
+        <h2>📝 Register</h2>
 
         {% if messages %}
         <div class="error-messages">
@@ -112,9 +116,7 @@
             <button type="submit">Register</button>
         </form>
 
-        <p class="login-link">Already have an account?
-            <a href="{% url 'login' %}">Login Here</a>
-        </p>
+        <p class="extra-link">Already have an account? <a href="{% url 'login' %}">Login Here</a></p>
     </div>
 </body>
 </html>

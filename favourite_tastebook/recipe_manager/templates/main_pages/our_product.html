@@ -5,51 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Product - Favourite Tastebook</title>
     <style>
+        /* 🌈 Background */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #1E3C72, #2A5298);
             margin: 0;
             padding: 0;
-            background-color: #f8f8f8;
         }
+
+        /* 📦 Container */
         .container {
-            width: 80%;
-            margin: 50px auto;
+            width: min(85%, 900px);
+            margin: 60px auto;
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             text-align: center;
+            transition: transform 0.3s ease-in-out;
         }
+
+        .container:hover {
+            transform: scale(1.02);
+        }
+
+        /* 🏆 Headings */
         h1, h2 {
             color: #333;
+            font-weight: bold;
         }
+
+        /* 📖 Paragraphs */
         p {
             color: #666;
-            line-height: 1.6;
+            font-size: 18px;
+            line-height: 1.7;
         }
+
+        /* ✅ Features List */
         .features {
             margin-top: 20px;
             text-align: left;
         }
+
         .features li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            font-size: 17px;
+            list-style-type: "✔️ ";
+            color: #444;
         }
+
+        /* 🔘 Buttons */
         .buttons {
-            margin-top: 20px;
+            margin-top: 25px;
         }
+
         .button {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 12px 22px;
             margin: 5px;
+            font-size: 18px;
+            font-weight: bold;
             color: white;
-            background-color: #007BFF;
+            background: #007BFF;
             border: none;
-            border-radius: 5px;
+            border-radius: 30px;
             text-decoration: none;
-            font-size: 16px;
+            transition: all 0.3s ease-in-out;
         }
+
         .button:hover {
-            background-color: #0056b3;
+            background: #0056b3;
+            transform: scale(1.05);
+        }
+
+        /* 📱 Responsive */
+        @media screen and (max-width: 768px) {
+            .container {
+                width: min(90%, 500px);
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            .features li {
+                font-size: 16px;
+            }
+
+            .button {
+                font-size: 16px;
+                padding: 10px 18px;
+            }
         }
     </style>
 </head>

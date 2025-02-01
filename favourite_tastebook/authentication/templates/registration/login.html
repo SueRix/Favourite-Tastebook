@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
+        /* 🌈 Background Gradient */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #283E51, #0A2342);
             margin: 0;
             padding: 0;
             display: flex;
@@ -16,80 +17,86 @@
             height: 100vh;
         }
 
-        .login-container {
+        /* 📦 Login Box */
+        .auth-container {
             background-color: white;
             padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: min(90%, 400px);  /* ✅ Fixed Right-Side Issue */
             text-align: center;
+            box-sizing: border-box;
         }
 
-        .login-container h2 {
+        .auth-container h2 {
+            font-size: 26px;
             margin-bottom: 20px;
-            font-size: 24px;
             color: #333;
         }
 
-        form {
-            margin-bottom: 20px;
-        }
-
+        /* 🔘 Form Styling */
         form input {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
+            padding: 12px;
+            margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
+            transition: 0.3s ease;
+            box-sizing: border-box;
         }
 
-        .login-container button {
-            background-color: #007bff;
+        form input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            outline: none;
+        }
+
+        .auth-container button {
+            background: #1E9E57;
             color: white;
-            padding: 10px 15px;
+            padding: 12px;
             border: none;
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
             width: 100%;
-            transition: background-color 0.3s ease;
+            transition: 0.3s ease;
+            box-sizing: border-box;
         }
 
-        .login-container button:hover {
-            background-color: #0056b3;
+        .auth-container button:hover {
+            background: #178E48;
+            transform: scale(1.05);
         }
 
-        .register-link {
-            margin-top: 20px;
+        /* 📢 Register Link */
+        .extra-link {
+            margin-top: 15px;
             font-size: 14px;
             color: #555;
         }
 
-        .register-link a {
+        .extra-link a {
             color: #007bff;
             text-decoration: none;
             font-weight: bold;
         }
 
-        .register-link a:hover {
+        .extra-link a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
+    <div class="auth-container">
+        <h2>🔑 Login</h2>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Login</button>
         </form>
-
-        <p class="register-link">Don't have an account?
-            <a href="{% url 'register' %}">Register Here</a>
-        </p>
+        <p class="extra-link">Don't have an account? <a href="{% url 'register' %}">Register Here</a></p>
     </div>
 </body>
 </html>

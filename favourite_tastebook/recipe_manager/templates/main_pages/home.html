@@ -1,23 +1,41 @@
-
 {% block content %}
     <div class="container">
-        <h2>Welcome, {{ user.username }}!</h2>
-        <p>Select data from the database:</p>
+        <h2 class="welcome">👋 Welcome, {{ user.username }}!</h2>
 
-        <div class="section">
+        <!-- Ingredients Section -->
+        <div class="section ingredients-section">
             <h3>Your Ingredients:</h3>
             <ul class="ingredient-list">
                 {% for user_ingredient in user_ingredients %}
-                    <li>{{ user_ingredient.ingredients.name }} - {{ user_ingredient.quantity }} {{ user_ingredient.unit }}</li>
+                    <li class="ingredient-item">✅ {{ user_ingredient.ingredients.name }} - {{ user_ingredient.quantity }} {{ user_ingredient.unit }}</li>
                 {% empty %}
-                    <li>You have no ingredients yet.</li>
+                    <li class="no-ingredients">❌ You have no ingredients yet.</li>
                 {% endfor %}
             </ul>
         </div>
 
-        <div class="section">
+        <!-- Add Ingredients Section -->
+        <div class="section add-ingredients-section">
+            <h3>Add Ingredients:</h3>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="ingredient-group">
+                    <label>Ingredient:</label>
+                    <select name="ingredient" class="dropdown">
+                        {% for ingredient in available_ingredients %}
+                            <option value="{{ ingredient.id }}">{{ ingredient.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="number" name="quantity" placeholder="Quantity" min="0" required>
+                </div>
+                <button type="submit" class="btn btn-left">➕ Add Ingredient</button>
+            </form>
+        </div>
+
+        <!-- Recipe Selection -->
+        <div class="section recipe-section">
             <h3>Select a Recipe:</h3>
-            <form method="POST" class="form">
+            <form method="POST">
                 {% csrf_token %}
                 <label for="recipe">Recipes:</label>
                 <select name="recipe" id="recipe" class="dropdown">
@@ -25,65 +43,164 @@
                         <option value="{{ recipe.id }}">{{ recipe.name }}</option>
                     {% endfor %}
                 </select>
-                <button type="submit" class="btn">Select</button>
+                <button type="submit" class="btn">📜 Select</button>
             </form>
         </div>
 
-        <div class="section">
+        <!-- Dishes Section -->
+        <div class="section dishes-section">
             <h3>Your Dishes:</h3>
             <ul class="dish-list">
                 {% for dish in dishes %}
-                    <li>{{ dish.name }} (Recipe: {{ dish.recipe.name }})</li>
+                    <li class="dish-item">🍽️ {{ dish.name }} (Recipe: {{ dish.recipe.name }})</li>
                 {% empty %}
-                    <li>You haven't added any dishes yet.</li>
+                    <li class="no-dishes">❌ You haven't added any dishes yet.</li>
                 {% endfor %}
             </ul>
         </div>
+
+        <!-- Calculate Button -->
+        <button class="btn calculate-btn">🔢 Calculate</button>
     </div>
 
+    <!-- 🖌 Updated CSS with Better Colors & Scaling -->
     <style>
-        .container {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        /* 🌈 Improved Color Palette */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #283E51, #0A2342); /* Darker, professional gradient */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-        .section {
+
+        /* 🌟 Centered Container with Better Width Scaling */
+        .container {
+            width: 90%;
+            max-width: 850px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h2.welcome {
+            text-align: center;
+            font-size: 26px;
             margin-bottom: 20px;
         }
-        .ingredient-list, .dish-list {
-            list-style: none;
-            padding: 0;
+
+        /* 📦 Sections with Responsive Scaling */
+        .section {
+            padding: 18px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
         }
-        .ingredient-list li, .dish-list li {
-            background: #fff;
+
+        .section:hover {
+            transform: scale(1.02);
+        }
+
+        /* 🔘 Buttons */
+        .btn {
+            padding: 12px 18px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            font-weight: bold;
+            font-size: 16px;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+        }
+
+        .btn-left {
+            background: #1E9E57;
+            color: white;
+        }
+
+        .btn-left:hover {
+            background: #178E48;
+            transform: scale(1.05);
+        }
+
+        .calculate-btn {
+            background: #FF5722;
+            color: white;
+            font-size: 18px;
+        }
+
+        .calculate-btn:hover {
+            background: #E64A19;
+            transform: scale(1.05);
+        }
+
+        /* 🏗️ Responsive Form Elements */
+        .dropdown, input {
             padding: 10px;
-            margin: 5px 0;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-        .form {
-            display: flex;
-            flex-direction: column;
-        }
-        .dropdown {
-            padding: 8px;
             border-radius: 5px;
             border: 1px solid #ccc;
-            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 5px;
         }
-        .btn {
-            padding: 10px;
-            background: #007BFF;
-            color: white;
-            border: none;
+
+        .dropdown:focus, input:focus {
+            border-color: #007bff;
+            box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.5);
+        }
+
+        /* 📝 Ingredient & Dish Lists */
+        .ingredient-list, .dish-list {
+            padding: 0;
+            list-style: none;
+        }
+
+        .ingredient-item, .dish-item {
+            background: #f8f9fa;
+            padding: 12px;
+            margin-bottom: 5px;
             border-radius: 5px;
-            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        .btn:hover {
-            background: #0056b3;
+
+        .ingredient-item:hover, .dish-item:hover {
+            background: #e9ecef;
+        }
+
+        .no-ingredients, .no-dishes {
+            color: #888;
+            font-style: italic;
+        }
+
+        /* 📱 Responsive Scaling for Bigger Screens */
+        @media screen and (min-width: 1024px) {
+            .container {
+                width: 70%;
+                max-width: 900px;
+            }
+        }
+
+        @media screen and (min-width: 1400px) {
+            .container {
+                width: 60%;
+                max-width: 1000px;
+            }
+        }
+
+        /* ✨ Smooth Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
+
 {% endblock %}
