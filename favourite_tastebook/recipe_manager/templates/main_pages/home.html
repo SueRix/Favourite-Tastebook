@@ -2,73 +2,84 @@
     <div class="container">
         <h2 class="welcome">👋 Welcome, {{ user.username }}!</h2>
 
-        <!-- Ingredients Section -->
-        <div class="section ingredients-section">
-            <h3>Your Ingredients:</h3>
-            <ul class="ingredient-list">
-                {% for user_ingredient in user_ingredients %}
-                    <li class="ingredient-item">✅ {{ user_ingredient.ingredients.name }} - {{ user_ingredient.quantity }} {{ user_ingredient.unit }}</li>
+        <div class="section selected-ingredients-section">
+            <h3>Selected Ingredients:</h3>
+            <ul class="selected-ingredients">
+                {% for ingredient in selected_ingredients %}
+                    <li class="ingredient-item">
+                        ✅ {{ ingredient.name }}
+                        <button class="remove-btn" onclick="removeIngredient('{{ ingredient.name }}')">✖</button>
+                    </li>
                 {% empty %}
-                    <li class="no-ingredients">❌ You have no ingredients yet.</li>
+                    <li class="no-ingredients">❌ No ingredients selected yet.</li>
                 {% endfor %}
             </ul>
         </div>
 
-        <!-- Add Ingredients Section -->
         <div class="section add-ingredients-section">
-            <h3>Add Ingredients:</h3>
-            <form method="POST">
-                {% csrf_token %}
-                <div class="ingredient-group">
-                    <label>Ingredient:</label>
-                    <select name="ingredient" class="dropdown">
-                        {% for ingredient in available_ingredients %}
-                            <option value="{{ ingredient.id }}">{{ ingredient.name }}</option>
-                        {% endfor %}
-                    </select>
-                    <input type="number" name="quantity" placeholder="Quantity" min="0" required>
-                </div>
-                <button type="submit" class="btn btn-left">➕ Add Ingredient</button>
-            </form>
+            <h3>Select an Ingredient:</h3>
+            <select id="ingredient-dropdown" class="dropdown">
+                {% for ingredient in ingredients %}
+                    <option value="{{ ingredient.name }}">{{ ingredient.name }}</option>
+                {% endfor %}
+            </select>
+            <button onclick="addIngredient()" class="btn btn-left">➕ Add Ingredient</button>
         </div>
 
-        <!-- Recipe Selection -->
-        <div class="section recipe-section">
-            <h3>Select a Recipe:</h3>
-            <form method="POST">
-                {% csrf_token %}
-                <label for="recipe">Recipes:</label>
-                <select name="recipe" id="recipe" class="dropdown">
-                    {% for recipe in recipes %}
-                        <option value="{{ recipe.id }}">{{ recipe.name }}</option>
-                    {% endfor %}
-                </select>
-                <button type="submit" class="btn">📜 Select</button>
-            </form>
-        </div>
-
-        <!-- Dishes Section -->
         <div class="section dishes-section">
             <h3>Your Dishes:</h3>
             <ul class="dish-list">
                 {% for dish in dishes %}
-                    <li class="dish-item">🍽️ {{ dish.name }} (Recipe: {{ dish.recipe.name }})</li>
+                    <li class="dish-item">
+                        🍽️ {{ dish.name }} (Recipe: {{ dish.recipe.name }})
+                    </li>
                 {% empty %}
                     <li class="no-dishes">❌ You haven't added any dishes yet.</li>
                 {% endfor %}
             </ul>
         </div>
 
-        <!-- Calculate Button -->
         <button class="btn calculate-btn">🔢 Calculate</button>
     </div>
 
-    <!-- 🖌 Updated CSS with Better Colors & Scaling -->
+    <script>
+        let selectedIngredients = [];
+
+        function addIngredient() {
+            let dropdown = document.getElementById("ingredient-dropdown");
+            let selectedIngredient = dropdown.value;
+
+            if (!selectedIngredients.includes(selectedIngredient)) {
+                selectedIngredients.push(selectedIngredient);
+                updateSelectedIngredients();
+            }
+        }
+
+        function removeIngredient(ingredient) {
+            selectedIngredients = selectedIngredients.filter(item => item !== ingredient);
+            updateSelectedIngredients();
+        }
+
+        function updateSelectedIngredients() {
+            let list = document.querySelector(".selected-ingredients");
+            list.innerHTML = "";
+
+            if (selectedIngredients.length === 0) {
+                list.innerHTML = "<li class='no-ingredients'>❌ No ingredients selected yet.</li>";
+            } else {
+                selectedIngredients.forEach(ingredient => {
+                    list.innerHTML += `<li class="ingredient-item">✅ ${ingredient}
+                        <button class="remove-btn" onclick="removeIngredient('${ingredient}')">✖</button>
+                    </li>`;
+                });
+            }
+        }
+    </script>
+
     <style>
-        /* 🌈 Improved Color Palette */
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to right, #283E51, #0A2342); /* Darker, professional gradient */
+            background: linear-gradient(to right, #283E51, #0A2342);
             margin: 0;
             padding: 0;
             display: flex;
@@ -77,7 +88,6 @@
             min-height: 100vh;
         }
 
-        /* 🌟 Centered Container with Better Width Scaling */
         .container {
             width: 90%;
             max-width: 850px;
@@ -94,7 +104,6 @@
             margin-bottom: 20px;
         }
 
-        /* 📦 Sections with Responsive Scaling */
         .section {
             padding: 18px;
             background: white;
@@ -108,7 +117,6 @@
             transform: scale(1.02);
         }
 
-        /* 🔘 Buttons */
         .btn {
             padding: 12px 18px;
             border-radius: 25px;
@@ -143,7 +151,6 @@
             transform: scale(1.05);
         }
 
-        /* 🏗️ Responsive Form Elements */
         .dropdown, input {
             padding: 10px;
             border-radius: 5px;
@@ -158,8 +165,7 @@
             box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.5);
         }
 
-        /* 📝 Ingredient & Dish Lists */
-        .ingredient-list, .dish-list {
+        .dish-list {
             padding: 0;
             list-style: none;
         }
@@ -170,6 +176,9 @@
             margin-bottom: 5px;
             border-radius: 5px;
             transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .ingredient-item:hover, .dish-item:hover {
@@ -181,26 +190,24 @@
             font-style: italic;
         }
 
-        /* 📱 Responsive Scaling for Bigger Screens */
-        @media screen and (min-width: 1024px) {
-            .container {
-                width: 70%;
-                max-width: 900px;
-            }
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s ease;
         }
 
-        @media screen and (min-width: 1400px) {
-            .container {
-                width: 60%;
-                max-width: 1000px;
-            }
+        .remove-btn:hover {
+            background: #c82333;
+            transform: scale(1.1);
         }
 
-        /* ✨ Smooth Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
-
 {% endblock %}

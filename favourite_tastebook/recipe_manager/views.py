@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
+from .models import Ingredient
 
 
 class IndexView(TemplateView):
@@ -10,3 +11,4 @@ class OurProductView(TemplateView):
 
 class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'home.html'
+    extra_context = {'ingredients': Ingredient.objects.all()}
