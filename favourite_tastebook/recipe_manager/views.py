@@ -12,3 +12,7 @@ class OurProductView(TemplateView):
 class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'home.html'
     extra_context = {'ingredients': Ingredient.objects.all()}
+
+class RecipeCalculatorView(TemplateView):
+    template_name = 'recipe_calculator.html'
+

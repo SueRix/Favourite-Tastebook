@@ -1,0 +1,169 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #0A2342, #283E51);
+  min-height: 100vh;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 25% 1fr 30%;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "semantic-search list-of-ingredients favorites-based"
+    "added-ingredients list-of-ingredients recipe-based"
+    "favorite-ingredients list-of-ingredients recipe-based";
+
+  height: 100vh;
+  gap: 1rem;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.semantic-search-block {
+  grid-area: semantic-search;
+}
+.added-ingredients-block {
+  grid-area: added-ingredients;
+}
+.favorite-ingredients-block {
+  grid-area: favorite-ingredients;
+}
+.all-ingredients-block {
+  grid-area: list-of-ingredients;
+}
+.favorite-based-render-block {
+  grid-area: favorites-based;
+}
+.recipe-based-render-block {
+  grid-area: recipe-based;
+}
+
+.block {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+.block:hover {
+  transform: scale(1.02);
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+  font-size: 14px;
+  margin-top: 10px;
+}
+.btn-search {
+  background: #007bff;
+  color: #fff;
+}
+.btn-search:hover {
+  background: #0056b3;
+  transform: scale(1.05);
+}
+
+.btn-add-small {
+  background: #1E9E57;
+  color: #fff;
+  margin-left: 10px;
+  padding: 6px 10px;
+  border-radius: 5px;
+}
+.btn-add-small:hover {
+  background: #178E48;
+  transform: scale(1.05);
+}
+
+.calculate-btn {
+  background: #FF5722;
+  color: #fff;
+  font-size: 16px;
+}
+.calculate-btn:hover {
+  background: #E64A19;
+  transform: scale(1.05);
+}
+
+.calculate-btn-container {
+  text-align: right;
+  margin-top: 20px;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ingredient-item, .dish-item, .available-ingredient {
+  background: #f8f9fa;
+  padding: 12px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+.ingredient-item:hover,
+.dish-item:hover,
+.available-ingredient:hover {
+  background: #e9ecef;
+}
+.no-ingredients, .no-dishes {
+  font-style: italic;
+  color: #888;
+}
+
+.remove-btn {
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.remove-btn:hover {
+  background: #c82333;
+  transform: scale(1.1);
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+
+@media (max-width: 900px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, auto);
+    grid-template-areas:
+      "semantic-search"
+      "favorites-based"
+      "added-ingredients"
+      "favorite-ingredients"
+      "list-of-ingredients"
+      "recipe-based";
+    height: auto; /* let it grow as needed */
+  }
+}
