@@ -4,93 +4,80 @@
 {% block content %}
 <div class="grid-container">
 
-  <div class="block semantic-search-block">
-    <h3>Semantic Search</h3>
-    <p>What kind of ingredient would fit?</p>
-    <input
-      type="text"
-      id="semanticSearchInput"
-      placeholder="Type to search ingredients..."
-    />
-    <button onclick="semanticSearch()" class="btn btn-search">🔍 Search</button>
+  <!-- Левая колонка: Выбранные и любимые ингредиенты -->
+  <div class="left-column">
+    <div class="block added-ingredients-block">
+      <h3>Selected Ingredients:</h3>
+      <ul class="selected-ingredients">
+        {% for ingredient in selected_ingredients %}
+          <li class="ingredient-item">
+            ✅ {{ ingredient.name }}
+            <button class="remove-btn" onclick="removeIngredient('{{ ingredient.name }}')">✖</button>
+          </li>
+        {% empty %}
+          <li class="no-ingredients">❌ No ingredients selected yet.</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="block favorite-ingredients-block">
+      <h3>Favorite Ingredients</h3>
+      <ul class="favorite-ingredients">
+        {% for fav in favorite_ingredients %}
+          <li class="ingredient-item">⭐ {{ fav.name }}</li>
+        {% empty %}
+          <li class="no-ingredients">❌ You have no favorite ingredients yet.</li>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
 
-  <div class="block added-ingredients-block">
-    <h3>Selected Ingredients:</h3>
-    <ul class="selected-ingredients">
-      {% for ingredient in selected_ingredients %}
-        <li class="ingredient-item">
-          ✅ {{ ingredient.name }}
-          <button
-            class="remove-btn"
-            onclick="removeIngredient('{{ ingredient.name }}')"
-          >✖</button>
-        </li>
-      {% empty %}
-        <li class="no-ingredients">❌ No ingredients selected yet.</li>
-      {% endfor %}
-    </ul>
-  </div>
-
-  <!-- BOTTOM-LEFT: Favorite Ingredients -->
-  <div class="block favorite-ingredients-block">
-    <h3>Favorite Ingredients</h3>
-    <ul class="favorite-ingredients">
-      {% for fav in favorite_ingredients %}
-        <li class="ingredient-item">
-          ⭐ {{ fav.name }}
-        </li>
-      {% empty %}
-        <li class="no-ingredients">❌ You have no favorite ingredients yet.</li>
-      {% endfor %}
-    </ul>
-  </div>
-
+  <!-- Средняя узкая колонка: Доступные ингредиенты -->
   <div class="block all-ingredients-block">
-    <h3>List of Ingredients</h3>
+    <h3>Available Ingredients:</h3>
+
+    <div class="semantic-search">
+      <input type="text" id="semanticSearchInput" placeholder="Type to search ingredients..." />
+    </div>
+
     <ul class="all-ingredients-list">
       {% for ingredient in ingredients %}
         <li class="available-ingredient">
           {{ ingredient.name }}
-          <button
-            class="btn btn-add-small"
-            onclick="addIngredient('{{ ingredient.name }}')"
-          >
-            ➕
-          </button>
+          <button class="btn btn-add-small" onclick="addIngredient('{{ ingredient.name }}')">➕</button>
         </li>
       {% empty %}
-        <li class="no-ingredients">❌ No ingredients available.</li>
+        <li class="no-ingredients">❌ No ingredients in DB.</li>
       {% endfor %}
     </ul>
+  </div>
 
-    <div class="calculate-btn-container">
-      <button class="btn calculate-btn" onclick="calculate()">🔢 Calculate</button>
+  <!-- Правая расширенная колонка: Расширенные рецепты и предложения -->
+  <div class="right-column">
+    <div class="block favorite-based-render-block">
+      <h3>Suggestions based on favorites</h3>
+      <ul class="suggested-dishes">
+        {% for suggestion in favorite_suggestions %}
+          <li>🍽️ {{ suggestion }}</li>
+        {% empty %}
+          <li class="no-dishes">❌ No suggestions yet.</li>
+        {% endfor %}
+      </ul>
     </div>
-  </div>
 
-  <div class="block favorite-based-render-block">
-    <h3>Suggestions based on favorites</h3>
-    <ul class="suggested-dishes">
-      {% for suggestion in favorite_suggestions %}
-        <li>🍽️ {{ suggestion }}</li>
-      {% empty %}
-        <li class="no-dishes">❌ No suggestions yet.</li>
-      {% endfor %}
-    </ul>
-  </div>
-
-  <div class="block recipe-based-render-block">
-    <h3>Your Dishes (based on Selected Ingredients)</h3>
-    <ul class="dish-list">
-      {% for dish in dishes %}
-        <li class="dish-item">
-          🍽️ {{ dish.name }} (Recipe: {{ dish.recipe.name }})
-        </li>
-      {% empty %}
-        <li class="no-dishes">❌ You haven't added any dishes yet.</li>
-      {% endfor %}
-    </ul>
+    <div class="block recipe-based-render-block">
+      <h3>Recipes Found:</h3>
+      <ul id="recipes-result">
+        {% for recipe in recipes %}
+          <li>
+            <strong>{{ recipe.name }}</strong> (time: {{ recipe.time }} min)
+            <p>{{ recipe.description }}</p>
+          </li>
+        {% empty %}
+          <li class="no-dishes">❌ No recipes found.</li>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
 
 </div>

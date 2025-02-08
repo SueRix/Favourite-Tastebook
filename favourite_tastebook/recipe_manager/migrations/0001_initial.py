@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
                 ('created_by', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('recipe', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='dishes', to='recipe_manager.recipe')),
+                ('recipe', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='dishes.json', to='recipe_manager.recipe')),
             ],
         ),
         migrations.CreateModel(

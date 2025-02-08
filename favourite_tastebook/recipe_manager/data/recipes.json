@@ -1,0 +1,16 @@
+[
+  {
+    "pk": 1,
+    "name": "Beef Stew",
+    "cook_time": 60,
+    "instructions": "1) Cut beef\n2) Add onion\n3) Stew for 1 hour",
+    "ingredient_pks": [3, 2, 4, 5]
+  },
+  {
+    "pk": 2,
+    "name": "Tomato Soup",
+    "cook_time": 30,
+    "instructions": "1) Boil tomatoes\n2) Add salt\n3) Cook 30 min",
+    "ingredient_pks": [1, 4, 5]
+  }
+]
