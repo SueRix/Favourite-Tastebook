@@ -10,7 +10,7 @@ from .models import Ingredient, Recipe
 class IndexView(TemplateView):
     template_name = 'index.html'
 
-class OurProductView(TemplateView):
+class ProductFeaturesView(TemplateView):
     template_name = 'product_features.html'
 
 class HomeView(LoginRequiredMixin, TemplateView):
