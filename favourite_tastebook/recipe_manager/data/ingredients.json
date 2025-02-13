@@ -1,7 +1,0 @@
-[
-  { "pk": 1, "name": "Tomato", "category": "Vegetable" },
-  { "pk": 2, "name": "Onion",  "category": "Vegetable" },
-  { "pk": 3, "name": "Beef",   "category": "Meat" },
-  { "pk": 4, "name": "Salt",   "category": "Seasoning" },
-  { "pk": 5, "name": "Pepper", "category": "Seasoning" }
-]

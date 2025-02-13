@@ -1,11 +1,9 @@
-/* --- Получение CSRF-токена из cookies --- */
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
       const cookie = cookies[i].trim();
-      // Если cookie начинается с "<name>="
       if (cookie.substring(0, name.length + 1) === (name + '=')) {
         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
         break;
@@ -17,7 +15,6 @@ function getCookie(name) {
 const csrftoken = getCookie('csrftoken');
 
 
-/* --- Ваш код с добавленным заголовком X-CSRFToken --- */
 
 let selectedIngredients = [];
 
@@ -55,13 +52,11 @@ function updateSelectedIngredients() {
   });
 }
 
-/* Аякс-запрос на сервер, чтобы получить рецепты */
 function fetchRecipes() {
   fetch('/api/filter_recipes/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      // Добавляем X-CSRFToken
       'X-CSRFToken': csrftoken
     },
     body: JSON.stringify({ ingredients: selectedIngredients })
@@ -81,13 +76,10 @@ function fetchRecipes() {
             </li>`;
         });
       } else {
-        recipesContainer.innerHTML = "<li>Нет подходящих рецептов.</li>";
+        recipesContainer.innerHTML = "<li>There are no suitable recipes.</li>";
       }
     })
     .catch(err => {
-      console.error('Ошибка:', err);
+      console.error('Error:', err);
     });
 }
-
-/* При первом рендере, если хотим подгрузить что-то сразу,
-   можно вызвать fetchRecipes() здесь или после загрузки DOM. */

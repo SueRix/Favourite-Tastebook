@@ -14,7 +14,7 @@ body {
 
 .grid-container {
   display: grid;
-  grid-template-columns: 25% 20% 55%; /* Центральный блок стал уже */
+  grid-template-columns: 25% 20% 55%;
   grid-template-rows: auto auto auto;
   grid-template-areas:
     "semantic-search list-of-ingredients favorites-based"
