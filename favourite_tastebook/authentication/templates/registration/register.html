@@ -1,95 +1,10 @@
-<!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to right, #1D4350, #A43931);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .auth-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            width: min(90%, 400px);  /* ✅ Fixed Right-Side Issue */
-            text-align: center;
-            box-sizing: border-box;
-        }
-
-        .auth-container h2 {
-            font-size: 26px;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        form input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: 0.3s ease;
-            box-sizing: border-box;  /* ✅ Fixes Overlapping */
-        }
-
-        form input:focus {
-            border-color: #FF5722;
-            box-shadow: 0 0 5px rgba(255, 87, 34, 0.5);
-            outline: none;
-        }
-
-        .auth-container button {
-            background: #FF5722;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            width: 100%;
-            transition: 0.3s ease;
-            box-sizing: border-box;
-        }
-
-        .auth-container button:hover {
-            background: #E64A19;
-            transform: scale(1.05);
-        }
-
-        .extra-link {
-            margin-top: 15px;
-            font-size: 14px;
-            color: #555;
-        }
-
-        .extra-link a {
-            color: #FF5722;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .extra-link a:hover {
-            text-decoration: underline;
-        }
-
-        .error-messages {
-            color: red;
-            font-size: 14px;
-            margin-bottom: 15px;
-            text-align: left;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static '/css/register.css' %}">
 </head>
 <body>
     <div class="auth-container">
