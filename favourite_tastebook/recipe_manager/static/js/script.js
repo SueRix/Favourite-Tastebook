@@ -14,8 +14,6 @@ function getCookie(name) {
 }
 const csrftoken = getCookie('csrftoken');
 
-
-
 let selectedIngredients = [];
 
 function addIngredient(name) {
@@ -76,10 +74,11 @@ function fetchRecipes() {
             </li>`;
         });
       } else {
-        recipesContainer.innerHTML = "<li>There are no suitable recipes.</li>";
+        recipesContainer.innerHTML = "<li>Нет подходящих рецептов.</li>";
       }
     })
     .catch(err => {
-      console.error('Error:', err);
+      console.error('Ошибка:', err);
     });
 }
+

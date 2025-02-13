@@ -3,7 +3,6 @@ import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.views import View
-from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from .models import Ingredient, Recipe
 
@@ -12,7 +11,7 @@ class IndexView(TemplateView):
     template_name = 'index.html'
 
 class OurProductView(TemplateView):
-    template_name = 'our_product.html'
+    template_name = 'product_features.html'
 
 class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'home.html'
