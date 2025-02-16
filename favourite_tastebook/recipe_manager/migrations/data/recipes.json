@@ -1,0 +1,73 @@
+[
+  {
+    "pk": 1,
+    "name": "Spaghetti Carbonara",
+    "cook_time": 25,
+    "instructions": "1) Cook pasta until al dente.\n2) Fry bacon until crispy.\n3) Mix eggs with cheese and pepper.\n4) Combine with hot pasta and stir.",
+    "ingredient_pks": [
+      20,
+      16,
+      18,
+      12
+    ]
+  },
+  {
+    "pk": 2,
+    "name": "Beef Stroganoff",
+    "cook_time": 40,
+    "instructions": "1) Sauté onions and garlic in butter.\n2) Add beef slices and brown them.\n3) Stir in mushrooms, cream, salt, and pepper.\n4) Simmer for 15 minutes.",
+    "ingredient_pks": [
+      6,
+      2,
+      3,
+      15,
+      11,
+      12
+    ]
+  },
+  {
+    "pk": 3,
+    "name": "Chicken Alfredo",
+    "cook_time": 30,
+    "instructions": "1) Cook pasta until al dente.\n2) Sauté garlic in butter, then add chicken.\n3) Stir in cream and cheese.\n4) Mix with pasta.",
+    "ingredient_pks": [
+      7,
+      20,
+      15,
+      3,
+      18,
+      11,
+      12
+    ]
+  },
+  {
+    "pk": 4,
+    "name": "Tomato Soup",
+    "cook_time": 35,
+    "instructions": "1) Sauté onion, garlic, and carrot.\n2) Add tomatoes and simmer.\n3) Blend until smooth.\n4) Add salt, pepper, and basil.",
+    "ingredient_pks": [
+      1,
+      2,
+      3,
+      4,
+      11,
+      12,
+      21
+    ]
+  },
+  {
+    "pk": 5,
+    "name": "Shrimp Fried Rice",
+    "cook_time": 20,
+    "instructions": "1) Cook rice and set aside.\n2) Fry shrimp until pink.\n3) Scramble eggs, then add vegetables.\n4) Mix everything with soy sauce.",
+    "ingredient_pks": [
+      10,
+      19,
+      16,
+      23,
+      3,
+      4,
+      2
+    ]
+  }
+]

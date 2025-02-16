@@ -1,0 +1,27 @@
+[
+  {
+    "pk": 1,
+    "name": "Spaghetti Carbonara Dish",
+    "recipe_pk": 1
+  },
+  {
+    "pk": 2,
+    "name": "Beef Stroganoff Dish",
+    "recipe_pk": 2
+  },
+  {
+    "pk": 3,
+    "name": "Chicken Alfredo Dish",
+    "recipe_pk": 3
+  },
+  {
+    "pk": 4,
+    "name": "Tomato Soup Dish",
+    "recipe_pk": 4
+  },
+  {
+    "pk": 5,
+    "name": "Shrimp Fried Rice Dish",
+    "recipe_pk": 5
+  }
+]

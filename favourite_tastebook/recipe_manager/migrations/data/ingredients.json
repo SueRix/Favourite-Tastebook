@@ -1,0 +1,162 @@
+[
+  {
+    "pk": 1,
+    "name": "Tomato",
+    "category": "Vegetable"
+  },
+  {
+    "pk": 2,
+    "name": "Onion",
+    "category": "Vegetable"
+  },
+  {
+    "pk": 3,
+    "name": "Garlic",
+    "category": "Vegetable"
+  },
+  {
+    "pk": 4,
+    "name": "Carrot",
+    "category": "Vegetable"
+  },
+  {
+    "pk": 5,
+    "name": "Potato",
+    "category": "Vegetable"
+  },
+  {
+    "pk": 6,
+    "name": "Beef",
+    "category": "Meat"
+  },
+  {
+    "pk": 7,
+    "name": "Chicken",
+    "category": "Meat"
+  },
+  {
+    "pk": 8,
+    "name": "Pork",
+    "category": "Meat"
+  },
+  {
+    "pk": 9,
+    "name": "Fish",
+    "category": "Seafood"
+  },
+  {
+    "pk": 10,
+    "name": "Shrimp",
+    "category": "Seafood"
+  },
+  {
+    "pk": 11,
+    "name": "Salt",
+    "category": "Seasoning"
+  },
+  {
+    "pk": 12,
+    "name": "Pepper",
+    "category": "Seasoning"
+  },
+  {
+    "pk": 13,
+    "name": "Paprika",
+    "category": "Spices"
+  },
+  {
+    "pk": 14,
+    "name": "Olive Oil",
+    "category": "Oil"
+  },
+  {
+    "pk": 15,
+    "name": "Butter",
+    "category": "Dairy"
+  },
+  {
+    "pk": 16,
+    "name": "Eggs",
+    "category": "Dairy"
+  },
+  {
+    "pk": 17,
+    "name": "Milk",
+    "category": "Dairy"
+  },
+  {
+    "pk": 18,
+    "name": "Cheese",
+    "category": "Dairy"
+  },
+  {
+    "pk": 19,
+    "name": "Rice",
+    "category": "Grain"
+  },
+  {
+    "pk": 20,
+    "name": "Pasta",
+    "category": "Grain"
+  },
+  {
+    "pk": 21,
+    "name": "Basil",
+    "category": "Herb"
+  },
+  {
+    "pk": 22,
+    "name": "Oregano",
+    "category": "Herb"
+  },
+  {
+    "pk": 23,
+    "name": "Soy Sauce",
+    "category": "Seasoning"
+  },
+  {
+    "pk": 24,
+    "name": "Lemon",
+    "category": "Fruit"
+  },
+  {
+    "pk": 25,
+    "name": "Honey",
+    "category": "Sweetener"
+  },
+  {
+    "pk": 26,
+    "name": "Sugar",
+    "category": "Sweetener"
+  },
+  {
+    "pk": 27,
+    "name": "Flour",
+    "category": "Grain"
+  },
+  {
+    "pk": 28,
+    "name": "Yeast",
+    "category": "Baking"
+  },
+  {
+    "pk": 29,
+    "name": "Cinnamon",
+    "category": "Spices"
+  },
+  {
+    "pk": 30,
+    "name": "Nutmeg",
+    "category": "Spices"
+  },
+  {
+    "pk": 31,
+    "name": "Almonds",
+    "category": "Nuts"
+  },
+  {
+    "pk": 32,
+    "name": "Walnuts",
+    "category": "Nuts"
+  }
+]

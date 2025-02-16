@@ -1,0 +1,34 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Features - Favourite Tastebook</title>
+    <link rel="stylesheet" href="{% static 'css/product_features.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Product Features</h1>
+        <h2>Favourite Tastebook - Recipe Manager</h2>
+        <p>Favourite Tastebook is your personal digital recipe manager, designed to help you organize, save, and share your favorite recipes easily.</p>
+
+        <h2>Key Features:</h2>
+        <ul class="features">
+            <li><strong>Easy Recipe Management:</strong> Store all your recipes in one place.</li>
+            <li><strong>Ingredient List:</strong> Automatically generate a shopping list from your saved recipes.</li>
+            <li><strong>Custom Categories:</strong> Organize your recipes by category, cuisine, or diet preference.</li>
+            <li><strong>Share with Friends:</strong> Share your favorite recipes with family and friends.</li>
+            <li><strong>Search & Filter:</strong> Quickly find the recipe you need with advanced search and filtering options.</li>
+            <li><strong>Cloud Sync:</strong> Access your recipes from any device.</li>
+        </ul>
+
+        <h2>Why Choose Favourite Tastebook?</h2>
+        <p>With Favourite Tastebook, cooking becomes more enjoyable and organized. Whether you're a home cook or a professional chef, our app helps you keep track of your culinary creations effortlessly.</p>
+
+        <div class="buttons">
+            <a href="{% url 'login' %}" class="button">Login</a>
+            <a href="{% url 'welcome' %}" class="button">Back to Welcome</a>
+        </div>
+    </div>
+</body>
+</html>
