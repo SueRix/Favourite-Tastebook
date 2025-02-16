@@ -74,11 +74,11 @@ function fetchRecipes() {
             </li>`;
         });
       } else {
-        recipesContainer.innerHTML = "<li>Нет подходящих рецептов.</li>";
+        recipesContainer.innerHTML = "<li>There are no suitable recipes.</li>";
       }
     })
     .catch(err => {
-      console.error('Ошибка:', err);
+      console.error('Error:', err);
     });
 }
 

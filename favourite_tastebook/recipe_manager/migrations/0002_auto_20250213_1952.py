@@ -9,7 +9,7 @@ def load_ingredients(apps, schema_editor):
     with open(file_path, encoding='utf-8') as f:
         data = json.load(f)
         ingredients = [Ingredient(pk=item["pk"], name=item["name"], category=item["category"]) for item in data]
-        Ingredient.objects.bulk_create(ingredients, ignore_conflicts=True)  # Добавляем, игнорируя дубликаты
+        Ingredient.objects.bulk_create(ingredients, ignore_conflicts=True)
 
 def load_recipes(apps, schema_editor):
     Recipe = apps.get_model('recipe_manager', 'Recipe')
@@ -26,7 +26,7 @@ def load_recipes(apps, schema_editor):
                 instructions=item["instructions"]
             )
             ingredients = Ingredient.objects.filter(pk__in=item["ingredient_pks"])
-            recipe.ingredients.set(ingredients)  # Связываем через ManyToManyField
+            recipe.ingredients.set(ingredients)
 
 def load_dishes(apps, schema_editor):
     Dish = apps.get_model('recipe_manager', 'Dish')
@@ -49,7 +49,7 @@ def reverse_migration(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('recipe_manager', '0001_initial'),  # Зависимость от последней миграции
+        ('recipe_manager', '0001_initial'),
     ]
 
     operations = [
