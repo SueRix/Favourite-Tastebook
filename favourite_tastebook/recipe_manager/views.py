@@ -1,6 +1,7 @@
 import json
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count, Q
 from django.http import JsonResponse
 from django.views import View
 from django.views.generic import TemplateView
@@ -10,31 +11,35 @@ from .models import Ingredient, Recipe
 class IndexView(TemplateView):
     template_name = 'index.html'
 
+
 class ProductFeaturesView(TemplateView):
     template_name = 'product_features.html'
+
 
 class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'home.html'
     extra_context = {'ingredients': Ingredient.objects.all()}
 
+
 class FilterRecipesView(View):
-    def post(self, request):
-        data = json.loads(request.body)
-        ingredient_names = data.get('ingredients', [])
+    @staticmethod
+    def get(request):
+        ingredient_names = request.GET.get('ingredients', '')
+        ingredient_names = list(filter(None, map(str.strip, ingredient_names.split(','))))
 
-        recipes_qs = Recipe.objects.all()
-        ingredients_qs = Ingredient.objects.filter(name__in=ingredient_names)
-        for ing in ingredients_qs:
-            recipes_qs = recipes_qs.filter(ingredients=ing)
+        if not ingredient_names:
+            recipes_qs = Recipe.objects.values('name', 'cook_time', 'instructions')
+        else:
+            recipes_qs = (
+                Recipe.objects
+                .annotate(
+                    matching_ingredients=Count(
+                        'ingredients',
+                        distinct=True,
+                        filter=Q(ingredients__name__in=ingredient_names)
+                    )
+                )
+                .filter(matching_ingredients=len(ingredient_names))
+                .values('name', 'cook_time', 'instructions'))
 
-        results = []
-        for r in recipes_qs:
-            results.append({
-                'name': r.name,
-                'cook_time': r.cook_time,
-                'instructions': r.instructions,
-            })
-        return JsonResponse({'recipes': results})
-
-    def get(self):
-        return JsonResponse({'error': 'Only POST allowed'}, status=405)
+        return JsonResponse({'recipes': list(recipes_qs)})

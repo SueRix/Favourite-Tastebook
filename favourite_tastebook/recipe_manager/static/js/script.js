@@ -1,19 +1,3 @@
-function getCookie(name) {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim();
-      if (cookie.substring(0, name.length + 1) === (name + '=')) {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
-  }
-  return cookieValue;
-}
-const csrftoken = getCookie('csrftoken');
-
 let selectedIngredients = [];
 
 function addIngredient(name) {
@@ -51,13 +35,14 @@ function updateSelectedIngredients() {
 }
 
 function fetchRecipes() {
-  fetch('/api/filter_recipes/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRFToken': csrftoken
-    },
-    body: JSON.stringify({ ingredients: selectedIngredients })
+  // Build a query string like ?ingredients=tomato,onion
+  const queryParams = selectedIngredients.join(',');
+  const url = `/api/filter_recipes/?ingredients=${encodeURIComponent(queryParams)}`;
+
+  // For GET requests, we don't need the CSRF token in headers by default
+  // (unless your middleware is configured differently).
+  fetch(url, {
+    method: 'GET',
   })
     .then(response => response.json())
     .then(data => {
@@ -81,4 +66,3 @@ function fetchRecipes() {
       console.error('Error:', err);
     });
 }
-
