@@ -19,33 +19,27 @@ class HomeView(LoginRequiredMixin, TemplateView):
     extra_context = {'ingredients': Ingredient.objects.all()}
 
 
-class FilterRecipesView(View): #TODO: recreate code using KISS, DRY, SOLID methods
+class FilterRecipesView(View):
+    def get(self, request):
+        ingredients = self._parse_ingredients(request)
+
+        if not ingredients:
+            return JsonResponse({'error': 'No ingredients selected'})
+
+        recipes = self._get_filtered_recipes(ingredients)
+        return JsonResponse({'recipes': list(recipes)})
+
     @staticmethod
-    def get(request):
+    def _parse_ingredients(request):
         ingredient_names = request.GET.get('ingredients', '')
-        ingredient_names = list(filter(None, map(str.strip, ingredient_names.split(','))))
-
-        recipes_qs = FilterRecipesView._get_filtered_recipes(ingredient_names)
-
-        return JsonResponse({'recipes': list(recipes_qs)})
+        return list(filter(None, map(str.strip, ingredient_names.split(','))))
 
     @staticmethod
-    def _get_filtered_recipes(ingredient_names):
-        base_query = Recipe.objects.values('name', 'cook_time', 'instructions')
+    def _get_filtered_recipes(ingredients):
+        query = Recipe.objects.values('name', 'cook_time', 'instructions')
 
-        if not ingredient_names:
-            return base_query
+        if ingredients:
+            query = Recipe.objects.filter(ingredients__name__in=ingredients).distinct().values('name', 'cook_time',
+                                                                                               'instructions')
 
-        return (
-            Recipe.objects
-            .annotate(
-                matching_ingredients=Count(
-                    'ingredients',
-                    distinct=True,
-                    filter=Q(ingredients__name__in=ingredient_names)
-                )
-            )
-            .filter(matching_ingredients=len(ingredient_names))
-            .values('name', 'cook_time', 'instructions')
-        )
-
+        return query
