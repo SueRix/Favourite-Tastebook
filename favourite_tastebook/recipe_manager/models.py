@@ -3,11 +3,13 @@ from django.contrib.auth.models import User
 
 
 class Ingredient(models.Model):
+    objects = models.Manager
     name = models.CharField(max_length=100, unique=True)
     category = models.CharField(max_length=100, null=True, blank=True)
 
 
 class Recipe(models.Model):
+    objects = models.Manager
     name = models.CharField(max_length=100, unique=True)
     ingredients = models.ManyToManyField(Ingredient, related_name='recipes')
     instructions = models.TextField()
