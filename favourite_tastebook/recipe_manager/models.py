@@ -16,11 +16,13 @@ class Recipe(models.Model):
     cook_time = models.IntegerField(help_text = "Time in minutes", null=True, blank=True)
 
 class Dish(models.Model):
+    objects = models.Manager
     name = models.CharField(max_length=100)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='dishes')
 
 
 class UserIngredients(models.Model):
+    objects = models.Manager
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     ingredients = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     unit = models.CharField(max_length=100)
