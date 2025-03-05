@@ -8,8 +8,6 @@ function addIngredient(name) {
   }
 }
 
-//TODO: recreate code using a fixed FilterRecipe django view.
-
 function removeIngredient(name) {
   selectedIngredients = selectedIngredients.filter(ing => ing !== name);
   updateSelectedIngredients();
