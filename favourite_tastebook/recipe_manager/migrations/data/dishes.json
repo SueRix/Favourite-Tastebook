@@ -1,27 +1,377 @@
 [
   {
     "pk": 1,
-    "name": "Spaghetti Carbonara Dish",
+    "name": "Margherita Pizza Dish",
     "recipe_pk": 1
   },
   {
     "pk": 2,
-    "name": "Beef Stroganoff Dish",
+    "name": "Creamy Tomato Pasta Dish",
     "recipe_pk": 2
   },
   {
     "pk": 3,
-    "name": "Chicken Alfredo Dish",
+    "name": "Garlic Herb Roasted Chicken Dish",
     "recipe_pk": 3
   },
   {
     "pk": 4,
-    "name": "Tomato Soup Dish",
+    "name": "Beef Stir-Fry Dish",
     "recipe_pk": 4
   },
   {
     "pk": 5,
-    "name": "Shrimp Fried Rice Dish",
+    "name": "Salmon with Lemon Dish",
     "recipe_pk": 5
+  },
+  {
+    "pk": 6,
+    "name": "Spicy Shrimp Tacos Dish",
+    "recipe_pk": 6
+  },
+  {
+    "pk": 7,
+    "name": "Lentil Soup Dish",
+    "recipe_pk": 7
+  },
+  {
+    "pk": 8,
+    "name": "Chicken Rice Casserole Dish",
+    "recipe_pk": 8
+  },
+  {
+    "pk": 9,
+    "name": "Apple Crumble Dish",
+    "recipe_pk": 9
+  },
+  {
+    "pk": 10,
+    "name": "Chocolate Chip Cookies Dish",
+    "recipe_pk": 10
+  },
+  {
+    "pk": 11,
+    "name": "Mushroom Risotto Dish",
+    "recipe_pk": 11
+  },
+  {
+    "pk": 12,
+    "name": "Beef Bean Chili Dish",
+    "recipe_pk": 12
+  },
+  {
+    "pk": 13,
+    "name": "Chicken Noodle Soup Dish",
+    "recipe_pk": 13
+  },
+  {
+    "pk": 14,
+    "name": "Baked Potato Dish",
+    "recipe_pk": 14
+  },
+  {
+    "pk": 15,
+    "name": "French Onion Soup Dish",
+    "recipe_pk": 15
+  },
+  {
+    "pk": 16,
+    "name": "Caprese Salad Dish",
+    "recipe_pk": 16
+  },
+  {
+    "pk": 17,
+    "name": "Guacamole Dish",
+    "recipe_pk": 17
+  },
+  {
+    "pk": 18,
+    "name": "Greek Salad Dish",
+    "recipe_pk": 18
+  },
+  {
+    "pk": 19,
+    "name": "Caesar Salad Dish",
+    "recipe_pk": 19
+  },
+  {
+    "pk": 20,
+    "name": "Chicken Caesar Salad Dish",
+    "recipe_pk": 20
+  },
+  {
+    "pk": 21,
+    "name": "Tuna Salad Sandwich Dish",
+    "recipe_pk": 21
+  },
+  {
+    "pk": 22,
+    "name": "Egg Salad Sandwich Dish",
+    "recipe_pk": 22
+  },
+  {
+    "pk": 23,
+    "name": "BLT Sandwich Dish",
+    "recipe_pk": 23
+  },
+  {
+    "pk": 24,
+    "name": "Grilled Cheese Sandwich Dish",
+    "recipe_pk": 24
+  },
+  {
+    "pk": 25,
+    "name": "Peanut Butter Jelly Sandwich Dish",
+    "recipe_pk": 25
+  },
+  {
+    "pk": 26,
+    "name": "Chicken Fajitas Dish",
+    "recipe_pk": 26
+  },
+  {
+    "pk": 27,
+    "name": "Vegetarian Chili Dish",
+    "recipe_pk": 27
+  },
+  {
+    "pk": 28,
+    "name": "Shepherds Pie Dish",
+    "recipe_pk": 28
+  },
+  {
+    "pk": 29,
+    "name": "Chicken Pot Pie Dish",
+    "recipe_pk": 29
+  },
+  {
+    "pk": 30,
+    "name": "Beef Broccoli Dish",
+    "recipe_pk": 30
+  },
+  {
+    "pk": 31,
+    "name": "Sweet Potato Casserole Dish",
+    "recipe_pk": 31
+  },
+  {
+    "pk": 32,
+    "name": "Mac Cheese Dish",
+    "recipe_pk": 32
+  },
+  {
+    "pk": 33,
+    "name": "Lasagna Dish",
+    "recipe_pk": 33
+  },
+  {
+    "pk": 34,
+    "name": "Chicken Enchiladas Dish",
+    "recipe_pk": 34
+  },
+  {
+    "pk": 35,
+    "name": "Beef Tacos Dish",
+    "recipe_pk": 35
+  },
+  {
+    "pk": 36,
+    "name": "Fish Chips Dish",
+    "recipe_pk": 36
+  },
+  {
+    "pk": 37,
+    "name": "Chicken Waffles Dish",
+    "recipe_pk": 37
+  },
+  {
+    "pk": 38,
+    "name": "Pancakes Dish",
+    "recipe_pk": 38
+  },
+  {
+    "pk": 39,
+    "name": "Waffles Dish",
+    "recipe_pk": 39
+  },
+  {
+    "pk": 40,
+    "name": "French Toast Dish",
+    "recipe_pk": 40
+  },
+  {
+    "pk": 41,
+    "name": "Oatmeal Dish",
+    "recipe_pk": 41
+  },
+  {
+    "pk": 42,
+    "name": "Scrambled Eggs Dish",
+    "recipe_pk": 42
+  },
+  {
+    "pk": 43,
+    "name": "Omelette Dish",
+    "recipe_pk": 43
+  },
+  {
+    "pk": 44,
+    "name": "Frittata Dish",
+    "recipe_pk": 44
+  },
+  {
+    "pk": 45,
+    "name": "Quiche Dish",
+    "recipe_pk": 45
+  },
+  {
+    "pk": 46,
+    "name": "Breakfast Burrito Dish",
+    "recipe_pk": 46
+  },
+  {
+    "pk": 47,
+    "name": "Breakfast Smoothie Dish",
+    "recipe_pk": 47
+  },
+  {
+    "pk": 48,
+    "name": "Fruit Salad Dish",
+    "recipe_pk": 48
+  },
+  {
+    "pk": 49,
+    "name": "Yogurt Parfait Dish",
+    "recipe_pk": 49
+  },
+  {
+    "pk": 50,
+    "name": "Avocado Toast Dish",
+    "recipe_pk": 50
+  },
+  {
+    "pk": 51,
+    "name": "Chicken Curry Dish",
+    "recipe_pk": 51
+  },
+  {
+    "pk": 52,
+    "name": "Butter Chicken Dish",
+    "recipe_pk": 52
+  },
+  {
+    "pk": 53,
+    "name": "Tikka Masala Dish",
+    "recipe_pk": 53
+  },
+  {
+    "pk": 54,
+    "name": "Palak Paneer Dish",
+    "recipe_pk": 54
+  },
+  {
+    "pk": 55,
+    "name": "Vegetable Biryani Dish",
+    "recipe_pk": 55
+  },
+  {
+    "pk": 56,
+    "name": "Samosas Dish",
+    "recipe_pk": 56
+  },
+  {
+    "pk": 57,
+    "name": "Naan Bread Dish",
+    "recipe_pk": 57
+  },
+  {
+    "pk": 58,
+    "name": "Raita Dish",
+    "recipe_pk": 58
+  },
+  {
+    "pk": 59,
+    "name": "Chicken Pad Thai Dish",
+    "recipe_pk": 59
+  },
+  {
+    "pk": 60,
+    "name": "Vegetable Pad See Ew Dish",
+    "recipe_pk": 60
+  },
+  {
+    "pk": 61,
+    "name": "Spring Rolls Dish",
+    "recipe_pk": 61
+  },
+  {
+    "pk": 62,
+    "name": "Tom Yum Soup Dish",
+    "recipe_pk": 62
+  },
+  {
+    "pk": 63,
+    "name": "Green Curry Dish",
+    "recipe_pk": 63
+  },
+  {
+    "pk": 64,
+    "name": "Red Curry Dish",
+    "recipe_pk": 64
+  },
+  {
+    "pk": 65,
+    "name": "Massaman Curry Dish",
+    "recipe_pk": 65
+  },
+  {
+    "pk": 66,
+    "name": "Yellow Curry Dish",
+    "recipe_pk": 66
+  },
+  {
+    "pk": 67,
+    "name": "Panang Curry Dish",
+    "recipe_pk": 67
+  },
+  {
+    "pk": 68,
+    "name": "Sushi Rolls Dish",
+    "recipe_pk": 68
+  },
+  {
+    "pk": 69,
+    "name": "Nigiri Sushi Dish",
+    "recipe_pk": 69
+  },
+  {
+    "pk": 70,
+    "name": "Sashimi Dish",
+    "recipe_pk": 70
+  },
+  {
+    "pk": 71,
+    "name": "Miso Soup Dish",
+    "recipe_pk": 71
+  },
+  {
+    "pk": 72,
+    "name": "Edamame Dish",
+    "recipe_pk": 72
+  },
+  {
+    "pk": 73,
+    "name": "Gyoza Dish",
+    "recipe_pk": 73
+  },
+  {
+    "pk": 74,
+    "name": "Ramen Dish",
+    "recipe_pk": 74
+  },
+  {
+    "pk": 75,
+    "name": "Udon Noodle Soup Dish",
+    "recipe_pk": 75
   }
 ]
