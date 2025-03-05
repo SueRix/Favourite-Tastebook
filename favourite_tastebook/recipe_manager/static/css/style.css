@@ -15,19 +15,41 @@ body {
 .grid-container {
   display: grid;
   grid-template-columns: 25% 20% 55%;
-  grid-template-rows: auto auto auto;
+  grid-template-rows: auto auto;
   grid-template-areas:
-    "semantic-search list-of-ingredients favorites-based"
-    "added-ingredients list-of-ingredients recipe-based"
-    "favorite-ingredients list-of-ingredients recipe-based";
+    "left-column list-of-ingredients right-column"
+    "left-column list-of-ingredients right-column";
   height: 100vh;
   gap: 1rem;
   padding: 1rem;
   box-sizing: border-box;
 }
 
+.left-column {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "added-ingredients"
+    "favorite-ingredients";
+  gap: 1rem;
+  grid-area: left-column;
+  height: 100%;
+}
+
+.right-column {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "favorites-based"
+    "recipe-based";
+  gap: 1rem;
+  grid-area: right-column;
+  height: 100%;
+}
+
+
 .semantic-search-block {
-  grid-area: semantic-search;
+  grid-area: favorites-based;
 }
 .added-ingredients-block {
   grid-area: added-ingredients;
@@ -37,12 +59,16 @@ body {
 }
 .all-ingredients-block {
   grid-area: list-of-ingredients;
+  overflow-y: auto;
+  max-height: calc(100vh - 12rem);
 }
 .favorite-based-render-block {
   grid-area: favorites-based;
 }
 .recipe-based-render-block {
   grid-area: recipe-based;
+  overflow-y: auto;
+  max-height: calc(100vh - 12rem);
 }
 
 .block {
@@ -51,8 +77,10 @@ body {
   border-radius: 10px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
-  height: 100%;
+  height: auto;
   min-height: 100px;
+  display: flex;
+  flex-direction: column;
 }
 .block:hover {
   transform: scale(1.02);
@@ -111,10 +139,10 @@ ul {
   margin: 0;
   padding: 0;
 }
-.ingredient-item, .dish-item, .available-ingredient {
+.ingredient-item, .available-ingredient {
   background: #f8f9fa;
   padding: 12px;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
@@ -122,7 +150,6 @@ ul {
   transition: all 0.3s ease;
 }
 .ingredient-item:hover,
-.dish-item:hover,
 .available-ingredient:hover {
   background: #e9ecef;
 }
@@ -139,11 +166,25 @@ ul {
   padding: 5px 10px;
   cursor: pointer;
   transition: 0.3s ease;
+  margin-left: auto;
 }
 .remove-btn:hover {
   background: #c82333;
   transform: scale(1.1);
 }
+
+.btn-add-small {
+  background: #1E9E57;
+  color: #fff;
+  margin-left: auto;
+  padding: 6px 10px;
+  border-radius: 5px;
+}
+.btn-add-small:hover {
+  background: #178E48;
+  transform: scale(1.05);
+}
+
 
 input {
   width: 100%;
@@ -171,4 +212,32 @@ input:focus {
       "recipe-based";
     height: auto;
   }
+}
+
+details > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+details > summary::before {
+  content: '▶';
+  display: inline-block;
+  margin-right: 5px;
+}
+
+details[open] > summary::before {
+  content: '▼';
+}
+
+details ul {
+  padding-left: 20px;
+  margin-top: 10px;
 }
