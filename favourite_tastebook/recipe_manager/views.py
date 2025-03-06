@@ -16,7 +16,7 @@ class ProductFeaturesView(TemplateView):
 
 class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'home.html'
-    extra_context = {'ingredients': Ingredient.objects.all()}
+    extra_context = {'ingredients': Ingredient.objects.order_by('name')}
 
 
 class FilterRecipesView(View):
