@@ -1,4 +1,7 @@
 let selectedIngredients = [];
+const searchInput = document.getElementById('semanticSearchInput');
+const allIngredientsList = document.querySelector('.all-ingredients-list');
+const ingredients = Array.from(document.querySelectorAll('.available-ingredient')).map(li => li.dataset.name);
 
 function addIngredient(name) {
   if (!selectedIngredients.includes(name)) {
@@ -35,12 +38,9 @@ function updateSelectedIngredients() {
 }
 
 function fetchRecipes() {
-  // Build a query string like ?ingredients=tomato,onion
   const queryParams = selectedIngredients.join(',');
   const url = `/api/filter_recipes/?ingredients=${encodeURIComponent(queryParams)}`;
 
-  // For GET requests, we don't need the CSRF token in headers by default
-  // (unless your middleware is configured differently).
   fetch(url, {
     method: 'GET',
   })
@@ -66,3 +66,30 @@ function fetchRecipes() {
       console.error('Error:', err);
     });
 }
+
+function filterIngredients(searchTerm) {
+  allIngredientsList.innerHTML = '';
+  const filteredIngredients = ingredients.filter(ingredient =>
+    ingredient.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  filteredIngredients.forEach(ingredient => {
+    allIngredientsList.innerHTML += `
+      <li class="available-ingredient" data-name="${ingredient}">
+        ${ingredient}
+        <button class="btn btn-add-small" data-name="${ingredient}">➕</button>
+      </li>
+    `;
+  });
+}
+
+searchInput.addEventListener('input', function() {
+  filterIngredients(this.value);
+});
+
+allIngredientsList.addEventListener('click', function(event) {
+  if (event.target.classList.contains('btn-add-small')) {
+    addIngredient(event.target.dataset.name);
+  }
+});
+
+filterIngredients('');

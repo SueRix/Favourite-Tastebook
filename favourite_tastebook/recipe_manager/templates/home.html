@@ -40,9 +40,9 @@
 
     <ul class="all-ingredients-list">
       {% for ingredient in ingredients %}
-        <li class="available-ingredient">
+        <li class="available-ingredient" data-name="{{ ingredient.name }}">
           {{ ingredient.name }}
-          <button class="btn btn-add-small" onclick="addIngredient('{{ ingredient.name }}')">➕</button>
+          <button class="btn btn-add-small" data-name="{{ ingredient.name }}">➕</button>
         </li>
       {% empty %}
         <li class="no-ingredients">❌ No ingredients in DB.</li>
