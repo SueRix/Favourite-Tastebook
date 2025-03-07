@@ -4,15 +4,15 @@
     "name": "Classic Margherita Pizza",
     "cook_time": 30,
     "instructions": "1) Prepare pizza dough. 2) Spread tomato sauce. 3) Add mozzarella and basil. 4) Bake until crust is golden.",
-    "ingredient_pks": [
-      27,
-      28,
-      1,
-      39,
-      21,
-      14,
-      11,
-      26
+    "ingredients": [
+      {"pk": 27, "weight": 5},
+      {"pk": 28, "weight": 5},
+      {"pk": 1, "weight": 4},
+      {"pk": 39, "weight": 5},
+      {"pk": 21, "weight": 3},
+      {"pk": 14, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 26, "weight": 1}
     ]
   },
   {
@@ -20,14 +20,14 @@
     "name": "Creamy Tomato Pasta",
     "cook_time": 25,
     "instructions": "1) Cook pasta. 2) Sauté garlic and tomatoes. 3) Add cream and parmesan. 4) Toss with pasta.",
-    "ingredient_pks": [
-      20,
-      3,
-      1,
-      84,
-      38,
-      11,
-      12
+    "ingredients": [
+      {"pk": 20, "weight": 5},
+      {"pk": 1, "weight": 4},
+      {"pk": 84, "weight": 5},
+      {"pk": 38, "weight": 4},
+      {"pk": 3, "weight": 3},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -35,14 +35,14 @@
     "name": "Garlic Herb Roasted Chicken",
     "cook_time": 60,
     "instructions": "1) Season chicken with herbs and garlic. 2) Roast in oven until cooked through.",
-    "ingredient_pks": [
-      7,
-      3,
-      21,
-      73,
-      14,
-      11,
-      12
+    "ingredients": [
+      {"pk": 7, "weight": 5},
+      {"pk": 3, "weight": 4},
+      {"pk": 21, "weight": 3},
+      {"pk": 73, "weight": 3},
+      {"pk": 14, "weight": 3},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -50,15 +50,15 @@
     "name": "Simple Beef Stir-Fry",
     "cook_time": 35,
     "instructions": "1) Stir-fry beef with vegetables. 2) Add soy sauce and ginger. 3) Serve over rice.",
-    "ingredient_pks": [
-      6,
-      41,
-      43,
-      2,
-      23,
-      68,
-      80,
-      19
+    "ingredients": [
+      {"pk": 6, "weight": 5},
+      {"pk": 41, "weight": 4},
+      {"pk": 43, "weight": 3},
+      {"pk": 2, "weight": 3},
+      {"pk": 23, "weight": 3},
+      {"pk": 68, "weight": 4},
+      {"pk": 80, "weight": 2},
+      {"pk": 19, "weight": 2}
     ]
   },
   {
@@ -66,13 +66,13 @@
     "name": "Salmon with Lemon and Dill",
     "cook_time": 20,
     "instructions": "1) Season salmon with salt, pepper, and dill. 2) Bake or pan-fry. 3) Squeeze lemon juice before serving.",
-    "ingredient_pks": [
-      59,
-      24,
-      76,
-      14,
-      11,
-      12
+    "ingredients": [
+      {"pk": 59, "weight": 5},
+      {"pk": 24, "weight": 4},
+      {"pk": 76, "weight": 4},
+      {"pk": 14, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -80,15 +80,15 @@
     "name": "Spicy Shrimp Tacos",
     "cook_time": 25,
     "instructions": "1) Marinate shrimp in chili powder and lime juice. 2) Grill or pan-fry shrimp. 3) Serve in tacos with toppings.",
-    "ingredient_pks": [
-      10,
-      65,
-      99,
-      14,
-      12,
-      88,
-      2,
-      1
+    "ingredients": [
+      {"pk": 10, "weight": 5},
+      {"pk": 65, "weight": 4},
+      {"pk": 99, "weight": 4},
+      {"pk": 88, "weight": 3},
+      {"pk": 2, "weight": 3},
+      {"pk": 1, "weight": 3},
+      {"pk": 14, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -96,15 +96,15 @@
     "name": "Lentil Soup",
     "cook_time": 50,
     "instructions": "1) Sauté vegetables. 2) Add lentils and broth. 3) Simmer until lentils are tender.",
-    "ingredient_pks": [
-      51,
-      2,
-      4,
-      3,
-      34,
-      11,
-      12,
-      42
+    "ingredients": [
+      {"pk": 51, "weight": 5},
+      {"pk": 2, "weight": 3},
+      {"pk": 4, "weight": 3},
+      {"pk": 3, "weight": 3},
+      {"pk": 34, "weight": 4},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2},
+      {"pk": 42, "weight": 2}
     ]
   },
   {
@@ -112,14 +112,14 @@
     "name": "Chicken and Rice Casserole",
     "cook_time": 70,
     "instructions": "1) Combine cooked chicken, rice, and vegetables. 2) Mix with cream of mushroom soup. 3) Bake until bubbly.",
-    "ingredient_pks": [
-      7,
-      19,
-      44,
-      81,
-      11,
-      12,
-      2
+    "ingredients": [
+      {"pk": 7, "weight": 5},
+      {"pk": 19, "weight": 4},
+      {"pk": 44, "weight": 3},
+      {"pk": 81, "weight": 5},
+      {"pk": 2, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -127,14 +127,14 @@
     "name": "Apple Crumble",
     "cook_time": 45,
     "instructions": "1) Prepare apple filling with cinnamon and sugar. 2) Make crumble topping with oats, flour, and butter. 3) Bake until golden brown.",
-    "ingredient_pks": [
-      101,
-      29,
-      26,
-      86,
-      27,
-      15,
-      93
+    "ingredients": [
+      {"pk": 101, "weight": 5},
+      {"pk": 29, "weight": 4},
+      {"pk": 26, "weight": 4},
+      {"pk": 86, "weight": 4},
+      {"pk": 27, "weight": 3},
+      {"pk": 15, "weight": 3},
+      {"pk": 93, "weight": 2}
     ]
   },
   {
@@ -142,14 +142,14 @@
     "name": "Chocolate Chip Cookies",
     "cook_time": 20,
     "instructions": "1) Cream butter and sugar. 2) Add eggs and vanilla. 3) Mix in flour and chocolate chips. 4) Bake until edges are golden.",
-    "ingredient_pks": [
-      15,
-      26,
-      93,
-      16,
-      90,
-      27,
-      91
+    "ingredients": [
+      {"pk": 91, "weight": 5},
+      {"pk": 27, "weight": 4},
+      {"pk": 15, "weight": 4},
+      {"pk": 26, "weight": 4},
+      {"pk": 93, "weight": 3},
+      {"pk": 16, "weight": 3},
+      {"pk": 90, "weight": 2}
     ]
   },
   {
@@ -157,16 +157,16 @@
     "name": "Mushroom Risotto",
     "cook_time": 55,
     "instructions": "1) Sauté onions and mushrooms in butter. 2) Add rice and toast lightly. 3) Gradually add warm broth, stirring constantly. 4) Finish with parmesan and herbs.",
-    "ingredient_pks": [
-      44,
-      2,
-      19,
-      34,
-      38,
-      15,
-      75,
-      73,
-      36
+    "ingredients": [
+      {"pk": 44, "weight": 5},
+      {"pk": 19, "weight": 5},
+      {"pk": 34, "weight": 4},
+      {"pk": 38, "weight": 4},
+      {"pk": 2, "weight": 3},
+      {"pk": 15, "weight": 3},
+      {"pk": 75, "weight": 2},
+      {"pk": 73, "weight": 2},
+      {"pk": 36, "weight": 2}
     ]
   },
   {
@@ -174,16 +174,16 @@
     "name": "Beef and Bean Chili",
     "cook_time": 90,
     "instructions": "1) Brown ground beef with onions and peppers. 2) Add beans, tomatoes, and chili spices. 3) Simmer for at least 1 hour.",
-    "ingredient_pks": [
-      55,
-      2,
-      43,
-      53,
-      54,
-      1,
-      65,
-      66,
-      12
+    "ingredients": [
+      {"pk": 55, "weight": 5},
+      {"pk": 53, "weight": 5},
+      {"pk": 54, "weight": 5},
+      {"pk": 1, "weight": 4},
+      {"pk": 65, "weight": 4},
+      {"pk": 66, "weight": 3},
+      {"pk": 43, "weight": 3},
+      {"pk": 2, "weight": 3},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -191,16 +191,16 @@
     "name": "Chicken Noodle Soup",
     "cook_time": 60,
     "instructions": "1) Sauté vegetables. 2) Add chicken broth and chicken. 3) Simmer until chicken is cooked. 4) Add noodles and cook until tender.",
-    "ingredient_pks": [
-      7,
-      4,
-      2,
-      41,
-      20,
-      33,
-      11,
-      12,
-      75
+    "ingredients": [
+      {"pk": 7, "weight": 5},
+      {"pk": 20, "weight": 5},
+      {"pk": 33, "weight": 4},
+      {"pk": 4, "weight": 3},
+      {"pk": 2, "weight": 3},
+      {"pk": 41, "weight": 3},
+      {"pk": 75, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -208,14 +208,14 @@
     "name": "Baked Potato with Sour Cream and Chives",
     "cook_time": 75,
     "instructions": "1) Bake potatoes until soft. 2) Top with sour cream, chives, and bacon bits.",
-    "ingredient_pks": [
-      5,
-      83,
-      77,
-      58,
-      15,
-      11,
-      12
+    "ingredients": [
+      {"pk": 5, "weight": 5},
+      {"pk": 83, "weight": 5},
+      {"pk": 77, "weight": 4},
+      {"pk": 58, "weight": 3},
+      {"pk": 15, "weight": 3},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -223,16 +223,16 @@
     "name": "French Onion Soup",
     "cook_time": 80,
     "instructions": "1) Caramelize onions in butter for a long time. 2) Add beef broth and thyme. 3) Simmer. 4) Serve with toasted bread and Gruyère cheese.",
-    "ingredient_pks": [
-      2,
-      15,
-      34,
-      73,
-      35,
-      27,
-      18,
-      11,
-      12
+    "ingredients": [
+      {"pk": 2, "weight": 5},
+      {"pk": 34, "weight": 5},
+      {"pk": 18, "weight": 5},
+      {"pk": 15, "weight": 4},
+      {"pk": 73, "weight": 3},
+      {"pk": 35, "weight": 3},
+      {"pk": 27, "weight": 3},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -240,13 +240,13 @@
     "name": "Caprese Salad",
     "cook_time": 10,
     "instructions": "1) Slice tomatoes and mozzarella. 2) Arrange on a plate with basil leaves. 3) Drizzle with olive oil and balsamic glaze.",
-    "ingredient_pks": [
-      1,
-      39,
-      21,
-      14,
-      95,
-      12
+    "ingredients": [
+      {"pk": 1, "weight": 5},
+      {"pk": 39, "weight": 5},
+      {"pk": 21, "weight": 4},
+      {"pk": 14, "weight": 3},
+      {"pk": 95, "weight": 3},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -254,14 +254,14 @@
     "name": "Guacamole",
     "cook_time": 15,
     "instructions": "1) Mash avocados. 2) Mix with onions, tomatoes, lime juice, and cilantro. 3) Season with salt and pepper.",
-    "ingredient_pks": [
-      109,
-      2,
-      1,
-      99,
-      67,
-      11,
-      12
+    "ingredients": [
+      {"pk": 109, "weight": 5},
+      {"pk": 99, "weight": 4},
+      {"pk": 67, "weight": 4},
+      {"pk": 1, "weight": 3},
+      {"pk": 2, "weight": 3},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -269,14 +269,14 @@
     "name": "Greek Salad",
     "cook_time": 20,
     "instructions": "1) Chop vegetables. 2) Combine with feta cheese and olives. 3) Dress with olive oil and oregano.",
-    "ingredient_pks": [
-      1,
-      2,
-      43,
-      18,
-      14,
-      22,
-      95
+    "ingredients": [
+      {"pk": 1, "weight": 4},
+      {"pk": 43, "weight": 4},
+      {"pk": 2, "weight": 3},
+      {"pk": 18, "weight": 5},
+      {"pk": 22, "weight": 4},
+      {"pk": 14, "weight": 3},
+      {"pk": 95, "weight": 3}
     ]
   },
   {
@@ -284,17 +284,17 @@
     "name": "Caesar Salad",
     "cook_time": 15,
     "instructions": "1) Make Caesar dressing. 2) Toss romaine lettuce with dressing and croutons. 3) Top with parmesan cheese.",
-    "ingredient_pks": [
-      42,
-      38,
-      24,
-      14,
-      96,
-      97,
-      3,
-      16,
-      12,
-      11
+    "ingredients": [
+      {"pk": 42, "weight": 5},
+      {"pk": 38, "weight": 4},
+      {"pk": 97, "weight": 4},
+      {"pk": 96, "weight": 4},
+      {"pk": 24, "weight": 3},
+      {"pk": 16, "weight": 3},
+      {"pk": 3, "weight": 2},
+      {"pk": 14, "weight": 2},
+      {"pk": 12, "weight": 2},
+      {"pk": 11, "weight": 2}
     ]
   },
   {
@@ -302,18 +302,18 @@
     "name": "Chicken Caesar Salad",
     "cook_time": 30,
     "instructions": "1) Grill or bake chicken breast. 2) Prepare Caesar salad as above. 3) Slice chicken and add to salad.",
-    "ingredient_pks": [
-      7,
-      42,
-      38,
-      24,
-      14,
-      96,
-      97,
-      3,
-      16,
-      12,
-      11
+    "ingredients": [
+      {"pk": 7, "weight": 5},
+      {"pk": 42, "weight": 4},
+      {"pk": 38, "weight": 4},
+      {"pk": 97, "weight": 3},
+      {"pk": 96, "weight": 3},
+      {"pk": 24, "weight": 3},
+      {"pk": 16, "weight": 2},
+      {"pk": 3, "weight": 2},
+      {"pk": 14, "weight": 2},
+      {"pk": 12, "weight": 2},
+      {"pk": 11, "weight": 2}
     ]
   },
   {
@@ -321,14 +321,14 @@
     "name": "Tuna Salad Sandwich",
     "cook_time": 15,
     "instructions": "1) Mix tuna with mayonnaise, celery, and onion. 2) Season with salt and pepper. 3) Serve on bread.",
-    "ingredient_pks": [
-      60,
-      83,
-      4,
-      2,
-      11,
-      12,
-      27
+    "ingredients": [
+      {"pk": 60, "weight": 5},
+      {"pk": 83, "weight": 4},
+      {"pk": 4, "weight": 3},
+      {"pk": 2, "weight": 3},
+      {"pk": 27, "weight": 3},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -336,14 +336,14 @@
     "name": "Egg Salad Sandwich",
     "cook_time": 10,
     "instructions": "1) Boil and chop eggs. 2) Mix with mayonnaise, mustard, and celery. 3) Season with salt and pepper. 4) Serve on bread.",
-    "ingredient_pks": [
-      16,
-      83,
-      96,
-      4,
-      11,
-      12,
-      27
+    "ingredients": [
+      {"pk": 16, "weight": 5},
+      {"pk": 83, "weight": 4},
+      {"pk": 96, "weight": 3},
+      {"pk": 4, "weight": 3},
+      {"pk": 27, "weight": 3},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -351,12 +351,12 @@
     "name": "BLT Sandwich",
     "cook_time": 10,
     "instructions": "1) Cook bacon until crispy. 2) Assemble sandwich with bacon, lettuce, tomato, and mayonnaise.",
-    "ingredient_pks": [
-      58,
-      42,
-      1,
-      83,
-      27
+    "ingredients": [
+      {"pk": 58, "weight": 5},
+      {"pk": 42, "weight": 4},
+      {"pk": 1, "weight": 4},
+      {"pk": 27, "weight": 3},
+      {"pk": 83, "weight": 3}
     ]
   },
   {
@@ -364,10 +364,10 @@
     "name": "Grilled Cheese Sandwich",
     "cook_time": 8,
     "instructions": "1) Butter bread slices. 2) Place cheese between slices. 3) Grill until golden brown and cheese is melted.",
-    "ingredient_pks": [
-      27,
-      15,
-      40
+    "ingredients": [
+      {"pk": 40, "weight": 5},
+      {"pk": 27, "weight": 5},
+      {"pk": 15, "weight": 3}
     ]
   },
   {
@@ -375,10 +375,10 @@
     "name": "Peanut Butter and Jelly Sandwich",
     "cook_time": 5,
     "instructions": "1) Spread peanut butter on one slice of bread. 2) Spread jelly on the other slice. 3) Combine slices.",
-    "ingredient_pks": [
-      133,
-      103,
-      27
+    "ingredients": [
+      {"pk": 133, "weight": 5},
+      {"pk": 103, "weight": 5},
+      {"pk": 27, "weight": 3}
     ]
   },
   {
@@ -386,15 +386,15 @@
     "name": "Chicken Fajitas",
     "cook_time": 40,
     "instructions": "1) Slice chicken and bell peppers. 2) Sauté with onions and fajita seasoning. 3) Serve with tortillas and toppings.",
-    "ingredient_pks": [
-      7,
-      43,
-      2,
-      65,
-      66,
-      67,
-      80,
-      88
+    "ingredients": [
+      {"pk": 7, "weight": 5},
+      {"pk": 43, "weight": 4},
+      {"pk": 2, "weight": 3},
+      {"pk": 88, "weight": 3},
+      {"pk": 65, "weight": 4},
+      {"pk": 67, "weight": 3},
+      {"pk": 80, "weight": 2},
+      {"pk": 99, "weight": 2}
     ]
   },
   {
@@ -402,17 +402,16 @@
     "name": "Vegetarian Chili",
     "cook_time": 75,
     "instructions": "1) Sauté vegetables. 2) Add beans, tomatoes, and chili spices. 3) Simmer for at least 45 minutes.",
-    "ingredient_pks": [
-      2,
-      43,
-      4,
-      1,
-      51,
-      53,
-      54,
-      65,
-      66,
-      12
+    "ingredients": [
+      {"pk": 53, "weight": 5},
+      {"pk": 54, "weight": 5},
+      {"pk": 1, "weight": 4},
+      {"pk": 43, "weight": 3},
+      {"pk": 2, "weight": 3},
+      {"pk": 4, "weight": 3},
+      {"pk": 65, "weight": 4},
+      {"pk": 66, "weight": 3},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -420,17 +419,17 @@
     "name": "Shepherd's Pie",
     "cook_time": 90,
     "instructions": "1) Brown ground beef with vegetables. 2) Top with mashed potatoes. 3) Bake until golden brown.",
-    "ingredient_pks": [
-      55,
-      4,
-      2,
-      49,
-      1,
-      5,
-      17,
-      15,
-      11,
-      12
+    "ingredients": [
+      {"pk": 55, "weight": 5},
+      {"pk": 5, "weight": 5},
+      {"pk": 17, "weight": 4},
+      {"pk": 15, "weight": 4},
+      {"pk": 4, "weight": 3},
+      {"pk": 2, "weight": 3},
+      {"pk": 49, "weight": 3},
+      {"pk": 1, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -438,18 +437,18 @@
     "name": "Chicken Pot Pie",
     "cook_time": 85,
     "instructions": "1) Cook chicken and vegetables in creamy sauce. 2) Top with pie crust. 3) Bake until crust is golden.",
-    "ingredient_pks": [
-      7,
-      4,
-      2,
-      49,
-      44,
-      17,
-      84,
-      27,
-      15,
-      11,
-      12
+    "ingredients": [
+      {"pk": 7, "weight": 5},
+      {"pk": 27, "weight": 5},
+      {"pk": 84, "weight": 4},
+      {"pk": 15, "weight": 4},
+      {"pk": 4, "weight": 3},
+      {"pk": 2, "weight": 3},
+      {"pk": 49, "weight": 3},
+      {"pk": 44, "weight": 3},
+      {"pk": 17, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -457,13 +456,13 @@
     "name": "Beef and Broccoli",
     "cook_time": 35,
     "instructions": "1) Stir-fry beef until browned. 2) Add broccoli and sauce. 3) Cook until broccoli is tender-crisp.",
-    "ingredient_pks": [
-      6,
-      41,
-      23,
-      68,
-      26,
-      80
+    "ingredients": [
+      {"pk": 6, "weight": 5},
+      {"pk": 41, "weight": 5},
+      {"pk": 68, "weight": 4},
+      {"pk": 23, "weight": 3},
+      {"pk": 26, "weight": 3},
+      {"pk": 80, "weight": 2}
     ]
   },
   {
@@ -471,14 +470,14 @@
     "name": "Sweet Potato Casserole",
     "cook_time": 60,
     "instructions": "1) Boil and mash sweet potatoes. 2) Mix with butter, brown sugar, and spices. 3) Top with pecan crumble. 4) Bake until heated through.",
-    "ingredient_pks": [
-      147,
-      15,
-      93,
-      29,
-      30,
-      128,
-      27
+    "ingredients": [
+      {"pk": 147, "weight": 5},
+      {"pk": 93, "weight": 4},
+      {"pk": 15, "weight": 4},
+      {"pk": 86, "weight": 3},
+      {"pk": 128, "weight": 3},
+      {"pk": 29, "weight": 3},
+      {"pk": 30, "weight": 2}
     ]
   },
   {
@@ -486,14 +485,14 @@
     "name": "Mac and Cheese",
     "cook_time": 40,
     "instructions": "1) Cook macaroni pasta. 2) Make cheese sauce with milk, butter, and cheddar cheese. 3) Combine pasta and sauce. 4) Bake until bubbly.",
-    "ingredient_pks": [
-      20,
-      17,
-      15,
-      40,
-      11,
-      12,
-      13
+    "ingredients": [
+      {"pk": 20, "weight": 5},
+      {"pk": 40, "weight": 5},
+      {"pk": 17, "weight": 4},
+      {"pk": 15, "weight": 4},
+      {"pk": 13, "weight": 3},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -501,17 +500,17 @@
     "name": "Lasagna",
     "cook_time": 120,
     "instructions": "1) Brown ground beef with onions and garlic. 2) Layer lasagna noodles with meat sauce, ricotta, and mozzarella. 3) Bake until bubbly and golden.",
-    "ingredient_pks": [
-      20,
-      55,
-      2,
-      3,
-      1,
-      39,
-      37,
-      18,
-      11,
-      12
+    "ingredients": [
+      {"pk": 20, "weight": 5},
+      {"pk": 55, "weight": 5},
+      {"pk": 1, "weight": 4},
+      {"pk": 39, "weight": 4},
+      {"pk": 37, "weight": 4},
+      {"pk": 2, "weight": 3},
+      {"pk": 3, "weight": 3},
+      {"pk": 18, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -519,15 +518,14 @@
     "name": "Chicken Enchiladas",
     "cook_time": 70,
     "instructions": "1) Cook chicken and shred. 2) Fill tortillas with chicken and cheese. 3) Cover with enchilada sauce and cheese. 4) Bake until bubbly.",
-    "ingredient_pks": [
-      7,
-      39,
-      40,
-      88,
-      65,
-      66,
-      2,
-      1
+    "ingredients": [
+      {"pk": 7, "weight": 5},
+      {"pk": 88, "weight": 5},
+      {"pk": 40, "weight": 4},
+      {"pk": 39, "weight": 4},
+      {"pk": 65, "weight": 4},
+      {"pk": 2, "weight": 3},
+      {"pk": 1, "weight": 3}
     ]
   },
   {
@@ -535,15 +533,14 @@
     "name": "Beef Tacos",
     "cook_time": 30,
     "instructions": "1) Brown ground beef with taco seasoning. 2) Serve in taco shells with toppings.",
-    "ingredient_pks": [
-      55,
-      65,
-      66,
-      67,
-      88,
-      1,
-      2,
-      43
+    "ingredients": [
+      {"pk": 55, "weight": 5},
+      {"pk": 88, "weight": 5},
+      {"pk": 65, "weight": 4},
+      {"pk": 1, "weight": 3},
+      {"pk": 2, "weight": 3},
+      {"pk": 43, "weight": 3},
+      {"pk": 67, "weight": 3}
     ]
   },
   {
@@ -551,14 +548,14 @@
     "name": "Fish and Chips",
     "cook_time": 30,
     "instructions": "1) Batter cod fillets. 2) Deep-fry fish and potatoes until golden brown and crispy.",
-    "ingredient_pks": [
-      61,
-      27,
-      88,
-      80,
-      5,
-      11,
-      12
+    "ingredients": [
+      {"pk": 61, "weight": 5},
+      {"pk": 5, "weight": 4},
+      {"pk": 27, "weight": 4},
+      {"pk": 88, "weight": 3},
+      {"pk": 80, "weight": 3},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -566,15 +563,15 @@
     "name": "Chicken and Waffles",
     "cook_time": 45,
     "instructions": "1) Prepare waffle batter. 2) Fry chicken until crispy. 3) Serve waffles with fried chicken and maple syrup.",
-    "ingredient_pks": [
-      7,
-      27,
-      89,
-      17,
-      16,
-      80,
-      92,
-      15
+    "ingredients": [
+      {"pk": 7, "weight": 5},
+      {"pk": 89, "weight": 5},
+      {"pk": 92, "weight": 5},
+      {"pk": 27, "weight": 4},
+      {"pk": 16, "weight": 3},
+      {"pk": 17, "weight": 3},
+      {"pk": 15, "weight": 3},
+      {"pk": 80, "weight": 2}
     ]
   },
   {
@@ -582,13 +579,13 @@
     "name": "Pancakes",
     "cook_time": 20,
     "instructions": "1) Mix pancake batter. 2) Cook pancakes on a griddle until golden brown.",
-    "ingredient_pks": [
-      27,
-      89,
-      17,
-      16,
-      15,
-      26
+    "ingredients": [
+      {"pk": 89, "weight": 5},
+      {"pk": 27, "weight": 4},
+      {"pk": 16, "weight": 3},
+      {"pk": 17, "weight": 3},
+      {"pk": 15, "weight": 3},
+      {"pk": 26, "weight": 2}
     ]
   },
   {
@@ -596,13 +593,13 @@
     "name": "Waffles",
     "cook_time": 25,
     "instructions": "1) Prepare waffle batter. 2) Cook waffles in a waffle iron until golden brown.",
-    "ingredient_pks": [
-      27,
-      89,
-      17,
-      16,
-      15,
-      26
+    "ingredients": [
+      {"pk": 89, "weight": 5},
+      {"pk": 27, "weight": 4},
+      {"pk": 16, "weight": 3},
+      {"pk": 17, "weight": 3},
+      {"pk": 15, "weight": 3},
+      {"pk": 26, "weight": 2}
     ]
   },
   {
@@ -610,13 +607,13 @@
     "name": "French Toast",
     "cook_time": 20,
     "instructions": "1) Dip bread slices in egg and milk mixture. 2) Fry until golden brown. 3) Serve with syrup or fruit.",
-    "ingredient_pks": [
-      27,
-      16,
-      17,
-      29,
-      26,
-      15
+    "ingredients": [
+      {"pk": 27, "weight": 5},
+      {"pk": 16, "weight": 4},
+      {"pk": 17, "weight": 4},
+      {"pk": 15, "weight": 3},
+      {"pk": 29, "weight": 3},
+      {"pk": 26, "weight": 2}
     ]
   },
   {
@@ -624,13 +621,13 @@
     "name": "Oatmeal",
     "cook_time": 10,
     "instructions": "1) Cook oats with milk or water. 2) Top with fruit, nuts, and honey.",
-    "ingredient_pks": [
-      86,
-      17,
-      31,
-      25,
-      29,
-      121
+    "ingredients": [
+      {"pk": 86, "weight": 5},
+      {"pk": 17, "weight": 4},
+      {"pk": 31, "weight": 3},
+      {"pk": 25, "weight": 3},
+      {"pk": 29, "weight": 2},
+      {"pk": 121, "weight": 2}
     ]
   },
   {
@@ -638,12 +635,12 @@
     "name": "Scrambled Eggs",
     "cook_time": 10,
     "instructions": "1) Whisk eggs with milk and seasonings. 2) Scramble in a pan until cooked.",
-    "ingredient_pks": [
-      16,
-      17,
-      11,
-      12,
-      15
+    "ingredients": [
+      {"pk": 16, "weight": 5},
+      {"pk": 17, "weight": 3},
+      {"pk": 15, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -651,15 +648,16 @@
     "name": "Omelette",
     "cook_time": 15,
     "instructions": "1) Whisk eggs with milk. 2) Cook in a pan and add fillings like cheese, vegetables, or meat.",
-    "ingredient_pks": [
-      16,
-      17,
-      18,
-      44,
-      2,
-      7,
-      11,
-      12
+    "ingredients": [
+      {"pk": 16, "weight": 5},
+      {"pk": 18, "weight": 4},
+      {"pk": 44, "weight": 3},
+      {"pk": 2, "weight": 3},
+      {"pk": 41, "weight": 3},
+      {"pk": 7, "weight": 3},
+      {"pk": 17, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -667,15 +665,15 @@
     "name": "Frittata",
     "cook_time": 30,
     "instructions": "1) Sauté vegetables and/or meat. 2) Pour in whisked eggs. 3) Bake or cook on stovetop until set.",
-    "ingredient_pks": [
-      16,
-      44,
-      41,
-      57,
-      18,
-      11,
-      12,
-      17
+    "ingredients": [
+      {"pk": 16, "weight": 5},
+      {"pk": 44, "weight": 4},
+      {"pk": 41, "weight": 3},
+      {"pk": 57, "weight": 3},
+      {"pk": 18, "weight": 3},
+      {"pk": 17, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -683,15 +681,15 @@
     "name": "Quiche",
     "cook_time": 60,
     "instructions": "1) Prepare pie crust. 2) Fill with egg mixture and fillings like cheese, spinach, and bacon. 3) Bake until set and golden.",
-    "ingredient_pks": [
-      27,
-      16,
-      18,
-      42,
-      58,
-      17,
-      11,
-      12
+    "ingredients": [
+      {"pk": 16, "weight": 5},
+      {"pk": 27, "weight": 5},
+      {"pk": 18, "weight": 4},
+      {"pk": 42, "weight": 3},
+      {"pk": 58, "weight": 3},
+      {"pk": 17, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -699,14 +697,14 @@
     "name": "Breakfast Burrito",
     "cook_time": 25,
     "instructions": "1) Scramble eggs with fillings. 2) Warm tortillas. 3) Fill tortillas with eggs and toppings.",
-    "ingredient_pks": [
-      16,
-      57,
-      2,
-      43,
-      1,
-      88,
-      40
+    "ingredients": [
+      {"pk": 16, "weight": 5},
+      {"pk": 88, "weight": 5},
+      {"pk": 57, "weight": 4},
+      {"pk": 40, "weight": 4},
+      {"pk": 2, "weight": 3},
+      {"pk": 43, "weight": 3},
+      {"pk": 1, "weight": 3}
     ]
   },
   {
@@ -714,12 +712,12 @@
     "name": "Breakfast Smoothie",
     "cook_time": 5,
     "instructions": "1) Blend fruits, yogurt, and milk until smooth.",
-    "ingredient_pks": [
-      102,
-      103,
-      82,
-      17,
-      25
+    "ingredients": [
+      {"pk": 102, "weight": 5},
+      {"pk": 103, "weight": 4},
+      {"pk": 82, "weight": 4},
+      {"pk": 17, "weight": 3},
+      {"pk": 25, "weight": 2}
     ]
   },
   {
@@ -727,14 +725,14 @@
     "name": "Fruit Salad",
     "cook_time": 10,
     "instructions": "1) Chop fruits. 2) Combine in a bowl. 3) Optionally drizzle with honey or lemon juice.",
-    "ingredient_pks": [
-      101,
-      102,
-      103,
-      106,
-      107,
-      24,
-      25
+    "ingredients": [
+      {"pk": 101, "weight": 4},
+      {"pk": 102, "weight": 4},
+      {"pk": 103, "weight": 4},
+      {"pk": 106, "weight": 3},
+      {"pk": 107, "weight": 3},
+      {"pk": 25, "weight": 2},
+      {"pk": 24, "weight": 2}
     ]
   },
   {
@@ -742,11 +740,11 @@
     "name": "Yogurt Parfait",
     "cook_time": 10,
     "instructions": "1) Layer yogurt with granola and fruit in a glass or bowl.",
-    "ingredient_pks": [
-      82,
-      86,
-      103,
-      25
+    "ingredients": [
+      {"pk": 82, "weight": 5},
+      {"pk": 86, "weight": 4},
+      {"pk": 103, "weight": 3},
+      {"pk": 25, "weight": 2}
     ]
   },
   {
@@ -754,11 +752,11 @@
     "name": "Avocado Toast",
     "cook_time": 5,
     "instructions": "1) Toast bread. 2) Mash avocado and spread on toast. 3) Season with salt and pepper, optional toppings.",
-    "ingredient_pks": [
-      109,
-      27,
-      11,
-      12
+    "ingredients": [
+      {"pk": 109, "weight": 5},
+      {"pk": 27, "weight": 5},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -766,15 +764,15 @@
     "name": "Chicken Curry",
     "cook_time": 60,
     "instructions": "1) Sauté onions and garlic. 2) Add chicken and curry powder. 3) Simmer in coconut milk until chicken is cooked.",
-    "ingredient_pks": [
-      7,
-      2,
-      3,
-      70,
-      81,
-      19,
-      11,
-      12
+    "ingredients": [
+      {"pk": 7, "weight": 5},
+      {"pk": 70, "weight": 5},
+      {"pk": 81, "weight": 5},
+      {"pk": 2, "weight": 3},
+      {"pk": 3, "weight": 3},
+      {"pk": 19, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -782,17 +780,17 @@
     "name": "Butter Chicken",
     "cook_time": 70,
     "instructions": "1) Marinate chicken in yogurt and spices. 2) Cook in tomato-based butter sauce. 3) Serve with rice or naan.",
-    "ingredient_pks": [
-      7,
-      82,
-      68,
-      69,
-      13,
-      70,
-      1,
-      15,
-      19,
-      85
+    "ingredients": [
+      {"pk": 7, "weight": 5},
+      {"pk": 69, "weight": 5},
+      {"pk": 1, "weight": 4},
+      {"pk": 15, "weight": 4},
+      {"pk": 82, "weight": 3},
+      {"pk": 68, "weight": 3},
+      {"pk": 70, "weight": 3},
+      {"pk": 19, "weight": 2},
+      {"pk": 13, "weight": 2},
+      {"pk": 85, "weight": 2}
     ]
   },
   {
@@ -800,16 +798,16 @@
     "name": "Tikka Masala",
     "cook_time": 65,
     "instructions": "1) Marinate chicken or paneer. 2) Cook in creamy tomato-based masala sauce. 3) Serve with rice or naan.",
-    "ingredient_pks": [
-      7,
-      18,
-      1,
-      84,
-      68,
-      69,
-      70,
-      19,
-      85
+    "ingredients": [
+      {"pk": 7, "weight": 5},
+      {"pk": 69, "weight": 5},
+      {"pk": 1, "weight": 4},
+      {"pk": 84, "weight": 4},
+      {"pk": 68, "weight": 3},
+      {"pk": 70, "weight": 3},
+      {"pk": 19, "weight": 2},
+      {"pk": 85, "weight": 2},
+      {"pk": 18, "weight": 2}
     ]
   },
   {
@@ -817,15 +815,15 @@
     "name": "Palak Paneer",
     "cook_time": 50,
     "instructions": "1) Sauté spinach and garlic. 2) Add paneer cheese and spices. 3) Simmer until flavors meld.",
-    "ingredient_pks": [
-      42,
-      3,
-      18,
-      68,
-      69,
-      70,
-      11,
-      12
+    "ingredients": [
+      {"pk": 42, "weight": 5},
+      {"pk": 18, "weight": 5},
+      {"pk": 69, "weight": 4},
+      {"pk": 70, "weight": 3},
+      {"pk": 3, "weight": 3},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2},
+      {"pk": 68, "weight": 2}
     ]
   },
   {
@@ -833,18 +831,18 @@
     "name": "Vegetable Biryani",
     "cook_time": 80,
     "instructions": "1) Layer rice with vegetables and spices. 2) Steam until rice is cooked and flavors are blended.",
-    "ingredient_pks": [
-      19,
-      2,
-      4,
-      41,
-      50,
-      68,
-      69,
-      70,
-      11,
-      12,
-      14
+    "ingredients": [
+      {"pk": 19, "weight": 5},
+      {"pk": 69, "weight": 4},
+      {"pk": 70, "weight": 3},
+      {"pk": 2, "weight": 3},
+      {"pk": 4, "weight": 3},
+      {"pk": 41, "weight": 3},
+      {"pk": 50, "weight": 3},
+      {"pk": 14, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2},
+      {"pk": 68, "weight": 2}
     ]
   },
   {
@@ -852,14 +850,14 @@
     "name": "Samosas",
     "cook_time": 60,
     "instructions": "1) Prepare dough for samosa crust. 2) Make potato and pea filling with spices. 3) Fry samosas until golden brown.",
-    "ingredient_pks": [
-      27,
-      5,
-      50,
-      68,
-      69,
-      70,
-      80
+    "ingredients": [
+      {"pk": 27, "weight": 5},
+      {"pk": 5, "weight": 5},
+      {"pk": 50, "weight": 4},
+      {"pk": 69, "weight": 4},
+      {"pk": 70, "weight": 3},
+      {"pk": 80, "weight": 3},
+      {"pk": 68, "weight": 2}
     ]
   },
   {
@@ -867,13 +865,13 @@
     "name": "Naan Bread",
     "cook_time": 30,
     "instructions": "1) Prepare naan dough with yogurt and yeast. 2) Cook naan on a hot skillet or tandoor until puffed and slightly charred.",
-    "ingredient_pks": [
-      27,
-      82,
-      28,
-      14,
-      11,
-      26
+    "ingredients": [
+      {"pk": 27, "weight": 5},
+      {"pk": 82, "weight": 4},
+      {"pk": 28, "weight": 4},
+      {"pk": 14, "weight": 3},
+      {"pk": 26, "weight": 2},
+      {"pk": 11, "weight": 2}
     ]
   },
   {
@@ -881,12 +879,12 @@
     "name": "Raita",
     "cook_time": 10,
     "instructions": "1) Mix yogurt with cucumber, mint, and spices. 2) Chill before serving.",
-    "ingredient_pks": [
-      82,
-      44,
-      74,
-      66,
-      11
+    "ingredients": [
+      {"pk": 82, "weight": 5},
+      {"pk": 44, "weight": 4},
+      {"pk": 74, "weight": 4},
+      {"pk": 66, "weight": 3},
+      {"pk": 11, "weight": 2}
     ]
   },
   {
@@ -894,17 +892,17 @@
     "name": "Chicken Pad Thai",
     "cook_time": 45,
     "instructions": "1) Soak rice noodles. 2) Stir-fry chicken, eggs, and vegetables. 3) Add Pad Thai sauce and peanuts. 4) Toss with noodles.",
-    "ingredient_pks": [
-      7,
-      16,
-      2,
-      4,
-      43,
-      19,
-      133,
-      23,
-      24,
-      26
+    "ingredients": [
+      {"pk": 7, "weight": 5},
+      {"pk": 98, "weight": 5},
+      {"pk": 93, "weight": 4},
+      {"pk": 23, "weight": 4},
+      {"pk": 16, "weight": 3},
+      {"pk": 2, "weight": 3},
+      {"pk": 4, "weight": 3},
+      {"pk": 43, "weight": 3},
+      {"pk": 24, "weight": 3},
+      {"pk": 26, "weight": 2}
     ]
   },
   {
@@ -912,14 +910,14 @@
     "name": "Vegetable Pad See Ew",
     "cook_time": 35,
     "instructions": "1) Soak wide rice noodles. 2) Stir-fry noodles with vegetables and soy sauce-based sauce.",
-    "ingredient_pks": [
-      20,
-      41,
-      43,
-      44,
-      23,
-      26,
-      80
+    "ingredients": [
+      {"pk": 20, "weight": 5},
+      {"pk": 23, "weight": 4},
+      {"pk": 26, "weight": 3},
+      {"pk": 41, "weight": 3},
+      {"pk": 43, "weight": 3},
+      {"pk": 44, "weight": 3},
+      {"pk": 80, "weight": 2}
     ]
   },
   {
@@ -927,15 +925,14 @@
     "name": "Spring Rolls",
     "cook_time": 40,
     "instructions": "1) Prepare spring roll wrappers. 2) Fill with vegetables and shrimp or tofu. 3) Fry until golden brown or serve fresh.",
-    "ingredient_pks": [
-      4,
-      41,
-      4,
-      10,
-      50,
-      42,
-      88,
-      23
+    "ingredients": [
+      {"pk": 88, "weight": 5},
+      {"pk": 10, "weight": 4},
+      {"pk": 4, "weight": 3},
+      {"pk": 41, "weight": 3},
+      {"pk": 42, "weight": 3},
+      {"pk": 50, "weight": 3},
+      {"pk": 23, "weight": 3}
     ]
   },
   {
@@ -943,15 +940,15 @@
     "name": "Tom Yum Soup",
     "cook_time": 30,
     "instructions": "1) Prepare Tom Yum broth with lemongrass, galangal, and lime leaves. 2) Add shrimp, mushrooms, and tomatoes. 3) Simmer until shrimp is cooked.",
-    "ingredient_pks": [
-      10,
-      44,
-      1,
-      24,
-      98,
-      23,
-      11,
-      12
+    "ingredients": [
+      {"pk": 10, "weight": 5},
+      {"pk": 98, "weight": 4},
+      {"pk": 1, "weight": 4},
+      {"pk": 44, "weight": 3},
+      {"pk": 24, "weight": 3},
+      {"pk": 23, "weight": 3},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -959,17 +956,17 @@
     "name": "Green Curry",
     "cook_time": 55,
     "instructions": "1) Sauté curry paste with coconut milk. 2) Add chicken or tofu and vegetables. 3) Simmer until vegetables are tender.",
-    "ingredient_pks": [
-      7,
-      18,
-      41,
-      43,
-      46,
-      81,
-      70,
-      11,
-      12,
-      23
+    "ingredients": [
+      {"pk": 70, "weight": 5},
+      {"pk": 81, "weight": 5},
+      {"pk": 7, "weight": 4},
+      {"pk": 46, "weight": 3},
+      {"pk": 41, "weight": 3},
+      {"pk": 43, "weight": 3},
+      {"pk": 18, "weight": 2},
+      {"pk": 23, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -977,18 +974,17 @@
     "name": "Red Curry",
     "cook_time": 55,
     "instructions": "1) Sauté curry paste with coconut milk. 2) Add beef or tofu and vegetables. 3) Simmer until vegetables are tender.",
-    "ingredient_pks": [
-      6,
-      18,
-      41,
-      43,
-      46,
-      81,
-      70,
-      71,
-      11,
-      12,
-      23
+    "ingredients": [
+      {"pk": 71, "weight": 5},
+      {"pk": 81, "weight": 5},
+      {"pk": 6, "weight": 4},
+      {"pk": 46, "weight": 3},
+      {"pk": 41, "weight": 3},
+      {"pk": 43, "weight": 3},
+      {"pk": 18, "weight": 2},
+      {"pk": 23, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -996,18 +992,16 @@
     "name": "Massaman Curry",
     "cook_time": 70,
     "instructions": "1) Sauté curry paste with coconut milk. 2) Add beef or tofu, potatoes, and peanuts. 3) Simmer until potatoes are tender.",
-    "ingredient_pks": [
-      6,
-      18,
-      5,
-      133,
-      81,
-      70,
-      71,
-      30,
-      11,
-      12,
-      23
+    "ingredients": [
+      {"pk": 81, "weight": 5},
+      {"pk": 5, "weight": 4},
+      {"pk": 6, "weight": 4},
+      {"pk": 133, "weight": 4},
+      {"pk": 30, "weight": 3},
+      {"pk": 2, "weight": 3},
+      {"pk": 71, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -1015,17 +1009,16 @@
     "name": "Yellow Curry",
     "cook_time": 55,
     "instructions": "1) Sauté curry paste with coconut milk. 2) Add chicken or tofu, potatoes, and carrots. 3) Simmer until vegetables are tender.",
-    "ingredient_pks": [
-      7,
-      18,
-      5,
-      4,
-      81,
-      70,
-      69,
-      11,
-      12,
-      23
+    "ingredients": [
+      {"pk": 69, "weight": 5},
+      {"pk": 81, "weight": 5},
+      {"pk": 7, "weight": 4},
+      {"pk": 5, "weight": 4},
+      {"pk": 4, "weight": 3},
+      {"pk": 2, "weight": 3},
+      {"pk": 23, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -1033,16 +1026,14 @@
     "name": "Panang Curry",
     "cook_time": 50,
     "instructions": "1) Sauté curry paste with coconut milk. 2) Add beef or tofu and bell peppers. 3) Simmer until peppers are tender.",
-    "ingredient_pks": [
-      6,
-      18,
-      43,
-      81,
-      70,
-      71,
-      11,
-      12,
-      23
+    "ingredients": [
+      {"pk": 71, "weight": 5},
+      {"pk": 81, "weight": 5},
+      {"pk": 6, "weight": 4},
+      {"pk": 43, "weight": 4},
+      {"pk": 23, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -1050,15 +1041,15 @@
     "name": "Sushi Rolls",
     "cook_time": 45,
     "instructions": "1) Cook sushi rice. 2) Prepare fillings like salmon, avocado, and cucumber. 3) Roll sushi using nori sheets.",
-    "ingredient_pks": [
-      19,
-      59,
-      109,
-      44,
-      23,
-      95,
-      26,
-      11
+    "ingredients": [
+      {"pk": 19, "weight": 5},
+      {"pk": 95, "weight": 5},
+      {"pk": 59, "weight": 4},
+      {"pk": 109, "weight": 4},
+      {"pk": 44, "weight": 3},
+      {"pk": 23, "weight": 3},
+      {"pk": 26, "weight": 2},
+      {"pk": 11, "weight": 2}
     ]
   },
   {
@@ -1066,14 +1057,14 @@
     "name": "Nigiri Sushi",
     "cook_time": 30,
     "instructions": "1) Prepare sushi rice. 2) Slice fish fillets (salmon, tuna). 3) Shape rice into oblong mounds and top with fish.",
-    "ingredient_pks": [
-      19,
-      59,
-      60,
-      23,
-      95,
-      26,
-      11
+    "ingredients": [
+      {"pk": 19, "weight": 5},
+      {"pk": 59, "weight": 5},
+      {"pk": 60, "weight": 5},
+      {"pk": 95, "weight": 4},
+      {"pk": 23, "weight": 3},
+      {"pk": 26, "weight": 2},
+      {"pk": 11, "weight": 2}
     ]
   },
   {
@@ -1081,12 +1072,12 @@
     "name": "Sashimi",
     "cook_time": 15,
     "instructions": "1) Slice fresh fish fillets (salmon, tuna). 2) Serve with soy sauce, wasabi, and ginger.",
-    "ingredient_pks": [
-      59,
-      60,
-      23,
-      68,
-      95
+    "ingredients": [
+      {"pk": 59, "weight": 5},
+      {"pk": 60, "weight": 5},
+      {"pk": 23, "weight": 4},
+      {"pk": 68, "weight": 3},
+      {"pk": 95, "weight": 3}
     ]
   },
   {
@@ -1094,11 +1085,11 @@
     "name": "Miso Soup",
     "cook_time": 20,
     "instructions": "1) Prepare dashi broth. 2) Dissolve miso paste in broth. 3) Add tofu and seaweed.",
-    "ingredient_pks": [
-      34,
-      23,
-      42,
-      61
+    "ingredients": [
+      {"pk": 34, "weight": 5},
+      {"pk": 23, "weight": 5},
+      {"pk": 42, "weight": 4},
+      {"pk": 61, "weight": 3}
     ]
   },
   {
@@ -1106,9 +1097,9 @@
     "name": "Edamame",
     "cook_time": 10,
     "instructions": "1) Boil edamame pods in salted water. 2) Serve warm with salt.",
-    "ingredient_pks": [
-      50,
-      11
+    "ingredients": [
+      {"pk": 50, "weight": 5},
+      {"pk": 11, "weight": 3}
     ]
   },
   {
@@ -1116,15 +1107,15 @@
     "name": "Gyoza (Potstickers)",
     "cook_time": 45,
     "instructions": "1) Prepare gyoza wrappers or use pre-made. 2) Fill with pork and vegetable mixture. 3) Pan-fry and steam gyoza.",
-    "ingredient_pks": [
-      8,
-      142,
-      139,
-      23,
-      79,
-      88,
-      11,
-      12
+    "ingredients": [
+      {"pk": 8, "weight": 5},
+      {"pk": 142, "weight": 4},
+      {"pk": 139, "weight": 3},
+      {"pk": 79, "weight": 3},
+      {"pk": 23, "weight": 3},
+      {"pk": 88, "weight": 2},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -1132,16 +1123,16 @@
     "name": "Ramen",
     "cook_time": 90,
     "instructions": "1) Prepare ramen broth (pork or chicken-based). 2) Cook ramen noodles. 3) Assemble ramen bowls with broth, noodles, protein, and toppings.",
-    "ingredient_pks": [
-      7,
-      8,
-      19,
-      16,
-      139,
-      42,
-      23,
-      11,
-      12
+    "ingredients": [
+      {"pk": 74, "weight": 5},
+      {"pk": 7, "weight": 4},
+      {"pk": 19, "weight": 3},
+      {"pk": 16, "weight": 3},
+      {"pk": 139, "weight": 3},
+      {"pk": 42, "weight": 3},
+      {"pk": 23, "weight": 3},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   },
   {
@@ -1149,15 +1140,15 @@
     "name": "Udon Noodle Soup",
     "cook_time": 40,
     "instructions": "1) Prepare udon broth (dashi or chicken-based). 2) Cook udon noodles. 3) Assemble udon bowls with broth, noodles, protein, and toppings.",
-    "ingredient_pks": [
-      19,
-      9,
-      34,
-      7,
-      23,
-      139,
-      11,
-      12
+    "ingredients": [
+      {"pk": 75, "weight": 5},
+      {"pk": 34, "weight": 4},
+      {"pk": 9, "weight": 4},
+      {"pk": 7, "weight": 3},
+      {"pk": 23, "weight": 3},
+      {"pk": 139, "weight": 3},
+      {"pk": 11, "weight": 2},
+      {"pk": 12, "weight": 2}
     ]
   }
 ]

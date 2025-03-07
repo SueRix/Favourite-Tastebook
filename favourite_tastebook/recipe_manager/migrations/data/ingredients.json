@@ -601,22 +601,22 @@
   },
   {
     "pk": 121,
-    "name": "Raisins",
+    "name": "Sultanas",
     "category": "Fruit"
   },
   {
     "pk": 122,
-    "name": "Cranberries",
+    "name": "Lingonberries",
     "category": "Fruit"
   },
   {
     "pk": 123,
-    "name": "Apricots",
+    "name": "Nectarines",
     "category": "Fruit"
   },
   {
     "pk": 124,
-    "name": "Prunes",
+    "name": "Blackberries",
     "category": "Fruit"
   },
   {

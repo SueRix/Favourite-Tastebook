@@ -11,9 +11,18 @@ class Ingredient(models.Model):
 class Recipe(models.Model):
     objects = models.Manager
     name = models.CharField(max_length=100, unique=True)
-    ingredients = models.ManyToManyField(Ingredient, related_name='recipes')
     instructions = models.TextField()
     cook_time = models.IntegerField(help_text = "Time in minutes", null=True, blank=True)
+
+class RecipeIngredient(models.Model):
+    objects = models.Manager
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
+    weight = models.IntegerField(default=1)
+
+    class Meta:
+        unique_together = ('recipe', 'ingredient')
+
 
 class Dish(models.Model):
     objects = models.Manager

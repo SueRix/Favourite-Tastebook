@@ -1,9 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count, Q
 from django.http import JsonResponse
+from django.db.models import Count, F, Q, Sum
 from django.views import View
 from django.views.generic import TemplateView
-from .models import Ingredient, Recipe
+from .models import Ingredient, Recipe, RecipeIngredient
 
 
 class IndexView(TemplateView):
@@ -21,12 +21,12 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
 class FilterRecipesView(View):
     def get(self, request):
-        ingredients = self._parse_ingredients(request)
+        selected_ingredients = self._parse_ingredients(request)
 
-        if not ingredients:
+        if not selected_ingredients:
             return JsonResponse({'error': 'No ingredients selected'})
 
-        recipes = self._get_filtered_recipes(ingredients)
+        recipes = self._get_filtered_recipes(selected_ingredients)
         return JsonResponse({'recipes': list(recipes)})
 
     @staticmethod
@@ -35,13 +35,34 @@ class FilterRecipesView(View):
         return list(filter(None, map(str.strip, ingredient_names.split(','))))
 
     @staticmethod
-    def _get_filtered_recipes(ingredients):
-        query = Recipe.objects.values('name', 'cook_time', 'instructions')
+    def _get_filtered_recipes(selected_ingredients):
+        queryset = Recipe.objects.all()
+        recipes_with_scores = []
 
-        if ingredients:
-            query = Recipe.objects.filter(ingredients__name__in=ingredients).distinct().values('name', 'cook_time',
-                                                                                               'instructions')
+        for recipe in queryset:
+            recipe_score = 0
+            recipe_ingredients = RecipeIngredient.objects.filter(recipe=recipe).select_related('ingredient')
 
+            for recipe_ingredient in recipe_ingredients:
+                if recipe_ingredient.ingredient.name in selected_ingredients:
+                    recipe_score += recipe_ingredient.weight
+
+            recipes_with_scores.append({'recipe': recipe, 'score': recipe_score})
+
+        recipes_with_scores.sort(key=lambda item: item['score'], reverse=True)
+
+        formatted_recipes = []
+        for item in recipes_with_scores:
+            recipe = item['recipe']
+            if item['score'] > 0:
+                formatted_recipes.append({
+                    'name': recipe.name,
+                    'cook_time': recipe.cook_time,
+                    'instructions': recipe.instructions,
+                    'ingredient_match_score': item['score'],
+                })
+
+        return formatted_recipes
 #TODO: create feature of alphabet filtering p1 - //completed!!!
 #TODO: read about pagination p2 - //completed!!!
 #TODO: create search of ingredients feature - //completed!!!
