@@ -77,7 +77,7 @@ class FavoriteIngredientView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         data = json.loads(request.body)
         ingredient_id = data.get('ingredient_id')
-        action = data.get('action')  # "add" или "remove"
+        action = data.get('action')
 
         try:
             ingredient = Ingredient.objects.get(id=ingredient_id)
@@ -92,6 +92,19 @@ class FavoriteIngredientView(LoginRequiredMixin, View):
             return JsonResponse({'status': 'error', 'message': 'Invalid action'}, status=400)
 
         return JsonResponse({'status': 'success'})
+
+class IngredientPaginationView(LoginRequiredMixin, TemplateView):
+    template_name = 'home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ingredients'] = Ingredient.objects.order_by('name')
+        context['categories'] = list(
+            Ingredient.objects.exclude(category__isnull=True)
+                              .values_list('category', flat=True)
+                              .distinct()
+        )
+        return context
 
 #TODO: create feature of alphabet filtering p1 - //completed!!!
 #TODO: read about pagination p2 - //completed!!!
