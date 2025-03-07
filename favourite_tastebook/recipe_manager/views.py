@@ -93,23 +93,10 @@ class FavoriteIngredientView(LoginRequiredMixin, View):
 
         return JsonResponse({'status': 'success'})
 
-class IngredientPaginationView(LoginRequiredMixin, TemplateView):
-    template_name = 'home.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['ingredients'] = Ingredient.objects.order_by('name')
-        context['categories'] = list(
-            Ingredient.objects.exclude(category__isnull=True)
-                              .values_list('category', flat=True)
-                              .distinct()
-        )
-        return context
-
 #TODO: create feature of alphabet filtering p1 - //completed!!!
 #TODO: read about pagination p2 - //completed!!!
 #TODO: create search of ingredients feature - //completed!!!
-#TODO: create filter of lists chosen ingredients p1
+#TODO: create filter of lists chosen ingredients p1 - //completed!!!
 #TODO: recreate 3 types of recommendations:
 # 1)full match with full ingredients, p1
 # 2)full match with main ingredients, p2
