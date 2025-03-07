@@ -93,15 +93,6 @@ class FavoriteIngredientView(LoginRequiredMixin, View):
 
         return JsonResponse({'status': 'success'})
 
-#TODO: create feature of alphabet filtering p1 - //completed!!!
-#TODO: read about pagination p2 - //completed!!!
-#TODO: create search of ingredients feature - //completed!!!
-#TODO: create filter of lists chosen ingredients p1 - //completed!!!
-#TODO: recreate 3 types of recommendations:
-# 1)full match with full ingredients, p1
-# 2)full match with main ingredients, p2
-# 3)partial match with main ingredients - with only 1 lack of main ingredients p3
-#TODO: create deletion of selected ingredients from main list  p3
-#TODO: create model of cuisines for filtering recipes p2
+
 
 # 05.03.2025 17:50 - 31.03.2025
