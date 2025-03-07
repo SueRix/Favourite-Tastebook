@@ -34,4 +34,3 @@ class UserIngredients(models.Model):
     objects = models.Manager
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     ingredients = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-    unit = models.CharField(max_length=100)

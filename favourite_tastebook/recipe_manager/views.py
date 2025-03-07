@@ -1,9 +1,10 @@
+import json
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from django.db.models import Count, F, Q, Sum
 from django.views import View
 from django.views.generic import TemplateView
-from .models import Ingredient, Recipe, RecipeIngredient
+from .models import Ingredient, Recipe, RecipeIngredient, UserIngredients
 
 
 class IndexView(TemplateView):
@@ -63,6 +64,31 @@ class FilterRecipesView(View):
                 })
 
         return formatted_recipes
+
+class FavoriteIngredientView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        favorite_ingredients = UserIngredients.objects.filter(user=request.user).select_related(
+            'ingredients')
+        favorite_ingredients_list = [{'name': fav.ingredients.name, 'id': fav.ingredients.id} for fav in
+                                     favorite_ingredients]
+        return JsonResponse({'favorite_ingredients': favorite_ingredients_list})
+
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+        ingredient_id = data.get('ingredient_id')
+        is_favorite = data.get('is_favorite')
+
+        ingredient = Ingredient.objects.get(id=ingredient_id)
+
+        if is_favorite:
+            UserIngredients.objects.get_or_create(user=request.user,
+                                                  ingredients=ingredient)
+        else:
+            UserIngredients.objects.filter(user=request.user,
+                                           ingredients=ingredient).delete()
+        return JsonResponse({'status': 'success'})
+
+
 #TODO: create feature of alphabet filtering p1 - //completed!!!
 #TODO: read about pagination p2 - //completed!!!
 #TODO: create search of ingredients feature - //completed!!!
