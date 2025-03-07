@@ -77,7 +77,7 @@ def reverse_migration(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('recipe_manager', '0002_remove_recipe_ingredients_recipeingredient'),
+        ('recipe_manager', '0002_remove_recipe_ingredients_and_more'),
     ]
 
     operations = [

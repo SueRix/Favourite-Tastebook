@@ -65,29 +65,33 @@ class FilterRecipesView(View):
 
         return formatted_recipes
 
+
 class FavoriteIngredientView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        favorite_ingredients = UserIngredients.objects.filter(user=request.user).select_related(
-            'ingredients')
-        favorite_ingredients_list = [{'name': fav.ingredients.name, 'id': fav.ingredients.id} for fav in
-                                     favorite_ingredients]
+        favorite_ingredients = UserIngredients.objects.filter(user=request.user).select_related('ingredients')
+        favorite_ingredients_list = [
+            {'name': fav.ingredients.name, 'id': fav.ingredients.id} for fav in favorite_ingredients
+        ]
         return JsonResponse({'favorite_ingredients': favorite_ingredients_list})
 
     def post(self, request, *args, **kwargs):
         data = json.loads(request.body)
         ingredient_id = data.get('ingredient_id')
-        is_favorite = data.get('is_favorite')
+        action = data.get('action')  # "add" или "remove"
 
-        ingredient = Ingredient.objects.get(id=ingredient_id)
+        try:
+            ingredient = Ingredient.objects.get(id=ingredient_id)
+        except Ingredient.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Ingredient not found'}, status=404)
 
-        if is_favorite:
-            UserIngredients.objects.get_or_create(user=request.user,
-                                                  ingredients=ingredient)
+        if action == 'add':
+            UserIngredients.objects.get_or_create(user=request.user, ingredients=ingredient)
+        elif action == 'remove':
+            UserIngredients.objects.filter(user=request.user, ingredients=ingredient).delete()
         else:
-            UserIngredients.objects.filter(user=request.user,
-                                           ingredients=ingredient).delete()
-        return JsonResponse({'status': 'success'})
+            return JsonResponse({'status': 'error', 'message': 'Invalid action'}, status=400)
 
+        return JsonResponse({'status': 'success'})
 
 #TODO: create feature of alphabet filtering p1 - //completed!!!
 #TODO: read about pagination p2 - //completed!!!
