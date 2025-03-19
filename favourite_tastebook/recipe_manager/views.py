@@ -66,7 +66,7 @@ class FilterRecipesView(View):
         return formatted_recipes
 
 
-class FavoriteIngredientView(LoginRequiredMixin, View):
+class FavoriteIngredientView(LoginRequiredMixin, View): #FIXME: match not working/create match with using default ingredients + some favourite
     def get(self, request, *args, **kwargs):
         favorite_ingredients = UserIngredients.objects.filter(user=request.user).select_related('ingredients')
         favorite_ingredients_list = [
@@ -94,5 +94,37 @@ class FavoriteIngredientView(LoginRequiredMixin, View):
         return JsonResponse({'status': 'success'})
 
 
+class SearchIngredientsView(View):
+    @staticmethod
+    def get(request):
+        query = request.GET.get('q', '').strip().lower()
+        mode = request.GET.get('mode', 'list')
+        category = request.GET.get('category')
+
+        if mode == 'categories':
+            if category:
+                ingredients = Ingredient.objects.filter(category=category, name__icontains=query).values('id', 'name', 'category')
+            else:
+                categories = Ingredient.objects.filter(category__icontains=query).values_list('category', flat=True).distinct()
+                return JsonResponse({'categories': list(categories)})
+        else:
+            ingredients = Ingredient.objects.filter(name__icontains=query).values('id', 'name', 'category')
+
+        return JsonResponse({'ingredients': list(ingredients)})
+
+
 
 # 05.03.2025 17:50 - 31.03.2025
+
+#TODO: create feature of alphabet filtering p1 - //completed!!!
+#TODO: read about pagination p2 - //completed!!!
+#TODO: create search of ingredients feature - //completed!!!
+#TODO: create filter of lists chosen ingredients p1 - //completed!!!
+#TODO: recreate 3 types of recommendations:
+# 1)full match with full ingredients, p1 //completed!!!
+# 2)full match with main ingredients, p2
+# 3)partial match with main ingredients - with only 1 lack of main ingredients p3
+#TODO: create deletion of selected ingredients from main list  p3
+#TODO: create model of cuisines for filtering recipes p2
+#TODO: recreate search from UI to BE
+
