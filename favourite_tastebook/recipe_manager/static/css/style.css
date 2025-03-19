@@ -77,16 +77,70 @@ body {
     grid-area: favorites-based;
 }
 
-.recipe-based-render-block {
-    grid-area: recipe-based;
-    overflow-y: auto;
-    max-height: calc(100vh - 12rem);
+.recipe-item {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    transition: transform 0.3s ease;
 }
 
-.recipe-item {
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ccc;
+.recipe-item:hover {
+    transform: translateY(-5px);
+}
+
+.recipe-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.recipe-title {
+    font-size: 1.5em;
+    color: #0A2342;
+    margin: 0;
+}
+
+.recipe-time {
+    font-size: 1em;
+    color: #FF5722;
+    font-weight: bold;
+}
+
+.recipe-instructions {
+    font-size: 1em;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.recipe-ingredients h5 {
+    font-size: 1.2em;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.recipe-ingredients ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.recipe-ingredients li {
+    background: #f8f9fa;
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.added-ingredients-block,
+.favorite-ingredients-block,
+.recipe-based-render-block {
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
 .block {
@@ -261,6 +315,7 @@ input:focus {
       "list-of-ingredients"
       "recipe-based";
         height: auto;
+        overflow-y: auto;
     }
 }
 

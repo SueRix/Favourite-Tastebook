@@ -33,34 +33,43 @@ function fetchRecipes() {
         .then(res => res.json())
         .then(data => {
             const recipesContainer = document.getElementById("recipes-result");
-
-            // Если пришли рецепты...
             if (data.recipes && Array.isArray(data.recipes)) {
-                recipesContainer.innerHTML = data.recipes.map(r => {
+                recipesContainer.innerHTML = data.recipes.map(r => `
+                    <li class="recipe-item">
+                        <div class="recipe-header">
+                            <h4 class="recipe-title">${r.name}</h4>
+                            <span class="recipe-time">⏱️ ${r.cook_time || "-"} min</span>
+                        </div>
+                        <div class="recipe-instructions">
+                            <h5>Instructions:</h5>
+                            <div class="steps-list">
+                                ${r.instructions
+                    .split(/(?=\d+\))/)
+                    .map(step => step.trim())
+                    .map(step => step ? `<div class="step">${step}</div>` : '')
+                    .join('')}
+                            </div>
+                        </div>
 
-                    const ingredientsHTML = r.ingredients.map(ingredientName => {
-                        const isSelected = selectedIngredients.includes(ingredientName);
-                        return `
-              <span class="ingredient ${isSelected ? 'selected-ingredient' : 'missing-ingredient'}">
-                ${ingredientName}
-              </span>`;
-                    }).join(' ');
-
-                    return `
-            <li class="recipe-item">
-              <strong>${r.name}</strong> (time: ${r.cook_time || "-"} min)
-              <p>${r.instructions || ""}</p>
-              <div class="recipe-ingredients">${ingredientsHTML}</div>
-            </li>`;
-                }).join('');
+                        <div class="recipe-ingredients">
+                            <h5>Ingredients:</h5>
+                            <div class="ingredients-grid">
+                                ${r.ingredients.map(ingredient => `
+                                    <span class="ingredient ${selectedIngredients.includes(ingredient) ? 'selected-ingredient' : 'missing-ingredient'}">
+                                        ${ingredient}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </li>
+                `).join('');
             } else {
-                recipesContainer.innerHTML = "<li>There are no suitable recipes.</li>";
+                recipesContainer.innerHTML = "<li class='no-dishes'>❌ No suitable recipes found.</li>";
             }
         })
         .catch(error => {
             console.error("Error fetching recipes:", error);
-            const recipesContainer = document.getElementById("recipes-result");
-            recipesContainer.innerHTML = "<li>Error loading recipes. Please try again later.</li>";
+            recipesContainer.innerHTML = "<li class='no-dishes'>❌ Error loading recipes. Please try again later.</li>";
         });
 }
 

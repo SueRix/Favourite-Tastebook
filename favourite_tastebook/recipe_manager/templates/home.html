@@ -84,9 +84,22 @@
                 <h3>Recipes Found:</h3>
                 <ul id="recipes-result">
                     {% for recipe in recipes %}
-                        <li>
-                            <strong>{{ recipe.name }}</strong> (time: {{ recipe.time }} min)
-                            <p>{{ recipe.description }}</p>
+                        <li class="recipe-item">
+                            <div class="recipe-header">
+                                <h4 class="recipe-title">{{ recipe.name }}</h4>
+                                <span class="recipe-time">⏱️ {{ recipe.time }} min</span>
+                            </div>
+                            <div class="recipe-instructions">
+                                <p>{{ recipe.description }}</p>
+                            </div>
+                            <div class="recipe-ingredients">
+                                <h5>Ingredients:</h5>
+                                <ul>
+                                    {% for ingredient in recipe.ingredients %}
+                                        <li>{{ ingredient }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </li>
                     {% empty %}
                         <li class="no-dishes">❌ No recipes found.</li>

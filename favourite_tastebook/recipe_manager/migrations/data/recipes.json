@@ -1,1154 +1,2670 @@
 [
   {
     "pk": 1,
-    "name": "Classic Margherita Pizza",
-    "cook_time": 30,
-    "instructions": "1) Prepare pizza dough. 2) Spread tomato sauce. 3) Add mozzarella and basil. 4) Bake until crust is golden.",
+    "name": "Classic Beef Stew",
+    "cook_time": 120,
+    "instructions": "1) Sear the beef until browned. 2) Add chopped onion, carrot, garlic, and potato. 3) Cover with water and simmer until the meat is tender. 4) Season with thyme and black pepper.",
     "ingredients": [
-      {"pk": 27, "weight": 5},
-      {"pk": 28, "weight": 5},
-      {"pk": 1, "weight": 4},
-      {"pk": 39, "weight": 5},
-      {"pk": 21, "weight": 3},
-      {"pk": 14, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 26, "weight": 1}
+      {
+        "pk": 401,
+        "weight": 5
+      },
+      {
+        "pk": 2,
+        "weight": 4
+      },
+      {
+        "pk": 5,
+        "weight": 4
+      },
+      {
+        "pk": 3,
+        "weight": 3
+      },
+      {
+        "pk": 4,
+        "weight": 4
+      },
+      {
+        "pk": 43,
+        "weight": 3
+      },
+      {
+        "pk": 67,
+        "weight": 4
+      }
     ]
   },
   {
     "pk": 2,
-    "name": "Creamy Tomato Pasta",
-    "cook_time": 25,
-    "instructions": "1) Cook pasta. 2) Sauté garlic and tomatoes. 3) Add cream and parmesan. 4) Toss with pasta.",
+    "name": "Grilled Chicken Breast with Rosemary",
+    "cook_time": 30,
+    "instructions": "1) Marinate the chicken breast with garlic, rosemary, and black pepper. 2) Grill until cooked through. 3) Let rest before serving.",
     "ingredients": [
-      {"pk": 20, "weight": 5},
-      {"pk": 1, "weight": 4},
-      {"pk": 84, "weight": 5},
-      {"pk": 38, "weight": 4},
-      {"pk": 3, "weight": 3},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 424,
+        "weight": 5
+      },
+      {
+        "pk": 3,
+        "weight": 4
+      },
+      {
+        "pk": 44,
+        "weight": 5
+      },
+      {
+        "pk": 2,
+        "weight": 2
+      },
+      {
+        "pk": 67,
+        "weight": 4
+      }
     ]
   },
   {
     "pk": 3,
-    "name": "Garlic Herb Roasted Chicken",
-    "cook_time": 60,
-    "instructions": "1) Season chicken with herbs and garlic. 2) Roast in oven until cooked through.",
+    "name": "Herb-Crusted Pork Chop",
+    "cook_time": 45,
+    "instructions": "1) Season the pork chop with garlic, onion, and thyme. 2) Sear on high heat and finish cooking in the oven. 3) Serve with a vegetable side.",
     "ingredients": [
-      {"pk": 7, "weight": 5},
-      {"pk": 3, "weight": 4},
-      {"pk": 21, "weight": 3},
-      {"pk": 73, "weight": 3},
-      {"pk": 14, "weight": 3},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 423,
+        "weight": 5
+      },
+      {
+        "pk": 3,
+        "weight": 4
+      },
+      {
+        "pk": 2,
+        "weight": 4
+      },
+      {
+        "pk": 43,
+        "weight": 3
+      },
+      {
+        "pk": 5,
+        "weight": 2
+      }
     ]
   },
   {
     "pk": 4,
-    "name": "Simple Beef Stir-Fry",
-    "cook_time": 35,
-    "instructions": "1) Stir-fry beef with vegetables. 2) Add soy sauce and ginger. 3) Serve over rice.",
+    "name": "Grilled Lamb Chops with Mint",
+    "cook_time": 40,
+    "instructions": "1) Rub the lamb chops with garlic, rosemary, and mint. 2) Grill to your desired doneness. 3) Garnish with fresh mint before serving.",
     "ingredients": [
-      {"pk": 6, "weight": 5},
-      {"pk": 41, "weight": 4},
-      {"pk": 43, "weight": 3},
-      {"pk": 2, "weight": 3},
-      {"pk": 23, "weight": 3},
-      {"pk": 68, "weight": 4},
-      {"pk": 80, "weight": 2},
-      {"pk": 19, "weight": 2}
+      {
+        "pk": 430,
+        "weight": 5
+      },
+      {
+        "pk": 3,
+        "weight": 3
+      },
+      {
+        "pk": 44,
+        "weight": 4
+      },
+      {
+        "pk": 47,
+        "weight": 3
+      },
+      {
+        "pk": 2,
+        "weight": 2
+      }
     ]
   },
   {
     "pk": 5,
-    "name": "Salmon with Lemon and Dill",
-    "cook_time": 20,
-    "instructions": "1) Season salmon with salt, pepper, and dill. 2) Bake or pan-fry. 3) Squeeze lemon juice before serving.",
+    "name": "Seared Duck Breast with Herb Sauce",
+    "cook_time": 35,
+    "instructions": "1) Score the skin of the duck breast and season with garlic and pepper. 2) Sear until the skin is crispy and the meat is medium-rare. 3) Serve with a sauce made from basil and parsley.",
     "ingredients": [
-      {"pk": 59, "weight": 5},
-      {"pk": 24, "weight": 4},
-      {"pk": 76, "weight": 4},
-      {"pk": 14, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 428,
+        "weight": 5
+      },
+      {
+        "pk": 42,
+        "weight": 3
+      },
+      {
+        "pk": 41,
+        "weight": 3
+      },
+      {
+        "pk": 3,
+        "weight": 3
+      },
+      {
+        "pk": 2,
+        "weight": 2
+      }
     ]
   },
   {
     "pk": 6,
-    "name": "Spicy Shrimp Tacos",
-    "cook_time": 25,
-    "instructions": "1) Marinate shrimp in chili powder and lime juice. 2) Grill or pan-fry shrimp. 3) Serve in tacos with toppings.",
+    "name": "Roast Turkey Thigh",
+    "cook_time": 90,
+    "instructions": "1) Season the turkey thigh with garlic, onion, and thyme. 2) Roast in the oven until the meat is tender and the skin is crispy. 3) Slice and serve warm.",
     "ingredients": [
-      {"pk": 10, "weight": 5},
-      {"pk": 65, "weight": 4},
-      {"pk": 99, "weight": 4},
-      {"pk": 88, "weight": 3},
-      {"pk": 2, "weight": 3},
-      {"pk": 1, "weight": 3},
-      {"pk": 14, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 427,
+        "weight": 5
+      },
+      {
+        "pk": 3,
+        "weight": 4
+      },
+      {
+        "pk": 2,
+        "weight": 4
+      },
+      {
+        "pk": 43,
+        "weight": 3
+      },
+      {
+        "pk": 67,
+        "weight": 4
+      },
+      {
+        "pk": 5,
+        "weight": 2
+      }
     ]
   },
   {
     "pk": 7,
-    "name": "Lentil Soup",
-    "cook_time": 50,
-    "instructions": "1) Sauté vegetables. 2) Add lentils and broth. 3) Simmer until lentils are tender.",
+    "name": "Slow-Cooked Pork Belly",
+    "cook_time": 150,
+    "instructions": "1) Sear the pork belly until golden. 2) Add onion, garlic, ginger, chili powder, and carrot. 3) Simmer on low heat until the pork is tender and flavorful.",
     "ingredients": [
-      {"pk": 51, "weight": 5},
-      {"pk": 2, "weight": 3},
-      {"pk": 4, "weight": 3},
-      {"pk": 3, "weight": 3},
-      {"pk": 34, "weight": 4},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2},
-      {"pk": 42, "weight": 2}
+      {
+        "pk": 437,
+        "weight": 5
+      },
+      {
+        "pk": 2,
+        "weight": 4
+      },
+      {
+        "pk": 3,
+        "weight": 4
+      },
+      {
+        "pk": 60,
+        "weight": 3
+      },
+      {
+        "pk": 69,
+        "weight": 3
+      },
+      {
+        "pk": 5,
+        "weight": 2
+      }
     ]
   },
   {
     "pk": 8,
-    "name": "Chicken and Rice Casserole",
-    "cook_time": 70,
-    "instructions": "1) Combine cooked chicken, rice, and vegetables. 2) Mix with cream of mushroom soup. 3) Bake until bubbly.",
+    "name": "Spicy Ground Beef Tacos",
+    "cook_time": 25,
+    "instructions": "1) Cook the ground beef with chopped onion, garlic, chili powder, and smoked paprika until browned. 2) Fill taco shells with the beef mixture. 3) Top with diced tomato and shredded lettuce.",
     "ingredients": [
-      {"pk": 7, "weight": 5},
-      {"pk": 19, "weight": 4},
-      {"pk": 44, "weight": 3},
-      {"pk": 81, "weight": 5},
-      {"pk": 2, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 418,
+        "weight": 5
+      },
+      {
+        "pk": 2,
+        "weight": 4
+      },
+      {
+        "pk": 3,
+        "weight": 3
+      },
+      {
+        "pk": 69,
+        "weight": 4
+      },
+      {
+        "pk": 71,
+        "weight": 3
+      },
+      {
+        "pk": 1,
+        "weight": 4
+      },
+      {
+        "pk": 8,
+        "weight": 2
+      }
     ]
   },
   {
     "pk": 9,
-    "name": "Apple Crumble",
-    "cook_time": 45,
-    "instructions": "1) Prepare apple filling with cinnamon and sugar. 2) Make crumble topping with oats, flour, and butter. 3) Bake until golden brown.",
+    "name": "Chicken Thighs in Garlic Sauce",
+    "cook_time": 40,
+    "instructions": "1) Season the chicken thighs with garlic, onion, and black pepper. 2) Saut\u00e9 until the chicken is cooked through and the sauce is aromatic. 3) Garnish with parsley and serve hot.",
     "ingredients": [
-      {"pk": 101, "weight": 5},
-      {"pk": 29, "weight": 4},
-      {"pk": 26, "weight": 4},
-      {"pk": 86, "weight": 4},
-      {"pk": 27, "weight": 3},
-      {"pk": 15, "weight": 3},
-      {"pk": 93, "weight": 2}
+      {
+        "pk": 425,
+        "weight": 5
+      },
+      {
+        "pk": 3,
+        "weight": 4
+      },
+      {
+        "pk": 2,
+        "weight": 3
+      },
+      {
+        "pk": 67,
+        "weight": 4
+      },
+      {
+        "pk": 41,
+        "weight": 2
+      }
     ]
   },
   {
     "pk": 10,
-    "name": "Chocolate Chip Cookies",
+    "name": "Beef Steak with Garlic-Infused Oil",
     "cook_time": 20,
-    "instructions": "1) Cream butter and sugar. 2) Add eggs and vanilla. 3) Mix in flour and chocolate chips. 4) Bake until edges are golden.",
+    "instructions": "1) Sear the beef steak to your desired doneness. 2) Prepare a garlic-infused sauce by gently heating garlic with rice oil. 3) Drizzle the sauce over the steak and serve immediately.",
     "ingredients": [
-      {"pk": 91, "weight": 5},
-      {"pk": 27, "weight": 4},
-      {"pk": 15, "weight": 4},
-      {"pk": 26, "weight": 4},
-      {"pk": 93, "weight": 3},
-      {"pk": 16, "weight": 3},
-      {"pk": 90, "weight": 2}
+      {
+        "pk": 422,
+        "weight": 5
+      },
+      {
+        "pk": 3,
+        "weight": 4
+      },
+      {
+        "pk": 2,
+        "weight": 2
+      },
+      {
+        "pk": 67,
+        "weight": 4
+      },
+      {
+        "pk": 244,
+        "weight": 3
+      }
     ]
   },
   {
     "pk": 11,
-    "name": "Mushroom Risotto",
-    "cook_time": 55,
-    "instructions": "1) Sauté onions and mushrooms in butter. 2) Add rice and toast lightly. 3) Gradually add warm broth, stirring constantly. 4) Finish with parmesan and herbs.",
+    "name": "Classic Garden Salad",
+    "cook_time": 10,
+    "instructions": "1) Wash and chop lettuce, tomato, cucumber, red onion, and carrot. 2) Toss all ingredients with rice oil and rice vinegar. 3) Season with salt and pepper.",
     "ingredients": [
-      {"pk": 44, "weight": 5},
-      {"pk": 19, "weight": 5},
-      {"pk": 34, "weight": 4},
-      {"pk": 38, "weight": 4},
-      {"pk": 2, "weight": 3},
-      {"pk": 15, "weight": 3},
-      {"pk": 75, "weight": 2},
-      {"pk": 73, "weight": 2},
-      {"pk": 36, "weight": 2}
+      {
+        "pk": 8,
+        "weight": 5
+      },
+      {
+        "pk": 1,
+        "weight": 4
+      },
+      {
+        "pk": 7,
+        "weight": 4
+      },
+      {
+        "pk": 488,
+        "weight": 3
+      },
+      {
+        "pk": 5,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 12,
-    "name": "Beef and Bean Chili",
-    "cook_time": 90,
-    "instructions": "1) Brown ground beef with onions and peppers. 2) Add beans, tomatoes, and chili spices. 3) Simmer for at least 1 hour.",
+    "name": "Spinach Avocado Salad",
+    "cook_time": 10,
+    "instructions": "1) Rinse spinach and slice avocado, cherry tomato, and red onion. 2) Combine all in a bowl and drizzle with rice oil and rice vinegar.",
     "ingredients": [
-      {"pk": 55, "weight": 5},
-      {"pk": 53, "weight": 5},
-      {"pk": 54, "weight": 5},
-      {"pk": 1, "weight": 4},
-      {"pk": 65, "weight": 4},
-      {"pk": 66, "weight": 3},
-      {"pk": 43, "weight": 3},
-      {"pk": 2, "weight": 3},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 9,
+        "weight": 5
+      },
+      {
+        "pk": 554,
+        "weight": 4
+      },
+      {
+        "pk": 561,
+        "weight": 4
+      },
+      {
+        "pk": 488,
+        "weight": 2
+      },
+      {
+        "pk": 42,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 13,
-    "name": "Chicken Noodle Soup",
-    "cook_time": 60,
-    "instructions": "1) Sauté vegetables. 2) Add chicken broth and chicken. 3) Simmer until chicken is cooked. 4) Add noodles and cook until tender.",
+    "name": "Mediterranean Salad",
+    "cook_time": 15,
+    "instructions": "1) Chop lettuce, tomato, cucumber, red bell pepper, and red onion. 2) Add parsley and oregano. 3) Toss with rice oil and rice vinegar.",
     "ingredients": [
-      {"pk": 7, "weight": 5},
-      {"pk": 20, "weight": 5},
-      {"pk": 33, "weight": 4},
-      {"pk": 4, "weight": 3},
-      {"pk": 2, "weight": 3},
-      {"pk": 41, "weight": 3},
-      {"pk": 75, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 8,
+        "weight": 5
+      },
+      {
+        "pk": 1,
+        "weight": 4
+      },
+      {
+        "pk": 7,
+        "weight": 4
+      },
+      {
+        "pk": 482,
+        "weight": 3
+      },
+      {
+        "pk": 488,
+        "weight": 2
+      },
+      {
+        "pk": 41,
+        "weight": 2
+      },
+      {
+        "pk": 45,
+        "weight": 1
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 14,
-    "name": "Baked Potato with Sour Cream and Chives",
-    "cook_time": 75,
-    "instructions": "1) Bake potatoes until soft. 2) Top with sour cream, chives, and bacon bits.",
+    "name": "Crunchy Coleslaw",
+    "cook_time": 20,
+    "instructions": "1) Shred cabbage, carrot, radish, and onion. 2) Toss with rice oil, rice vinegar, and a pinch of mustard seeds.",
     "ingredients": [
-      {"pk": 5, "weight": 5},
-      {"pk": 83, "weight": 5},
-      {"pk": 77, "weight": 4},
-      {"pk": 58, "weight": 3},
-      {"pk": 15, "weight": 3},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 20,
+        "weight": 5
+      },
+      {
+        "pk": 5,
+        "weight": 4
+      },
+      {
+        "pk": 24,
+        "weight": 3
+      },
+      {
+        "pk": 2,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      },
+      {
+        "pk": 61,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 15,
-    "name": "French Onion Soup",
-    "cook_time": 80,
-    "instructions": "1) Caramelize onions in butter for a long time. 2) Add beef broth and thyme. 3) Simmer. 4) Serve with toasted bread and Gruyère cheese.",
+    "name": "Kale and Quinoa Salad",
+    "cook_time": 15,
+    "instructions": "1) Massage kale leaves and combine with cooked quinoa, diced cucumber, red bell pepper, and chopped parsley. 2) Drizzle with rice oil and rice vinegar and toss well.",
     "ingredients": [
-      {"pk": 2, "weight": 5},
-      {"pk": 34, "weight": 5},
-      {"pk": 18, "weight": 5},
-      {"pk": 15, "weight": 4},
-      {"pk": 73, "weight": 3},
-      {"pk": 35, "weight": 3},
-      {"pk": 27, "weight": 3},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 21,
+        "weight": 5
+      },
+      {
+        "pk": 89,
+        "weight": 4
+      },
+      {
+        "pk": 7,
+        "weight": 3
+      },
+      {
+        "pk": 482,
+        "weight": 3
+      },
+      {
+        "pk": 41,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 16,
-    "name": "Caprese Salad",
+    "name": "Beet and Arugula Salad",
     "cook_time": 10,
-    "instructions": "1) Slice tomatoes and mozzarella. 2) Arrange on a plate with basil leaves. 3) Drizzle with olive oil and balsamic glaze.",
+    "instructions": "1) Roast or boil beetroot until tender and let it cool. 2) Combine with fresh arugula and shredded carrot. 3) Toss with rice oil and rice vinegar.",
     "ingredients": [
-      {"pk": 1, "weight": 5},
-      {"pk": 39, "weight": 5},
-      {"pk": 21, "weight": 4},
-      {"pk": 14, "weight": 3},
-      {"pk": 95, "weight": 3},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 25,
+        "weight": 5
+      },
+      {
+        "pk": 38,
+        "weight": 4
+      },
+      {
+        "pk": 5,
+        "weight": 3
+      },
+      {
+        "pk": 41,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 17,
-    "name": "Guacamole",
-    "cook_time": 15,
-    "instructions": "1) Mash avocados. 2) Mix with onions, tomatoes, lime juice, and cilantro. 3) Season with salt and pepper.",
+    "name": "Roasted Vegetable Salad",
+    "cook_time": 25,
+    "instructions": "1) Roast eggplant, zucchini, and bell pepper until tender. 2) Combine with thinly sliced red onion and torn basil leaves. 3) Drizzle with rice oil and rice vinegar.",
     "ingredients": [
-      {"pk": 109, "weight": 5},
-      {"pk": 99, "weight": 4},
-      {"pk": 67, "weight": 4},
-      {"pk": 1, "weight": 3},
-      {"pk": 2, "weight": 3},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 11,
+        "weight": 5
+      },
+      {
+        "pk": 10,
+        "weight": 4
+      },
+      {
+        "pk": 6,
+        "weight": 3
+      },
+      {
+        "pk": 488,
+        "weight": 2
+      },
+      {
+        "pk": 42,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 18,
-    "name": "Greek Salad",
-    "cook_time": 20,
-    "instructions": "1) Chop vegetables. 2) Combine with feta cheese and olives. 3) Dress with olive oil and oregano.",
+    "name": "Cucumber Tomato Salad",
+    "cook_time": 10,
+    "instructions": "1) Dice tomato, cucumber, and red onion. 2) Mix with chopped basil and dress with rice oil and rice vinegar.",
     "ingredients": [
-      {"pk": 1, "weight": 4},
-      {"pk": 43, "weight": 4},
-      {"pk": 2, "weight": 3},
-      {"pk": 18, "weight": 5},
-      {"pk": 22, "weight": 4},
-      {"pk": 14, "weight": 3},
-      {"pk": 95, "weight": 3}
+      {
+        "pk": 1,
+        "weight": 5
+      },
+      {
+        "pk": 7,
+        "weight": 5
+      },
+      {
+        "pk": 488,
+        "weight": 3
+      },
+      {
+        "pk": 42,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 19,
-    "name": "Caesar Salad",
-    "cook_time": 15,
-    "instructions": "1) Make Caesar dressing. 2) Toss romaine lettuce with dressing and croutons. 3) Top with parmesan cheese.",
+    "name": "Avocado Tomato Salad",
+    "cook_time": 10,
+    "instructions": "1) Slice avocado and tomato, and add thinly sliced lettuce and red onion. 2) Gently toss with rice oil and rice vinegar.",
     "ingredients": [
-      {"pk": 42, "weight": 5},
-      {"pk": 38, "weight": 4},
-      {"pk": 97, "weight": 4},
-      {"pk": 96, "weight": 4},
-      {"pk": 24, "weight": 3},
-      {"pk": 16, "weight": 3},
-      {"pk": 3, "weight": 2},
-      {"pk": 14, "weight": 2},
-      {"pk": 12, "weight": 2},
-      {"pk": 11, "weight": 2}
+      {
+        "pk": 554,
+        "weight": 5
+      },
+      {
+        "pk": 1,
+        "weight": 4
+      },
+      {
+        "pk": 488,
+        "weight": 3
+      },
+      {
+        "pk": 8,
+        "weight": 4
+      },
+      {
+        "pk": 41,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 20,
-    "name": "Chicken Caesar Salad",
-    "cook_time": 30,
-    "instructions": "1) Grill or bake chicken breast. 2) Prepare Caesar salad as above. 3) Slice chicken and add to salad.",
+    "name": "Carrot Ginger Salad",
+    "cook_time": 10,
+    "instructions": "1) Shred carrot and cucumber. 2) Grate fresh ginger and mix with spinach. 3) Drizzle with rice oil and rice vinegar.",
     "ingredients": [
-      {"pk": 7, "weight": 5},
-      {"pk": 42, "weight": 4},
-      {"pk": 38, "weight": 4},
-      {"pk": 97, "weight": 3},
-      {"pk": 96, "weight": 3},
-      {"pk": 24, "weight": 3},
-      {"pk": 16, "weight": 2},
-      {"pk": 3, "weight": 2},
-      {"pk": 14, "weight": 2},
-      {"pk": 12, "weight": 2},
-      {"pk": 11, "weight": 2}
+      {
+        "pk": 5,
+        "weight": 5
+      },
+      {
+        "pk": 60,
+        "weight": 3
+      },
+      {
+        "pk": 7,
+        "weight": 4
+      },
+      {
+        "pk": 9,
+        "weight": 3
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 21,
-    "name": "Tuna Salad Sandwich",
+    "name": "Broccoli Salad",
     "cook_time": 15,
-    "instructions": "1) Mix tuna with mayonnaise, celery, and onion. 2) Season with salt and pepper. 3) Serve on bread.",
+    "instructions": "1) Chop raw broccoli into small florets. 2) Add shredded carrot, diced celery, and red onion. 3) Toss with rice oil and rice vinegar.",
     "ingredients": [
-      {"pk": 60, "weight": 5},
-      {"pk": 83, "weight": 4},
-      {"pk": 4, "weight": 3},
-      {"pk": 2, "weight": 3},
-      {"pk": 27, "weight": 3},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 12,
+        "weight": 5
+      },
+      {
+        "pk": 5,
+        "weight": 3
+      },
+      {
+        "pk": 22,
+        "weight": 3
+      },
+      {
+        "pk": 488,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 22,
-    "name": "Egg Salad Sandwich",
+    "name": "Spinach Cucumber Salad",
     "cook_time": 10,
-    "instructions": "1) Boil and chop eggs. 2) Mix with mayonnaise, mustard, and celery. 3) Season with salt and pepper. 4) Serve on bread.",
+    "instructions": "1) Combine fresh spinach with sliced cucumber and red onion. 2) Add chopped mint. 3) Drizzle with rice oil and rice vinegar.",
     "ingredients": [
-      {"pk": 16, "weight": 5},
-      {"pk": 83, "weight": 4},
-      {"pk": 96, "weight": 3},
-      {"pk": 4, "weight": 3},
-      {"pk": 27, "weight": 3},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 9,
+        "weight": 5
+      },
+      {
+        "pk": 7,
+        "weight": 4
+      },
+      {
+        "pk": 488,
+        "weight": 2
+      },
+      {
+        "pk": 47,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 23,
-    "name": "BLT Sandwich",
+    "name": "Mixed Greens Salad",
     "cook_time": 10,
-    "instructions": "1) Cook bacon until crispy. 2) Assemble sandwich with bacon, lettuce, tomato, and mayonnaise.",
+    "instructions": "1) Toss together mixed greens including lettuce, spinach, arugula, and microgreens. 2) Lightly dress with rice oil and rice vinegar.",
     "ingredients": [
-      {"pk": 58, "weight": 5},
-      {"pk": 42, "weight": 4},
-      {"pk": 1, "weight": 4},
-      {"pk": 27, "weight": 3},
-      {"pk": 83, "weight": 3}
+      {
+        "pk": 8,
+        "weight": 4
+      },
+      {
+        "pk": 9,
+        "weight": 4
+      },
+      {
+        "pk": 38,
+        "weight": 3
+      },
+      {
+        "pk": 568,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 24,
-    "name": "Grilled Cheese Sandwich",
-    "cook_time": 8,
-    "instructions": "1) Butter bread slices. 2) Place cheese between slices. 3) Grill until golden brown and cheese is melted.",
+    "name": "Zucchini Ribbon Salad",
+    "cook_time": 10,
+    "instructions": "1) Use a peeler to create thin zucchini ribbons. 2) Add diced tomato, torn basil leaves, and thinly sliced red onion. 3) Toss with rice oil and rice vinegar.",
     "ingredients": [
-      {"pk": 40, "weight": 5},
-      {"pk": 27, "weight": 5},
-      {"pk": 15, "weight": 3}
+      {
+        "pk": 10,
+        "weight": 5
+      },
+      {
+        "pk": 1,
+        "weight": 4
+      },
+      {
+        "pk": 42,
+        "weight": 3
+      },
+      {
+        "pk": 488,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 25,
-    "name": "Peanut Butter and Jelly Sandwich",
-    "cook_time": 5,
-    "instructions": "1) Spread peanut butter on one slice of bread. 2) Spread jelly on the other slice. 3) Combine slices.",
+    "name": "Cabbage Beet Salad",
+    "cook_time": 15,
+    "instructions": "1) Shred cabbage and beetroot, and julienne carrot. 2) Mix with chopped parsley. 3) Drizzle with rice oil and rice vinegar and toss well.",
     "ingredients": [
-      {"pk": 133, "weight": 5},
-      {"pk": 103, "weight": 5},
-      {"pk": 27, "weight": 3}
+      {
+        "pk": 20,
+        "weight": 5
+      },
+      {
+        "pk": 25,
+        "weight": 4
+      },
+      {
+        "pk": 5,
+        "weight": 3
+      },
+      {
+        "pk": 41,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 26,
-    "name": "Chicken Fajitas",
-    "cook_time": 40,
-    "instructions": "1) Slice chicken and bell peppers. 2) Sauté with onions and fajita seasoning. 3) Serve with tortillas and toppings.",
+    "name": "Chickpea Salad",
+    "cook_time": 10,
+    "instructions": "1) Rinse and drain chickpeas. 2) Combine with diced tomato, cucumber, red onion, and chopped parsley. 3) Toss with rice oil and rice vinegar.",
     "ingredients": [
-      {"pk": 7, "weight": 5},
-      {"pk": 43, "weight": 4},
-      {"pk": 2, "weight": 3},
-      {"pk": 88, "weight": 3},
-      {"pk": 65, "weight": 4},
-      {"pk": 67, "weight": 3},
-      {"pk": 80, "weight": 2},
-      {"pk": 99, "weight": 2}
+      {
+        "pk": 546,
+        "weight": 5
+      },
+      {
+        "pk": 1,
+        "weight": 4
+      },
+      {
+        "pk": 7,
+        "weight": 4
+      },
+      {
+        "pk": 488,
+        "weight": 2
+      },
+      {
+        "pk": 41,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 27,
-    "name": "Vegetarian Chili",
-    "cook_time": 75,
-    "instructions": "1) Sauté vegetables. 2) Add beans, tomatoes, and chili spices. 3) Simmer for at least 45 minutes.",
+    "name": "Corn and Black Bean Salad",
+    "cook_time": 10,
+    "instructions": "1) Mix corn kernels with black beans, diced tomato, and red onion. 2) Add chopped cilantro and toss with rice oil and rice vinegar.",
     "ingredients": [
-      {"pk": 53, "weight": 5},
-      {"pk": 54, "weight": 5},
-      {"pk": 1, "weight": 4},
-      {"pk": 43, "weight": 3},
-      {"pk": 2, "weight": 3},
-      {"pk": 4, "weight": 3},
-      {"pk": 65, "weight": 4},
-      {"pk": 66, "weight": 3},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 16,
+        "weight": 5
+      },
+      {
+        "pk": 532,
+        "weight": 4
+      },
+      {
+        "pk": 1,
+        "weight": 3
+      },
+      {
+        "pk": 488,
+        "weight": 2
+      },
+      {
+        "pk": 40,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 28,
-    "name": "Shepherd's Pie",
-    "cook_time": 90,
-    "instructions": "1) Brown ground beef with vegetables. 2) Top with mashed potatoes. 3) Bake until golden brown.",
+    "name": "Quinoa Avocado Salad",
+    "cook_time": 15,
+    "instructions": "1) Combine cooked quinoa with diced avocado, tomato, cucumber, and torn basil leaves. 2) Drizzle with rice oil and rice vinegar and mix well.",
     "ingredients": [
-      {"pk": 55, "weight": 5},
-      {"pk": 5, "weight": 5},
-      {"pk": 17, "weight": 4},
-      {"pk": 15, "weight": 4},
-      {"pk": 4, "weight": 3},
-      {"pk": 2, "weight": 3},
-      {"pk": 49, "weight": 3},
-      {"pk": 1, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 89,
+        "weight": 5
+      },
+      {
+        "pk": 554,
+        "weight": 4
+      },
+      {
+        "pk": 1,
+        "weight": 3
+      },
+      {
+        "pk": 7,
+        "weight": 3
+      },
+      {
+        "pk": 42,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 29,
-    "name": "Chicken Pot Pie",
-    "cook_time": 85,
-    "instructions": "1) Cook chicken and vegetables in creamy sauce. 2) Top with pie crust. 3) Bake until crust is golden.",
+    "name": "Bean Sprout Salad",
+    "cook_time": 10,
+    "instructions": "1) Rinse bean sprouts and combine with sliced cucumber, shredded carrot, and diced red bell pepper. 2) Sprinkle with sesame seeds and toss with rice oil and rice vinegar.",
     "ingredients": [
-      {"pk": 7, "weight": 5},
-      {"pk": 27, "weight": 5},
-      {"pk": 84, "weight": 4},
-      {"pk": 15, "weight": 4},
-      {"pk": 4, "weight": 3},
-      {"pk": 2, "weight": 3},
-      {"pk": 49, "weight": 3},
-      {"pk": 44, "weight": 3},
-      {"pk": 17, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 498,
+        "weight": 5
+      },
+      {
+        "pk": 7,
+        "weight": 4
+      },
+      {
+        "pk": 5,
+        "weight": 3
+      },
+      {
+        "pk": 482,
+        "weight": 2
+      },
+      {
+        "pk": 83,
+        "weight": 1
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 30,
-    "name": "Beef and Broccoli",
-    "cook_time": 35,
-    "instructions": "1) Stir-fry beef until browned. 2) Add broccoli and sauce. 3) Cook until broccoli is tender-crisp.",
+    "name": "Watermelon Radish Salad",
+    "cook_time": 10,
+    "instructions": "1) Thinly slice watermelon radish and combine with arugula, cucumber, and diced tomato. 2) Garnish with chopped parsley and toss with rice oil and rice vinegar.",
     "ingredients": [
-      {"pk": 6, "weight": 5},
-      {"pk": 41, "weight": 5},
-      {"pk": 68, "weight": 4},
-      {"pk": 23, "weight": 3},
-      {"pk": 26, "weight": 3},
-      {"pk": 80, "weight": 2}
+      {
+        "pk": 492,
+        "weight": 5
+      },
+      {
+        "pk": 38,
+        "weight": 4
+      },
+      {
+        "pk": 7,
+        "weight": 3
+      },
+      {
+        "pk": 1,
+        "weight": 2
+      },
+      {
+        "pk": 41,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 31,
-    "name": "Sweet Potato Casserole",
-    "cook_time": 60,
-    "instructions": "1) Boil and mash sweet potatoes. 2) Mix with butter, brown sugar, and spices. 3) Top with pecan crumble. 4) Bake until heated through.",
+    "name": "Quick Oatmeal",
+    "cook_time": 10,
+    "instructions": "1) Boil oats in water until soft. 2) Stir in rice syrup and a pinch of cinnamon. 3) Serve warm.",
     "ingredients": [
-      {"pk": 147, "weight": 5},
-      {"pk": 93, "weight": 4},
-      {"pk": 15, "weight": 4},
-      {"pk": 86, "weight": 3},
-      {"pk": 128, "weight": 3},
-      {"pk": 29, "weight": 3},
-      {"pk": 30, "weight": 2}
+      {
+        "pk": 92,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 3
+      },
+      {
+        "pk": 56,
+        "weight": 2
+      }
     ]
   },
   {
     "pk": 32,
-    "name": "Mac and Cheese",
-    "cook_time": 40,
-    "instructions": "1) Cook macaroni pasta. 2) Make cheese sauce with milk, butter, and cheddar cheese. 3) Combine pasta and sauce. 4) Bake until bubbly.",
+    "name": "Overnight Oats",
+    "cook_time": 5,
+    "instructions": "1) Combine oats with water, rice syrup, and a dash of cinnamon. 2) Refrigerate overnight. 3) Stir before serving.",
     "ingredients": [
-      {"pk": 20, "weight": 5},
-      {"pk": 40, "weight": 5},
-      {"pk": 17, "weight": 4},
-      {"pk": 15, "weight": 4},
-      {"pk": 13, "weight": 3},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 92,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 33,
-    "name": "Lasagna",
-    "cook_time": 120,
-    "instructions": "1) Brown ground beef with onions and garlic. 2) Layer lasagna noodles with meat sauce, ricotta, and mozzarella. 3) Bake until bubbly and golden.",
+    "name": "Oat Pancakes",
+    "cook_time": 15,
+    "instructions": "1) Mix oats, oat flour and water with rice syrup and cinnamon to form a batter. 2) Fry small pancakes on a skillet until golden on both sides.",
     "ingredients": [
-      {"pk": 20, "weight": 5},
-      {"pk": 55, "weight": 5},
-      {"pk": 1, "weight": 4},
-      {"pk": 39, "weight": 4},
-      {"pk": 37, "weight": 4},
-      {"pk": 2, "weight": 3},
-      {"pk": 3, "weight": 3},
-      {"pk": 18, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 92,
+        "weight": 3
+      },
+      {
+        "pk": 117,
+        "weight": 4
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 34,
-    "name": "Chicken Enchiladas",
-    "cook_time": 70,
-    "instructions": "1) Cook chicken and shred. 2) Fill tortillas with chicken and cheese. 3) Cover with enchilada sauce and cheese. 4) Bake until bubbly.",
+    "name": "Chickpea Flour Pancakes",
+    "cook_time": 15,
+    "instructions": "1) Mix chickpea flour with water, grated carrot and a pinch of black pepper. 2) Fry small pancakes until crisp on the edges.",
     "ingredients": [
-      {"pk": 7, "weight": 5},
-      {"pk": 88, "weight": 5},
-      {"pk": 40, "weight": 4},
-      {"pk": 39, "weight": 4},
-      {"pk": 65, "weight": 4},
-      {"pk": 2, "weight": 3},
-      {"pk": 1, "weight": 3}
+      {
+        "pk": 115,
+        "weight": 5
+      },
+      {
+        "pk": 5,
+        "weight": 2
+      },
+      {
+        "pk": 67,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 35,
-    "name": "Beef Tacos",
-    "cook_time": 30,
-    "instructions": "1) Brown ground beef with taco seasoning. 2) Serve in taco shells with toppings.",
+    "name": "Simple Avocado Toast",
+    "cook_time": 10,
+    "instructions": "1) Prepare a quick flatbread by mixing wheat flour with water and cooking on a skillet. 2) Mash avocado and top the flatbread with diced tomato and black pepper.",
     "ingredients": [
-      {"pk": 55, "weight": 5},
-      {"pk": 88, "weight": 5},
-      {"pk": 65, "weight": 4},
-      {"pk": 1, "weight": 3},
-      {"pk": 2, "weight": 3},
-      {"pk": 43, "weight": 3},
-      {"pk": 67, "weight": 3}
+      {
+        "pk": 112,
+        "weight": 3
+      },
+      {
+        "pk": 554,
+        "weight": 5
+      },
+      {
+        "pk": 1,
+        "weight": 3
+      },
+      {
+        "pk": 67,
+        "weight": 2
+      }
     ]
   },
   {
     "pk": 36,
-    "name": "Fish and Chips",
-    "cook_time": 30,
-    "instructions": "1) Batter cod fillets. 2) Deep-fry fish and potatoes until golden brown and crispy.",
+    "name": "Quick Veggie Wrap",
+    "cook_time": 10,
+    "instructions": "1) Make a flatbread using wheat flour. 2) Fill with chopped lettuce, cucumber, and tomato. 3) Drizzle with rice oil and rice vinegar, then roll up.",
     "ingredients": [
-      {"pk": 61, "weight": 5},
-      {"pk": 5, "weight": 4},
-      {"pk": 27, "weight": 4},
-      {"pk": 88, "weight": 3},
-      {"pk": 80, "weight": 3},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 112,
+        "weight": 3
+      },
+      {
+        "pk": 8,
+        "weight": 4
+      },
+      {
+        "pk": 7,
+        "weight": 4
+      },
+      {
+        "pk": 1,
+        "weight": 3
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      },
+      {
+        "pk": 67,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 37,
-    "name": "Chicken and Waffles",
-    "cook_time": 45,
-    "instructions": "1) Prepare waffle batter. 2) Fry chicken until crispy. 3) Serve waffles with fried chicken and maple syrup.",
+    "name": "Green Smoothie",
+    "cook_time": 5,
+    "instructions": "1) Blend spinach and avocado with water until smooth. 2) Add a little rice syrup and a pinch of cinnamon for extra flavor.",
     "ingredients": [
-      {"pk": 7, "weight": 5},
-      {"pk": 89, "weight": 5},
-      {"pk": 92, "weight": 5},
-      {"pk": 27, "weight": 4},
-      {"pk": 16, "weight": 3},
-      {"pk": 17, "weight": 3},
-      {"pk": 15, "weight": 3},
-      {"pk": 80, "weight": 2}
+      {
+        "pk": 9,
+        "weight": 5
+      },
+      {
+        "pk": 554,
+        "weight": 4
+      },
+      {
+        "pk": 304,
+        "weight": 1
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 38,
-    "name": "Pancakes",
-    "cook_time": 20,
-    "instructions": "1) Mix pancake batter. 2) Cook pancakes on a griddle until golden brown.",
+    "name": "Tomato Cucumber Smoothie",
+    "cook_time": 5,
+    "instructions": "1) Blend tomato and cucumber with a small amount of red onion. 2) Season lightly with rice vinegar.",
     "ingredients": [
-      {"pk": 89, "weight": 5},
-      {"pk": 27, "weight": 4},
-      {"pk": 16, "weight": 3},
-      {"pk": 17, "weight": 3},
-      {"pk": 15, "weight": 3},
-      {"pk": 26, "weight": 2}
+      {
+        "pk": 1,
+        "weight": 5
+      },
+      {
+        "pk": 7,
+        "weight": 5
+      },
+      {
+        "pk": 488,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 39,
-    "name": "Waffles",
-    "cook_time": 25,
-    "instructions": "1) Prepare waffle batter. 2) Cook waffles in a waffle iron until golden brown.",
+    "name": "Basic Wheat Pancakes",
+    "cook_time": 10,
+    "instructions": "1) Mix wheat flour with water and rice syrup to form a batter. 2) Fry small pancakes until golden.",
     "ingredients": [
-      {"pk": 89, "weight": 5},
-      {"pk": 27, "weight": 4},
-      {"pk": 16, "weight": 3},
-      {"pk": 17, "weight": 3},
-      {"pk": 15, "weight": 3},
-      {"pk": 26, "weight": 2}
+      {
+        "pk": 112,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 40,
-    "name": "French Toast",
-    "cook_time": 20,
-    "instructions": "1) Dip bread slices in egg and milk mixture. 2) Fry until golden brown. 3) Serve with syrup or fruit.",
+    "name": "Savory Oatmeal Bowl",
+    "cook_time": 10,
+    "instructions": "1) Cook oats in water until creamy. 2) Stir in diced tomato and onion, and season with black pepper.",
     "ingredients": [
-      {"pk": 27, "weight": 5},
-      {"pk": 16, "weight": 4},
-      {"pk": 17, "weight": 4},
-      {"pk": 15, "weight": 3},
-      {"pk": 29, "weight": 3},
-      {"pk": 26, "weight": 2}
+      {
+        "pk": 92,
+        "weight": 5
+      },
+      {
+        "pk": 1,
+        "weight": 3
+      },
+      {
+        "pk": 2,
+        "weight": 2
+      },
+      {
+        "pk": 67,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 41,
-    "name": "Oatmeal",
-    "cook_time": 10,
-    "instructions": "1) Cook oats with milk or water. 2) Top with fruit, nuts, and honey.",
+    "name": "Microwave Mug Oatmeal",
+    "cook_time": 5,
+    "instructions": "1) Combine oats, water, rice syrup, and cinnamon in a mug. 2) Microwave for 3-5 minutes and stir well.",
     "ingredients": [
-      {"pk": 86, "weight": 5},
-      {"pk": 17, "weight": 4},
-      {"pk": 31, "weight": 3},
-      {"pk": 25, "weight": 3},
-      {"pk": 29, "weight": 2},
-      {"pk": 121, "weight": 2}
+      {
+        "pk": 92,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 42,
-    "name": "Scrambled Eggs",
+    "name": "Quick Porridge",
     "cook_time": 10,
-    "instructions": "1) Whisk eggs with milk and seasonings. 2) Scramble in a pan until cooked.",
+    "instructions": "1) Simmer oats in water until thick. 2) Stir in rice syrup and cinnamon. 3) Serve immediately.",
     "ingredients": [
-      {"pk": 16, "weight": 5},
-      {"pk": 17, "weight": 3},
-      {"pk": 15, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 92,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      },
+      {
+        "pk": 113,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 43,
-    "name": "Omelette",
-    "cook_time": 15,
-    "instructions": "1) Whisk eggs with milk. 2) Cook in a pan and add fillings like cheese, vegetables, or meat.",
+    "name": "Chickpea Flour Scramble",
+    "cook_time": 10,
+    "instructions": "1) Mix chickpea flour with water to form a batter. 2) Add diced onion and tomato, then scramble in a hot pan. 3) Season with black pepper.",
     "ingredients": [
-      {"pk": 16, "weight": 5},
-      {"pk": 18, "weight": 4},
-      {"pk": 44, "weight": 3},
-      {"pk": 2, "weight": 3},
-      {"pk": 41, "weight": 3},
-      {"pk": 7, "weight": 3},
-      {"pk": 17, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 115,
+        "weight": 5
+      },
+      {
+        "pk": 2,
+        "weight": 3
+      },
+      {
+        "pk": 1,
+        "weight": 2
+      },
+      {
+        "pk": 67,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 44,
-    "name": "Frittata",
-    "cook_time": 30,
-    "instructions": "1) Sauté vegetables and/or meat. 2) Pour in whisked eggs. 3) Bake or cook on stovetop until set.",
+    "name": "Avocado Spinach Smoothie",
+    "cook_time": 5,
+    "instructions": "1) Blend avocado and spinach with water. 2) Add a little rice syrup and a dash of cinnamon to taste.",
     "ingredients": [
-      {"pk": 16, "weight": 5},
-      {"pk": 44, "weight": 4},
-      {"pk": 41, "weight": 3},
-      {"pk": 57, "weight": 3},
-      {"pk": 18, "weight": 3},
-      {"pk": 17, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 554,
+        "weight": 5
+      },
+      {
+        "pk": 9,
+        "weight": 4
+      },
+      {
+        "pk": 304,
+        "weight": 1
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 45,
-    "name": "Quiche",
-    "cook_time": 60,
-    "instructions": "1) Prepare pie crust. 2) Fill with egg mixture and fillings like cheese, spinach, and bacon. 3) Bake until set and golden.",
+    "name": "Simple Rice Pudding",
+    "cook_time": 15,
+    "instructions": "1) Cook rice in water until soft. 2) Stir in rice syrup and cinnamon to create a quick pudding. 3) Serve warm or cold.",
     "ingredients": [
-      {"pk": 16, "weight": 5},
-      {"pk": 27, "weight": 5},
-      {"pk": 18, "weight": 4},
-      {"pk": 42, "weight": 3},
-      {"pk": 58, "weight": 3},
-      {"pk": 17, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 90,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 3
+      },
+      {
+        "pk": 56,
+        "weight": 2
+      }
     ]
   },
   {
     "pk": 46,
-    "name": "Breakfast Burrito",
-    "cook_time": 25,
-    "instructions": "1) Scramble eggs with fillings. 2) Warm tortillas. 3) Fill tortillas with eggs and toppings.",
+    "name": "Savory Rice Bowl",
+    "cook_time": 10,
+    "instructions": "1) Cook rice until tender. 2) Mix in diced tomato, cucumber, and red onion. 3) Season with black pepper.",
     "ingredients": [
-      {"pk": 16, "weight": 5},
-      {"pk": 88, "weight": 5},
-      {"pk": 57, "weight": 4},
-      {"pk": 40, "weight": 4},
-      {"pk": 2, "weight": 3},
-      {"pk": 43, "weight": 3},
-      {"pk": 1, "weight": 3}
+      {
+        "pk": 90,
+        "weight": 5
+      },
+      {
+        "pk": 1,
+        "weight": 3
+      },
+      {
+        "pk": 7,
+        "weight": 3
+      },
+      {
+        "pk": 488,
+        "weight": 2
+      },
+      {
+        "pk": 67,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 47,
-    "name": "Breakfast Smoothie",
-    "cook_time": 5,
-    "instructions": "1) Blend fruits, yogurt, and milk until smooth.",
+    "name": "Wheat Flour Flatbread",
+    "cook_time": 10,
+    "instructions": "1) Mix wheat flour with water to form a dough. 2) Roll out and cook on a skillet until lightly browned.",
     "ingredients": [
-      {"pk": 102, "weight": 5},
-      {"pk": 103, "weight": 4},
-      {"pk": 82, "weight": 4},
-      {"pk": 17, "weight": 3},
-      {"pk": 25, "weight": 2}
+      {
+        "pk": 112,
+        "weight": 5
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 48,
-    "name": "Fruit Salad",
+    "name": "Simple Veggie Sandwich",
     "cook_time": 10,
-    "instructions": "1) Chop fruits. 2) Combine in a bowl. 3) Optionally drizzle with honey or lemon juice.",
+    "instructions": "1) Prepare a flatbread using wheat flour. 2) Fill with chopped lettuce, tomato, and cucumber. 3) Season with black pepper and serve.",
     "ingredients": [
-      {"pk": 101, "weight": 4},
-      {"pk": 102, "weight": 4},
-      {"pk": 103, "weight": 4},
-      {"pk": 106, "weight": 3},
-      {"pk": 107, "weight": 3},
-      {"pk": 25, "weight": 2},
-      {"pk": 24, "weight": 2}
+      {
+        "pk": 112,
+        "weight": 3
+      },
+      {
+        "pk": 8,
+        "weight": 4
+      },
+      {
+        "pk": 1,
+        "weight": 3
+      },
+      {
+        "pk": 7,
+        "weight": 3
+      },
+      {
+        "pk": 67,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 49,
-    "name": "Yogurt Parfait",
-    "cook_time": 10,
-    "instructions": "1) Layer yogurt with granola and fruit in a glass or bowl.",
+    "name": "Quick Lentil Salad",
+    "cook_time": 15,
+    "instructions": "1) Cook green lentils until tender. 2) Mix with diced tomato, cucumber, red onion, and chopped parsley. 3) Toss with rice oil and rice vinegar.",
     "ingredients": [
-      {"pk": 82, "weight": 5},
-      {"pk": 86, "weight": 4},
-      {"pk": 103, "weight": 3},
-      {"pk": 25, "weight": 2}
+      {
+        "pk": 541,
+        "weight": 5
+      },
+      {
+        "pk": 1,
+        "weight": 3
+      },
+      {
+        "pk": 7,
+        "weight": 3
+      },
+      {
+        "pk": 488,
+        "weight": 2
+      },
+      {
+        "pk": 41,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 50,
-    "name": "Avocado Toast",
+    "name": "Microwave Mug Pancake",
     "cook_time": 5,
-    "instructions": "1) Toast bread. 2) Mash avocado and spread on toast. 3) Season with salt and pepper, optional toppings.",
+    "instructions": "1) Mix wheat flour, water, rice syrup, and cinnamon in a mug. 2) Microwave for 2-3 minutes until set.",
     "ingredients": [
-      {"pk": 109, "weight": 5},
-      {"pk": 27, "weight": 5},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 112,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 51,
-    "name": "Chicken Curry",
-    "cook_time": 60,
-    "instructions": "1) Sauté onions and garlic. 2) Add chicken and curry powder. 3) Simmer in coconut milk until chicken is cooked.",
+    "name": "Savory Chickpea Flatbread",
+    "cook_time": 10,
+    "instructions": "1) Mix chickpea flour with water and a pinch of black pepper to form a dough. 2) Roll out and cook on a skillet until golden.",
     "ingredients": [
-      {"pk": 7, "weight": 5},
-      {"pk": 70, "weight": 5},
-      {"pk": 81, "weight": 5},
-      {"pk": 2, "weight": 3},
-      {"pk": 3, "weight": 3},
-      {"pk": 19, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 115,
+        "weight": 5
+      },
+      {
+        "pk": 67,
+        "weight": 1
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 52,
-    "name": "Butter Chicken",
-    "cook_time": 70,
-    "instructions": "1) Marinate chicken in yogurt and spices. 2) Cook in tomato-based butter sauce. 3) Serve with rice or naan.",
+    "name": "Quick Veggie Stir-Fry Wrap",
+    "cook_time": 10,
+    "instructions": "1) Stir-fry sliced carrot and red bell pepper in rice oil. 2) Mix with fresh lettuce and spinach. 3) Fill a flatbread wrap and serve.",
     "ingredients": [
-      {"pk": 7, "weight": 5},
-      {"pk": 69, "weight": 5},
-      {"pk": 1, "weight": 4},
-      {"pk": 15, "weight": 4},
-      {"pk": 82, "weight": 3},
-      {"pk": 68, "weight": 3},
-      {"pk": 70, "weight": 3},
-      {"pk": 19, "weight": 2},
-      {"pk": 13, "weight": 2},
-      {"pk": 85, "weight": 2}
+      {
+        "pk": 8,
+        "weight": 4
+      },
+      {
+        "pk": 9,
+        "weight": 4
+      },
+      {
+        "pk": 5,
+        "weight": 3
+      },
+      {
+        "pk": 482,
+        "weight": 3
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 53,
-    "name": "Tikka Masala",
-    "cook_time": 65,
-    "instructions": "1) Marinate chicken or paneer. 2) Cook in creamy tomato-based masala sauce. 3) Serve with rice or naan.",
+    "name": "Oatmeal Energy Balls",
+    "cook_time": 5,
+    "instructions": "1) Mix oats, almond flour, rice syrup, and cinnamon. 2) Form into small balls and chill for 10 minutes.",
     "ingredients": [
-      {"pk": 7, "weight": 5},
-      {"pk": 69, "weight": 5},
-      {"pk": 1, "weight": 4},
-      {"pk": 84, "weight": 4},
-      {"pk": 68, "weight": 3},
-      {"pk": 70, "weight": 3},
-      {"pk": 19, "weight": 2},
-      {"pk": 85, "weight": 2},
-      {"pk": 18, "weight": 2}
+      {
+        "pk": 92,
+        "weight": 5
+      },
+      {
+        "pk": 113,
+        "weight": 3
+      },
+      {
+        "pk": 304,
+        "weight": 3
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 54,
-    "name": "Palak Paneer",
-    "cook_time": 50,
-    "instructions": "1) Sauté spinach and garlic. 2) Add paneer cheese and spices. 3) Simmer until flavors meld.",
+    "name": "Quick Millet Porridge",
+    "cook_time": 15,
+    "instructions": "1) Cook millet in water until soft. 2) Stir in rice syrup and cinnamon. 3) Serve warm.",
     "ingredients": [
-      {"pk": 42, "weight": 5},
-      {"pk": 18, "weight": 5},
-      {"pk": 69, "weight": 4},
-      {"pk": 70, "weight": 3},
-      {"pk": 3, "weight": 3},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2},
-      {"pk": 68, "weight": 2}
+      {
+        "pk": 96,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 3
+      },
+      {
+        "pk": 56,
+        "weight": 2
+      }
     ]
   },
   {
     "pk": 55,
-    "name": "Vegetable Biryani",
-    "cook_time": 80,
-    "instructions": "1) Layer rice with vegetables and spices. 2) Steam until rice is cooked and flavors are blended.",
+    "name": "Simple Buckwheat Porridge",
+    "cook_time": 15,
+    "instructions": "1) Cook buckwheat in water until tender. 2) Mix in rice syrup and cinnamon. 3) Enjoy immediately.",
     "ingredients": [
-      {"pk": 19, "weight": 5},
-      {"pk": 69, "weight": 4},
-      {"pk": 70, "weight": 3},
-      {"pk": 2, "weight": 3},
-      {"pk": 4, "weight": 3},
-      {"pk": 41, "weight": 3},
-      {"pk": 50, "weight": 3},
-      {"pk": 14, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2},
-      {"pk": 68, "weight": 2}
+      {
+        "pk": 95,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 3
+      },
+      {
+        "pk": 56,
+        "weight": 2
+      }
     ]
   },
   {
     "pk": 56,
-    "name": "Samosas",
-    "cook_time": 60,
-    "instructions": "1) Prepare dough for samosa crust. 2) Make potato and pea filling with spices. 3) Fry samosas until golden brown.",
+    "name": "Quick Amaranth Porridge",
+    "cook_time": 15,
+    "instructions": "1) Cook amaranth in water until creamy. 2) Stir in rice syrup and cinnamon. 3) Serve hot.",
     "ingredients": [
-      {"pk": 27, "weight": 5},
-      {"pk": 5, "weight": 5},
-      {"pk": 50, "weight": 4},
-      {"pk": 69, "weight": 4},
-      {"pk": 70, "weight": 3},
-      {"pk": 80, "weight": 3},
-      {"pk": 68, "weight": 2}
+      {
+        "pk": 98,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 3
+      },
+      {
+        "pk": 56,
+        "weight": 2
+      }
     ]
   },
   {
     "pk": 57,
-    "name": "Naan Bread",
-    "cook_time": 30,
-    "instructions": "1) Prepare naan dough with yogurt and yeast. 2) Cook naan on a hot skillet or tandoor until puffed and slightly charred.",
+    "name": "Rice Flour Pancakes",
+    "cook_time": 10,
+    "instructions": "1) Combine rice flour with water and rice syrup to form a batter. 2) Fry small pancakes until golden on each side.",
     "ingredients": [
-      {"pk": 27, "weight": 5},
-      {"pk": 82, "weight": 4},
-      {"pk": 28, "weight": 4},
-      {"pk": 14, "weight": 3},
-      {"pk": 26, "weight": 2},
-      {"pk": 11, "weight": 2}
+      {
+        "pk": 111,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 58,
-    "name": "Raita",
-    "cook_time": 10,
-    "instructions": "1) Mix yogurt with cucumber, mint, and spices. 2) Chill before serving.",
+    "name": "Simple Oat Flour Muffin",
+    "cook_time": 15,
+    "instructions": "1) Mix oat flour with rice syrup, cinnamon, and grated carrot. 2) Pour into a mug and microwave until set.",
     "ingredients": [
-      {"pk": 82, "weight": 5},
-      {"pk": 44, "weight": 4},
-      {"pk": 74, "weight": 4},
-      {"pk": 66, "weight": 3},
-      {"pk": 11, "weight": 2}
+      {
+        "pk": 117,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      },
+      {
+        "pk": 5,
+        "weight": 2
+      }
     ]
   },
   {
     "pk": 59,
-    "name": "Chicken Pad Thai",
-    "cook_time": 45,
-    "instructions": "1) Soak rice noodles. 2) Stir-fry chicken, eggs, and vegetables. 3) Add Pad Thai sauce and peanuts. 4) Toss with noodles.",
+    "name": "Quick Vegetable Soup",
+    "cook_time": 15,
+    "instructions": "1) Simmer diced tomato, carrot, onion, and garlic in water with a drizzle of rice oil. 2) Cook until vegetables are soft.",
     "ingredients": [
-      {"pk": 7, "weight": 5},
-      {"pk": 98, "weight": 5},
-      {"pk": 93, "weight": 4},
-      {"pk": 23, "weight": 4},
-      {"pk": 16, "weight": 3},
-      {"pk": 2, "weight": 3},
-      {"pk": 4, "weight": 3},
-      {"pk": 43, "weight": 3},
-      {"pk": 24, "weight": 3},
-      {"pk": 26, "weight": 2}
+      {
+        "pk": 1,
+        "weight": 4
+      },
+      {
+        "pk": 5,
+        "weight": 3
+      },
+      {
+        "pk": 2,
+        "weight": 3
+      },
+      {
+        "pk": 3,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 60,
-    "name": "Vegetable Pad See Ew",
-    "cook_time": 35,
-    "instructions": "1) Soak wide rice noodles. 2) Stir-fry noodles with vegetables and soy sauce-based sauce.",
+    "name": "Microwave Vegetable Steamer",
+    "cook_time": 10,
+    "instructions": "1) Place chopped broccoli, carrot, and red bell pepper in a microwave-safe bowl. 2) Steam until tender. 3) Drizzle with a dash of rice vinegar.",
     "ingredients": [
-      {"pk": 20, "weight": 5},
-      {"pk": 23, "weight": 4},
-      {"pk": 26, "weight": 3},
-      {"pk": 41, "weight": 3},
-      {"pk": 43, "weight": 3},
-      {"pk": 44, "weight": 3},
-      {"pk": 80, "weight": 2}
+      {
+        "pk": 12,
+        "weight": 5
+      },
+      {
+        "pk": 5,
+        "weight": 4
+      },
+      {
+        "pk": 482,
+        "weight": 3
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 61,
-    "name": "Spring Rolls",
-    "cook_time": 40,
-    "instructions": "1) Prepare spring roll wrappers. 2) Fill with vegetables and shrimp or tofu. 3) Fry until golden brown or serve fresh.",
+    "name": "Simple Cucumber Salad",
+    "cook_time": 5,
+    "instructions": "1) Chop cucumber, tomato, and red onion. 2) Toss with rice oil and rice vinegar.",
     "ingredients": [
-      {"pk": 88, "weight": 5},
-      {"pk": 10, "weight": 4},
-      {"pk": 4, "weight": 3},
-      {"pk": 41, "weight": 3},
-      {"pk": 42, "weight": 3},
-      {"pk": 50, "weight": 3},
-      {"pk": 23, "weight": 3}
+      {
+        "pk": 7,
+        "weight": 5
+      },
+      {
+        "pk": 1,
+        "weight": 4
+      },
+      {
+        "pk": 488,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      },
+      {
+        "pk": 264,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 62,
-    "name": "Tom Yum Soup",
-    "cook_time": 30,
-    "instructions": "1) Prepare Tom Yum broth with lemongrass, galangal, and lime leaves. 2) Add shrimp, mushrooms, and tomatoes. 3) Simmer until shrimp is cooked.",
+    "name": "Spinach and Tomato Wrap",
+    "cook_time": 10,
+    "instructions": "1) Place fresh spinach and sliced tomato on a flatbread made from wheat flour. 2) Season with black pepper, roll up, and serve.",
     "ingredients": [
-      {"pk": 10, "weight": 5},
-      {"pk": 98, "weight": 4},
-      {"pk": 1, "weight": 4},
-      {"pk": 44, "weight": 3},
-      {"pk": 24, "weight": 3},
-      {"pk": 23, "weight": 3},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 9,
+        "weight": 5
+      },
+      {
+        "pk": 1,
+        "weight": 4
+      },
+      {
+        "pk": 112,
+        "weight": 3
+      },
+      {
+        "pk": 67,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 63,
-    "name": "Green Curry",
-    "cook_time": 55,
-    "instructions": "1) Sauté curry paste with coconut milk. 2) Add chicken or tofu and vegetables. 3) Simmer until vegetables are tender.",
+    "name": "Quick Veggie Stir-Fry Bowl",
+    "cook_time": 10,
+    "instructions": "1) Stir-fry sliced bell pepper, carrot, onion, and spinach in rice oil until tender. 2) Serve hot as a light meal.",
     "ingredients": [
-      {"pk": 70, "weight": 5},
-      {"pk": 81, "weight": 5},
-      {"pk": 7, "weight": 4},
-      {"pk": 46, "weight": 3},
-      {"pk": 41, "weight": 3},
-      {"pk": 43, "weight": 3},
-      {"pk": 18, "weight": 2},
-      {"pk": 23, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 6,
+        "weight": 5
+      },
+      {
+        "pk": 5,
+        "weight": 4
+      },
+      {
+        "pk": 2,
+        "weight": 3
+      },
+      {
+        "pk": 9,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 64,
-    "name": "Red Curry",
-    "cook_time": 55,
-    "instructions": "1) Sauté curry paste with coconut milk. 2) Add beef or tofu and vegetables. 3) Simmer until vegetables are tender.",
+    "name": "Easy Tomato Basil Soup",
+    "cook_time": 15,
+    "instructions": "1) Simmer tomato with chopped basil, onion, and garlic until soft. 2) Blend until smooth and drizzle with rice oil.",
     "ingredients": [
-      {"pk": 71, "weight": 5},
-      {"pk": 81, "weight": 5},
-      {"pk": 6, "weight": 4},
-      {"pk": 46, "weight": 3},
-      {"pk": 41, "weight": 3},
-      {"pk": 43, "weight": 3},
-      {"pk": 18, "weight": 2},
-      {"pk": 23, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 1,
+        "weight": 5
+      },
+      {
+        "pk": 42,
+        "weight": 3
+      },
+      {
+        "pk": 2,
+        "weight": 2
+      },
+      {
+        "pk": 3,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 65,
-    "name": "Massaman Curry",
-    "cook_time": 70,
-    "instructions": "1) Sauté curry paste with coconut milk. 2) Add beef or tofu, potatoes, and peanuts. 3) Simmer until potatoes are tender.",
+    "name": "Quick Veggie Pita Pocket",
+    "cook_time": 10,
+    "instructions": "1) Prepare a flatbread from wheat flour and cut it to form a pocket. 2) Fill with chopped lettuce, tomato, and cucumber. 3) Season lightly and serve.",
     "ingredients": [
-      {"pk": 81, "weight": 5},
-      {"pk": 5, "weight": 4},
-      {"pk": 6, "weight": 4},
-      {"pk": 133, "weight": 4},
-      {"pk": 30, "weight": 3},
-      {"pk": 2, "weight": 3},
-      {"pk": 71, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 112,
+        "weight": 4
+      },
+      {
+        "pk": 8,
+        "weight": 4
+      },
+      {
+        "pk": 1,
+        "weight": 3
+      },
+      {
+        "pk": 7,
+        "weight": 3
+      },
+      {
+        "pk": 67,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 66,
-    "name": "Yellow Curry",
-    "cook_time": 55,
-    "instructions": "1) Sauté curry paste with coconut milk. 2) Add chicken or tofu, potatoes, and carrots. 3) Simmer until vegetables are tender.",
+    "name": "Chickpea Salad Sandwich",
+    "cook_time": 10,
+    "instructions": "1) Mash chickpeas and mix with diced tomato, cucumber, and red onion. 2) Stuff the mixture into a flatbread made from wheat flour.",
     "ingredients": [
-      {"pk": 69, "weight": 5},
-      {"pk": 81, "weight": 5},
-      {"pk": 7, "weight": 4},
-      {"pk": 5, "weight": 4},
-      {"pk": 4, "weight": 3},
-      {"pk": 2, "weight": 3},
-      {"pk": 23, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 546,
+        "weight": 5
+      },
+      {
+        "pk": 1,
+        "weight": 3
+      },
+      {
+        "pk": 7,
+        "weight": 3
+      },
+      {
+        "pk": 488,
+        "weight": 2
+      },
+      {
+        "pk": 112,
+        "weight": 3
+      }
     ]
   },
   {
     "pk": 67,
-    "name": "Panang Curry",
-    "cook_time": 50,
-    "instructions": "1) Sauté curry paste with coconut milk. 2) Add beef or tofu and bell peppers. 3) Simmer until peppers are tender.",
+    "name": "Quick Savory Smoothie Bowl",
+    "cook_time": 5,
+    "instructions": "1) Blend spinach, cucumber, and tomato until smooth. 2) Pour into a bowl, drizzle with a little rice syrup and sprinkle cinnamon.",
     "ingredients": [
-      {"pk": 71, "weight": 5},
-      {"pk": 81, "weight": 5},
-      {"pk": 6, "weight": 4},
-      {"pk": 43, "weight": 4},
-      {"pk": 23, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 9,
+        "weight": 5
+      },
+      {
+        "pk": 7,
+        "weight": 4
+      },
+      {
+        "pk": 1,
+        "weight": 3
+      },
+      {
+        "pk": 304,
+        "weight": 1
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 68,
-    "name": "Sushi Rolls",
-    "cook_time": 45,
-    "instructions": "1) Cook sushi rice. 2) Prepare fillings like salmon, avocado, and cucumber. 3) Roll sushi using nori sheets.",
+    "name": "Simple Almond Oat Bars",
+    "cook_time": 10,
+    "instructions": "1) Mix oats, almond flour, and rice syrup with a dash of cinnamon. 2) Press the mixture into a tray, chill until firm, then cut into bars.",
     "ingredients": [
-      {"pk": 19, "weight": 5},
-      {"pk": 95, "weight": 5},
-      {"pk": 59, "weight": 4},
-      {"pk": 109, "weight": 4},
-      {"pk": 44, "weight": 3},
-      {"pk": 23, "weight": 3},
-      {"pk": 26, "weight": 2},
-      {"pk": 11, "weight": 2}
+      {
+        "pk": 92,
+        "weight": 5
+      },
+      {
+        "pk": 113,
+        "weight": 4
+      },
+      {
+        "pk": 304,
+        "weight": 3
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 69,
-    "name": "Nigiri Sushi",
-    "cook_time": 30,
-    "instructions": "1) Prepare sushi rice. 2) Slice fish fillets (salmon, tuna). 3) Shape rice into oblong mounds and top with fish.",
+    "name": "Vegetable Rice Cake",
+    "cook_time": 10,
+    "instructions": "1) Mix cooked rice with grated carrot and diced tomato. 2) Shape the mixture into small cakes and pan-fry in rice oil until crisp.",
     "ingredients": [
-      {"pk": 19, "weight": 5},
-      {"pk": 59, "weight": 5},
-      {"pk": 60, "weight": 5},
-      {"pk": 95, "weight": 4},
-      {"pk": 23, "weight": 3},
-      {"pk": 26, "weight": 2},
-      {"pk": 11, "weight": 2}
+      {
+        "pk": 90,
+        "weight": 5
+      },
+      {
+        "pk": 5,
+        "weight": 3
+      },
+      {
+        "pk": 1,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 70,
-    "name": "Sashimi",
+    "name": "Chickpea Flour Waffles",
     "cook_time": 15,
-    "instructions": "1) Slice fresh fish fillets (salmon, tuna). 2) Serve with soy sauce, wasabi, and ginger.",
+    "instructions": "1) Mix chickpea flour with water, rice syrup, and a pinch of black pepper. 2) Pour into a waffle iron and cook until crispy.",
     "ingredients": [
-      {"pk": 59, "weight": 5},
-      {"pk": 60, "weight": 5},
-      {"pk": 23, "weight": 4},
-      {"pk": 68, "weight": 3},
-      {"pk": 95, "weight": 3}
+      {
+        "pk": 115,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 67,
+        "weight": 1
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 71,
-    "name": "Miso Soup",
-    "cook_time": 20,
-    "instructions": "1) Prepare dashi broth. 2) Dissolve miso paste in broth. 3) Add tofu and seaweed.",
+    "name": "Quick Millet Muffin",
+    "cook_time": 15,
+    "instructions": "1) Mix cooked millet with wheat flour, rice syrup, and cinnamon. 2) Spoon the mixture into muffin tins and microwave until set.",
     "ingredients": [
-      {"pk": 34, "weight": 5},
-      {"pk": 23, "weight": 5},
-      {"pk": 42, "weight": 4},
-      {"pk": 61, "weight": 3}
+      {
+        "pk": 96,
+        "weight": 4
+      },
+      {
+        "pk": 112,
+        "weight": 3
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 72,
-    "name": "Edamame",
-    "cook_time": 10,
-    "instructions": "1) Boil edamame pods in salted water. 2) Serve warm with salt.",
+    "name": "Spinach and Chickpea Smoothie",
+    "cook_time": 5,
+    "instructions": "1) Blend spinach and chickpeas until smooth. 2) Add rice syrup and a dash of cinnamon to taste.",
     "ingredients": [
-      {"pk": 50, "weight": 5},
-      {"pk": 11, "weight": 3}
+      {
+        "pk": 9,
+        "weight": 5
+      },
+      {
+        "pk": 546,
+        "weight": 4
+      },
+      {
+        "pk": 304,
+        "weight": 1
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 73,
-    "name": "Gyoza (Potstickers)",
-    "cook_time": 45,
-    "instructions": "1) Prepare gyoza wrappers or use pre-made. 2) Fill with pork and vegetable mixture. 3) Pan-fry and steam gyoza.",
+    "name": "Quick Oat & Rice Cookies",
+    "cook_time": 15,
+    "instructions": "1) Mix oats, rice flour, rice syrup, and cinnamon to form a dough. 2) Shape into cookies and bake or microwave until firm.",
     "ingredients": [
-      {"pk": 8, "weight": 5},
-      {"pk": 142, "weight": 4},
-      {"pk": 139, "weight": 3},
-      {"pk": 79, "weight": 3},
-      {"pk": 23, "weight": 3},
-      {"pk": 88, "weight": 2},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 92,
+        "weight": 5
+      },
+      {
+        "pk": 111,
+        "weight": 4
+      },
+      {
+        "pk": 304,
+        "weight": 3
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
     ]
   },
   {
     "pk": 74,
-    "name": "Ramen",
-    "cook_time": 90,
-    "instructions": "1) Prepare ramen broth (pork or chicken-based). 2) Cook ramen noodles. 3) Assemble ramen bowls with broth, noodles, protein, and toppings.",
+    "name": "Simple Wheat Porridge",
+    "cook_time": 15,
+    "instructions": "1) Cook wheat in water until soft. 2) Stir in rice syrup and cinnamon, and serve warm.",
     "ingredients": [
-      {"pk": 74, "weight": 5},
-      {"pk": 7, "weight": 4},
-      {"pk": 19, "weight": 3},
-      {"pk": 16, "weight": 3},
-      {"pk": 139, "weight": 3},
-      {"pk": 42, "weight": 3},
-      {"pk": 23, "weight": 3},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 93,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 3
+      },
+      {
+        "pk": 56,
+        "weight": 2
+      }
     ]
   },
   {
     "pk": 75,
-    "name": "Udon Noodle Soup",
-    "cook_time": 40,
-    "instructions": "1) Prepare udon broth (dashi or chicken-based). 2) Cook udon noodles. 3) Assemble udon bowls with broth, noodles, protein, and toppings.",
+    "name": "Savory Oat & Veggie Pancake",
+    "cook_time": 15,
+    "instructions": "1) Combine oats, chickpea flour, grated carrot, and diced onion. 2) Season with black pepper and fry small pancakes until golden.",
     "ingredients": [
-      {"pk": 75, "weight": 5},
-      {"pk": 34, "weight": 4},
-      {"pk": 9, "weight": 4},
-      {"pk": 7, "weight": 3},
-      {"pk": 23, "weight": 3},
-      {"pk": 139, "weight": 3},
-      {"pk": 11, "weight": 2},
-      {"pk": 12, "weight": 2}
+      {
+        "pk": 92,
+        "weight": 4
+      },
+      {
+        "pk": 115,
+        "weight": 3
+      },
+      {
+        "pk": 5,
+        "weight": 2
+      },
+      {
+        "pk": 2,
+        "weight": 2
+      },
+      {
+        "pk": 67,
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "pk": 76,
+    "name": "Quick Rice and Lentil Bowl",
+    "cook_time": 15,
+    "instructions": "1) Cook rice and green lentils until tender. 2) Mix with diced tomato and cucumber. 3) Serve as a hearty bowl.",
+    "ingredients": [
+      {
+        "pk": 90,
+        "weight": 5
+      },
+      {
+        "pk": 541,
+        "weight": 4
+      },
+      {
+        "pk": 1,
+        "weight": 3
+      },
+      {
+        "pk": 7,
+        "weight": 2
+      }
+    ]
+  },
+  {
+    "pk": 77,
+    "name": "Instant Oat Smoothie",
+    "cook_time": 5,
+    "instructions": "1) Blend oats and spinach with water until smooth. 2) Stir in rice syrup and a pinch of cinnamon.",
+    "ingredients": [
+      {
+        "pk": 92,
+        "weight": 4
+      },
+      {
+        "pk": 9,
+        "weight": 4
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "pk": 78,
+    "name": "Quick Veggie Quinoa Bowl",
+    "cook_time": 15,
+    "instructions": "1) Cook quinoa until fluffy. 2) Mix with diced tomato, cucumber, red onion, and chopped parsley.",
+    "ingredients": [
+      {
+        "pk": 89,
+        "weight": 5
+      },
+      {
+        "pk": 1,
+        "weight": 3
+      },
+      {
+        "pk": 7,
+        "weight": 3
+      },
+      {
+        "pk": 488,
+        "weight": 2
+      },
+      {
+        "pk": 41,
+        "weight": 2
+      }
+    ]
+  },
+  {
+    "pk": 79,
+    "name": "Simple Savory Pancake",
+    "cook_time": 10,
+    "instructions": "1) Mix wheat flour with water, rice syrup, and black pepper. 2) Fry small pancakes until golden.",
+    "ingredients": [
+      {
+        "pk": 112,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 67,
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "pk": 80,
+    "name": "Quick Oat & Carrot Muffin",
+    "cook_time": 15,
+    "instructions": "1) Combine oat flour with grated carrot, rice syrup, and cinnamon. 2) Bake or microwave until set.",
+    "ingredients": [
+      {
+        "pk": 117,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      },
+      {
+        "pk": 5,
+        "weight": 2
+      }
+    ]
+  },
+  {
+    "pk": 81,
+    "name": "Chickpea Flour Crepes",
+    "cook_time": 10,
+    "instructions": "1) Whisk chickpea flour with water and a pinch of black pepper to form a thin batter. 2) Cook crepes on a lightly oiled skillet.",
+    "ingredients": [
+      {
+        "pk": 115,
+        "weight": 5
+      },
+      {
+        "pk": 67,
+        "weight": 1
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "pk": 82,
+    "name": "Savory Rice Pancake",
+    "cook_time": 10,
+    "instructions": "1) Mix rice flour with water and rice syrup to form a batter. 2) Fry until golden brown on both sides.",
+    "ingredients": [
+      {
+        "pk": 111,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "pk": 83,
+    "name": "Simple Quick Muesli",
+    "cook_time": 5,
+    "instructions": "1) Mix oats with almond flour and rice syrup. 2) Let sit for a few minutes and enjoy as a cold cereal.",
+    "ingredients": [
+      {
+        "pk": 92,
+        "weight": 5
+      },
+      {
+        "pk": 113,
+        "weight": 2
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "pk": 84,
+    "name": "Quick Spiced Quinoa",
+    "cook_time": 15,
+    "instructions": "1) Cook quinoa in water until soft. 2) Stir in rice syrup and cinnamon for a lightly sweet breakfast.",
+    "ingredients": [
+      {
+        "pk": 89,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 2
+      }
+    ]
+  },
+  {
+    "pk": 85,
+    "name": "Chickpea and Veggie Bowl",
+    "cook_time": 10,
+    "instructions": "1) Lightly mash chickpeas and mix with diced tomato, cucumber, red onion, and chopped parsley. 2) Serve immediately.",
+    "ingredients": [
+      {
+        "pk": 546,
+        "weight": 5
+      },
+      {
+        "pk": 1,
+        "weight": 3
+      },
+      {
+        "pk": 7,
+        "weight": 3
+      },
+      {
+        "pk": 488,
+        "weight": 2
+      },
+      {
+        "pk": 41,
+        "weight": 2
+      }
+    ]
+  },
+  {
+    "pk": 86,
+    "name": "Simple Warm Oats",
+    "cook_time": 10,
+    "instructions": "1) Cook oats in water until creamy. 2) Stir in rice syrup, almond flour, and a pinch of cinnamon. 3) Serve warm.",
+    "ingredients": [
+      {
+        "pk": 92,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 113,
+        "weight": 1
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "pk": 87,
+    "name": "Quick Millet Pancakes",
+    "cook_time": 15,
+    "instructions": "1) Mix cooked millet with wheat flour, rice syrup, and cinnamon. 2) Fry small pancakes until golden.",
+    "ingredients": [
+      {
+        "pk": 96,
+        "weight": 4
+      },
+      {
+        "pk": 112,
+        "weight": 3
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "pk": 88,
+    "name": "Simple Savory Quinoa Pancake",
+    "cook_time": 15,
+    "instructions": "1) Combine cooked quinoa with wheat flour and water. 2) Season with black pepper and fry until crisp.",
+    "ingredients": [
+      {
+        "pk": 89,
+        "weight": 4
+      },
+      {
+        "pk": 112,
+        "weight": 3
+      },
+      {
+        "pk": 67,
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "pk": 89,
+    "name": "Quick Buckwheat Crepes",
+    "cook_time": 10,
+    "instructions": "1) Whisk buckwheat flour with water to form a thin batter. 2) Cook crepes on a skillet and drizzle with a little rice syrup and cinnamon.",
+    "ingredients": [
+      {
+        "pk": 116,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 1
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "pk": 90,
+    "name": "Instant Chickpea Oatmeal",
+    "cook_time": 10,
+    "instructions": "1) Mix chickpea flour and oats with water and cook until thickened. 2) Stir in rice syrup and cinnamon, then serve.",
+    "ingredients": [
+      {
+        "pk": 115,
+        "weight": 4
+      },
+      {
+        "pk": 92,
+        "weight": 4
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "pk": 91,
+    "name": "Simple Quick Flatbread Wrap",
+    "cook_time": 10,
+    "instructions": "1) Prepare a quick flatbread using wheat flour. 2) Fill with chopped lettuce, tomato, and cucumber, then roll up.",
+    "ingredients": [
+      {
+        "pk": 112,
+        "weight": 5
+      },
+      {
+        "pk": 8,
+        "weight": 4
+      },
+      {
+        "pk": 1,
+        "weight": 3
+      },
+      {
+        "pk": 7,
+        "weight": 3
+      }
+    ]
+  },
+  {
+    "pk": 92,
+    "name": "Quick Savory Rice Cake",
+    "cook_time": 10,
+    "instructions": "1) Mix cooked rice with grated carrot and diced tomato. 2) Form into small cakes and pan-fry lightly in rice oil.",
+    "ingredients": [
+      {
+        "pk": 90,
+        "weight": 5
+      },
+      {
+        "pk": 5,
+        "weight": 3
+      },
+      {
+        "pk": 1,
+        "weight": 2
+      },
+      {
+        "pk": 244,
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "pk": 93,
+    "name": "Overnight Chickpea Oats",
+    "cook_time": 5,
+    "instructions": "1) Mix oats with chickpea flour, rice syrup, and cinnamon in water. 2) Refrigerate overnight and stir before serving.",
+    "ingredients": [
+      {
+        "pk": 92,
+        "weight": 5
+      },
+      {
+        "pk": 115,
+        "weight": 2
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "pk": 94,
+    "name": "Quick Toasted Oat Bowl",
+    "cook_time": 10,
+    "instructions": "1) Lightly toast oats in a pan. 2) Mix with rice syrup, almond flour, and cinnamon. 3) Serve warm.",
+    "ingredients": [
+      {
+        "pk": 92,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 113,
+        "weight": 1
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "pk": 95,
+    "name": "Simple Warm Quinoa Porridge",
+    "cook_time": 15,
+    "instructions": "1) Cook quinoa in water until soft. 2) Stir in rice syrup and cinnamon, and serve warm.",
+    "ingredients": [
+      {
+        "pk": 89,
+        "weight": 5
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 2
+      }
+    ]
+  },
+  {
+    "pk": 96,
+    "name": "Chickpea Flour and Oat Pancakes",
+    "cook_time": 15,
+    "instructions": "1) Mix chickpea flour and oats with water, rice syrup, and black pepper. 2) Fry until golden on both sides.",
+    "ingredients": [
+      {
+        "pk": 115,
+        "weight": 4
+      },
+      {
+        "pk": 92,
+        "weight": 4
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 67,
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "pk": 97,
+    "name": "Quick Millet Oat Porridge",
+    "cook_time": 15,
+    "instructions": "1) Cook millet and oats in water until tender. 2) Stir in rice syrup and cinnamon, then serve.",
+    "ingredients": [
+      {
+        "pk": 96,
+        "weight": 4
+      },
+      {
+        "pk": 92,
+        "weight": 4
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "pk": 98,
+    "name": "Simple Buckwheat Oat Smoothie",
+    "cook_time": 5,
+    "instructions": "1) Blend buckwheat and oats with water until smooth. 2) Add rice syrup and cinnamon to taste.",
+    "ingredients": [
+      {
+        "pk": 95,
+        "weight": 3
+      },
+      {
+        "pk": 92,
+        "weight": 4
+      },
+      {
+        "pk": 304,
+        "weight": 2
+      },
+      {
+        "pk": 56,
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "pk": 99,
+    "name": "Instant Savory Chickpea Wrap",
+    "cook_time": 10,
+    "instructions": "1) Prepare a flatbread with chickpea flour. 2) Fill with chopped lettuce, tomato, and cucumber, then roll up.",
+    "ingredients": [
+      {
+        "pk": 115,
+        "weight": 5
+      },
+      {
+        "pk": 8,
+        "weight": 4
+      },
+      {
+        "pk": 1,
+        "weight": 3
+      },
+      {
+        "pk": 7,
+        "weight": 3
+      }
+    ]
+  },
+  {
+    "pk": 100,
+    "name": "Quick Rice and Veggie Stir-Fry",
+    "cook_time": 10,
+    "instructions": "1) Stir-fry cooked rice with sliced bell pepper, carrot, and onion in rice oil until heated through. 2) Serve immediately.",
+    "ingredients": [
+      {
+        "pk": 90,
+        "weight": 5
+      },
+      {
+        "pk": 6,
+        "weight": 4
+      },
+      {
+        "pk": 5,
+        "weight": 3
+      },
+      {
+        "pk": 2,
+        "weight": 2
+      }
     ]
   }
 ]
