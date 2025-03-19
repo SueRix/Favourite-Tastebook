@@ -498,5 +498,256 @@
     "pk": 100,
     "name": "Quick Rice and Veggie Stir-Fry Dish",
     "recipe_pk": 100
+  },
+  {
+    "pk": 101,
+    "name": "Quick Tomato Rice Dish",
+    "recipe_pk": 101
+  },
+  {
+    "pk": 102,
+    "name": "Simple Veggie Stir Fry Dish",
+    "recipe_pk": 102
+  },
+  {
+    "pk": 103,
+    "name": "Garlic Fried Rice Dish",
+    "recipe_pk": 103
+  },
+  {
+    "pk": 104,
+    "name": "Student Veggie Soup Dish",
+    "recipe_pk": 104
+  },
+  {
+    "pk": 105,
+    "name": "Simple Potato Soup Dish",
+    "recipe_pk": 105
+  },
+  {
+    "pk": 106,
+    "name": "Easy Veggie Lettuce Wrap Dish",
+    "recipe_pk": 106
+  },
+  {
+    "pk": 107,
+    "name": "Student Mixed Greens Salad Dish",
+    "recipe_pk": 107
+  },
+  {
+    "pk": 108,
+    "name": "Basic Stir Fried Vegetables Dish",
+    "recipe_pk": 108
+  },
+  {
+    "pk": 109,
+    "name": "Spicy Tomato Soup Dish",
+    "recipe_pk": 109
+  },
+  {
+    "pk": 110,
+    "name": "Quick Chicken Salad Dish",
+    "recipe_pk": 110
+  },
+  {
+    "pk": 111,
+    "name": "Budget Beef Wrap Dish",
+    "recipe_pk": 111
+  },
+  {
+    "pk": 112,
+    "name": "Easy Chicken Stir Fry Dish",
+    "recipe_pk": 112
+  },
+  {
+    "pk": 113,
+    "name": "Veggie Rice Bowl Dish",
+    "recipe_pk": 113
+  },
+  {
+    "pk": 114,
+    "name": "Spicy Chicken Rice Bowl Dish",
+    "recipe_pk": 114
+  },
+  {
+    "pk": 115,
+    "name": "Student Potato Salad Dish",
+    "recipe_pk": 115
+  },
+  {
+    "pk": 116,
+    "name": "Simple Cabbage Salad Dish",
+    "recipe_pk": 116
+  },
+  {
+    "pk": 117,
+    "name": "Chicken Lettuce Wrap Dish",
+    "recipe_pk": 117
+  },
+  {
+    "pk": 118,
+    "name": "Quick Eggplant Stir Fry Dish",
+    "recipe_pk": 118
+  },
+  {
+    "pk": 119,
+    "name": "Simple Carrot Salad Dish",
+    "recipe_pk": 119
+  },
+  {
+    "pk": 120,
+    "name": "Student Chickpea Burger Dish",
+    "recipe_pk": 120
+  },
+  {
+    "pk": 121,
+    "name": "Easy Turkey Wrap Dish",
+    "recipe_pk": 121
+  },
+  {
+    "pk": 122,
+    "name": "Budget Stir-Fried Rice Dish",
+    "recipe_pk": 122
+  },
+  {
+    "pk": 123,
+    "name": "Simple Vegetable Soup Dish",
+    "recipe_pk": 123
+  },
+  {
+    "pk": 124,
+    "name": "Quick Spinach Salad Dish",
+    "recipe_pk": 124
+  },
+  {
+    "pk": 125,
+    "name": "Budget Broccoli Stir Fry Dish",
+    "recipe_pk": 125
+  },
+  {
+    "pk": 126,
+    "name": "Easy Chicken Soup Dish",
+    "recipe_pk": 126
+  },
+  {
+    "pk": 127,
+    "name": "Simple Baked Vegetables Dish",
+    "recipe_pk": 127
+  },
+  {
+    "pk": 128,
+    "name": "Quick Garlic Chicken Dish",
+    "recipe_pk": 128
+  },
+  {
+    "pk": 129,
+    "name": "Budget Pork Stir Fry Dish",
+    "recipe_pk": 129
+  },
+  {
+    "pk": 130,
+    "name": "Simple Turkey Soup Dish",
+    "recipe_pk": 130
+  },
+  {
+    "pk": 131,
+    "name": "Student Beef Rice Bowl Dish",
+    "recipe_pk": 131
+  },
+  {
+    "pk": 132,
+    "name": "Student Veggie Salad Bowl Dish",
+    "recipe_pk": 132
+  },
+  {
+    "pk": 133,
+    "name": "Herbed Chicken Skillet Dish",
+    "recipe_pk": 133
+  },
+  {
+    "pk": 134,
+    "name": "Mixed Grain Salad Dish",
+    "recipe_pk": 134
+  },
+  {
+    "pk": 135,
+    "name": "Quick Tomato Basil Soup Dish",
+    "recipe_pk": 135
+  },
+  {
+    "pk": 136,
+    "name": "Budget Chicken Fried Rice Dish",
+    "recipe_pk": 136
+  },
+  {
+    "pk": 137,
+    "name": "Simple Veggie Stir-Fried Rice Dish",
+    "recipe_pk": 137
+  },
+  {
+    "pk": 138,
+    "name": "Student Turkey Rice Pilaf Dish",
+    "recipe_pk": 138
+  },
+  {
+    "pk": 139,
+    "name": "Quick Pork Rice Bowl Dish",
+    "recipe_pk": 139
+  },
+  {
+    "pk": 140,
+    "name": "Budget Beef Stew Dish",
+    "recipe_pk": 140
+  },
+  {
+    "pk": 141,
+    "name": "Chicken and Broccoli Salad Dish",
+    "recipe_pk": 141
+  },
+  {
+    "pk": 142,
+    "name": "Student Veggie Rice Bowl Dish",
+    "recipe_pk": 142
+  },
+  {
+    "pk": 143,
+    "name": "Easy Spicy Turkey Stir Fry Dish",
+    "recipe_pk": 143
+  },
+  {
+    "pk": 144,
+    "name": "Budget Pork Soup Dish",
+    "recipe_pk": 144
+  },
+  {
+    "pk": 145,
+    "name": "Hearty Vegetable Stew Dish",
+    "recipe_pk": 145
+  },
+  {
+    "pk": 146,
+    "name": "Student Quinoa Salad Dish",
+    "recipe_pk": 146
+  },
+  {
+    "pk": 147,
+    "name": "Quick Spelt Porridge Dish",
+    "recipe_pk": 147
+  },
+  {
+    "pk": 148,
+    "name": "Student Oatmeal Dish",
+    "recipe_pk": 148
+  },
+  {
+    "pk": 149,
+    "name": "Simple Chickpea Salad Dish",
+    "recipe_pk": 149
+  },
+  {
+    "pk": 150,
+    "name": "Quick Veggie Stir Fry Deluxe Dish",
+    "recipe_pk": 150
   }
 ]
+

@@ -66,7 +66,14 @@ class FilterRecipesView(View):
                     'cook_time': recipe.cook_time,
                     'instructions': recipe.instructions,
                     'ingredient_match_score': item['score'],
-                    'ingredients': [ri.ingredient.name for ri in recipe_ingredients],
+                    'ingredients': [
+                        {
+                            'name': ri.ingredient.name,
+                            'weight': ri.weight
+                        }
+                        for ri in recipe_ingredients
+                    ]
+
                 })
 
         return formatted_recipes

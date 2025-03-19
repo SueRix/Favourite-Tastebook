@@ -142,6 +142,10 @@ body {
     max-height: 80vh;
     overflow-y: auto;
 }
+.mandatory-ingredient {
+    border: 3px solid #00d8ff !important;
+}
+
 
 .block {
     background: #ffffff;

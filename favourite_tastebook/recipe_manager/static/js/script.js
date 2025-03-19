@@ -55,8 +55,10 @@ function fetchRecipes() {
                             <h5>Ingredients:</h5>
                             <div class="ingredients-grid">
                                 ${r.ingredients.map(ingredient => `
-                                    <span class="ingredient ${selectedIngredients.includes(ingredient) ? 'selected-ingredient' : 'missing-ingredient'}">
-                                        ${ingredient}
+                                    <span class="ingredient 
+                                         ${selectedIngredients.includes(ingredient.name) ? 'selected-ingredient' : 'missing-ingredient'} 
+                                         ${ingredient.weight === 5 ? 'mandatory-ingredient' : ''}">
+                                         ${ingredient.name}
                                     </span>
                                 `).join('')}
                             </div>
