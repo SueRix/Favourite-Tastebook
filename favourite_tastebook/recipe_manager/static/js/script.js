@@ -1,6 +1,7 @@
 "use strict";
 
 let selectedIngredients = [];
+let favoriteIngredients = [];
 let mode = "list", selectedCategory = null;
 const searchInput = document.getElementById("semanticSearchInput");
 const allIngredientsList = document.querySelector(".all-ingredients-list");
@@ -56,6 +57,7 @@ function fetchRecipes() {
                             <div class="ingredients-grid">
                                 ${r.ingredients.map(ingredient => `
                                     <span class="ingredient 
+                                         ${favoriteIngredients.includes(ingredient.name) ? 'favorite-highlight' : ''}
                                          ${selectedIngredients.includes(ingredient.name) ? 'selected-ingredient' : 'missing-ingredient'} 
                                          ${ingredient.weight === 5 ? 'mandatory-ingredient' : ''}">
                                          ${ingredient.name}
@@ -77,16 +79,29 @@ function fetchRecipes() {
 
 function updateFavoriteIngredientsList() {
     fetch("/api/favorite_ingredient/", {
-        method: "GET", headers: {"Content-Type": "application/json", "X-CSRFToken": getCookie("csrftoken")}
+        method: "GET",
+        headers: {"Content-Type": "application/json", "X-CSRFToken": getCookie("csrftoken")}
     })
-        .then(res => res.json())
-        .then(data => {
-            const favoriteIngredientsList = document.querySelector(".favorite-ingredients");
-            favoriteIngredientsList.innerHTML = data.favorite_ingredients?.length ?
-                data.favorite_ingredients.map(fav => `<li class="ingredient-item">⭐ ${fav.name}<button class="remove-btn" onclick="toggleFavorite('${fav.id}', false)">❌</button></li>`).join('') :
-                "<li class='no-ingredients'>❌ You have no favorite ingredients yet.</li>";
-        })
-        .catch(console.error);
+    .then(res => res.json())
+    .then(data => {
+        const favoriteIngredientsList = document.querySelector(".favorite-ingredients");
+        favoriteIngredientsList.innerHTML = data.favorite_ingredients?.length ?
+            data.favorite_ingredients.map(fav => `<li class="ingredient-item">⭐ ${fav.name}<button class="remove-btn" onclick="toggleFavorite('${fav.id}', false)">❌</button></li>`).join('') :
+            "<li class='no-ingredients'>❌ You have no favorite ingredients yet.</li>";
+
+        favoriteIngredients = data.favorite_ingredients?.map(fav => fav.name) || [];
+
+        if (selectedIngredients.length === 0 && favoriteIngredients.length > 0) {
+            favoriteIngredients.forEach(name => {
+                if (!selectedIngredients.includes(name)) {
+                    selectedIngredients.push(name);
+                }
+            });
+            updateSelectedIngredients();
+            fetchRecipes();
+        }
+    })
+    .catch(console.error);
 }
 
 function toggleFavorite(ingredientId, add) {

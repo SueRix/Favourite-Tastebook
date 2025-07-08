@@ -17,17 +17,24 @@ class ProductFeaturesView(TemplateView):
 
 class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'home.html'
-    extra_context = {'ingredients': Ingredient.objects.order_by('name')}
+    extra_context = {
+        'ingredients': Ingredient.objects.order_by('name'),
+        'saved_recipes': []
+    }
 
 
-class FilterRecipesView(View):
+class FilterRecipesView(LoginRequiredMixin, View):
     def get(self, request):
         selected_ingredients = self._parse_ingredients(request)
-
         if not selected_ingredients:
             return JsonResponse({'error': 'No ingredients selected'})
 
-        recipes = self._get_filtered_recipes(selected_ingredients)
+        user_favorites = set(
+            UserIngredients.objects.filter(user=request.user)
+            .values_list('ingredients__name', flat=True)
+        )
+
+        recipes = self._get_filtered_recipes(selected_ingredients, user_favorites)
         return JsonResponse({'recipes': list(recipes)})
 
     @staticmethod
@@ -36,31 +43,41 @@ class FilterRecipesView(View):
         return list(filter(None, map(str.strip, ingredient_names.split(','))))
 
     @staticmethod
-    def _get_filtered_recipes(selected_ingredients):
+    def _get_filtered_recipes(selected_ingredients, user_favorites):
         queryset = Recipe.objects.all()
         recipes_with_scores = []
+        bonus_value = 2
 
         for recipe in queryset:
-            recipe_score = 0
-            recipe_ingredients = RecipeIngredient.objects.filter(recipe=recipe).select_related('ingredient')
+            base_score = 0
+            bonus_score = 0
+            recipe_ingredients_qs = RecipeIngredient.objects.filter(recipe=recipe).select_related('ingredient')
             missing_ingredients = []
 
-            for recipe_ingredient in recipe_ingredients:
-                if recipe_ingredient.ingredient.name in selected_ingredients:
-                    recipe_score += recipe_ingredient.weight
+            for ri in recipe_ingredients_qs:
+                if ri.ingredient.name in selected_ingredients:
+                    base_score += ri.weight
                 else:
-                    missing_ingredients.append(recipe_ingredient.ingredient.name)
+                    missing_ingredients.append(ri.ingredient.name)
 
-            recipes_with_scores.append(
-                {'recipe': recipe, 'score': recipe_score, 'missing_ingredients': missing_ingredients})
+                if ri.ingredient.name in user_favorites:
+                    bonus_score += bonus_value
+
+            total_score = base_score + bonus_score
+
+            recipes_with_scores.append({
+                'recipe': recipe,
+                'score': total_score,
+                'missing_ingredients': missing_ingredients
+            })
 
         recipes_with_scores.sort(key=lambda item: item['score'], reverse=True)
 
         formatted_recipes = []
         for item in recipes_with_scores:
-            recipe = item['recipe']
-            recipe_ingredients = RecipeIngredient.objects.filter(recipe=recipe).select_related('ingredient')
             if item['score'] > 0:
+                recipe = item['recipe']
+                recipe_ingredients_qs = RecipeIngredient.objects.filter(recipe=recipe).select_related('ingredient')
                 formatted_recipes.append({
                     'name': recipe.name,
                     'cook_time': recipe.cook_time,
@@ -71,9 +88,8 @@ class FilterRecipesView(View):
                             'name': ri.ingredient.name,
                             'weight': ri.weight
                         }
-                        for ri in recipe_ingredients
+                        for ri in recipe_ingredients_qs
                     ]
-
                 })
 
         return formatted_recipes
@@ -138,6 +154,8 @@ class SearchIngredientsView(View):
 # 1)full match with full ingredients, p1
 # 2)full match with main ingredients, p2
 # 3)partial match with main ingredients - with only 1 lack of main ingredients p3
-# TODO: create deletion of selected ingredients from main list  p3
-# TODO: create model of cuisines for filtering recipes p2
+# TODO: create deletion of selected ingredients from main list  p3 - completed!!!
 # TODO: recreate search from UI to BE - completed!!!
+
+
+

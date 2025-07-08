@@ -143,9 +143,12 @@ body {
     overflow-y: auto;
 }
 .mandatory-ingredient {
-    border: 3px solid #00d8ff !important;
+    border: 3px solid #0016ff !important;
 }
 
+.favorite-highlight {
+    border: 2px solid orange;
+}
 
 .block {
     background: #ffffff;

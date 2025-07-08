@@ -70,12 +70,12 @@
         <!-- Right column -->
         <div class="right-column">
             <div class="block favorite-based-render-block">
-                <h3>Suggestions based on favorites</h3>
+                <h3>Saved Recipes</h3>
                 <ul class="suggested-dishes">
                     {% for suggestion in favorite_suggestions %}
                         <li>🍽️ {{ suggestion }}</li>
                     {% empty %}
-                        <li class="no-dishes">❌ No suggestions yet.</li>
+                        <li class="no-dishes">❌ No saved recipes yet.</li>
                     {% endfor %}
                 </ul>
             </div>
