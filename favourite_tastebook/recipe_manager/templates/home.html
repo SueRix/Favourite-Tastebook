@@ -4,7 +4,7 @@
 {% block content %}
     <div class="grid-container">
 
-        <!-- Left column -->
+        <!-- Left column (сохраняем оригинальный размер) -->
         <div class="left-column">
             <div class="block added-ingredients-block">
                 <h3>Selected Ingredients:</h3>
@@ -26,8 +26,7 @@
                     {% for fav in favorite_ingredients %}
                         <li class="ingredient-item">
                             ⭐ {{ fav.ingredients.name }}
-                            <button class="remove-btn" onclick="toggleFavorite('{{ fav.ingredients.id }}', false)">❌
-                            </button>
+                            <button class="remove-btn" onclick="toggleFavorite('{{ fav.ingredients.id }}', false)">❌</button>
                         </li>
                     {% empty %}
                         <li class="no-ingredients">❌ You have no favorite ingredients yet.</li>
@@ -40,14 +39,23 @@
         <div class="block all-ingredients-block">
             <div class="header-row">
                 <h3>Available Ingredients:</h3>
-                <button id="toggleView" class="btn">Categories</button>
+                <div class="header-buttons">
+                    <!-- Кнопки темы -->
+                    <button id="darkModeBtn" class="btn-theme" title="Dark Mode">
+                        <i class="bi bi-moon-fill"></i>
+                    </button>
+                    <button id="lightModeBtn" class="btn-theme" title="Light Mode">
+                        <i class="bi bi-sun-fill"></i>
+                    </button>
+                    <!-- Кнопка Categories/List -->
+                    <button id="toggleView" class="btn-toggle">Categories</button>
+                </div>
             </div>
 
             <div class="semantic-search">
                 <input type="text" id="semanticSearchInput" placeholder="Type to search ingredients..."/>
             </div>
 
-            <!-- Pre-populate the UL with all ingredients as <li> -->
             <ul class="all-ingredients-list">
                 {% for ing in ingredients %}
                     <li class="available-ingredient"
@@ -56,8 +64,8 @@
                         data-category="{{ ing.category|default:"Uncategorized" }}">
                         {{ ing.name }}
                         <div class="ingredient-buttons">
-                            <button class="btn btn-add-small add-ingredient-btn" data-name="{{ ing.name }}">➕</button>
-                            <button class="btn btn-favorite favorite-ingredient-btn"
+                            <button class="btn-add-small add-ingredient-btn" data-name="{{ ing.name }}">➕</button>
+                            <button class="btn-favorite favorite-ingredient-btn"
                                     data-is-favorite="false"
                                     data-ingredient-id="{{ ing.id }}">⭐
                             </button>
@@ -109,4 +117,8 @@
         </div>
 
     </div>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/themeswitch.js' %}"></script>
 {% endblock %}

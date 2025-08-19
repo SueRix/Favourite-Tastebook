@@ -1,91 +1,188 @@
+/* === ТЕМЫ через CSS-ПЕРЕМЕННЫЕ === */
+:root {
+  /* — светлая тема (исходные цвета) — */
+  --body-bg: linear-gradient(to right, #0A2342, #283E51);
+  --text-color: #000000;
+  --block-bg: #ffffff;
+  --block-shadow: rgba(0,0,0,0.2);
+  --recipe-title-color: #0A2342;
+  --recipe-time-color: #FF5722;
+  --ingredient-bg: #f8f9fa;
+  --ingredient-hover: #e9ecef;
+  --header-bg: rgba(255,255,255,0.8);
+  --btn-theme-border: #000000;
+  --btn-theme-hover-bg: yellow;
+  --btn-theme-hover-color: #000000;
+  --toggle-bg: #ffffff;
+  --toggle-border: #ccc;
+  --toggle-hover-bg: #e9ecef;
+}
+
+body.dark-mode {
+  /* — тёмная тема — */
+  --body-bg: #121212;
+  --text-color: #ffffff;
+  --block-bg: #232323;
+  --block-shadow: rgba(0,0,0,0.5);
+  --recipe-title-color: #ffffff;
+  --recipe-time-color: #FF5722;
+  --ingredient-bg: #252e3d;
+  --ingredient-hover: #33405a;
+  --header-bg: rgba(51,51,51,0.8);
+  --btn-theme-border: #ffffff;
+  --btn-theme-hover-bg: yellow;
+  --btn-theme-hover-color: #000000;
+  --toggle-bg: #2b2b2b;
+  --toggle-border: #555;
+  --toggle-hover-bg: #444;
+}
+
 html, body {
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    height: 100vh;
+    margin: 0; padding: 0;
+    width: 100vw; height: 100vh;
     overflow: hidden;
 }
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to right, #0A2342, #283E51);
+    background: var(--body-bg);
     min-height: 100vh;
+    color: var(--text-color);
+    transition: background .3s, color .3s;
 }
 
 .grid-container {
     display: grid;
     grid-template-columns: 25% 20% 55%;
-    grid-template-rows: auto auto;
+    grid-template-rows:
+       auto auto;
     grid-template-areas:
-    "left-column list-of-ingredients right-column"
-    "left-column list-of-ingredients right-column";
+      "left-column list-of-ingredients right-column"
+      "left-column list-of-ingredients right-column";
     height: 100vh;
     gap: 1rem;
     padding: 1rem;
     box-sizing: border-box;
 }
 
+/* Левый столбец — две клетки по высоте */
 .left-column {
     display: grid;
     grid-template-rows: auto auto;
     grid-template-areas:
-    "added-ingredients"
-    "favorite-ingredients";
+      "added-ingredients"
+      "favorite-ingredients";
     gap: 1rem;
     grid-area: left-column;
-    height: 100%;
 }
 
-.right-column {
-    display: grid;
-    grid-template-rows: auto auto;
-    grid-template-areas:
-    "favorites-based"
-    "recipe-based";
-    gap: 1rem;
-    grid-area: right-column;
-    height: 100%;
-}
-
-
-.semantic-search-block {
-    grid-area: favorites-based;
-}
-
-.added-ingredients-block {
-    grid-area: added-ingredients;
-}
-
-.favorite-ingredients-block {
-    grid-area: favorite-ingredients;
-}
-
+/* Центр */
 .all-ingredients-block {
     grid-area: list-of-ingredients;
     overflow-y: auto;
     max-height: calc(100vh - 12rem);
 }
 
+/* Правый столбец */
+.right-column {
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "favorites-based"
+      "recipe-based";
+    gap: 1rem;
+    grid-area: right-column;
+    height: 100%;
+}
+
+/* Хэдер внутри блока */
 .header-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    background: var(--header-bg);
+    padding: .5rem;
+    border-radius: 5px;
+}
+/* Контейнер для кнопок в хэдере */
+.header-row .header-buttons {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
 }
 
-.favorite-based-render-block {
-    grid-area: favorites-based;
+/* Кнопки темы */
+.btn-theme {
+    background: transparent;
+    border: 2px solid var(--btn-theme-border);
+    color: var(--text-color);
+    font-size: 1.25rem;
+    padding: .25rem .5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background .3s, color .3s, border-color .3s;
+}
+.btn-theme:hover {
+    background: var(--btn-theme-hover-bg);
+    color: var(--btn-theme-hover-color);
+    border-color: var(--btn-theme-hover-bg);
 }
 
-.recipe-item {
-    background: #ffffff;
+/* Кнопка Categories / List */
+.btn-toggle, #toggleView {
+    background: var(--toggle-bg);
+    border: 1px solid var(--toggle-border);
+    color: var(--text-color);
+    padding: .25rem .75rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background .3s, border-color .3s;
+}
+.btn-toggle:hover, #toggleView:hover {
+    background: var(--toggle-hover-bg);
+    border-color: var(--toggle-hover-bg);
+}
+
+/* Блоки с содержимым */
+.block {
+    background: var(--block-bg);
+    padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 16px var(--block-shadow);
+    transition: transform .3s ease, box-shadow .3s ease;
+    display: flex;
+    flex-direction: column;
+}
+.block:hover {
+    transform: scale(1.02);
+}
+
+/* Списки ингредиентов */
+.ingredient-item, .available-ingredient {
+    background: var(--ingredient-bg);
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background .3s;
+}
+.ingredient-item:hover,
+.available-ingredient:hover {
+    background: var(--ingredient-hover);
+}
+
+/* Карточки рецептов */
+.recipe-item {
+    background: var(--block-bg);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--block-shadow);
     margin-bottom: 20px;
     padding: 20px;
-    transition: transform 0.3s ease;
+    transition: transform .3s ease;
 }
-
 .recipe-item:hover {
     transform: translateY(-5px);
 }
@@ -96,206 +193,20 @@ body {
     align-items: center;
     margin-bottom: 15px;
 }
+.recipe-title { font-size: 1.5em; color: var(--recipe-title-color); margin: 0; }
+.recipe-time  { font-size: 1em; color: var(--recipe-time-color); font-weight: bold; }
 
-.recipe-title {
-    font-size: 1.5em;
-    color: #0A2342;
-    margin: 0;
-}
+/* Стили кнопок оригинальные (unchanged) */
+.btn-search       { background: #007bff; color: #fff; }
+.btn-search:hover { background: #0056b3; transform: scale(1.05); }
+.btn-add-small    { background: #1E9E57; color: #fff; margin-left: 10px; padding: 6px 10px; border-radius: 5px; }
+.btn-add-small:hover { background: #178E48; transform: scale(1.05); }
+.calculate-btn    { background: #FF5722; color: #fff; font-size: 16px; }
+.calculate-btn:hover { background: #E64A19; transform: scale(1.05); }
+.remove-btn       { background: #dc3545; color: #fff; border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer; transition: background .3s, transform .3s; }
+.remove-btn:hover { background: #c82333; transform: scale(1.1); }
 
-.recipe-time {
-    font-size: 1em;
-    color: #FF5722;
-    font-weight: bold;
-}
-
-.recipe-instructions {
-    font-size: 1em;
-    color: #333;
-    line-height: 1.6;
-    margin-bottom: 15px;
-}
-
-.recipe-ingredients h5 {
-    font-size: 1.2em;
-    color: #000000;
-    margin-bottom: 10px;
-}
-
-.recipe-ingredients ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.recipe-ingredients li {
-    background: #f8f9fa;
-    padding: 8px;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    font-size: 0.9em;
-    color: #555;
-}
-
-.added-ingredients-block,
-.favorite-ingredients-block,
-.recipe-based-render-block {
-    max-height: 80vh;
-    overflow-y: auto;
-}
-.mandatory-ingredient {
-    border: 3px solid #0016ff !important;
-}
-
-.favorite-highlight {
-    border: 2px solid orange;
-}
-
-.block {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-    height: auto;
-    min-height: 100px;
-    display: flex;
-    flex-direction: column;
-}
-
-.block:hover {
-    transform: scale(1.02);
-}
-
-
-.btn {
-    display: inline-block;
-    padding: 12px 18px;
-    border-radius: 25px;
-    border: none;
-    cursor: pointer;
-    transition: 0.3s;
-    font-weight: bold;
-    font-size: 14px;
-    margin-top: 10px;
-}
-
-.btn-search {
-    background: #007bff;
-    color: #fff;
-}
-
-.btn-search:hover {
-    background: #0056b3;
-    transform: scale(1.05);
-}
-
-.btn-add-small {
-    background: #1E9E57;
-    color: #fff;
-    margin-left: 10px;
-    padding: 6px 10px;
-    border-radius: 5px;
-}
-
-.btn-add-small:hover {
-    background: #178E48;
-    transform: scale(1.05);
-}
-
-.calculate-btn {
-    background: #FF5722;
-    color: #fff;
-    font-size: 16px;
-}
-
-.calculate-btn:hover {
-    background: #E64A19;
-    transform: scale(1.05);
-}
-
-.calculate-btn-container {
-    text-align: right;
-    margin-top: 20px;
-}
-
-ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.ingredient-item, .available-ingredient {
-    background: #f8f9fa;
-    padding: 12px;
-    margin-bottom: 8px;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: all 0.3s ease;
-}
-
-.ingredient-item:hover,
-.available-ingredient:hover {
-    background: #e9ecef;
-}
-
-.no-ingredients, .no-dishes {
-    font-style: italic;
-    color: #888;
-}
-
-.ingredient {
-    display: inline-block;
-    padding: 4px 8px;
-    margin: 2px;
-    border-radius: 5px;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.selected-ingredient {
-    border: 2px solid #1E9E57;
-    background-color: #e0ffe0;
-    color: #155724;
-}
-
-.missing-ingredient {
-    border: 2px solid #dc3545;
-    background-color: #ffe0e0;
-    color: #721c24;
-}
-
-.remove-btn {
-    background: #dc3545;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-    transition: 0.3s ease;
-    margin-left: auto;
-}
-
-.remove-btn:hover {
-    background: #c82333;
-    transform: scale(1.1);
-}
-
-.btn-add-small {
-    background: #1E9E57;
-    color: #fff;
-    margin-left: auto;
-    padding: 6px 10px;
-    border-radius: 5px;
-}
-
-.btn-add-small:hover {
-    background: #178E48;
-    transform: scale(1.05);
-}
-
-
+/* Поля ввода */
 input {
     width: 100%;
     padding: 10px;
@@ -303,53 +214,40 @@ input {
     box-sizing: border-box;
     border-radius: 5px;
     border: 1px solid #ccc;
+    transition: box-shadow .3s, border-color .3s;
 }
-
 input:focus {
     border-color: #007bff;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    box-shadow: 0 0 8px rgba(0,123,255,0.5);
 }
 
-@media (max-width: 900px) {
-    .grid-container {
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(6, auto);
-        grid-template-areas:
-      "semantic-search"
-      "favorites-based"
-      "added-ingredients"
-      "favorite-ingredients"
-      "list-of-ingredients"
-      "recipe-based";
-        height: auto;
-        overflow-y: auto;
-    }
-}
-
+/* Категории details/summary */
 details > summary {
     list-style: none;
     cursor: pointer;
     padding: 10px;
-    background-color: #f0f0f0;
+    background-color: var(--ingredient-bg);
     border-radius: 5px;
     margin-bottom: 5px;
 }
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before { content: '▶'; display: inline-block; margin-right: 5px; }
+details[open] > summary::before { content: '▼'; }
+details ul { padding-left: 20px; margin-top: 10px; }
 
-details > summary::-webkit-details-marker {
-    display: none;
-}
-
-details > summary::before {
-    content: '▶';
-    display: inline-block;
-    margin-right: 5px;
-}
-
-details[open] > summary::before {
-    content: '▼';
-}
-
-details ul {
-    padding-left: 20px;
-    margin-top: 10px;
+/* Медиа-правила */
+@media (max-width: 900px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+        grid-template-rows:
+          auto auto auto auto auto;
+        grid-template-areas:
+          "list-of-ingredients"
+          "left-column"
+          "left-column"
+          "favorites-based"
+          "recipe-based";
+        height: auto;
+        overflow-y: auto;
+    }
 }

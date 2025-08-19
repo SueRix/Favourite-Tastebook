@@ -1,74 +1,64 @@
 {% load static %}
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Favourite Tastebook - Your Ultimate Recipe Manager">
-    <title>Favourite Tastebook - Recipe Manager</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Favourite Tastebook</title>
+  <!-- Bootstrap + Icons -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="/">Favourite Tastebook</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <a class="btn btn-outline-primary me-2" href="{% url 'login' %}">Login</a>
-                <a class="btn btn-outline-success" href="{% url 'product_features' %}">Our Product</a>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container mt-5">
-        <div class="hero">
-            <h1 class="display-4 fw-bold">Welcome to Favourite Tastebook</h1>
-            <p class="lead">Your ultimate recipe manager. Organize, save, and share your favorite recipes effortlessly.</p>
-            <a class="btn btn-lg btn-primary shadow" href="{% url 'register' %}">Explore Now</a>
-        </div>
-    </div>
-
+<body class="light-mode">
+  <nav class="navbar navbar-expand-lg">
     <div class="container">
-        <div class="info-section">
-            <h2>Why Choose Favourite Tastebook?</h2>
-            <div class="info-box">
-                <div class="info-card">
-                    <h3>📖 Easy Recipe Management</h3>
-                    <p>Store all your favorite recipes in one place, easily accessible anytime.</p>
-                </div>
-                <div class="info-card">
-                    <h3>🛒 Smart Ingredient List</h3>
-                    <p>Generate a shopping list automatically based on your saved recipes.</p>
-                </div>
-                <div class="info-card">
-                    <h3>🏷️ Custom Categories</h3>
-                    <p>Organize your recipes by cuisine, diet, or personal preference.</p>
-                </div>
-                <div class="info-card">
-                    <h3>🔍 Advanced Search</h3>
-                    <p>Find recipes easily using filters like ingredients, keywords, or categories.</p>
-                </div>
-                <div class="info-card">
-                    <h3>🌍 Share with Friends</h3>
-                    <p>Send recipes to family and friends with just one click.</p>
-                </div>
-                <div class="info-card">
-                    <h3>☁️ Cloud Sync</h3>
-                    <p>Access your recipes from any device, anytime, anywhere.</p>
-                </div>
-            </div>
-        </div>
+      <a class="navbar-brand site-title fw-bold" href="{% url 'welcome' %}">Favourite Tastebook</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="nav">
+        <!-- переключатели темы -->
+        <button id="darkModeBtn"  class="theme-btn me-2" title="Dark Mode"><i class="bi bi-moon-fill"></i></button>
+        <button id="lightModeBtn" class="theme-btn me-2" title="Light Mode"><i class="bi bi-sun-fill"></i></button>
+        <!-- статичные ссылки -->
+        <a class="btn btn-outline-primary me-2" href="{% url 'login' %}">Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <!-- HERO -->
+    <div class="hero text-center">
+      <h1 class="display-4">Welcome to Favourite Tastebook</h1>
+      <p class="lead">
+        Your ultimate recipe manager. Organize, save, and share your favorite recipes effortlessly.
+      </p>
+      <a class="btn btn-lg btn-primary" href="accounts/register">Explore Now</a>
     </div>
 
-    <div class="container">
-        <div class="cta-section">
-            <h2>Start Organizing Your Recipes Today!</h2>
-            <a class="btn btn-lg btn-light shadow" href="{% url 'register' %}">Get Started for Free</a>
-        </div>
+    <!-- INFO-CARDS -->
+    <div class="info-box mt-5">
+      <div class="info-card"><h3>📖 Easy Recipe Management</h3><p>Store all your favorite recipes in one place.</p></div>
+      <div class="info-card"><h3>🛒 Smart Ingredient List</h3><p>Generate a shopping list automatically.</p></div>
+      <div class="info-card"><h3>🏷️ Custom Categories</h3><p>Organize by cuisine, diet, or preference.</p></div>
+      <div class="info-card"><h3>🔍 Advanced Search</h3><p>Find recipes via filters or keywords.</p></div>
+      <div class="info-card"><h3>🌍 Share with Friends</h3><p>Send recipes with one click.</p></div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- CTA -->
+    <div class="cta-section text-center mt-5">
+      <h2>Start Organizing Your Recipes Today!</h2>
+      <a class="btn btn-lg btn-light shadow" href="register">Get Started for Free</a>
+    </div>
+  </div>
+
+  <!-- сначала Bootstrap JS, потом наш скрипт -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/themeswitch.js' %}"></script>
 </body>
 </html>

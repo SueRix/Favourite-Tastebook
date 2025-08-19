@@ -172,3 +172,22 @@ document.addEventListener("DOMContentLoaded", () => {
     updateSelectedIngredients();
     updateFavoriteIngredientsList();
 });
+// сразу после загрузки HTML
+
+window.addEventListener('DOMContentLoaded', () => {
+  const darkBtn = document.getElementById('darkModeBtn');
+  const lightBtn = document.getElementById('lightModeBtn');
+
+  if (!darkBtn || !lightBtn) return;
+
+  darkBtn.addEventListener('click', () => {
+    document.body.classList.add('dark-mode');
+    document.body.classList.remove('light-mode');
+  });
+
+  lightBtn.addEventListener('click', () => {
+    document.body.classList.add('light-mode');
+    document.body.classList.remove('dark-mode');
+  });
+});
+
