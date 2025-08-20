@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+  <h2>Профиль</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for field in form %}
+      <div class="form-row">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.help_text %}<small class="helptext">{{ field.help_text|safe }}</small>{% endif %}
+        {{ field.errors }}
+      </div>
+    {% endfor %}
+    <button type="submit">Сохранить</button>
+  </form>
+
+  <div class="links">
+    <a href="{% url 'password_change' %}">Сменить пароль</a>
+  </div>
+
+  {% if request.user.profile.avatar %}
+    <div class="current-avatar">
+      <img src="{{ request.user.profile.avatar.url }}" alt="avatar">
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

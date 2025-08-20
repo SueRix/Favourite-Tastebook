@@ -53,7 +53,7 @@ class AuthenticationTests(TestCase):
             'password': 'password123_wrong',
         })
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'auth/login.html')
+        self.assertTemplateUsed(response, 'authentication/login.html')
 
     def test_logout_view(self):
         response = self.client.post(reverse('logout'))

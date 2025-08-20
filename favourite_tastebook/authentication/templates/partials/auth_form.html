@@ -1,0 +1,19 @@
+<section class="auth-card">
+  <h2>{{ title }}</h2>
+  <form method="post" {% if enctype %}enctype="{{ enctype }}"{% endif %}>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for field in form %}
+      <div class="form-row">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.help_text %}<small class="helptext">{{ field.help_text|safe }}</small>{% endif %}
+        {{ field.errors }}
+      </div>
+    {% endfor %}
+    <button type="submit">{{ submit_label }}</button>
+  </form>
+  {% if extra_links %}
+    <div class="links">{{ extra_links|safe }}</div>
+  {% endif %}
+</section>
