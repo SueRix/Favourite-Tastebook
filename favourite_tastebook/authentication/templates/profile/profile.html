@@ -1,0 +1,30 @@
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile</title>
+  <link rel="stylesheet" href="{% static '/css/profile.css' %}">
+</head>
+<body>
+  <div class="auth-container">
+    <h2>👤 Profile</h2>
+
+    {% if messages %}
+      <div class="flash">
+        {% for message in messages %}<p>{{ message }}</p>{% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Save</button>
+    </form>
+
+    <p class="extra-link">
+      <a href="{% url 'password_change' %}">Change password</a> ·
+      <a href="{% url 'logout' %}">Logout</a>
+    </p>
+  </div>
+</body>
+</html>
