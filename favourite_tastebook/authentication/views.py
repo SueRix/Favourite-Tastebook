@@ -1,17 +1,16 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView
+
 from django.contrib import messages
-from .forms import ProfileForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import update_session_auth_hash
+from django.shortcuts import redirect
+from django.views.generic import TemplateView
+
+from .forms import ProfileForm, AccountForm, PasswordUpdateForm
 from .models import Profile
-from django.contrib.auth.views import (
-    PasswordChangeView, PasswordChangeDoneView,
-    PasswordResetView, PasswordResetDoneView,
-    PasswordResetConfirmView, PasswordResetCompleteView
-)
 
 class RegisterView(CreateView):
     model = User
@@ -19,40 +18,55 @@ class RegisterView(CreateView):
     template_name = 'register.html'
     success_url = reverse_lazy('home')
 
-class ProfileUpdateView(LoginRequiredMixin, UpdateView):
-    model = Profile
-    form_class = ProfileForm
-    template_name = "update_profile.html"
-    success_url = reverse_lazy("profile")
+class UpdateProfileView(LoginRequiredMixin, TemplateView):
+    template_name = 'update_profile.html'
 
-
-    def get_object(self, queryset=None):
+    def _get_profile(self):
         obj, _ = Profile.objects.get_or_create(user=self.request.user)
         return obj
 
-    def form_valid(self, form):
-        messages.success(self.request, "Профиль обновлён.")
-        return super().form_valid(form)
+    # ---------- GET ----------
+    def get(self, request, *args, **kwargs):
+        profile = self._get_profile()
+        context = {
+            "profile_form": ProfileForm(instance=profile),
+            "account_form": AccountForm(instance=request.user),
+            "password_form": PasswordUpdateForm(user=request.user),
+        }
+        return self.render_to_response(context)
 
-class MyPasswordChangeView(PasswordChangeView):
-    template_name = "password_change.html"
-    success_url = reverse_lazy("password_change_done")
+    # ---------- POST ----------
+    def post(self, request, *args, **kwargs):
+        action = request.POST.get("action")
 
-class MyPasswordChangeDoneView(PasswordChangeDoneView):
-    template_name = "password_change_done.html"
+        if action == "profile":
+            profile = self._get_profile()
+            form = ProfileForm(request.POST, request.FILES, instance=profile)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Profile updated.")
+            else:
+                messages.error(request, "Fix errors in the profile section.")
+            return redirect("update_profile")
 
-class MyPasswordResetView(PasswordResetView):
-    template_name = "password_reset.html"
-    email_template_name = "emails/password_reset_email.txt"
-    subject_template_name = "emails/password_reset_subject.txt"
-    success_url = reverse_lazy("password_reset_done")
+        if action == "account":
+            form = AccountForm(request.POST, instance=request.user)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Account details updated.")
+            else:
+                messages.error(request, "Fix errors in username/email.")
+            return redirect("update_profile")
 
-class MyPasswordResetDoneView(PasswordResetDoneView):
-    template_name = "password_reset_done.html"
+        if action == "password":
+            form = PasswordUpdateForm(user=request.user, data=request.POST)
+            if form.is_valid():
+                user = form.save()                     # saves the new password
+                update_session_auth_hash(request, user) # keep the user logged in
+                messages.success(request, "Password changed.")
+            else:
+                messages.error(request, "Fix errors in the password section.")
+            return redirect("update_profile")
 
-class MyPasswordResetConfirmView(PasswordResetConfirmView):
-    template_name = "password_reset_confirm.html"
-    success_url = reverse_lazy("password_reset_complete")
-
-class MyPasswordResetCompleteView(PasswordResetCompleteView):
-    template_name = "password_reset_complete.html"
+        messages.error(request, "Unknown action.")
+        return redirect("update_profile")

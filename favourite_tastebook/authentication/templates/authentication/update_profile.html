@@ -1,13 +1,15 @@
 {% extends "base.html" %}
-{% block title %}Профиль{% endblock %}
+{% block title %}Edit profile{% endblock %}
 
 {% block content %}
+
 <section class="auth-card">
-  <h2>Профиль</h2>
+  <h2>Profile</h2>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.non_field_errors }}
-    {% for field in form %}
+    <input type="hidden" name="action" value="profile">
+    {{ profile_form.non_field_errors }}
+    {% for field in profile_form %}
       <div class="form-row">
         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
         {{ field }}
@@ -15,17 +17,48 @@
         {{ field.errors }}
       </div>
     {% endfor %}
-    <button type="submit">Сохранить</button>
+    <button type="submit">Save profile</button>
   </form>
 
-  <div class="links">
-    <a href="{% url 'password_change' %}">Сменить пароль</a>
-  </div>
-
   {% if request.user.profile.avatar %}
-    <div class="current-avatar">
-      <img src="{{ request.user.profile.avatar.url }}" alt="avatar">
+    <div class="current-avatar" style="margin-top:10px">
+      <img src="{{ request.user.profile.avatar.url }}" alt="avatar" />
     </div>
   {% endif %}
 </section>
+
+<section class="auth-card" style="margin-top:16px">
+  <h2>Account</h2>
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="account">
+    {{ account_form.non_field_errors }}
+    {% for field in account_form %}
+      <div class="form-row">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {{ field.errors }}
+      </div>
+    {% endfor %}
+    <button type="submit">Save account</button>
+  </form>
+</section>
+
+<section class="auth-card" style="margin-top:16px">
+  <h2>Password</h2>
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="password">
+    {{ password_form.non_field_errors }}
+    {% for field in password_form %}
+      <div class="form-row">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {{ field.errors }}
+      </div>
+    {% endfor %}
+    <button type="submit">Change password</button>
+  </form>
+</section>
+
 {% endblock %}
