@@ -118,10 +118,10 @@ LOGIN_REDIRECT_URL = reverse_lazy('home')
 LOGOUT_REDIRECT_URL = reverse_lazy('login')
 LOGIN_URL = reverse_lazy('login')
 
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = False
+# CSRF_COOKIE_SECURE = False
 # SECURE_HSTS_SECONDS = 31536000
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = False
 # SECURE_HSTS_PRELOAD = True
 # SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 # ALLOWED_HOSTS = ["your-domain"]

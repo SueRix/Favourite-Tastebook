@@ -4,6 +4,7 @@ from .models import Profile
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -47,27 +48,45 @@ class ProfileForm(forms.ModelForm):
 class AccountForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ["username", "email"]
+        fields = ("username",)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
     def clean_username(self):
-        username = (self.cleaned_data.get("username") or "").strip()
-        if not (USERNAME_MIN <= len(username) <= USERNAME_MAX):
-            raise forms.ValidationError(f"Username length must be {USERNAME_MIN}-{USERNAME_MAX} characters.")
-        if not USERNAME_RE.match(username):
-            raise forms.ValidationError("Username may contain letters, digits, '.', '_' and '-'.")
-        qs = User.objects.filter(username__iexact=username).exclude(pk=self.instance.pk)
-        if qs.exists():
+        username = self.cleaned_data["username"].strip()
+        user = self.instance
+
+        if username == user.username:
+            return username
+
+        if User.objects.filter(username__iexact=username).exclude(pk=user.pk).exists():
             raise forms.ValidationError("This username is already taken.")
+
+        profile = getattr(user, "profile", None)
+        if profile is None:
+            from .models import Profile
+            profile, _ = Profile.objects.get_or_create(user=user)
+
+        if not profile.can_change_username():
+            raise forms.ValidationError("You can change your username only once every 30 days.")
+
         return username
 
-    def clean_email(self):
-        email = (self.cleaned_data.get("email") or "").strip()
-        if not email:
-            raise forms.ValidationError("Email is required.")
-        qs = User.objects.filter(email__iexact=email).exclude(pk=self.instance.pk)
-        if qs.exists():
-            raise forms.ValidationError("This email is already in use.")
-        return email
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        username_changed = user.pk and "username" in self.changed_data
+
+        if commit:
+            user.save()
+            if username_changed:
+                profile = getattr(user, "profile", None)
+                if profile is None:
+                    from .models import Profile
+                    profile, _ = Profile.objects.get_or_create(user=user)
+                profile.last_username_change_at = timezone.now()
+                profile.save()
+        return user
 
 
 class PasswordUpdateForm(PasswordChangeForm):
