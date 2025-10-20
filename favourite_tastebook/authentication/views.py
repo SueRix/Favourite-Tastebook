@@ -1,4 +1,3 @@
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
@@ -9,14 +8,14 @@ from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
-from .forms import ProfileForm, AccountForm, PasswordUpdateForm
+from .forms import ProfileForm, AccountForm, PasswordUpdateForm, SignupForm
 from .models import Profile
 
 class RegisterView(CreateView):
     model = User
-    form_class = UserCreationForm
-    template_name = 'register.html'
-    success_url = reverse_lazy('home')
+    form_class = SignupForm
+    template_name = "authentication/register.html"
+    success_url = reverse_lazy("login")
 
 class UpdateProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'update_profile.html'
@@ -47,7 +46,7 @@ class UpdateProfileView(LoginRequiredMixin, TemplateView):
                 messages.success(request, "Profile updated.")
             else:
                 messages.error(request, "Fix errors in the profile section.")
-            return redirect("update_profile")
+            return redirect("profile")
 
         if action == "account":
             form = AccountForm(request.POST, instance=request.user)
@@ -56,7 +55,7 @@ class UpdateProfileView(LoginRequiredMixin, TemplateView):
                 messages.success(request, "Account details updated.")
             else:
                 messages.error(request, "Fix errors in username/email.")
-            return redirect("update_profile")
+            return redirect("profile")
 
         if action == "password":
             form = PasswordUpdateForm(user=request.user, data=request.POST)
@@ -66,7 +65,7 @@ class UpdateProfileView(LoginRequiredMixin, TemplateView):
                 messages.success(request, "Password changed.")
             else:
                 messages.error(request, "Fix errors in the password section.")
-            return redirect("update_profile")
+            return redirect("profile")
 
         messages.error(request, "Unknown action.")
-        return redirect("update_profile")
+        return redirect("profile")
