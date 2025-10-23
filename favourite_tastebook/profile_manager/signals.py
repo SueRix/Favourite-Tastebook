@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save, post_delete
 from django.dispatch import receiver
 
 from .models import Profile
@@ -9,8 +9,36 @@ def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
-@receiver(post_save, sender=User)
-def save_profile(sender, instance, **kwargs):
-    Profile.objects.get_or_create(user=instance)
+
+@receiver(pre_save, sender=Profile)
+def delete_old_avatar_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return
+
+    try:
+        old = Profile.objects.get(pk=instance.pk)
+    except Profile.DoesNotExist:
+        return
+
+    old_file = old.avatar
+    new_file = instance.avatar
+
+    if old_file and old_file != new_file:
+        try:
+            storage = old_file.storage
+            if storage.exists(old_file.name):
+                storage.delete(old_file.name)
+        except Exception:
+            pass
 
 
+@receiver(post_delete, sender=Profile)
+def delete_avatar_on_profile_delete(sender, instance, **kwargs):
+    avatar = instance.avatar
+    if avatar:
+        try:
+            storage = avatar.storage
+            if storage.exists(avatar.name):
+                storage.delete(avatar.name)
+        except Exception:
+            pass

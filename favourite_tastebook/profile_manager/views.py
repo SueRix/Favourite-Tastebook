@@ -1,13 +1,13 @@
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.http import Http404
-from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import DetailView, View, UpdateView, detail
+from django.shortcuts import get_object_or_404, render
+from django.views.generic import DetailView, View
 
+from .exceptions import ProfileNotFound, InvalidFormData
 from .forms import ProfileForm, UserUpdateForm
 from .models import Profile
+
 
 class ProfileDetailView(DetailView):
     model = Profile
@@ -20,7 +20,9 @@ class ProfileDetailView(DetailView):
         profile, _ = Profile.objects.get_or_create(user=user)
         return profile
 
+
 class OwnerRequiredMixin(UserPassesTestMixin):
+
     def test_func(self):
         username = self.kwargs.get("username")
         return self.request.user.is_authenticated and self.request.user.username == username
@@ -30,30 +32,52 @@ class OwnerRequiredMixin(UserPassesTestMixin):
             raise Http404("You cannot edit another user's profile.")
         return super().handle_no_permission()
 
-class ProfileUpdateView(OwnerRequiredMixin, LoginRequiredMixin, View):
+
+class ProfileUpdateView(LoginRequiredMixin, OwnerRequiredMixin, View):
     template_name = "profile/edit.html"
 
+    def _get_forms(self, request):
+        try:
+            profile = request.user.profile
+        except Profile.DoesNotExist as exc:
+            raise ProfileNotFound("Profile object not found for current user.") from exc
+
+        if request.method == "POST":
+            user_form = UserUpdateForm(request.POST, instance=request.user)
+            profile_form = ProfileForm(request.POST, request.FILES, instance=profile)
+        else:
+            user_form = UserUpdateForm(instance=request.user)
+            profile_form = ProfileForm(instance=profile)
+        return user_form, profile_form
+
     def get(self, request, username):
-        user = request.user
-        user_form = UserUpdateForm(instance=user)
-        profile_form = ProfileForm(instance=user.profile)
-        return render(request, self.template_name, {
-            "user_form": user_form,
-            "profile_form": profile_form,
-        })
+        try:
+            user_form, profile_form = self._get_forms(request)
+        except ProfileNotFound:
+            raise Http404("Profile not found.")
+        ctx = {"user_form": user_form, "profile_form": profile_form}
+        return render(request, self.template_name, ctx, status=200)
 
     def post(self, request, username):
-        user = request.user
-        user_form = UserUpdateForm(request.POST, instance=user)
-        profile_form = ProfileForm(request.POST, request.FILES, instance=user.profile)
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, "Profile updated.")
-        else:
-            messages.error(request, "Please correct the error below.")
-        return render(request, self.template_name, {
-            "user_form": user_form,
-            "profile_form": profile_form,
-        })
+        try:
+            user_form, profile_form = self._get_forms(request)
+            if user_form.is_valid() and profile_form.is_valid():
+                user_form.save()
+                profile_form.save()
+                ctx = {"user_form": UserUpdateForm(instance=request.user),
+                       "profile_form": ProfileForm(instance=request.user.profile),
+                       "saved": True}
+                return render(request, self.template_name, ctx, status=200)
 
+            raise InvalidFormData(user_errors=user_form.errors, profile_errors=profile_form.errors)
+
+        except InvalidFormData as e:
+            ctx = {
+                "user_form": user_form,
+                "profile_form": profile_form,
+                "errors": {"user": e.user_errors, "profile": e.profile_errors},
+            }
+            return render(request, self.template_name, ctx, status=400)
+
+        except ProfileNotFound:
+            raise Http404("Profile not found.")
