@@ -119,3 +119,6 @@ APPEND_SLASH = False
 LOGIN_REDIRECT_URL = reverse_lazy('home')
 LOGOUT_REDIRECT_URL = reverse_lazy('login')
 LOGIN_URL = reverse_lazy('login')
+
+MAX_BIO_LENGTH = 1000
+MAX_AVATAR_MB = 5

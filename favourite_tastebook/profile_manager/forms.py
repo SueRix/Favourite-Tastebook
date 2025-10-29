@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from profile_manager.models import Profile
-
-MAX_BIO_LEN = 1000
+from django.conf import settings
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:
@@ -27,7 +26,6 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class ProfileForm(forms.ModelForm):
-    MAX_AVATAR_MB = 5
     remove_avatar = forms.BooleanField(required=False, initial=False, help_text="Remove current avatar")
 
     class Meta:
@@ -75,12 +73,12 @@ class ProfileForm(forms.ModelForm):
 
     def clean_avatar(self):
         avatar = self.cleaned_data.get("avatar")
-        if avatar and avatar.size > self.MAX_AVATAR_MB * 1024 * 1024:
-            raise forms.ValidationError(f"Avatar must be less than {self.MAX_AVATAR_MB} MB")
+        if avatar and avatar.size > settings.MAX_AVATAR_MB * 1024 * 1024:
+            raise forms.ValidationError(f"Avatar must be less than {settings.MAX_AVATAR_MB} MB")
         return avatar
 
     def clean_bio(self):
         bio = self.cleaned_data.get("bio", "")
-        if bio and len(bio) > MAX_BIO_LEN:
-            raise forms.ValidationError(f"Bio must be ≤ {MAX_BIO_LEN} characters.")
+        if bio and len(bio) > settings.MAX_BIO_LEN:
+            raise forms.ValidationError(f"Bio must be ≤ {settings.MAX_BIO_LEN} characters.")
         return bio
