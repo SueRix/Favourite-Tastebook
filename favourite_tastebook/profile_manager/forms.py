@@ -36,21 +36,6 @@ class ProfileForm(forms.ModelForm):
             "bio": forms.Textarea(attrs={"rows": 5}),
         }
 
-    GENDER_ALIASES = {
-        "F": "FEMALE",
-        "M": "MALE",
-        "U": "Unspecified",
-        "Female": "FEMALE",
-        "Male": "MALE",
-        "UNSPECIFIED": "Unspecified",
-    }
-
-    def clean_gender(self):
-        value = self.cleaned_data.get("gender")
-        if value in self.GENDER_ALIASES:
-            return self.GENDER_ALIASES[value]
-        return value
-
     def save(self, commit=True):
         instance = super().save(commit=False)
 
