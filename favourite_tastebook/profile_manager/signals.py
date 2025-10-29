@@ -15,9 +15,8 @@ def delete_old_avatar_on_change(sender, instance, **kwargs):
     if not instance.pk:
         return
 
-    try:
-        old = Profile.objects.get(pk=instance.pk)
-    except Profile.DoesNotExist:
+    old = Profile.objects.filter(pk=instance.pk).first()
+    if not old:
         return
 
     old_file = old.avatar
