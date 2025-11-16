@@ -1,10 +1,131 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'profile/base.html' %}
 
-</body>
-</html>
+{% block title %}{{ profile.name_for_display }} – Profile{% endblock %}
+
+{% block sidebar %}
+    <aside class="sidebar">
+        <div>
+            <div class="logo">Favourite Tastebook</div>
+
+            <nav class="nav-section">
+                <a href="{% url 'home' %}" class="nav-link">Home</a>
+
+                <a href="{% url 'profile_detail' username=profile.user.username %}"
+                   class="nav-link{% if request.user.is_authenticated and request.user.username == profile.user.username and request.resolver_match.url_name == 'profile_detail' %} nav-link--active{% endif %}">
+                    Profile
+                </a>
+
+                <a href="{% url 'tastes' username=profile.user.username %}"
+                   class="nav-link {% if request.resolver_match.url_name == 'tastes' %}nav-link--active{% endif %}">
+                    Tastes
+                </a>
+
+                <a href="{% url 'cookbooks' username=profile.user.username %}"
+                   class="nav-link {% if request.resolver_match.url_name == 'cookbooks' %}nav-link--active{% endif %}">
+                    Cookbooks
+                </a>
+
+                <a href="{% url 'saved_recipes' username=profile.user.username %}"
+                   class="nav-link {% if request.resolver_match.url_name == 'saved_recipes' %}nav-link--active{% endif %}">
+                    Saved recipes
+                </a>
+            </nav>
+        </div>
+
+        {% if request.user.is_authenticated %}
+
+            <p class="sidebar-tip">
+                You are logged in as <span>{{ request.user.username }}</span>.
+            </p>
+
+            <form method="post" action="{% url 'logout' %}" class="logout-form">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn logout-btn-small">Logout</button>
+            </form>
+
+        {% else %}
+
+            <p class="sidebar-tip">
+                If you want use <span>all features</span>, please
+                <a href="{% url 'login' %}" class="accent-link">log in</a>
+            </p>
+
+        {% endif %}
+    </aside>
+{% endblock %}
+
+
+{% block content %}
+    <section class="profile-header">
+        <div>
+            <div class="avatar-wrapper">
+                {% if profile.avatar %}
+                    <img src="{{ profile.avatar.url }}" alt="User avatar">
+                {% else %}
+                    <div class="avatar-placeholder">
+                        {{ profile.name_for_display|first|upper }}
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if not profile.avatar %}
+                <div class="avatar-hint">
+                    User hasn’t uploaded an avatar yet.
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="header-main">
+            <div class="name-row">
+                <div class="display-name">{{ profile.name_for_display }}</div>
+            </div>
+            <div class="username">@{{ profile.user.username }}</div>
+
+            <div class="meta-row">
+                <div class="meta-tag">
+                    <span>Country:</span> {{ profile.country|default:"Not specified" }}
+                </div>
+                <div class="meta-tag">
+                    <span>Gender:</span> {{ profile.get_gender_display|default:"-" }}
+                </div>
+                {% if profile.birth_date %}
+                    <div class="meta-tag">
+                        <span>Birth date:</span> {{ profile.birth_date }}
+                    </div>
+                {% endif %}
+                <div class="meta-tag">
+                    <span>Member since:</span> {{ profile.created_at|date:"M Y" }}
+                </div>
+            </div>
+
+            <div class="bio {% if not profile.bio %}bio--empty{% endif %}">
+                {% if profile.bio %}
+                    {{ profile.bio }}
+                {% else %}
+                    This user has not added a bio yet.
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="header-actions">
+            {% if request.user.is_authenticated and request.user.username == profile.user.username %}
+                <a href="{% url 'profile_edit' username=profile.user.username %}" class="btn">Edit profile</a>
+            {% endif %}
+        </div>
+    </section>
+
+    <section>
+        <div class="tabs">
+            <div class="tab tab--active">Overview</div>
+            <div class="tab">Tastes</div>
+            <div class="tab">Cookbooks</div>
+            <div class="tab">Saved</div>
+        </div>
+
+        <h2 class="section-title">Overview</h2>
+        <div class="placeholder-card">
+            Здесь позже можно вывести последние сохранённые рецепты, вкусы и активность пользователя.
+            Сейчас это заглушка, чтобы страница не выглядела пустой.
+        </div>
+    </section>
+{% endblock %}

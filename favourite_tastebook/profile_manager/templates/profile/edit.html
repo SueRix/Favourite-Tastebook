@@ -1,10 +1,135 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'profile/base.html' %}
 
-</body>
-</html>
+{% block title %}Edit profile – {{ request.user.username }}{% endblock %}
+
+{% block sidebar %}
+    <aside class="sidebar">
+        <div>
+            <div class="logo">Favourite Tastebook</div>
+
+            <nav class="nav-section">
+                <a href="{% url 'home' %}" class="nav-link">Home</a>
+                <a href="{% url 'profile_detail' username=request.user.username %}" class="nav-link">
+                    Profile
+                </a>
+                <a href="{% url 'profile_edit' username=request.user.username %}"
+                   class="nav-link nav-link--active">Edit profile</a>
+            </nav>
+        </div>
+
+        {% if request.user.is_authenticated %}
+
+            <p class="sidebar-tip">
+                You are logged in as <span>{{ request.user.username }}</span>.
+            </p>
+
+            <form method="post" action="{% url 'logout' %}" class="logout-form">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn logout-btn-small">Logout</button>
+            </form>
+
+        {% else %}
+
+            <p class="sidebar-tip">
+                If you want use <span>all features</span>, please
+                <a href="{% url 'login' %}" class="accent-link">log in</a>
+            </p>
+
+        {% endif %}
+
+
+    </aside>
+
+{% endblock %}
+
+
+{% block content %}
+    <h1 class="page-title">Edit profile</h1>
+    <p class="page-subtitle">
+        Update your display name, avatar, biographical and personal information.
+    </p>
+
+    {% if saved %}
+        <div class="alert alert-success">
+            Profile has been updated successfully.
+        </div>
+    {% endif %}
+
+    {% if errors %}
+        <div class="alert alert-error">
+            Please check the highlighted fields – some data is invalid.
+        </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+
+        <div class="form-grid">
+            <div class="card">
+                <div class="card-title">Account data</div>
+
+                {% for field in user_form %}
+                    <div class="field">
+                        <label class="field-label" for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                        </label>
+                        <div class="field-input">
+                            {{ field }}
+                        </div>
+                        {% if field.help_text %}
+                            <div class="field-help">{{ field.help_text }}</div>
+                        {% endif %}
+                        {% if field.errors %}
+                            <div class="field-errors">
+                                {{ field.errors|striptags }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="card">
+                <div class="card-title">Profile info</div>
+
+                <div class="field">
+                    <div class="field-label">Current avatar</div>
+                    <div class="avatar-preview">
+                        {% if profile_form.instance.avatar %}
+                            <img src="{{ profile_form.instance.avatar.url }}" alt="Current avatar">
+                        {% else %}
+                            <div class="avatar-placeholder">
+                                {{ request.user.username|first|upper }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% for field in profile_form %}
+                    <div class="field">
+                        <label class="field-label" for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                        </label>
+                        <div class="field-input">
+                            {{ field }}
+                        </div>
+                        {% if field.help_text %}
+                            <div class="field-help">{{ field.help_text }}</div>
+                        {% endif %}
+                        {% if field.errors %}
+                            <div class="field-errors">
+                                {{ field.errors|striptags }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn">Save changes</button>
+            <a href="{% url 'profile_detail' username=request.user.username %}" class="btn btn-secondary">
+                Cancel
+            </a>
+        </div>
+    </form>
+{% endblock %}

@@ -7,6 +7,7 @@ from django.views.generic import DetailView, View
 from .exceptions import ProfileNotFound, InvalidFormData
 from .forms import ProfileForm, UserUpdateForm
 from .models import Profile
+from django.views.generic import TemplateView
 
 
 class ProfileDetailView(DetailView):
@@ -81,3 +82,12 @@ class ProfileUpdateView(LoginRequiredMixin, OwnerRequiredMixin, View):
 
         except ProfileNotFound:
             raise Http404("Profile not found.")
+
+class TastesView(TemplateView):
+    template_name = "profiles/tastes_stub.html"
+
+class CookbooksView(TemplateView):
+    template_name = "profiles/cookbooks_stub.html"
+
+class SavedRecipesView(TemplateView):
+    template_name = "profiles/saved_stub.html"
