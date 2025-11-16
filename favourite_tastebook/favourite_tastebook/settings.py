@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authentication',
+    'profile_manager',
 ]
 
 MIDDLEWARE = [
@@ -39,7 +40,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'authentication/templates/registration'),
-            os.path.join(BASE_DIR, 'collector_logic/templates/main'),
+            os.path.join(BASE_DIR, 'profile_manager/templates/profile'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -118,3 +119,6 @@ APPEND_SLASH = False
 LOGIN_REDIRECT_URL = reverse_lazy('home')
 LOGOUT_REDIRECT_URL = reverse_lazy('login')
 LOGIN_URL = reverse_lazy('login')
+
+MAX_BIO_LENGTH = 1000
+MAX_AVATAR_MB = 5
