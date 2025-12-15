@@ -36,10 +36,7 @@
             </p>
 
         {% endif %}
-
-
     </aside>
-
 {% endblock %}
 
 
@@ -64,36 +61,14 @@
     <form method="post" enctype="multipart/form-data" novalidate>
         {% csrf_token %}
 
-        <div class="form-grid">
-            <div class="card">
-                <div class="card-title">Account data</div>
+        <div class="card card--edit">
+            <div class="card-title">Profile settings</div>
 
-                {% for field in user_form %}
-                    <div class="field">
-                        <label class="field-label" for="{{ field.id_for_label }}">
-                            {{ field.label }}
-                        </label>
-                        <div class="field-input">
-                            {{ field }}
-                        </div>
-                        {% if field.help_text %}
-                            <div class="field-help">{{ field.help_text }}</div>
-                        {% endif %}
-                        {% if field.errors %}
-                            <div class="field-errors">
-                                {{ field.errors|striptags }}
-                            </div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            </div>
+            <div class="edit-layout">
+                <div class="edit-avatar">
+                    <div class="edit-avatar-title">Avatar</div>
 
-            <div class="card">
-                <div class="card-title">Profile info</div>
-
-                <div class="field">
-                    <div class="field-label">Current avatar</div>
-                    <div class="avatar-preview">
+                    <div class="avatar-preview avatar-preview--large">
                         {% if profile_form.instance.avatar %}
                             <img src="{{ profile_form.instance.avatar.url }}" alt="Current avatar">
                         {% else %}
@@ -102,26 +77,63 @@
                             </div>
                         {% endif %}
                     </div>
+
+                    <div class="avatar-upload-block">
+                        <div class="field-label">Update / remove avatar</div>
+                        <div class="field-input avatar-input-wrapper">
+                            {{ profile_form.avatar }}
+                        </div>
+                        <div class="field-help">
+                            Recommended: square image, at least 256×256px.
+                        </div>
+                    </div>
                 </div>
 
-                {% for field in profile_form %}
-                    <div class="field">
-                        <label class="field-label" for="{{ field.id_for_label }}">
-                            {{ field.label }}
-                        </label>
-                        <div class="field-input">
-                            {{ field }}
+                <div class="edit-fields">
+                    <div class="edit-section-title">Account data</div>
+
+                    {% for field in user_form %}
+                        <div class="field">
+                            <label class="field-label" for="{{ field.id_for_label }}">
+                                {{ field.label }}
+                            </label>
+                            <div class="field-input">
+                                {{ field }}
+                            </div>
+                            {% if field.help_text %}
+                                <div class="field-help">{{ field.help_text }}</div>
+                            {% endif %}
+                            {% if field.errors %}
+                                <div class="field-errors">
+                                    {{ field.errors|striptags }}
+                                </div>
+                            {% endif %}
                         </div>
-                        {% if field.help_text %}
-                            <div class="field-help">{{ field.help_text }}</div>
-                        {% endif %}
-                        {% if field.errors %}
-                            <div class="field-errors">
-                                {{ field.errors|striptags }}
+                    {% endfor %}
+
+                    <div class="edit-section-title">Profile info</div>
+
+                    {% for field in profile_form %}
+                        {% if field.name != 'avatar' %}
+                            <div class="field">
+                                <label class="field-label" for="{{ field.id_for_label }}">
+                                    {{ field.label }}
+                                </label>
+                                <div class="field-input">
+                                    {{ field }}
+                                </div>
+                                {% if field.help_text %}
+                                    <div class="field-help">{{ field.help_text }}</div>
+                                {% endif %}
+                                {% if field.errors %}
+                                    <div class="field-errors">
+                                        {{ field.errors|striptags }}
+                                    </div>
+                                {% endif %}
                             </div>
                         {% endif %}
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
         </div>
 
