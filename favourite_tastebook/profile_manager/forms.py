@@ -29,13 +29,14 @@ class ProfileForm(forms.ModelForm):
     remove_avatar = forms.BooleanField(
         required=False,
         initial=False,
-        widget=forms.CheckboxInput(attrs={'class': 'checkbox-input'})
+        label="Delete current avatar"
     )
 
     class Meta:
         model = Profile
         fields = ['avatar', 'country']
         widgets = {
+            "avatar": forms.FileInput(),
             "country": forms.Select(attrs={'class': 'form-select'}),
         }
 

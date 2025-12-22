@@ -68,15 +68,20 @@
                     </div>
 
                     <div class="avatar-upload-block">
+                        <div class="field-label">Update Image</div>
                         <div class="field-input avatar-input-wrapper">
                             {{ profile_form.avatar }}
                         </div>
+                        <div class="field-help">
+                            Recommended: square image, at least 256×256px.
+                        </div>
                     </div>
 
-                    {% if profile_form.remove_avatar %}
-                        <div class="field-input" style="margin-top: 10px;">
-                            <label style="font-size: 13px; color: var(--text-muted);">
-                                {{ profile_form.remove_avatar }} Remove current avatar
+                    {% if profile_form.instance.avatar %}
+                        <div class="checkbox-row">
+                            {{ profile_form.remove_avatar }}
+                            <label for="{{ profile_form.remove_avatar.id_for_label }}">
+                                {{ profile_form.remove_avatar.label }}
                             </label>
                         </div>
                     {% endif %}
