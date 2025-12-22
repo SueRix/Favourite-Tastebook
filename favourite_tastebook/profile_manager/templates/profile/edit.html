@@ -2,33 +2,6 @@
 
 {% block title %}Edit Profile{% endblock %}
 
-{% block sidebar %}
-    <aside class="sidebar">
-        <div>
-            <div class="logo">Favourite Tastebook</div>
-
-            <nav class="nav-section">
-                <a href="{% url 'home' %}" class="nav-link">Home</a>
-                <a href="{% url 'profile_detail' %}" class="nav-link">
-                    My Account
-                </a>
-                <a href="{% url 'profile_edit' %}"
-                   class="nav-link nav-link--active">Settings</a>
-            </nav>
-        </div>
-
-        <p class="sidebar-tip">
-            Logged in as <span>{{ request.user.username }}</span>.
-        </p>
-
-        <form method="post" action="{% url 'logout' %}" class="logout-form">
-            {% csrf_token %}
-            <button type="submit" class="logout-btn logout-btn-small">Logout</button>
-        </form>
-    </aside>
-{% endblock %}
-
-
 {% block content %}
     <h1 class="page-title">Account Settings</h1>
     <p class="page-subtitle">
