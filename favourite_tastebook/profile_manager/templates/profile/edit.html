@@ -1,6 +1,6 @@
 {% extends 'profile/base.html' %}
 
-{% block title %}Edit profile – {{ request.user.username }}{% endblock %}
+{% block title %}Edit Profile{% endblock %}
 
 {% block sidebar %}
     <aside class="sidebar">
@@ -9,52 +9,41 @@
 
             <nav class="nav-section">
                 <a href="{% url 'home' %}" class="nav-link">Home</a>
-                <a href="{% url 'profile_detail' username=request.user.username %}" class="nav-link">
-                    Profile
+                <a href="{% url 'profile_detail' %}" class="nav-link">
+                    My Account
                 </a>
-                <a href="{% url 'profile_edit' username=request.user.username %}"
-                   class="nav-link nav-link--active">Edit profile</a>
+                <a href="{% url 'profile_edit' %}"
+                   class="nav-link nav-link--active">Settings</a>
             </nav>
         </div>
 
-        {% if request.user.is_authenticated %}
+        <p class="sidebar-tip">
+            Logged in as <span>{{ request.user.username }}</span>.
+        </p>
 
-            <p class="sidebar-tip">
-                You are logged in as <span>{{ request.user.username }}</span>.
-            </p>
-
-            <form method="post" action="{% url 'logout' %}" class="logout-form">
-                {% csrf_token %}
-                <button type="submit" class="logout-btn logout-btn-small">Logout</button>
-            </form>
-
-        {% else %}
-
-            <p class="sidebar-tip">
-                If you want use <span>all features</span>, please
-                <a href="{% url 'login' %}" class="accent-link">log in</a>
-            </p>
-
-        {% endif %}
+        <form method="post" action="{% url 'logout' %}" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn logout-btn-small">Logout</button>
+        </form>
     </aside>
 {% endblock %}
 
 
 {% block content %}
-    <h1 class="page-title">Edit profile</h1>
+    <h1 class="page-title">Account Settings</h1>
     <p class="page-subtitle">
-        Update your display name, avatar, biographical and personal information.
+        Update your personal details and kitchen preferences.
     </p>
 
     {% if saved %}
         <div class="alert alert-success">
-            Profile has been updated successfully.
+            Changes saved successfully.
         </div>
     {% endif %}
 
     {% if errors %}
         <div class="alert alert-error">
-            Please check the highlighted fields – some data is invalid.
+            Please check the fields below.
         </div>
     {% endif %}
 
@@ -62,7 +51,7 @@
         {% csrf_token %}
 
         <div class="card card--edit">
-            <div class="card-title">Profile settings</div>
+            <div class="card-title">Profile & Preferences</div>
 
             <div class="edit-layout">
                 <div class="edit-avatar">
@@ -79,19 +68,22 @@
                     </div>
 
                     <div class="avatar-upload-block">
-                        <div class="field-label">Update / remove avatar</div>
                         <div class="field-input avatar-input-wrapper">
                             {{ profile_form.avatar }}
                         </div>
-                        <div class="field-help">
-                            Recommended: square image, at least 256×256px.
-                        </div>
                     </div>
+
+                    {% if profile_form.remove_avatar %}
+                        <div class="field-input" style="margin-top: 10px;">
+                            <label style="font-size: 13px; color: var(--text-muted);">
+                                {{ profile_form.remove_avatar }} Remove current avatar
+                            </label>
+                        </div>
+                    {% endif %}
                 </div>
 
                 <div class="edit-fields">
-                    <div class="edit-section-title">Account data</div>
-
+                    <div class="edit-section-title">Login Data</div>
                     {% for field in user_form %}
                         <div class="field">
                             <label class="field-label" for="{{ field.id_for_label }}">
@@ -100,21 +92,15 @@
                             <div class="field-input">
                                 {{ field }}
                             </div>
-                            {% if field.help_text %}
-                                <div class="field-help">{{ field.help_text }}</div>
-                            {% endif %}
                             {% if field.errors %}
-                                <div class="field-errors">
-                                    {{ field.errors|striptags }}
-                                </div>
+                                <div class="field-errors">{{ field.errors|striptags }}</div>
                             {% endif %}
                         </div>
                     {% endfor %}
 
-                    <div class="edit-section-title">Profile info</div>
-
+                    <div class="edit-section-title">Kitchen Preferences</div>
                     {% for field in profile_form %}
-                        {% if field.name != 'avatar' %}
+                        {% if field.name != 'avatar' and field.name != 'remove_avatar' %}
                             <div class="field">
                                 <label class="field-label" for="{{ field.id_for_label }}">
                                     {{ field.label }}
@@ -126,9 +112,7 @@
                                     <div class="field-help">{{ field.help_text }}</div>
                                 {% endif %}
                                 {% if field.errors %}
-                                    <div class="field-errors">
-                                        {{ field.errors|striptags }}
-                                    </div>
+                                    <div class="field-errors">{{ field.errors|striptags }}</div>
                                 {% endif %}
                             </div>
                         {% endif %}
@@ -138,8 +122,8 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn">Save changes</button>
-            <a href="{% url 'profile_detail' username=request.user.username %}" class="btn btn-secondary">
+            <button type="submit" class="btn">Save Changes</button>
+            <a href="{% url 'profile_detail' %}" class="btn btn-secondary">
                 Cancel
             </a>
         </div>

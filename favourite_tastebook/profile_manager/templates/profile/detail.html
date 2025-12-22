@@ -1,6 +1,6 @@
 {% extends 'profile/base.html' %}
 
-{% block title %}{{ profile.name_for_display }} – Profile{% endblock %}
+{% block title %}My Profile{% endblock %}
 
 {% block sidebar %}
     <aside class="sidebar">
@@ -10,47 +10,36 @@
             <nav class="nav-section">
                 <a href="{% url 'home' %}" class="nav-link">Home</a>
 
-                <a href="{% url 'profile_detail' username=profile.user.username %}"
-                   class="nav-link{% if request.user.is_authenticated and request.user.username == profile.user.username and request.resolver_match.url_name == 'profile_detail' %} nav-link--active{% endif %}">
-                    Profile
+                <a href="{% url 'profile_detail' %}"
+                   class="nav-link{% if request.resolver_match.url_name == 'profile_detail' %} nav-link--active{% endif %}">
+                    My Account
                 </a>
 
-                <a href="{% url 'tastes' username=profile.user.username %}"
+                <a href="{% url 'tastes' %}"
                    class="nav-link {% if request.resolver_match.url_name == 'tastes' %}nav-link--active{% endif %}">
-                    Tastes
+                    Taste Preferences
                 </a>
 
-                <a href="{% url 'cookbooks' username=profile.user.username %}"
+                <a href="{% url 'cookbooks' %}"
                    class="nav-link {% if request.resolver_match.url_name == 'cookbooks' %}nav-link--active{% endif %}">
-                    Cookbooks
+                    My Cookbooks
                 </a>
 
-                <a href="{% url 'saved_recipes' username=profile.user.username %}"
+                <a href="{% url 'saved_recipes' %}"
                    class="nav-link {% if request.resolver_match.url_name == 'saved_recipes' %}nav-link--active{% endif %}">
-                    Saved recipes
+                    Saved Recipes
                 </a>
             </nav>
         </div>
 
-        {% if request.user.is_authenticated %}
+        <p class="sidebar-tip">
+            Logged in as <span>{{ request.user.username }}</span>.
+        </p>
 
-            <p class="sidebar-tip">
-                You are logged in as <span>{{ request.user.username }}</span>.
-            </p>
-
-            <form method="post" action="{% url 'logout' %}" class="logout-form">
-                {% csrf_token %}
-                <button type="submit" class="logout-btn logout-btn-small">Logout</button>
-            </form>
-
-        {% else %}
-
-            <p class="sidebar-tip">
-                If you want use <span>all features</span>, please
-                <a href="{% url 'login' %}" class="accent-link">log in</a>
-            </p>
-
-        {% endif %}
+        <form method="post" action="{% url 'logout' %}" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn logout-btn-small">Logout</button>
+        </form>
     </aside>
 {% endblock %}
 
@@ -63,69 +52,43 @@
                     <img src="{{ profile.avatar.url }}" alt="User avatar">
                 {% else %}
                     <div class="avatar-placeholder">
-                        {{ profile.name_for_display|first|upper }}
+                        {{ request.user.username|first|upper }}
                     </div>
                 {% endif %}
             </div>
-
-            {% if not profile.avatar %}
-                <div class="avatar-hint">
-                    User hasn’t uploaded an avatar yet.
-                </div>
-            {% endif %}
         </div>
 
         <div class="header-main">
             <div class="name-row">
-                <div class="display-name">{{ profile.name_for_display }}</div>
+                <div class="display-name">
+                    {% if request.user.get_full_name %}
+                        {{ request.user.get_full_name }}
+                    {% else %}
+                        {{ request.user.username }}
+                    {% endif %}
+                </div>
             </div>
-            <div class="username">@{{ profile.user.username }}</div>
+            <div class="username">@{{ request.user.username }}</div>
 
             <div class="meta-row">
                 <div class="meta-tag">
-                    <span>Country:</span> {{ profile.country|default:"Not specified" }}
+                    <span>Preferred Cuisine:</span> {{ profile.get_country_display|default:"Not specified" }}
                 </div>
                 <div class="meta-tag">
-                    <span>Gender:</span> {{ profile.get_gender_display|default:"-" }}
+                    <span>Joined:</span> {{ request.user.date_joined|date:"M Y" }}
                 </div>
-                {% if profile.birth_date %}
-                    <div class="meta-tag">
-                        <span>Birth date:</span> {{ profile.birth_date }}
-                    </div>
-                {% endif %}
-                <div class="meta-tag">
-                    <span>Member since:</span> {{ profile.created_at|date:"M Y" }}
-                </div>
-            </div>
-
-            <div class="bio {% if not profile.bio %}bio--empty{% endif %}">
-                {% if profile.bio %}
-                    {{ profile.bio }}
-                {% else %}
-                    This user has not added a bio yet.
-                {% endif %}
             </div>
         </div>
 
         <div class="header-actions">
-            {% if request.user.is_authenticated and request.user.username == profile.user.username %}
-                <a href="{% url 'profile_edit' username=profile.user.username %}" class="btn">Edit profile</a>
-            {% endif %}
+            <a href="{% url 'profile_edit' %}" class="btn">Edit settings</a>
         </div>
     </section>
 
     <section>
-        <div class="tabs">
-            <div class="tab tab--active">Overview</div>
-            <div class="tab">Tastes</div>
-            <div class="tab">Cookbooks</div>
-            <div class="tab">Saved</div>
-        </div>
-
-        <h2 class="section-title">Overview</h2>
+        <h2 class="section-title">Dashboard</h2>
         <div class="placeholder-card">
-            This section can later display the user's most recently saved recipes, flavors, and activity.
-            Currently, this is a placeholder to prevent the page from appearing empty.
+            Here you will see your recent activity, meal plans, or shopping list.
         </div>
     </section>
 {% endblock %}
