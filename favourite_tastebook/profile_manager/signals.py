@@ -1,17 +1,13 @@
 import contextlib
-
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save, pre_save, post_delete
 from django.dispatch import receiver
-
 from .models import Profile
-
 
 @receiver(post_save, sender=User)
 def create_profile(instance, created, **_):
     if created:
         Profile.objects.create(user=instance)
-
 
 @receiver(pre_save, sender=Profile)
 def delete_old_avatar_on_change(instance, **_):
@@ -30,7 +26,6 @@ def delete_old_avatar_on_change(instance, **_):
             storage = old_file.storage
             if storage.exists(old_file.name):
                 storage.delete(old_file.name)
-
 
 @receiver(post_delete, sender=Profile)
 def delete_avatar_on_profile_delete(instance, **_):
