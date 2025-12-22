@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authentication',
     'profile_manager',
+    'recipe_manager',
 ]
 
 MIDDLEWARE = [
