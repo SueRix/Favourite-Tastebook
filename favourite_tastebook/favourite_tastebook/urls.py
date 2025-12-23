@@ -10,6 +10,7 @@ urlpatterns = [
     path('accounts/', include('authentication.urls')),
     path('accounts/', include('profile_manager.urls')),
     path('home/', HomeView.as_view(), name='home'),
+    path("", include("recipe_manager.urls")),
 ]
 
 if settings.DEBUG:
