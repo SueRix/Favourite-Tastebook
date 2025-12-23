@@ -6,7 +6,7 @@ from .models import Ingredient, Recipe
 
 
 class MainTastebookView(TemplateView):
-    template_name = "main/tastebook.html"
+    template_name = "main/recipe_manager.html"
 
     @cached_property
     def selected_ids(self) -> list[int]:
