@@ -1,0 +1,802 @@
+[
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 1,
+    "fields": {
+      "name": "salt",
+      "category": "spices"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 2,
+    "fields": {
+      "name": "ground black pepper",
+      "category": "spices"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 3,
+    "fields": {
+      "name": "bay leaf",
+      "category": "spices"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 4,
+    "fields": {
+      "name": "sunflower oil",
+      "category": "fats"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 5,
+    "fields": {
+      "name": "butter",
+      "category": "dairy"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 6,
+    "fields": {
+      "name": "sour cream",
+      "category": "dairy"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 7,
+    "fields": {
+      "name": "garlic",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 8,
+    "fields": {
+      "name": "onion",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 9,
+    "fields": {
+      "name": "carrot",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 10,
+    "fields": {
+      "name": "potato",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 11,
+    "fields": {
+      "name": "white cabbage",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 12,
+    "fields": {
+      "name": "beetroot",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 13,
+    "fields": {
+      "name": "tomato paste",
+      "category": "canned"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 14,
+    "fields": {
+      "name": "water",
+      "category": "other"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 15,
+    "fields": {
+      "name": "dill",
+      "category": "herbs"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 16,
+    "fields": {
+      "name": "parsley",
+      "category": "herbs"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 17,
+    "fields": {
+      "name": "sugar",
+      "category": "sweeteners"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 18,
+    "fields": {
+      "name": "vinegar",
+      "category": "other"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 19,
+    "fields": {
+      "name": "beef",
+      "category": "meat"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 20,
+    "fields": {
+      "name": "pork",
+      "category": "meat"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 21,
+    "fields": {
+      "name": "mixed ground pork and beef",
+      "category": "meat"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 22,
+    "fields": {
+      "name": "chicken breast",
+      "category": "meat"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 23,
+    "fields": {
+      "name": "wheat flour",
+      "category": "flour"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 24,
+    "fields": {
+      "name": "chicken egg",
+      "category": "eggs"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 25,
+    "fields": {
+      "name": "rice",
+      "category": "grains"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 26,
+    "fields": {
+      "name": "millet",
+      "category": "grains"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 27,
+    "fields": {
+      "name": "breadcrumbs",
+      "category": "flour"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 28,
+    "fields": {
+      "name": "milk",
+      "category": "dairy"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 29,
+    "fields": {
+      "name": "cottage cheese",
+      "category": "dairy"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 30,
+    "fields": {
+      "name": "vanilla sugar",
+      "category": "sweeteners"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 31,
+    "fields": {
+      "name": "raisins",
+      "category": "dried fruit"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 32,
+    "fields": {
+      "name": "sauerkraut",
+      "category": "canned"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 33,
+    "fields": {
+      "name": "pork fatback(salo)",
+      "category": "fats"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 34,
+    "fields": {
+      "name": "lemon",
+      "category": "fruit"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 35,
+    "fields": {
+      "name": "baking soda",
+      "category": "other"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 36,
+    "fields": {
+      "name": "prunes",
+      "category": "dried fruit"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 37,
+    "fields": {
+      "name": "dried apples",
+      "category": "dried fruit"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 38,
+    "fields": {
+      "name": "dried pears",
+      "category": "dried fruit"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 39,
+    "fields": {
+      "name": "dried apricots",
+      "category": "dried fruit"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 40,
+    "fields": {
+      "name": "honey",
+      "category": "sweeteners"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 41,
+    "fields": {
+      "name": "cinnamon",
+      "category": "spices"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 42,
+    "fields": {
+      "name": "cloves",
+      "category": "spices"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 43,
+    "fields": {
+      "name": "olive oil",
+      "category": "fats"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 44,
+    "fields": {
+      "name": "bacon",
+      "category": "meat"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 45,
+    "fields": {
+      "name": "sausages",
+      "category": "meat"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 46,
+    "fields": {
+      "name": "ham",
+      "category": "meat"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 47,
+    "fields": {
+      "name": "hard cheese",
+      "category": "dairy"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 48,
+    "fields": {
+      "name": "mozzarella",
+      "category": "dairy"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 49,
+    "fields": {
+      "name": "parmesan",
+      "category": "dairy"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 50,
+    "fields": {
+      "name": "tomato",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 51,
+    "fields": {
+      "name": "cucumber",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 52,
+    "fields": {
+      "name": "lettuce",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 53,
+    "fields": {
+      "name": "bell pepper",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 54,
+    "fields": {
+      "name": "mushrooms",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 55,
+    "fields": {
+      "name": "spinach",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 56,
+    "fields": {
+      "name": "green onion",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 57,
+    "fields": {
+      "name": "paprika",
+      "category": "spices"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 58,
+    "fields": {
+      "name": "dried oregano",
+      "category": "spices"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 59,
+    "fields": {
+      "name": "dried basil",
+      "category": "spices"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 60,
+    "fields": {
+      "name": "chili flakes",
+      "category": "spices"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 61,
+    "fields": {
+      "name": "mayonnaise",
+      "category": "condiments"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 62,
+    "fields": {
+      "name": "ketchup",
+      "category": "condiments"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 63,
+    "fields": {
+      "name": "mustard",
+      "category": "condiments"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 64,
+    "fields": {
+      "name": "soy sauce",
+      "category": "condiments"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 65,
+    "fields": {
+      "name": "black olives",
+      "category": "canned"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 66,
+    "fields": {
+      "name": "pasta",
+      "category": "pasta"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 67,
+    "fields": {
+      "name": "spaghetti",
+      "category": "pasta"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 68,
+    "fields": {
+      "name": "noodles",
+      "category": "pasta"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 69,
+    "fields": {
+      "name": "canned tuna",
+      "category": "canned"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 70,
+    "fields": {
+      "name": "canned tomatoes",
+      "category": "canned"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 71,
+    "fields": {
+      "name": "canned beans",
+      "category": "canned"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 72,
+    "fields": {
+      "name": "canned corn",
+      "category": "canned"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 73,
+    "fields": {
+      "name": "green peas",
+      "category": "canned"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 74,
+    "fields": {
+      "name": "bread",
+      "category": "bread"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 75,
+    "fields": {
+      "name": "tortillas",
+      "category": "bread"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 76,
+    "fields": {
+      "name": "oats",
+      "category": "grains"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 77,
+    "fields": {
+      "name": "yogurt",
+      "category": "dairy"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 78,
+    "fields": {
+      "name": "banana",
+      "category": "fruit"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 79,
+    "fields": {
+      "name": "apple",
+      "category": "fruit"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 80,
+    "fields": {
+      "name": "orange",
+      "category": "fruit"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 81,
+    "fields": {
+      "name": "strawberries",
+      "category": "fruit"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 82,
+    "fields": {
+      "name": "blueberries",
+      "category": "fruit"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 83,
+    "fields": {
+      "name": "cocoa powder",
+      "category": "sweets"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 84,
+    "fields": {
+      "name": "baking powder",
+      "category": "other"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 85,
+    "fields": {
+      "name": "dry yeast",
+      "category": "other"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 86,
+    "fields": {
+      "name": "chicken thigh",
+      "category": "meat"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 87,
+    "fields": {
+      "name": "chicken wings",
+      "category": "meat"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 88,
+    "fields": {
+      "name": "ground turkey",
+      "category": "meat"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 89,
+    "fields": {
+      "name": "ground beef",
+      "category": "meat"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 90,
+    "fields": {
+      "name": "salmon fillet",
+      "category": "seafood"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 91,
+    "fields": {
+      "name": "white fish fillet",
+      "category": "seafood"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 92,
+    "fields": {
+      "name": "shrimp",
+      "category": "seafood"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 93,
+    "fields": {
+      "name": "broccoli",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 94,
+    "fields": {
+      "name": "cauliflower",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 95,
+    "fields": {
+      "name": "zucchini",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 96,
+    "fields": {
+      "name": "eggplant",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 97,
+    "fields": {
+      "name": "lemon juice",
+      "category": "other"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 98,
+    "fields": {
+      "name": "feta cheese",
+      "category": "dairy"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 99,
+    "fields": {
+      "name": "tomato sauce",
+      "category": "canned"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 100,
+    "fields": {
+      "name": "jam",
+      "category": "sweeteners"
+    }
+  }
+]
