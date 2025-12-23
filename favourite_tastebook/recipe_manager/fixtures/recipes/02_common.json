@@ -1,0 +1,222 @@
+[
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 11,
+    "fields": {
+      "title": "Fried Potatoes with Onions",
+      "description": "1) Prep: Peel (optional) and cut potatoes into even sticks or thin wedges so they cook at the same rate. Rinse in cold water until the water runs mostly clear to remove excess starch, then drain and dry very well (wet potatoes steam instead of frying).\n2) Slice the onion into thin half-moons. Keep onion separate so it doesn’t burn while potatoes are still raw.\n3) Heat a wide skillet over medium-high heat for 1–2 minutes. Add sunflower oil and let it heat until it shimmers.\n4) Add potatoes in a single layer as much as possible. If the pan is crowded, fry in two batches for better browning.\n5) Fry 4–6 minutes without stirring so a crust forms. Then flip/turn and continue frying, stirring only occasionally. Adjust heat so potatoes brown but do not burn.\n6) When potatoes are mostly tender (a knife goes in with light resistance) and already have golden spots, reduce heat to medium and add the onion.\n7) Continue frying 6–10 minutes, stirring more often now, until onions are soft and golden and potatoes are fully cooked through.\n8) Season near the end: salt + black pepper; add paprika only in the last 1–2 minutes so it doesn’t turn bitter.\n9) Finish: off the heat, add chopped dill. Rest 1–2 minutes (steam settles, crust stays nicer), then serve hot.\nDoneness check: potatoes should be soft inside with browned edges; onions should be sweet and lightly caramelized, not dark-burnt.",
+      "cook_time": 35,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 12,
+    "fields": {
+      "title": "Scrambled Eggs with Bacon",
+      "description": "1) Cut bacon into small pieces so it cooks evenly. Place it in a cold pan and set to medium heat to render fat gradually.\n2) Fry bacon 4–6 minutes, stirring, until it is browned and crisp at the edges. If there is excessive fat, spoon off a little (leave a thin layer for flavor).\n3) If the pan looks dry, add a small knob of butter; let it melt and foam, but do not brown it aggressively.\n4) Crack eggs into a bowl. Add a pinch of salt and black pepper and beat just until yolks and whites are combined (do not over-whip).\n5) Lower heat to medium-low. Pour eggs into the pan and wait 10–15 seconds until the edges begin to set.\n6) With a spatula, gently push eggs from the edges to the center, forming soft curds. Keep moving slowly; scrambled eggs cook best with controlled heat.\n7) Stop cooking when eggs are still slightly glossy and soft; they will finish setting from residual heat in 30–60 seconds.\n8) Top with sliced green onion and serve immediately (scrambled eggs lose tenderness if held too long).\nTexture guide: lower heat = creamier curds; higher heat = drier eggs. Aim for “just set” rather than fully firm.",
+      "cook_time": 15,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 13,
+    "fields": {
+      "title": "Cheese and Tomato Omelette",
+      "description": "1) Prep fillings: dice tomato and, if it’s very juicy, remove some seeds/pulp so the omelette doesn’t get watery. Grate hard cheese in advance.\n2) Beat eggs with milk, salt, and pepper until homogeneous (20–30 seconds is enough).\n3) Heat a non-stick pan over medium heat. Add butter and swirl to coat the bottom.\n4) Pour in the egg mixture. Immediately tilt the pan to spread evenly into a thin layer.\n5) After 30–60 seconds, when the edges start setting, use a spatula to gently lift edges and let liquid egg flow underneath for even cooking.\n6) When the surface is mostly set but still slightly moist on top, place chopped tomato and grated cheese on one half.\n7) Reduce heat to low, cover for 30–60 seconds if needed to help cheese melt without over-browning the bottom.\n8) Fold the omelette over the filling. Cook 30–60 seconds more on low heat, just to finish setting.\n9) Rest 1 minute, then serve. Sprinkle with dried basil if desired.\nDoneness check: the omelette should be tender and not dry; cheese should be melted; tomato should be warmed but not boiled to mush.",
+      "cook_time": 15,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 14,
+    "fields": {
+      "title": "Grilled Cheese Sandwich",
+      "description": "1) Choose bread slices of similar thickness so they toast evenly. Dry bread gives a crisper crust; very soft bread needs gentler heat.\n2) Butter one side of each slice (thin, even layer all the way to the edges to prevent dry corners).\n3) Place cheese between the slices with buttered sides facing outward. Press lightly so the sandwich holds together.\n4) Heat a pan over medium-low to medium heat. Place sandwich in the pan and toast 3–5 minutes until the bottom is golden.\n5) Flip carefully and toast the second side 3–5 minutes. If the bread browns too fast before cheese melts, lower heat and cover the pan for 1–2 minutes.\n6) Remove when both sides are golden and cheese is visibly melted (edges may ooze slightly).\n7) Rest 1 minute so melted cheese thickens slightly, then slice and serve warm.\nControl points: medium-low heat melts cheese evenly; high heat burns bread while cheese stays firm.",
+      "cook_time": 15,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 15,
+    "fields": {
+      "title": "Tuna Salad Sandwich",
+      "description": "1) Drain canned tuna very well (press lightly with a fork). Excess liquid makes the sandwich soggy.\n2) Flake tuna with a fork in a bowl until the texture is even.\n3) Add mayonnaise gradually and mix until the salad holds together but is not overly wet.\n4) Add diced cucumber and chopped green onion for crunch and freshness. Mix evenly.\n5) Season with salt and black pepper; taste and adjust (tuna varies in saltiness).\n6) Assemble: spread tuna mixture on bread. If using lettuce, place leaves on the bread first to create a “barrier” that helps keep bread from getting soggy.\n7) Serve immediately for best texture. If you need to hold it, store filling and bread separately and assemble right before eating.\nTexture guide: well-drained tuna + moderate mayo = creamy but structured filling that doesn’t leak.",
+      "cook_time": 10,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 16,
+    "fields": {
+      "title": "Pasta with Tomato Sauce",
+      "description": "1) Bring a large pot of water to a rolling boil. Salt it well (it should taste pleasantly salty) so pasta is seasoned from inside.\n2) Add pasta and cook until al dente, stirring in the first minute to prevent sticking. Check 1–2 minutes before the package time.\n3) While pasta cooks, warm tomato sauce in a pan over medium heat. Add olive oil for body and gloss.\n4) If using garlic: warm olive oil first, add minced garlic and cook 20–30 seconds just until fragrant (do not brown), then add tomato sauce.\n5) When pasta is al dente, reserve a small cup of pasta water, then drain pasta.\n6) Add pasta to the pan with sauce and toss 30–60 seconds. If needed, add a splash of reserved pasta water to loosen sauce and help it cling (starch binds sauce to pasta).\n7) Season to taste with salt/pepper if required (many sauces already contain salt).\n8) Serve hot. Top with parmesan and dried oregano if available.\nFinish note: tossing pasta in the sauce for a short time is what makes the dish cohesive; don’t just pour sauce on top.",
+      "cook_time": 25,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 17,
+    "fields": {
+      "title": "Spaghetti with Garlic and Olive Oil",
+      "description": "1) Cook spaghetti in well-salted boiling water until al dente. Reserve a small cup of pasta water before draining.\n2) While spaghetti cooks, slice garlic thinly for quick, even sautéing.\n3) Warm olive oil in a pan over low to medium-low heat. Add garlic and cook gently until it turns pale golden and fragrant. Do not let it go dark brown (it becomes bitter fast).\n4) Add chili flakes if you like heat and stir 10–15 seconds to bloom in the oil.\n5) Add drained spaghetti to the pan. Toss to coat; add a splash of reserved pasta water to emulsify the oil into a light sauce that clings.\n6) Taste and adjust seasoning (salt is usually enough from pasta water; add pepper if you prefer).\n7) Finish with parsley and toss again. Serve immediately while glossy and hot.\nControl points: low heat protects garlic; pasta water is key to turning oil into a sauce instead of “oily noodles”.",
+      "cook_time": 20,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 18,
+    "fields": {
+      "title": "Chicken Stir-Fry with Vegetables",
+      "description": "1) Prep (important for stir-fry): cut chicken into even strips; slice onion and bell pepper; chop broccoli into small florets so everything cooks quickly.\n2) Heat a pan or wok over medium-high to high heat until very hot. Add sunflower oil and swirl to coat.\n3) Add chicken in a single layer and let it sear 2–3 minutes without moving to develop browning. Flip and cook another 2–3 minutes until mostly cooked through.\n4) Push chicken to the side (or remove to a plate if your pan is small). Add onion and stir-fry 1–2 minutes until it softens.\n5) Add bell pepper and broccoli. Stir-fry 3–5 minutes: vegetables should be bright and crisp-tender, not mushy.\n6) Return chicken to the center. Add soy sauce and minced garlic; stir constantly for 2–3 minutes so garlic becomes fragrant and sauce coats everything.\n7) If the pan looks dry, add a small splash of water and stir; it will steam broccoli slightly and keep the sauce from sticking.\n8) Season with black pepper; taste before adding salt (soy sauce can be salty).\n9) Serve immediately while vegetables are still crisp and chicken is juicy.\nDoneness check: chicken is done when it is opaque throughout and juices run clear; broccoli should be tender but still have bite.",
+      "cook_time": 25,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 19,
+    "fields": {
+      "title": "Rice with Mixed Vegetables",
+      "description": "1) Rinse rice in cold water 2–3 times until the water is less cloudy. This helps prevent gumminess.\n2) In a pot with a lid, heat sunflower oil over medium heat. Sauté chopped onion and grated/diced carrot 3–5 minutes until softened and aromatic (do not burn).\n3) Add rice and stir 1 minute to coat grains in oil (light “toasting” improves flavor and separation).\n4) Add water and salt. Bring to a gentle boil, then reduce to low heat, cover tightly, and simmer until rice is almost tender (typically 12–15 minutes depending on rice).\n5) Without stirring too much, add green peas (and corn if using). Cover again and cook 5–7 minutes until peas are hot and rice is fully tender.\n6) Turn off heat and let rice rest, covered, for 5–10 minutes (this finishes steaming and makes texture even).\n7) Fluff with a fork, season with black pepper, and serve.\nControl points: low simmer + tight lid prevents burning; resting time is part of cooking, not optional.",
+      "cook_time": 35,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 20,
+    "fields": {
+      "title": "Simple Chicken Soup",
+      "description": "1) Put chicken thighs in a pot and cover with cold water (cold start helps form a clean broth). Bring slowly to a boil.\n2) As foam rises, skim it off for a clearer soup. Reduce heat to a gentle simmer (small bubbles, not a rolling boil) to keep broth clean and chicken tender.\n3) Add bay leaf, salt, and black pepper. Simmer about 30 minutes, until chicken is tender.\n4) While it simmers, dice potato and slice carrot. Decide on onion: whole onion gives mild flavor and can be removed; chopped onion stays in soup.\n5) Add carrot first, simmer 5 minutes, then add potato. Add onion as well. Continue simmering until vegetables are tender (10–15 minutes).\n6) Taste broth and adjust salt/pepper. If you want more chicken presence, remove thighs, shred meat, and return it to the pot (optional but improves texture).\n7) Turn off heat. Add chopped dill and let soup rest 5–10 minutes so flavors settle.\n8) Serve hot. Remove bay leaf before serving.\nDoneness check: potato breaks easily with a spoon; carrots are soft; broth tastes balanced (not only salty water).",
+      "cook_time": 60,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 21,
+    "fields": {
+      "title": "Greek-Style Salad",
+      "description": "1) Wash and dry vegetables. Cut tomato and cucumber into bite-size pieces so each forkful has a mix.\n2) Slice bell pepper; tear lettuce into large pieces (tearing keeps edges softer than chopping).\n3) Combine vegetables in a bowl. Add black olives.\n4) Add feta cheese in chunks rather than fully crumbling (classic texture and salt balance).\n5) Dress: drizzle with olive oil; add lemon juice if you want extra brightness.\n6) Season lightly with salt and oregano. Be careful with salt because feta and olives already add salinity.\n7) Toss gently so feta stays in pieces and vegetables don’t get crushed.\n8) Serve immediately. If you need to prep ahead, keep dressing separate and mix right before serving to prevent watery salad.\nContext note: the goal is fresh, crunchy vegetables with salty feta/olives; gentle mixing preserves structure.",
+      "cook_time": 15,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 22,
+    "fields": {
+      "title": "Tomato and Cucumber Salad",
+      "description": "1) Slice tomato and cucumber into similar-size pieces for even texture. If using onion, slice it very thin so it doesn’t overpower.\n2) Add chopped dill. Dill is the “main aroma” here, so don’t be shy.\n3) Dress with olive oil; add vinegar if you like sharper acidity. Mix gently.\n4) Season with salt and black pepper. Taste and adjust—tomatoes vary a lot in sweetness and water content.\n5) Let the salad sit 3–5 minutes before serving: salt draws a little juice, creating a light natural dressing at the bottom.\nServing tip: spoon some of the tomato juice over the salad when plating—this is part of the flavor.",
+      "cook_time": 10,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 23,
+    "fields": {
+      "title": "Creamy Mushroom Pasta",
+      "description": "1) Cook pasta in salted water until al dente. Reserve a small cup of pasta water, then drain.\n2) In a pan, melt butter over medium heat. Add chopped onion and sauté 2–3 minutes until soft and translucent.\n3) Add mushrooms and cook without crowding. Let them sit 2–3 minutes to brown, then stir. Continue until mushrooms release moisture and then start browning again (8–12 minutes total).\n4) Reduce heat to low-medium. Stir in sour cream and simmer gently 2–3 minutes. Keep heat moderate so sour cream doesn’t split.\n5) Add pasta to the sauce and toss. If the sauce is too thick, loosen with a splash of reserved pasta water to make it creamy and clingy.\n6) Season with black pepper; taste for salt (butter and pasta water often provide enough).\n7) Add dried basil if desired and toss once more.\n8) Serve immediately while sauce is glossy and mushrooms are still meaty.\nControl points: proper mushroom browning builds flavor; pasta water helps emulsify a smooth sauce.",
+      "cook_time": 30,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 24,
+    "fields": {
+      "title": "Oven-Baked Chicken Thighs with Potatoes",
+      "description": "1) Preheat oven to 200°C. Use a large tray so potatoes roast instead of steaming.\n2) Prep potatoes: cut into even wedges. Pat dry, then toss with sunflower oil, salt, paprika, pepper, and oregano until evenly coated.\n3) Prep chicken thighs: pat dry (dry skin browns better). Season with salt, paprika, and pepper; rub with minced garlic.\n4) Arrange on the tray: spread potatoes in one layer; place chicken thighs skin-side up with space around them.\n5) Bake 25–30 minutes, then turn/flip potatoes for even browning. Keep chicken skin-side up.\n6) Continue baking 20–25 minutes until potatoes are deeply golden and chicken is cooked through.\n7) Doneness checks: potatoes should be soft inside with crisp edges; chicken juices should run clear and meat should be fully opaque (if you have a thermometer: ~75°C in the thickest part).\n8) Rest 5–10 minutes before serving (juices redistribute; meat stays juicier).\nContext note: spacing is the key—overcrowding turns this into “steamed potatoes + pale chicken”.",
+      "cook_time": 70,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 25,
+    "fields": {
+      "title": "Oatmeal with Banana and Honey",
+      "description": "1) Add milk to a saucepan and bring to a gentle boil over medium heat, watching closely so it doesn’t boil over.\n2) Add oats and a small pinch of salt (salt makes the flavor fuller even in sweet oatmeal).\n3) Reduce heat to low and cook, stirring regularly, until thickened. Scrape the bottom to prevent sticking. Time depends on oats (usually 3–7 minutes).\n4) When oatmeal reaches your preferred thickness, turn off heat and let it stand 1–2 minutes (it thickens slightly as it rests).\n5) Slice banana and place on top. Drizzle with honey. Add cinnamon if you like.\n6) Serve warm. If it becomes too thick, loosen with a splash of milk and stir.\nTexture guide: simmer gently for creamy oatmeal; aggressive boiling makes it scorch and turn gluey.",
+      "cook_time": 10,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 26,
+    "fields": {
+      "title": "Yogurt with Berries and Honey",
+      "description": "1) Rinse strawberries and blueberries, then dry them well (excess water dilutes yogurt).\n2) Slice strawberries into bite-size pieces; keep blueberries whole.\n3) Spoon yogurt into a bowl. Add berries on top or mix gently if you want berry flavor throughout.\n4) Drizzle with honey. Taste—yogurts vary in tartness.\n5) If you want it sweeter, add a small spoon of jam and swirl it through rather than mixing fully (gives “ribbons” of sweetness).\n6) Serve immediately. If preparing ahead, keep berries separate and add right before eating so they stay firm.",
+      "cook_time": 5,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 27,
+    "fields": {
+      "title": "Basic Pancakes",
+      "description": "1) In a bowl, mix flour, sugar, and salt. If using baking powder for lighter pancakes, mix it in now so it disperses evenly.\n2) Add eggs and part of the milk. Whisk until smooth, then gradually add the remaining milk to avoid lumps.\n3) Add a little sunflower oil to the batter and mix (this helps prevent sticking and improves browning).\n4) Let batter rest 10 minutes if possible: flour hydrates, and pancakes cook more evenly.\n5) Heat a pan over medium heat. Lightly oil it if needed. Test with a small drop of batter—it should sizzle gently, not burn.\n6) Pour a small ladle of batter and quickly tilt the pan to spread it thin.\n7) Cook until the edges look dry and the bottom is lightly golden; flip and cook 20–40 seconds more.\n8) Repeat, adjusting heat as needed (pans get hotter over time).\n9) Serve with jam. Keep cooked pancakes covered to stay soft.\nControl points: thin batter + medium heat gives tender pancakes; high heat makes them spotty and brittle.",
+      "cook_time": 25,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 28,
+    "fields": {
+      "title": "Tortilla Pizza (Quick)",
+      "description": "1) Preheat oven to 200°C. If using a pan method, preheat a pan over medium heat and have a lid ready.\n2) Lay tortillas on a tray. For a crispier base, pre-bake 2–3 minutes (optional but improves texture).\n3) Spread a thin, even layer of tomato sauce over each tortilla (too much sauce makes it soggy).\n4) Add mozzarella evenly. Add optional ham and tomato slices if using.\n5) Sprinkle oregano/basil. Keep herbs on top so aroma stays brighter.\n6) Bake 7–10 minutes until cheese melts and edges are crisp. Watch the last 2 minutes—tortillas can go from perfect to too dark quickly.\n7) Rest 1 minute, slice, and serve.\nPan option: cook covered 5–7 minutes on medium-low until cheese melts; uncover for 1 minute to crisp the bottom.",
+      "cook_time": 12,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 29,
+    "fields": {
+      "title": "Baked Salmon with Lemon",
+      "description": "1) Preheat oven to 200°C. Line a tray with foil or baking paper for easy cleanup.\n2) Pat salmon dry (dry surface browns better). Place on the tray.\n3) Drizzle with olive oil and rub lightly to coat. Season with salt and black pepper.\n4) Top with lemon slices. Lemon perfumes the fish and keeps the surface moist.\n5) Bake 12–15 minutes depending on thickness. As a guide: thinner fillets cook faster; thick center-cuts may need closer to 15 minutes.\n6) Doneness check: salmon should flake with a fork and be opaque on the outside; the center can remain slightly translucent for juiciness if you prefer.\n7) Rest 2 minutes, finish with dill, and serve.\nControl point: avoid overbaking—salmon goes from juicy to dry very quickly once fully firm.",
+      "cook_time": 20,
+      "image_url": null,
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 30,
+    "fields": {
+      "title": "Quick Bean Stew with Tomatoes",
+      "description": "1) Heat olive oil in a pan over medium heat. Add chopped onion and sauté 4–6 minutes until soft and lightly golden.\n2) Add minced garlic and paprika; stir 20–30 seconds until fragrant (don’t burn the garlic).\n3) Add canned tomatoes and bring to a simmer. Cook 5 minutes to reduce slightly and concentrate flavor.\n4) Add canned beans (drained if very liquid, or with some liquid if you want a looser stew). Stir and simmer 10 minutes.\n5) For a thicker stew, lightly mash a small portion of beans against the pan and stir back in (optional but very effective).\n6) Season with salt, black pepper, and oregano. Taste and adjust—tomatoes vary in acidity.\n7) Simmer 1–2 minutes more, then serve hot.\nContext note: quick stews rely on layering—onion sweetness + paprika aroma + tomato reduction makes the beans taste “cooked” rather than just “heated”.",
+      "cook_time": 25,
+      "image_url": null,
+      "cuisine": 2
+    }
+  }
+]
