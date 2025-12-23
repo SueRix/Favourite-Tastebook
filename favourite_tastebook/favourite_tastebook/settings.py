@@ -42,6 +42,8 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, 'authentication/templates/registration'),
             os.path.join(BASE_DIR, 'profile_manager/templates/profile'),
+            os.path.join(BASE_DIR, 'recipe_manager/templates/main'),
+            os.path.join(BASE_DIR, 'recipe_manager/templates/partials'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
