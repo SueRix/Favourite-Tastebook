@@ -1,0 +1,112 @@
+[
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 1,
+    "fields": {
+      "title": "Ukrainian Borscht",
+      "description": "Prep notes:\n- Cut vegetables to similar size so they cook evenly. Keep the beet separate so the color stays bright.\n- Use low, gentle simmering for broth; boiling hard makes it cloudy.\n\n1) Make the beef broth:\n   - Put beef in a pot, cover with cold water (about 2–2.5 L for 4–6 servings), and bring to a boil.\n   - Skim off the foam, reduce to a gentle simmer, partially cover, and cook 60–80 minutes until the beef is tender.\n   - (Optional) Remove the beef, slice/shred it, and return it to the pot at the end for clean serving.\n\n2) Add the “base” vegetables:\n   - Peel and dice potatoes (1–2 cm cubes). Shred cabbage thinly.\n   - Add potatoes to the broth; simmer 10 minutes, then add cabbage and simmer another 10–15 minutes (until potatoes are almost tender).\n\n3) Build flavor with the sauté (the key to borscht):\n   - In a skillet, heat sunflower oil over medium heat.\n   - Sauté diced onion and grated carrot 5–7 minutes until soft and lightly golden.\n   - Add grated/julienned beetroot, stir 1–2 minutes, then add tomato paste.\n   - Pour in a small ladle of broth or a splash of water, cover, and stew 10–15 minutes until the beet is tender.\n   - Add 1–2 tsp vinegar near the end (it helps keep the beet red).\n\n4) Combine and balance:\n   - Tip the sauté into the pot. Add bay leaf, salt, black pepper, and a pinch of sugar (to round acidity).\n   - Simmer gently 5–10 minutes so flavors merge. Taste and adjust:\n     • more salt for overall flavor,\n     • a touch more vinegar for brightness,\n     • a little more sugar if it tastes too sharp.\n\n5) Finish and rest (do not skip):\n   - Turn off heat. Add minced garlic and chopped dill.\n   - Cover and let the borscht rest 10–20 minutes; it will thicken slightly and taste more integrated.\n\nServing:\n- Serve hot with sour cream and extra dill. Borscht is often even better the next day after chilling overnight.",
+      "cook_time": 120,
+      "image_url": null,
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 2,
+    "fields": {
+      "title": "Varenyky with Potatoes",
+      "description": "1) Make and rest the dough:\n   - In a bowl combine flour, egg, water, and salt. Mix, then knead 8–10 minutes until smooth and elastic.\n   - If sticky, dust with a little flour; if too firm, add a teaspoon of water.\n   - Cover and rest 20 minutes (this relaxes gluten so the dough rolls thin without shrinking).\n\n2) Prepare the potato filling:\n   - Boil peeled potatoes in salted water until very tender. Drain well so the filling is not watery.\n   - Mash with butter until fluffy; season with salt and pepper.\n   - Fry chopped onion in sunflower oil over medium heat until golden (7–10 minutes).\n   - Mix part of the fried onion into the potatoes; keep the rest for serving.\n\n3) Shape the varenyky:\n   - Roll dough on a lightly floured surface to ~2 mm thickness.\n   - Cut circles (7–9 cm). Keep unused dough covered to prevent drying.\n   - Place 1–2 tsp filling in the center. Fold into a half-moon, press edges firmly, then crimp to seal.\n   - Ensure no filling touches the edge; otherwise the seal may open during boiling.\n\n4) Boil correctly (so they don’t burst):\n   - Bring a wide pot of salted water to a gentle boil (not an aggressive rolling boil).\n   - Add varenyky in batches. Stir once carefully to prevent sticking to the bottom.\n   - When they float, simmer 2–3 minutes more until the dough looks slightly translucent and set.\n\n5) Serve:\n   - Remove with a slotted spoon, toss lightly with butter so they don’t stick.\n   - Top with remaining fried onion and serve with sour cream.\n   - Make-ahead: freeze uncooked varenyky on a tray, then bag them; boil from frozen, adding ~1–2 minutes after floating.",
+      "cook_time": 90,
+      "image_url": null,
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 3,
+    "fields": {
+      "title": "Holubtsi (Ukrainian Cabbage Rolls)",
+      "description": "Prep notes:\n- The cabbage leaves must be pliable (soft enough to roll) but not falling apart.\n- Keep seams down while cooking so rolls stay closed.\n\n1) Prepare cabbage leaves:\n   - Carefully separate cabbage into whole leaves.\n   - Blanch leaves in boiling water 2–3 minutes (or until flexible). Transfer to a plate to cool.\n   - Trim or gently flatten the thick rib with a knife so the leaf rolls evenly.\n\n2) Par-cook the rice:\n   - Rinse rice until water runs clearer. Cook in lightly salted water until half-done (about 7–10 minutes).\n   - Drain and cool slightly (hot rice can overcook the meat mixture).\n\n3) Make the filling:\n   - Sauté chopped onion and grated carrot in a little sunflower oil until soft (5–7 minutes).\n   - In a bowl combine ground meat + par-cooked rice + sautéed vegetables.\n   - Season with salt and pepper; mix until evenly distributed (don’t overmix or it becomes dense).\n\n4) Roll and arrange:\n   - Place a leaf flat, add 1–2 tbsp filling near the base.\n   - Fold sides inward, then roll tightly into a log.\n   - Arrange in a pot or baking dish seam-side down in snug layers (this prevents unrolling).\n\n5) Make the sauce and cook:\n   - Whisk tomato paste with water (or broth) and sour cream until smooth.\n   - Add minced garlic, bay leaf, salt, and pepper.\n   - Pour sauce over rolls until mostly covered.\n   - Cook either:\n     A) Stovetop: bring to a gentle simmer, cover, and cook 60–70 minutes on low heat.\n     B) Oven: cover dish with foil and bake ~70–80 minutes at 180°C.\n\n6) Rest and serve:\n   - Let holubtsi rest 10 minutes before serving so juices settle.\n   - Serve with extra sour cream and herbs; spoon sauce over the top.",
+      "cook_time": 120,
+      "image_url": null,
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 4,
+    "fields": {
+      "title": "Deruny (Ukrainian Potato Pancakes)",
+      "description": "1) Prepare the potato mixture:\n   - Grate potatoes and onion finely (on the small holes). Onion helps prevent browning.\n   - Squeeze excess liquid through cheesecloth or a clean towel into a bowl.\n   - Let the liquid sit 1–2 minutes; pour off the water and return the settled potato starch to the grated potatoes (it helps bind).\n\n2) Mix the batter:\n   - Add egg, flour, salt, and pepper. Mix just until combined.\n   - The mixture should be thick enough to hold shape in the pan; add a little more flour only if it’s too runny.\n\n3) Fry for crisp edges and a cooked center:\n   - Heat sunflower oil in a skillet over medium to medium-high heat.\n   - Spoon small pancakes (they cook through more reliably than large ones).\n   - Fry 3–4 minutes per side until deep golden. If they brown too fast, lower heat.\n\n4) Drain and keep warm:\n   - Transfer to paper towels to remove excess oil.\n   - Keep warm in a low oven (90–110°C) if frying in batches.\n\nServing:\n- Serve hot with sour cream and dill. Optional: add minced garlic to sour cream for a sharper sauce.",
+      "cook_time": 30,
+      "image_url": null,
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 5,
+    "fields": {
+      "title": "Chicken Kyiv",
+      "description": "Prep notes:\n- Cold butter + tight sealing = butter stays inside instead of leaking.\n- Double breading helps create a “barrier” against leaks.\n\n1) Prepare the herb butter:\n   - Mix softened butter with minced garlic and chopped parsley.\n   - Shape into a small log (about finger-thick), wrap, and chill or freeze until very firm.\n\n2) Prepare the chicken:\n   - Place chicken breast between film and pound gently to an even thickness (about 0.7–1 cm).\n   - Season both sides with salt and pepper.\n\n3) Wrap and seal:\n   - Place butter log near the center.\n   - Fold sides over butter, then roll very tightly into a cylinder.\n   - Pinch seams and ends closed. Chill 15–30 minutes to firm up.\n\n4) Bread properly:\n   - Dredge in flour (shake off excess) → dip in beaten egg → coat in breadcrumbs.\n   - For a thicker crust: repeat egg → breadcrumbs once more.\n   - Chill again 10 minutes so the coating adheres.\n\n5) Cook through without burning:\n   - Fry in oil over medium heat until evenly golden on all sides (about 5–7 minutes total, turning gently).\n   - Transfer to oven at 180°C for 10–12 minutes to finish (or until chicken is fully cooked).\n   - Rest 5 minutes before cutting; slicing immediately increases butter leakage.\n\nServing:\n- Slice to show the butter center. Serve with mashed potatoes, rice, or a simple salad.",
+      "cook_time": 60,
+      "image_url": null,
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 6,
+    "fields": {
+      "title": "Syrnyky (Cottage Cheese Pancakes)",
+      "description": "Prep notes:\n- Use well-drained cottage cheese; watery cheese makes the dough sticky and requires too much flour.\n- Minimal flour = tender syrnyky; too much flour makes them bready.\n\n1) Make the mixture:\n   - Mash cottage cheese until mostly smooth (a few small curds are fine).\n   - Add egg, sugar, vanilla sugar, and a pinch of salt; mix.\n   - Stir in flour gradually until the dough is soft but shapeable (it should not be liquid).\n   - Optional: fold in raisins (dry them first so they don’t add moisture).\n\n2) Shape:\n   - Lightly flour your hands and surface.\n   - Form a thick “sausage,” slice into portions, then shape into small patties (about 1.5–2 cm thick).\n   - Dust lightly with flour to prevent sticking.\n\n3) Fry gently so the inside cooks:\n   - Heat sunflower oil or butter over medium heat.\n   - Fry 2–3 minutes per side until golden.\n   - If very thick, cover the pan for 1–2 minutes on low heat after flipping to ensure the center is set.\n\n4) Drain and serve:\n   - Place briefly on paper towel.\n   - Serve warm with sour cream, jam, honey, or berries.",
+      "cook_time": 25,
+      "image_url": null,
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 7,
+    "fields": {
+      "title": "Nalisnyky with Cottage Cheese (Ukrainian Crepes)",
+      "description": "1) Make a thin crepe batter:\n   - Whisk eggs with sugar and salt.\n   - Add milk and water, then whisk in flour gradually to avoid lumps.\n   - Add a small amount of oil to the batter (helps prevent sticking).\n   - Rest batter 10–15 minutes so flour hydrates and crepes cook more evenly.\n\n2) Cook the crepes:\n   - Heat a nonstick pan over medium heat; lightly grease.\n   - Pour a small ladle of batter and swirl quickly to coat very thinly.\n   - Cook 30–60 seconds until edges lift, flip, and cook 10–20 seconds more.\n   - Stack crepes under a towel so they stay soft.\n\n3) Make the cottage cheese filling:\n   - Mix cottage cheese with sugar, vanilla sugar, and egg until creamy.\n   - If the cheese is dry, add a spoon of sour cream; if too wet, add a little flour.\n\n4) Fill and roll:\n   - Place filling in the center of each crepe.\n   - Fold sides and roll (or roll into a tube), keeping them neat and tight.\n\n5) Finish by baking or gentle warming:\n   - Arrange in a baking dish. Dot with butter and add a few spoonfuls of sour cream (prevents drying).\n   - Bake 10–15 minutes at 180°C, covered with foil for softer texture.\n   - Alternative: warm covered in a pan over low heat 8–10 minutes.\n\nServing:\n- Serve warm with sour cream, berries, or a light dusting of sugar.",
+      "cook_time": 60,
+      "image_url": null,
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 8,
+    "fields": {
+      "title": "Kapusniak (Sauerkraut Soup)",
+      "description": "Prep notes:\n- Sauerkraut sourness varies: rinse lightly for milder soup, use as-is for stronger tang.\n- Add sauerkraut after potatoes start cooking; too early can slow potato softening.\n\n1) Make the broth:\n   - Cover pork with cold water, bring to a boil, skim foam, then simmer 50–60 minutes until tender.\n   - Remove meat, slice/shred, and return to pot (optional but recommended for neat texture).\n\n2) Start the grains:\n   - Rinse millet thoroughly (it can be bitter if not washed well).\n   - Add millet to broth and simmer 10 minutes.\n\n3) Add potatoes:\n   - Dice potatoes and add to the pot; simmer until potatoes are almost tender (about 10–12 minutes).\n\n4) Build flavor with sauté:\n   - Sauté onion and carrot in sunflower oil until soft and lightly golden.\n   - Optional: add a little tomato paste and cook 1 minute to remove raw taste.\n\n5) Add sauerkraut and finish:\n   - Add sauerkraut plus the sauté, bay leaf, salt, and pepper.\n   - Simmer 15–20 minutes until potatoes are fully tender and flavors are cohesive.\n   - Turn off heat, add minced garlic and dill, cover, and rest 10 minutes.\n\nServing:\n- Serve hot. A spoon of sour cream is optional depending on how sour you like it.",
+      "cook_time": 90,
+      "image_url": null,
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 9,
+    "fields": {
+      "title": "Kozak Kulesh (Millet Pot)",
+      "description": "Prep notes:\n- Kulesh is a hearty millet “pot” that can be thick like porridge or looser like soup—adjust water to preference.\n- Stir occasionally so millet doesn’t stick.\n\n1) Prepare millet:\n   - Rinse millet several times until water is clearer. If millet is very bitter, pour boiling water over it once, then drain.\n\n2) Render salo and build the base:\n   - Cut salo into small cubes and render in a pot over medium heat until it releases fat.\n   - Add chopped onion and fry until soft and lightly golden.\n\n3) Cook the kulesh:\n   - Pour in water (or broth) and bring to a boil.\n   - Add millet, reduce to a gentle simmer, and cook 10–12 minutes, stirring occasionally.\n\n4) Add vegetables:\n   - Add diced potatoes (and carrot if you use it).\n   - Simmer 15–20 minutes until potatoes and millet are fully tender and the texture is creamy.\n\n5) Season and finish:\n   - Season with salt and pepper. Add minced garlic and chopped dill at the end.\n   - Cover and rest 10 minutes; it thickens slightly as it stands.\n\nServing:\n- Serve hot as a filling main dish. If it becomes too thick after standing, loosen with a splash of hot water.",
+      "cook_time": 60,
+      "image_url": null,
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 10,
+    "fields": {
+      "title": "Uzvar (Ukrainian Dried Fruit Drink)",
+      "description": "Prep notes:\n- Rinse dried fruit to remove dust; soaking prevents the fruit from tightening and helps extraction.\n- Add honey after cooling below ~60°C so aroma and beneficial compounds are preserved.\n\n1) Rinse and soak:\n   - Rinse dried pears, apples, prunes, dried apricots, and raisins.\n   - Soak in warm water 10–15 minutes, then drain (keep fruits, discard soaking water if it is cloudy).\n\n2) Simmer in stages (so nothing turns mushy):\n   - Bring fresh water to a boil.\n   - Add dried pears and apples first; simmer gently 15 minutes.\n   - Add prunes and dried apricots; simmer 8–10 minutes.\n   - Add raisins for the last 3–5 minutes.\n\n3) Infuse:\n   - Turn off heat. Optional: add cinnamon stick and a couple cloves for spice.\n   - Cover and let steep at least 30 minutes; 2–3 hours gives deeper flavor.\n\n4) Sweeten correctly:\n   - When the drink cools below ~60°C (hot but not steaming), stir in honey to taste.\n   - Taste again after 10 minutes; sweetness often “opens up” as it infuses.\n\n5) Serve and store:\n   - Serve warm or chilled. You can strain or leave fruit in.\n   - Store refrigerated up to 3 days; flavors continue to develop overnight.",
+      "cook_time": 90,
+      "image_url": null,
+      "cuisine": 1
+    }
+  }
+]
