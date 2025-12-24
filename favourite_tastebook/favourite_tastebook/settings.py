@@ -44,6 +44,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'profile_manager/templates/profile'),
             os.path.join(BASE_DIR, 'recipe_manager/templates/main'),
             os.path.join(BASE_DIR, 'recipe_manager/templates/partials'),
+            os.path.join(BASE_DIR, 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {

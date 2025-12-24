@@ -1,0 +1,15 @@
+{# templates/partials/recipes_found.html #}
+<div>
+  <div>DEBUG selected_ids: {{ selected_ids }}</div>
+  <div>DEBUG recipes_count: {{ recipes|length }}</div>
+
+  {% if recipes %}
+    <ul>
+      {% for r in recipes %}
+        <li>#{{ r.id }} — {{ r.title }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div>NO RECIPES FOUND</div>
+  {% endif %}
+</div>

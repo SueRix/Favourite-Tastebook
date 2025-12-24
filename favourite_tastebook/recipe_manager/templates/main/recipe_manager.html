@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}Tastebook{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'recipe_manager/tastebook.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="favtastebook-page">
+    ...
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'recipe_manager/favtastebook.js' %}"></script>
+{% endblock %}
