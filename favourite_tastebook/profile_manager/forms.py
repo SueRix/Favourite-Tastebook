@@ -26,14 +26,18 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class ProfileForm(forms.ModelForm):
-    remove_avatar = forms.BooleanField(required=False, initial=False, help_text="Remove current avatar")
+    remove_avatar = forms.BooleanField(
+        required=False,
+        initial=False,
+        label="Delete current avatar"
+    )
 
     class Meta:
         model = Profile
-        fields = ['display_name', 'avatar', "country", "bio", "birth_date", "gender"]
+        fields = ['avatar', 'country']
         widgets = {
-            "birth_date": forms.TextInput(attrs={"type": "date"}),
-            "bio": forms.Textarea(attrs={"rows": 5}),
+            "avatar": forms.FileInput(),
+            "country": forms.Select(attrs={'class': 'form-select'}),
         }
 
     def save(self, commit=True):
@@ -54,16 +58,9 @@ class ProfileForm(forms.ModelForm):
             self.instance.refresh_from_db()
         return instance
 
-
-
     def clean_avatar(self):
         avatar = self.cleaned_data.get("avatar")
-        if avatar and avatar.size > settings.MAX_AVATAR_MB * 1024 * 1024:
-            raise forms.ValidationError(f"Avatar must be less than {settings.MAX_AVATAR_MB} MB")
+        if avatar and hasattr(settings, 'MAX_AVATAR_MB'):
+            if avatar.size > settings.MAX_AVATAR_MB * 1024 * 1024:
+                raise forms.ValidationError(f"Avatar must be less than {settings.MAX_AVATAR_MB} MB")
         return avatar
-
-    def clean_bio(self):
-        bio = self.cleaned_data.get("bio", "")
-        if bio and len(bio) > settings.MAX_BIO_LEN:
-            raise forms.ValidationError(f"Bio must be ≤ {settings.MAX_BIO_LEN} characters.")
-        return bio

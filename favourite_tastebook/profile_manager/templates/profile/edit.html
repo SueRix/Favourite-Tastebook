@@ -1,10 +1,109 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'profile/base.html' %}
 
-</body>
-</html>
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+    <h1 class="page-title">Account Settings</h1>
+    <p class="page-subtitle">
+        Update your personal details and kitchen preferences.
+    </p>
+
+    {% if saved %}
+        <div class="alert alert-success">
+            Changes saved successfully.
+        </div>
+    {% endif %}
+
+    {% if errors %}
+        <div class="alert alert-error">
+            Please check the fields below.
+        </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+
+        <div class="card card--edit">
+            <div class="card-title">Profile & Preferences</div>
+
+            <div class="edit-layout">
+                <div class="edit-avatar">
+                    <div class="edit-avatar-title">Avatar</div>
+
+                    <div class="avatar-preview avatar-preview--large">
+                        {% if profile_form.instance.avatar %}
+                            <img src="{{ profile_form.instance.avatar.url }}" alt="Current avatar">
+                        {% else %}
+                            <div class="avatar-placeholder">
+                                {{ request.user.username|first|upper }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="avatar-upload-block">
+                        <div class="field-label">Update Image</div>
+                        <div class="field-input avatar-input-wrapper">
+                            {{ profile_form.avatar }}
+                        </div>
+                        <div class="field-help">
+                            Recommended: square image, at least 256×256px.
+                        </div>
+                    </div>
+
+                    {% if profile_form.instance.avatar %}
+                        <div class="checkbox-row">
+                            {{ profile_form.remove_avatar }}
+                            <label for="{{ profile_form.remove_avatar.id_for_label }}">
+                                {{ profile_form.remove_avatar.label }}
+                            </label>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="edit-fields">
+                    <div class="edit-section-title">Login Data</div>
+                    {% for field in user_form %}
+                        <div class="field">
+                            <label class="field-label" for="{{ field.id_for_label }}">
+                                {{ field.label }}
+                            </label>
+                            <div class="field-input">
+                                {{ field }}
+                            </div>
+                            {% if field.errors %}
+                                <div class="field-errors">{{ field.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <div class="edit-section-title">Kitchen Preferences</div>
+                    {% for field in profile_form %}
+                        {% if field.name != 'avatar' and field.name != 'remove_avatar' %}
+                            <div class="field">
+                                <label class="field-label" for="{{ field.id_for_label }}">
+                                    {{ field.label }}
+                                </label>
+                                <div class="field-input">
+                                    {{ field }}
+                                </div>
+                                {% if field.help_text %}
+                                    <div class="field-help">{{ field.help_text }}</div>
+                                {% endif %}
+                                {% if field.errors %}
+                                    <div class="field-errors">{{ field.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn">Save Changes</button>
+            <a href="{% url 'profile_detail' %}" class="btn btn-secondary">
+                Cancel
+            </a>
+        </div>
+    </form>
+{% endblock %}

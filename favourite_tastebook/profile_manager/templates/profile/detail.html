@@ -1,10 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'profile/base.html' %}
 
-</body>
-</html>
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+    <section class="profile-header">
+        <div>
+            <div class="avatar-wrapper">
+                {% if profile.avatar %}
+                    <img src="{{ profile.avatar.url }}" alt="User avatar">
+                {% else %}
+                    <div class="avatar-placeholder">
+                        {{ request.user.username|first|upper }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="header-main">
+            <div class="name-row">
+                <div class="display-name">
+                    {% if request.user.get_full_name %}
+                        {{ request.user.get_full_name }}
+                    {% else %}
+                        {{ request.user.username }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="username">@{{ request.user.username }}</div>
+
+            <div class="meta-row">
+                <div class="meta-tag">
+                    <span>Preferred Cuisine:</span> {{ profile.get_country_display|default:"Not specified" }}
+                </div>
+                <div class="meta-tag">
+                    <span>Joined:</span> {{ request.user.date_joined|date:"M Y" }}
+                </div>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <a href="{% url 'profile_edit' %}" class="btn">Edit settings</a>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">Dashboard</h2>
+        <div class="placeholder-card">
+            Here you will see your recent activity, meal plans, or shopping list.
+        </div>
+    </section>
+{% endblock %}
