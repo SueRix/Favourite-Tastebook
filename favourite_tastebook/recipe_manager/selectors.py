@@ -1,152 +1,142 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Iterable
+from typing import Iterable, Sequence, Optional, Any
 
-from django.db.models import (Count, Q, F, Value, IntegerField, ExpressionWrapper)
-from django.db.models.functions import Coalesce
+from django.db.models import Count, Q, F, Value, IntegerField, ExpressionWrapper, QuerySet
+from django.http import QueryDict
 
 from .models import Ingredient, RecipeIngredient, Recipe
 
+
 @dataclass(frozen=True)
 class RecipeScoreWeights:
+    """Config for recipe scoring logic."""
     required_match: int = 10
     secondary_match: int = 4
     optional_match: int = 1
     missing_required_match: int = 12
 
-def get_ingredient_categories():
-    return Ingredient.objects.values_list('category', flat=True).distinct().order_by('category')
+    def get_score_expression(self) -> ExpressionWrapper:
+        """Constructs DB-level calculation for ranking recipes."""
+        score_calc = (
+            F("required_matched") * Value(self.required_match)
+            + F("secondary_matched") * Value(self.secondary_match)
+            + F("optional_matched") * Value(self.optional_match)
+            - (F("required_total") - F("required_matched")) * Value(self.missing_required_match)
+        )
+        return ExpressionWrapper(score_calc, output_field=IntegerField())
 
-def get_ingredients(*, q: str | None = None, category: str | None = None):
+
+def get_ingredient_categories() -> QuerySet:
+    return (
+        Ingredient.objects
+        .values_list("category", flat=True)
+        .distinct()
+        .order_by("category")
+    )
+
+
+def get_ingredients(
+    q: Optional[str] = None,
+    category: Optional[str] = None,
+) -> QuerySet:
     qs = Ingredient.objects.all()
 
-    if q:
-        qs = qs.filter(name__icontains=q.strip().lower())
+    if q := (q or "").strip():
+        qs = qs.filter(name__icontains=q)
 
-    if category:
+    if category := (category or "").strip():
         qs = qs.filter(category=category)
 
-    return qs.order_by('category','name')
+    return qs.order_by("category", "name")
 
-def _clean_int_ids(values: Iterable[int]) -> list[int]:
-    out: list[int] = []
+
+def clean_int_ids(values: Iterable[Any]) -> list[int]:
+    """Safe integer parsing from mixed input. Deduplicates preserving order."""
+    parsed: list[int] = []
+
     for v in values:
-        v = (v or "").strip()
-        if not v:
-            continue
         try:
-            out.append(int(v))
-        except ValueError:
+            if v in (None, ""):
+                continue
+            parsed.append(int(v))
+        except (ValueError, TypeError):
             continue
-    seen = set()
-    deduped = []
-    for x in out:
-        if x not in seen:
-            seen.add(x)
-            deduped.append(x)
-    return deduped
 
-def parse_selected_ingredient_ids(querydict) -> list[int]:
-    raw_csv = querydict.get("ingredients", "")
-    raw_list = querydict.getlist("ingredient")
+    return list(dict.fromkeys(parsed))
 
-    ids = []
-    if raw_csv:
-        ids.extend(raw_csv.split(","))
-    if raw_list:
-        ids.extend(raw_list)
 
-    return _clean_int_ids(ids)
+def extract_ingredient_ids(query_params: QueryDict) -> list[int]:
+    """Parses IDs from both CSV strings and list params."""
+    parts: list[Any] = []
+
+    # Handle ?ingredients=1,2,3
+    csv = (query_params.get("ingredients") or "").strip()
+    if csv:
+        parts.extend(csv.split(","))
+
+    # Handle ?ingredient=1&ingredient=2
+    parts.extend(query_params.getlist("ingredient"))
+
+    return clean_int_ids(parts)
+
+
+def _count_by_importance(
+    importance: str,
+    selected_ids: Optional[Sequence[int]] = None,
+) -> Count:
+    """Builds conditional count for annotation."""
+    filters = Q(ingredients__importance=importance)
+
+    if selected_ids:
+        filters &= Q(ingredients__ingredient_id__in=selected_ids)
+
+    return Count("ingredients", filter=filters, distinct=True)
 
 
 def search_recipes_by_ingredients(
-    *,
-    selected_ids: list[int],
-    strict_required: bool,
-    weights: RecipeScoreWeights = RecipeScoreWeights(),
-):
+        selected_ids: Sequence[int],
+        strict_required: bool,
+        weights: Optional[RecipeScoreWeights] = None,
+) -> QuerySet:
     if not selected_ids:
         return Recipe.objects.none()
 
-    required_total = Coalesce(
-        Count(
-            "ingredients",
-            filter=Q(ingredients__importance=RecipeIngredient.Importance.REQUIRED),
-            distinct=True,
-        ),
-        0,
-    )
-    required_matched = Coalesce(
-        Count(
-            "ingredients",
-            filter=Q(
-                ingredients__importance=RecipeIngredient.Importance.REQUIRED,
-                ingredients__ingredient_id__in=selected_ids,
-            ),
-            distinct=True,
-        ),
-        0,
-    )
-    secondary_matched = Coalesce(
-        Count(
-            "ingredients",
-            filter=Q(
-                ingredients__importance=RecipeIngredient.Importance.SECONDARY,
-                ingredients__ingredient_id__in=selected_ids,
-            ),
-            distinct=True,
-        ),
-        0,
-    )
-    optional_matched = Coalesce(
-        Count(
-            "ingredients",
-            filter=Q(
-                ingredients__importance=RecipeIngredient.Importance.OPTIONAL,
-                ingredients__ingredient_id__in=selected_ids,
-            ),
-            distinct=True,
-        ),
-        0,
-    )
+    config = weights or RecipeScoreWeights()
+
+    aggregates = {
+        "required_total": _count_by_importance(RecipeIngredient.Importance.REQUIRED),
+        "required_matched": _count_by_importance(RecipeIngredient.Importance.REQUIRED, selected_ids),
+        "secondary_matched": _count_by_importance(RecipeIngredient.Importance.SECONDARY, selected_ids),
+        "optional_matched": _count_by_importance(RecipeIngredient.Importance.OPTIONAL, selected_ids),
+    }
 
     qs = (
         Recipe.objects
         .select_related("cuisine")
         .prefetch_related("ingredients__ingredient")
+        .annotate(**aggregates)
         .annotate(
-            required_total=required_total,
-            required_matched=required_matched,
-            secondary_matched=secondary_matched,
-            optional_matched=optional_matched,
-        )
-        .annotate(
+            total_matches=F("required_matched") + F("secondary_matched") + F("optional_matched"),
+
             missing_required=ExpressionWrapper(
                 F("required_total") - F("required_matched"),
                 output_field=IntegerField(),
             ),
-        )
-        .annotate(
-            score=ExpressionWrapper(
-                F("required_matched") * Value(weights.required_match)
-                + F("secondary_matched") * Value(weights.secondary_match)
-                + F("optional_matched") * Value(weights.optional_match)
-                - F("missing_required") * Value(weights.missing_required_match),
-                output_field=IntegerField(),
-            )
+            score=config.get_score_expression(),
         )
     )
 
     if strict_required:
         qs = qs.filter(missing_required=0)
+    else:
+        qs = qs.filter(total_matches__gt=0)
 
     return qs.order_by(
         "-score",
         "missing_required",
         "-required_matched",
-        "-secondary_matched",
-        "-optional_matched",
         "cook_time",
         "title",
     )

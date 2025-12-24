@@ -10,7 +10,7 @@ from .views import (
 urlpatterns = [
     path("", MainTastebookView.as_view(), name="tastebook_main"),
 
-    path("_partials/ingredients/", IngredientsPartialView.as_view(), name="partials_ingredients"),
-    path("_partials/selected/", SelectedIngredientsPartialView.as_view(), name="partials_selected"),
-    path("_partials/recipes/", RecipesPartialView.as_view(), name="partials_recipes"),
+    path("partials/ingredients/", IngredientsPartialView.as_view(), name="partials_ingredients"),
+    path("partials/selected/", SelectedIngredientsPartialView.as_view(), name="partials_selected"),
+    path("partials/recipes/", RecipesPartialView.as_view(), name="partials_recipes"),
 ]
