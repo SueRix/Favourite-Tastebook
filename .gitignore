@@ -39,3 +39,6 @@ local_settings.py
 *.iml
 *.ipr
 *.iws
+
+favourite_tastebook/media/
+
