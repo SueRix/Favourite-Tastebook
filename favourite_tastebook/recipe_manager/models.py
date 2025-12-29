@@ -1,5 +1,6 @@
 from django.db import models
 
+from .domain.enums import Units, Importance
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=100, unique=True, db_index=True)
@@ -33,40 +34,30 @@ class Recipe(models.Model):
 
 
 class RecipeIngredient(models.Model):
-    class Units(models.TextChoices):
-        GRAM = "g"
-        KILOGRAM = "kg"
-        LITER = "l"
-        PIECE = "pcs"
-        TABLESPOON = "tbsp"
-        TEASPOON = "tsp"
-        PINCH = "pinch"
+    recipe = models.ForeignKey(
+        "Recipe",
+        on_delete=models.CASCADE,
+        related_name="ingredients",
+    )
+    ingredient = models.ForeignKey(
+        "Ingredient",
+        on_delete=models.PROTECT,
+        related_name="used_in_recipes",
+    )
 
-    class Importance(models.TextChoices):
-        REQUIRED = "required"
-        SECONDARY = "secondary"
-        OPTIONAL = "optional"
+    amount = models.DecimalField(max_digits=6, decimal_places=2)
+    unit = models.CharField(
+        max_length=10,
+        choices=Units,
+        default=Units.GRAM,
+    )
 
-    recipe = models.ForeignKey(Recipe,
-                               on_delete=models.CASCADE,
-                               related_name='ingredients')
-
-    ingredient = models.ForeignKey(Ingredient,
-                                   on_delete=models.PROTECT,
-                                   related_name='used_in_recipes')
-
-    amount = models.DecimalField(decimal_places=2, max_digits=6)
-    unit = models.CharField(max_length=10,
-                            choices=Units,
-                            default=Units.GRAM)
-
-    importance = models.CharField(max_length=12,
-                                  choices=Importance,
-                                  default=Importance.REQUIRED)
+    importance = models.CharField(
+        max_length=12,
+        choices=Importance,
+        default=Importance.REQUIRED,
+    )
 
     class Meta:
-        unique_together = ('recipe', 'ingredient')
-        verbose_name = 'Ingredient using in recipe'
-
-    def __str__(self):
-        return f"{self.ingredient.name} ({self.amount} {self.unit} for {self.recipe})"
+        unique_together = ("recipe", "ingredient")
+        verbose_name = "Ingredient using in recipe"
