@@ -1,121 +1,91 @@
 from typing import Any
 
-from django.db.models import QuerySet
-from django.http import HttpRequest
-from django.views.generic import TemplateView, ListView
 from django.utils.functional import cached_property
+from django.views.generic import ListView, TemplateView
 
 from . import selectors
 from .models import Ingredient, Recipe
+from .http.parsers.recipe_search_params import RecipeSearchFilters
 
 
 class TastebookRequestMixin:
     """
-    Parses and caches common request parameters.
+    Acts as a bridge between the View and the clean Data Object.
+    Extracts data using RecipeSearchFilters and exposes properties
+    for convenient usage in views.
     """
-    request: HttpRequest
+    request: Any
 
     @cached_property
-    def selected_ids(self) -> list[int]:
-        return selectors.extract_ingredient_ids(self.request.GET)
+    def search_filters(self) -> RecipeSearchFilters:
+        return RecipeSearchFilters.from_request(self.request)
+
+    def __getattr__(self, name: str):
+        if name in {"q", "category", "strict_required", "selected_ids"}:
+            return getattr(self.search_filters, name)
+        raise AttributeError(f"{type(self).__name__!s} has no attribute {name!r}")
 
     @cached_property
-    def strict_required(self) -> bool:
-        return self._parse_bool("strict")
-
-    @cached_property
-    def use_tastes(self) -> bool:
-        return self._parse_bool("use_tastes")
-
-    @property
-    def search_query(self) -> str:
-        return self.request.GET.get("q", "").strip()
-
-    @property
-    def category_filter(self) -> str:
-        return self.request.GET.get("category", "").strip()
-
-    def _parse_bool(self, key: str) -> bool:
-        return self.request.GET.get(key) in ("1", "true", "yes", "on")
+    def selected_ingredients_qs(self):
+        if not self.selected_ids:
+            return Ingredient.objects.none()
+        return Ingredient.objects.filter(id__in=self.selected_ids).order_by("name")
 
 
 class MainTastebookView(TastebookRequestMixin, TemplateView):
-    """Entry point: renders full page with initial state (SSR)."""
-    template_name = "main/recipe_manager.html"
+    """Full SSR search page."""
+    template_name = "recipe_manager.html"
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         ctx = super().get_context_data(**kwargs)
 
-        # Filters state
-        ctx["q"] = self.search_query
-        ctx["category"] = self.category_filter
-        ctx["categories"] = selectors.get_ingredient_categories()
+        ctx["q"] = self.q
+        ctx["category"] = self.category
         ctx["strict"] = self.strict_required
-        ctx["use_tastes"] = self.use_tastes
-
-        # Basket state
         ctx["selected_ids"] = self.selected_ids
-        ctx["selected_ingredients"] = (
-            Ingredient.objects
-            .filter(id__in=self.selected_ids)
-            .order_by("category", "name")
-        )
 
-        # Available ingredients
-        ctx["ingredients"] = selectors.get_ingredients(
-            q=self.search_query,
-            category=self.category_filter
-        )
+        ctx["categories"] = selectors.get_ingredient_categories()
+        ctx["ingredients"] = selectors.get_ingredients(q=self.q, category=self.category)
+        ctx["selected_ingredients"] = self.selected_ingredients_qs
 
-        # Search results (lazy evaluation)
-        if self.selected_ids:
-            ctx["recipes"] = selectors.search_recipes_by_ingredients(
+        ctx["recipes"] = (
+            selectors.search_recipes_by_ingredients(
                 selected_ids=self.selected_ids,
                 strict_required=self.strict_required,
             )
-        else:
-            ctx["recipes"] = Recipe.objects.none()
+            if self.selected_ids
+            else Recipe.objects.none()
+        )
 
         return ctx
 
 
 class IngredientsPartialView(TastebookRequestMixin, ListView):
-    """HTMX partial: updates available ingredients list."""
+    """HTMX partial: ingredient list (search/category)."""
     model = Ingredient
-    template_name = "partials/ingredients_list.html"
+    template_name = "ingredients_list.html"
     context_object_name = "ingredients"
-    paginate_by = 50
 
-    def get_queryset(self) -> QuerySet:
-        return selectors.get_ingredients(
-            q=self.search_query,
-            category=self.category_filter,
-        )
+    def get_queryset(self):
+        return selectors.get_ingredients(q=self.q, category=self.category)
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         ctx = super().get_context_data(**kwargs)
-        ctx["selected_ids"] = set(self.selected_ids)
-        ctx["q"] = self.search_query
-        ctx["category"] = self.category_filter
+        ctx["q"] = self.q
+        ctx["category"] = self.category
         ctx["categories"] = selectors.get_ingredient_categories()
+        ctx["selected_ids"] = self.selected_ids
         return ctx
 
 
 class SelectedIngredientsPartialView(TastebookRequestMixin, ListView):
-    """HTMX partial: updates the 'basket'."""
+    """HTMX partial: selected ingredients."""
     model = Ingredient
-    template_name = "partials/selected_ingredients.html"
+    template_name = "selected_ingredients.html"
     context_object_name = "selected_ingredients"
 
-    def get_queryset(self) -> QuerySet:
-        if not self.selected_ids:
-            return Ingredient.objects.none()
-
-        return (
-            Ingredient.objects
-            .filter(id__in=self.selected_ids)
-            .order_by("category", "name")
-        )
+    def get_queryset(self):
+        return self.selected_ingredients_qs
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         ctx = super().get_context_data(**kwargs)
@@ -124,13 +94,12 @@ class SelectedIngredientsPartialView(TastebookRequestMixin, ListView):
 
 
 class RecipesPartialView(TastebookRequestMixin, ListView):
-    """HTMX partial: recalculates recipes based on current selection."""
+    """HTMX partial: recipes for the current selection."""
     model = Recipe
-    template_name = "partials/recipes_found.html"
+    template_name = "recipes_found.html"
     context_object_name = "recipes"
-    paginate_by = 20
 
-    def get_queryset(self) -> QuerySet:
+    def get_queryset(self):
         if not self.selected_ids:
             return Recipe.objects.none()
 
