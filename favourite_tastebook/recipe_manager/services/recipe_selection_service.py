@@ -1,6 +1,6 @@
 from django.db.models import Count, Q, F, Value, IntegerField, ExpressionWrapper
 from django.db.models.query import QuerySet
-
+from recipe_manager.domain.exceptions.services import InvalidWeightConfigurationError
 from recipe_manager.domain.constants import (
     SCORE_REQUIRED_MATCH,
     SCORE_SECONDARY_MATCH,
@@ -27,7 +27,13 @@ def annotate_recipe_scores(*, qs: QuerySet, selected_ids: list[int], weights: di
         "optional_match": SCORE_OPTIONAL_MATCH,
         "missing_required_match": SCORE_MISSING_REQUIRED_PENALTY,
     }
+
     if weights:
+        allowed_keys = w.keys()
+        if any(k not in allowed_keys for k in weights.keys()):
+            raise InvalidWeightConfigurationError(
+                f"Invalid weight keys provided. Allowed: {', '.join(allowed_keys)}"
+            )
         w.update(weights)
 
     required = Importance.REQUIRED

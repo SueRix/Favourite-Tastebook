@@ -1,10 +1,11 @@
+from recipe_manager.domain.exceptions.services import EmptyIngredientsError
 from recipe_manager.models import Recipe
 from recipe_manager.services.recipe_selection_service import annotate_recipe_scores
 
 
 def search_recipes_by_ingredients(*, selected_ids, strict_required, weights=None):
     if not selected_ids:
-        return Recipe.objects.none()
+        raise EmptyIngredientsError("List of ingredients cannot be empty for search.")
 
     qs = annotate_recipe_scores(
         qs=Recipe.objects.select_related("cuisine"),
