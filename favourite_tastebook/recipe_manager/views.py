@@ -5,6 +5,8 @@ from .models import Ingredient, Recipe
 from .mixins import SearchFormMixin
 
 
+from recipe_manager.domain.exceptions.base import RecipeManagerException
+
 class MainTastebookView(SearchFormMixin, TemplateView):
     template_name = "recipe_manager.html"
 
@@ -13,8 +15,6 @@ class MainTastebookView(SearchFormMixin, TemplateView):
 
         if self.search_form.is_valid():
             data = self.search_form.cleaned_data
-
-            # FIX: form field name is "ingredient", not "selected_ids"
             selected_qs = data.get("ingredient")
 
             recipes = Recipe.objects.none()
@@ -24,22 +24,23 @@ class MainTastebookView(SearchFormMixin, TemplateView):
                 selected_ingredients = selected_qs.order_by("name")
                 selected_ids_list = list(selected_qs.values_list("id", flat=True))
 
-                recipes = selectors.search_recipes_by_ingredients(
-                    selected_ids=selected_ids_list,
-                    strict_required=data.get("strict", False),
-                )
+                try:
+                    recipes = selectors.search_recipes_by_ingredients(
+                        selected_ids=selected_ids_list,
+                        strict_required=data.get("strict", False),
+                    )
+                except RecipeManagerException:
+                    recipes = Recipe.objects.none()
 
-            ctx.update(
-                {
-                    "categories": selectors.get_ingredient_categories(),
-                    "ingredients": selectors.get_ingredients(
-                        q=data.get("q"),
-                        category=data.get("category"),
-                    ),
-                    "selected_ingredients": selected_ingredients,
-                    "recipes": recipes,
-                }
-            )
+            ctx.update({
+                "categories": selectors.get_ingredient_categories(),
+                "ingredients": selectors.get_ingredients(
+                    q=data.get("q"),
+                    category=data.get("category"),
+                ),
+                "selected_ingredients": selected_ingredients,
+                "recipes": recipes,
+            })
 
         return ctx
 
@@ -82,7 +83,7 @@ class SelectedIngredientsPartialView(SearchFormMixin, ListView):
         if not self.search_form.is_valid():
             return Ingredient.objects.none()
 
-        # FIX: form field name is "ingredient"
+        #form field name is "ingredient"(not is selected_ingredients)
         qs = self.search_form.cleaned_data.get("ingredient")
         if qs:
             return qs.order_by("name")
@@ -99,14 +100,16 @@ class RecipesPartialView(SearchFormMixin, ListView):
         if not self.search_form.is_valid():
             return Recipe.objects.none()
 
-        # FIX: form field name is "ingredient"
         selected_qs = self.search_form.cleaned_data.get("ingredient")
         if not selected_qs:
             return Recipe.objects.none()
 
         selected_ids_list = list(selected_qs.values_list("id", flat=True))
 
-        return selectors.search_recipes_by_ingredients(
-            selected_ids=selected_ids_list,
-            strict_required=self.search_form.cleaned_data.get("strict", False),
-        )
+        try:
+            return selectors.search_recipes_by_ingredients(
+                selected_ids=selected_ids_list,
+                strict_required=self.search_form.cleaned_data.get("strict", False),
+            )
+        except RecipeManagerException:
+            return Recipe.objects.none()
