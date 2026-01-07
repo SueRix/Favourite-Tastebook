@@ -1,0 +1,222 @@
+[
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 31,
+    "fields": {
+      "title": "Margherita Pizza",
+      "description": "Preheat the oven hard: 250°C (or the hottest setting) for at least 30 minutes; if you have a pizza stone/steel, heat it too.\n1) Dough: mix flour, yeast, warm water, olive oil, and salt until a rough dough forms. Knead 8–10 minutes until smooth and elastic (it should spring back when poked).\n2) First rise: cover and proof 45–60 minutes at room temperature until doubled and airy.\n3) Shape: dust the bench with flour/semolina and gently stretch the dough from the center outward, keeping a thicker rim for the crust. Avoid rolling so you don’t squeeze out all the bubbles.\n4) Top: spread a thin layer of tomato sauce (don’t flood). Add torn mozzarella, a pinch of salt, and a few basil leaves (or add basil after baking for a fresher aroma).\n5) Bake: slide onto the hot stone/steel or a preheated tray. Bake 8–12 minutes until the rim is deeply browned, the cheese bubbles, and the base is crisp. Rest 1–2 minutes, drizzle with olive oil, then slice.",
+      "cook_time": 75,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 32,
+    "fields": {
+      "title": "Spaghetti Carbonara (Simple)",
+      "description": "1) Bring a large pot of water to a boil and salt it well (it should taste pleasantly salty). Cook spaghetti until al dente; reserve ½–1 cup of starchy pasta water before draining.\n2) In a pan, cook diced guanciale/pancetta/bacon over medium heat until the fat renders and the pieces are golden and crisp; turn off the heat.\n3) In a bowl, whisk eggs with finely grated Parmesan/Pecorino and plenty of black pepper until thick and homogeneous.\n4) Combine off the heat: add drained hot pasta to the pan with the rendered fat and toss for 20–30 seconds to coat.\n5) Make it creamy (not scrambled): pour in the egg-cheese mixture while tossing constantly; loosen with a splash of reserved pasta water until glossy and creamy. If it thickens too fast, add more pasta water. Serve immediately with extra cheese and pepper.",
+      "cook_time": 20,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 33,
+    "fields": {
+      "title": "Spaghetti Bolognese",
+      "description": "1) Build the base (soffritto): sauté finely chopped onion and carrot in olive oil over medium-low heat until soft and sweet, 6–8 minutes (no browning).\n2) Brown the meat: add ground beef and cook over medium-high heat, breaking it up, until well browned with little caramelized bits (this adds depth). Drain excess fat if needed.\n3) Deglaze (optional but good): splash in a little water or broth and scrape the pan to lift browned bits.\n4) Simmer: add canned tomatoes and tomato paste; season with salt, black pepper, oregano, and basil. Bring to a gentle simmer, then cook 25–40 minutes, stirring occasionally, until thick and cohesive. Add a splash of water if it gets too dry.\n5) Finish: adjust seasoning. Cook spaghetti, toss with sauce, and finish with Parmesan. For best texture, toss pasta with a ladle of sauce in the pan for 30–60 seconds before plating.",
+      "cook_time": 45,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 34,
+    "fields": {
+      "title": "Spaghetti Arrabbiata",
+      "description": "1) Cook spaghetti in salted water until al dente; reserve a little pasta water.\n2) In a pan, warm olive oil over medium-low heat. Add sliced/ minced garlic and cook gently until fragrant (30–60 seconds); do not let it brown or it will turn bitter.\n3) Add chili flakes to bloom for 10–15 seconds, then add tomato sauce/canned tomatoes. Simmer 8–12 minutes until slightly thickened.\n4) Season with salt and a pinch of oregano; add a splash of pasta water to help the sauce cling.\n5) Toss spaghetti in the sauce for 30–60 seconds until evenly coated. Finish with parsley (and extra chili if you want it hotter).",
+      "cook_time": 25,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 35,
+    "fields": {
+      "title": "Pasta Cacio e Pepe",
+      "description": "1) Cook pasta in salted water until al dente. Reserve 1 cup of starchy pasta water before draining.\n2) In a large bowl (or warm pan off the heat), combine finely grated Pecorino/Parmesan with a generous amount of freshly cracked black pepper.\n3) Create an emulsion: add a small splash of hot pasta water to the cheese and whisk into a smooth, creamy paste. Add more water gradually—too much at once can cause clumps.\n4) Add hot pasta and toss vigorously, adding pasta water little by little until the sauce turns glossy and coats every strand.\n5) Control heat: keep it off direct high heat to prevent the cheese from separating. Serve immediately with extra pepper and cheese.",
+      "cook_time": 15,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 36,
+    "fields": {
+      "title": "Mushroom Risotto (Home-Style)",
+      "description": "1) Warm your stock/water and keep it hot in a separate pot (adding cold liquid slows cooking).\n2) In a wide pan, sauté onion in butter + olive oil over medium heat until translucent. Add mushrooms and cook until they release moisture and turn golden; season lightly with salt.\n3) Add rice and toast for 1 minute, stirring, until the grains look slightly translucent at the edges.\n4) Add hot stock 1 ladle at a time, stirring frequently. Let each addition absorb before adding the next. Keep a gentle simmer—bubbling, not boiling hard.\n5) Cook 18–22 minutes until the rice is tender with a slight bite and the texture is creamy and flowing. Turn off heat and “mantecare”: stir in Parmesan and a small knob of butter. Rest 1 minute, then serve with black pepper and parsley.",
+      "cook_time": 40,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 37,
+    "fields": {
+      "title": "Tomato Basil Soup",
+      "description": "1) Sauté chopped onion in olive oil over medium-low heat until soft and translucent, 5–7 minutes. Add garlic for the last 30 seconds until fragrant.\n2) Add canned tomatoes (or chopped fresh tomatoes) and a small splash of water/broth. Bring to a simmer.\n3) Simmer 15–25 minutes to reduce and concentrate flavor; stir occasionally.\n4) Blend until smooth (or leave slightly chunky), then season with salt, pepper, and basil. If too acidic, a small pinch of sugar can balance it.\n5) Serve hot with a drizzle of olive oil; optional: Parmesan on top and bread on the side.",
+      "cook_time": 30,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 38,
+    "fields": {
+      "title": "Minestrone (Simple Pantry Version)",
+      "description": "1) Sauté onion and carrot in olive oil over medium heat until softened, 6–8 minutes. This creates the flavor base.\n2) Add canned tomatoes and water/broth; bring to a gentle simmer. Season lightly with salt and pepper.\n3) Add firmer vegetables first (e.g., zucchini chunks, broccoli florets) and simmer until nearly tender.\n4) Add canned beans (rinsed) and small pasta. Simmer until pasta is cooked and the soup has body; stir to prevent sticking.\n5) Finish with oregano and parsley. Let the soup rest 5–10 minutes so flavors meld. Adjust thickness with a splash of water if it becomes too dense; adjust salt at the end.",
+      "cook_time": 50,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 39,
+    "fields": {
+      "title": "Caprese Salad",
+      "description": "1) Use ripe, flavorful tomatoes and good mozzarella; slice both evenly. If the mozzarella is very wet, pat it dry so the salad doesn’t get watery.\n2) Arrange alternating slices on a plate (tomato–mozzarella–tomato), slightly overlapping.\n3) Season: sprinkle with salt and black pepper; the salt wakes up the tomatoes.\n4) Drizzle with extra-virgin olive oil. Add fresh basil leaves (or a pinch of dried basil if that’s what you have).\n5) Serve immediately at room temperature. Optional: a few drops of balsamic vinegar/glaze, but keep it light so it doesn’t overpower.",
+      "cook_time": 10,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 40,
+    "fields": {
+      "title": "Bruschetta al Pomodoro",
+      "description": "1) Toast bread slices until crisp and golden (oven, toaster, or dry pan). For best texture, toast thoroughly so it doesn’t go soggy.\n2) While warm, rub the surface with a cut clove of garlic (or mix minced garlic into the topping if you want stronger bite).\n3) Dice tomatoes and mix with olive oil, salt, pepper, and basil. Let sit 5–10 minutes so juices draw out and flavors combine.\n4) Spoon the tomato mixture onto the toast right before serving to keep crunch.\n5) Finish with oregano or a drizzle of olive oil. Serve immediately.",
+      "cook_time": 15,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 41,
+    "fields": {
+      "title": "Italian Tuna Pasta Salad",
+      "description": "1) Cook pasta in well-salted water until al dente. Drain and cool slightly; to prevent sticking, toss with a small drizzle of olive oil.\n2) Prep mix-ins: drain tuna well and flake it; slice olives; dice tomato (remove excess watery seeds if needed).\n3) Make dressing: olive oil + lemon juice, plus oregano/parsley, salt, and pepper.\n4) Combine: toss pasta with tuna, olives, and tomato, then add dressing gradually until coated (don’t drown it).\n5) Chill 10–20 minutes to let flavors meld, then taste and adjust salt/lemon before serving.",
+      "cook_time": 20,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 42,
+    "fields": {
+      "title": "Chicken Parmesan (Oven)",
+      "description": "1) Preheat oven to 200°C. If breasts are thick, pound to an even thickness for uniform cooking. Season with salt and pepper.\n2) Set up breading: flour (shake off excess), beaten egg, then breadcrumbs. Press crumbs firmly so they adhere.\n3) Bake on a rack over a tray (better airflow) for ~18–22 minutes, flipping once, until cooked through (about 74°C internal).\n4) Top: spoon on tomato sauce, add mozzarella, then Parmesan.\n5) Return to oven 10–12 minutes until cheese melts and browns lightly. Optional: 1–2 minutes under broiler/grill for extra color. Rest 3 minutes before slicing.",
+      "cook_time": 50,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 43,
+    "fields": {
+      "title": "Baked Eggplant with Tomato and Cheese",
+      "description": "1) Slice eggplant into even rounds. Salt both sides and let sit 10–15 minutes to draw out moisture; pat dry thoroughly (this improves texture and reduces bitterness).\n2) Brush with olive oil and roast at 200°C for 12–18 minutes, flipping once, until softened and lightly browned.\n3) Spoon tomato sauce over the roasted slices; don’t oversauce or it will steam instead of bake.\n4) Add mozzarella and Parmesan; season with oregano and black pepper.\n5) Bake 10–12 minutes until cheese is bubbling and lightly golden. Let rest 2–3 minutes so the toppings set, then serve.",
+      "cook_time": 45,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 44,
+    "fields": {
+      "title": "Zucchini Tomato Pasta",
+      "description": "1) Cook pasta in salted water until al dente; reserve a little pasta water.\n2) Sauté onion in olive oil over medium heat until soft; add garlic for the last 30 seconds.\n3) Add zucchini and cook until tender but still slightly firm (avoid mush). Season with salt and pepper.\n4) Add chopped tomatoes (or canned) and simmer 5–8 minutes until saucy; loosen with a splash of pasta water if needed.\n5) Toss pasta with the sauce for 30–60 seconds. Finish with Parmesan and basil (add basil at the end so it stays aromatic).",
+      "cook_time": 25,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 45,
+    "fields": {
+      "title": "Italian Meatballs in Tomato Sauce",
+      "description": "1) Mix: combine ground beef with egg, breadcrumbs, finely minced onion/garlic, salt, and pepper. Mix just until combined—overmixing makes meatballs dense.\n2) Shape meatballs with lightly oiled hands. For even cooking, keep them similar size.\n3) Brown: heat olive oil in a pan and sear meatballs on multiple sides until well browned (they don’t need to be cooked through yet).\n4) Simmer: add tomato sauce, bring to a gentle simmer, cover partially, and cook 15–25 minutes until meatballs are cooked through and the sauce thickens.\n5) Serve with pasta, finishing with Parmesan and herbs. Taste the sauce at the end and correct salt/pepper.",
+      "cook_time": 45,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 46,
+    "fields": {
+      "title": "Spinach and Cheese Frittata",
+      "description": "1) Beat eggs with salt and pepper. Grate cheese and keep ready (timing matters).\n2) Sauté spinach in olive oil over medium heat until just wilted; add a little garlic for aroma. Season lightly.\n3) Reduce heat to low. Pour eggs in and gently stir the first 20–30 seconds, then let it set.\n4) Sprinkle cheese on top. Cook until the edges are set but the center is still slightly soft.\n5) Finish under the oven grill/broiler for 1–3 minutes to set the top (watch closely). Rest 2 minutes, then slice. Good warm or room temperature.",
+      "cook_time": 20,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 47,
+    "fields": {
+      "title": "Garlic Butter Shrimp Pasta",
+      "description": "1) Cook pasta in salted water until al dente; reserve some pasta water.\n2) Pat shrimp dry (dry shrimp sear better). In a pan over medium heat, melt butter with a little olive oil. Add garlic and cook 20–30 seconds until fragrant.\n3) Add shrimp in a single layer; cook 1–2 minutes per side until pink and just opaque (don’t overcook).\n4) Add lemon juice, salt, and pepper. If the pan is dry, add a splash of pasta water to create a light sauce.\n5) Toss pasta in the pan until coated and glossy. Finish with parsley and an extra squeeze of lemon if needed.",
+      "cook_time": 25,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 48,
+    "fields": {
+      "title": "Lemon Herb Baked White Fish",
+      "description": "1) Preheat oven to 200°C. Pat fish fillets dry so seasoning sticks and the surface roasts instead of steaming.\n2) Place on a lightly oiled tray or parchment. Drizzle with olive oil. Season with salt, pepper, oregano, and parsley.\n3) Add lemon juice and a few lemon slices on top (the slices perfume the fish).\n4) Bake 10–15 minutes depending on thickness, until the fish flakes easily and is just cooked through (overcooking dries it out).\n5) Rest 2 minutes, then serve with pan juices and an extra drizzle of olive oil.",
+      "cook_time": 20,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 49,
+    "fields": {
+      "title": "Panzanella-Style Bread Salad",
+      "description": "1) Use slightly stale bread if possible; cube it and toast briefly until the outside is crisp but the inside still has some chew.\n2) Chop tomatoes, cucumber, and onion. Lightly salt the tomatoes and let sit 5 minutes so they release juices (this becomes part of the dressing).\n3) Combine vegetables with bread in a bowl.\n4) Dress with olive oil and vinegar; toss well so the bread absorbs flavor.\n5) Season with salt, pepper, and oregano. Let rest 10 minutes before serving so the bread softens slightly while staying pleasantly textured.",
+      "cook_time": 15,
+      "image_url": null,
+      "cuisine": 3
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 50,
+    "fields": {
+      "title": "Italian-Style Baked Chicken Wings",
+      "description": "1) Preheat oven to 210°C. For better browning, pat wings very dry with paper towels.\n2) Toss wings with olive oil, salt, pepper, paprika, oregano, and garlic. Optional: a small pinch of baking powder improves crispness (avoid too much).\n3) Arrange in a single layer on a rack over a tray (air circulation helps).\n4) Bake 40–50 minutes, flipping once halfway, until deeply golden and the skin is crisp. If you want extra color, finish 2–3 minutes under the grill/broiler.\n5) Serve immediately; optional: squeeze lemon over the wings right before eating.",
+      "cook_time": 55,
+      "image_url": null,
+      "cuisine": 3
+    }
+  }
+]

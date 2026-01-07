@@ -1,0 +1,23 @@
+[
+  {
+    "model": "recipe_manager.cuisine",
+    "pk": 1,
+    "fields": {
+      "name": "Ukrainian"
+    }
+  },
+  {
+    "model": "recipe_manager.cuisine",
+    "pk": 2,
+    "fields": {
+      "name": "General"
+    }
+  },
+  {
+    "model": "recipe_manager.cuisine",
+    "pk": 3,
+    "fields": {
+      "name": "Italian"
+    }
+  }
+]

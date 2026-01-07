@@ -1,0 +1,23 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Favourite Tastebook{% endblock %}</title>
+
+  <link rel="stylesheet" href="{% static 'profile_manager/profile.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <div class="layout">
+    {% include "includes/sidebar.html" %}
+
+    <main class="content">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>
