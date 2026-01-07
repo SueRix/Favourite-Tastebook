@@ -8,7 +8,7 @@ from .views import (
 )
 
 urlpatterns = [
-    path("", MainTastebookView.as_view(), name="tastebook_main"),
+    path("", MainTastebookView.as_view(), name="home"),
 
     path("partials/ingredients/", IngredientsPartialView.as_view(), name="partials_ingredients"),
     path("partials/selected/", SelectedIngredientsPartialView.as_view(), name="partials_selected"),

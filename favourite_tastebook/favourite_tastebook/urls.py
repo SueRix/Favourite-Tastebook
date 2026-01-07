@@ -8,6 +8,6 @@ urlpatterns = [
 
     path("profile/", include("profile_manager.urls")),
 
-    path("tastebook/", include("recipe_manager.urls")),
+    path("home/", include("recipe_manager.urls")),
 ]
 

@@ -8,10 +8,10 @@ from .views import (
 )
 
 urlpatterns = [
-    path("profile/", ProfileDetailView.as_view(), name="profile_detail"),
-    path("profile/edit/", ProfileUpdateView.as_view(), name="profile_edit"),
+    path("", ProfileDetailView.as_view(), name="profile_detail"),
+    path("edit/", ProfileUpdateView.as_view(), name="profile_edit"),
 
-    path("profile/tastes/", TastesView.as_view(), name="tastes"),
-    path("profile/cookbooks/", CookbooksView.as_view(), name="cookbooks"),
-    path("profile/saved/", SavedRecipesView.as_view(), name="saved_recipes"),
+    path("tastes/", TastesView.as_view(), name="tastes"),
+    path("cookbooks/", CookbooksView.as_view(), name="cookbooks"),
+    path("saved/", SavedRecipesView.as_view(), name="saved_recipes"),
 ]

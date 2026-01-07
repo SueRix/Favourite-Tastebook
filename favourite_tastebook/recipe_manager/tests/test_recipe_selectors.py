@@ -3,7 +3,7 @@ from django.test import TestCase
 
 from recipe_manager.domain.enums import Importance
 from recipe_manager.models import Cuisine, Ingredient, Recipe, RecipeIngredient
-from recipe_manager.selectors.selection_recipes import search_recipes_by_ingredients
+from recipe_manager.selectors.recipes import search_recipes_by_ingredients
 
 
 class RecipeSelectorsTests(TestCase):
