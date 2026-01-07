@@ -92,14 +92,24 @@
 
   <div class="sidebar-footer">
     {% if user.is_authenticated %}
-      <p class="sidebar-tip">
-        Logged in as
-        <span>
-          {% with uname=user.get_username %}
-            {% if uname %}{{ uname }}{% elif user.email %}{{ user.email }}{% else %}User #{{ user.id }}{% endif %}
-          {% endwith %}
-        </span>.
-      </p>
+      <div class="sidebar-user">
+        <div class="sidebar-user-avatar" aria-hidden="true">
+          {% if user.profile.avatar %}
+            <img src="{{ user.profile.avatar.url }}" alt="Profile avatar">
+          {% else %}
+            <span class="sidebar-user-initial">{{ user.get_username|first|upper }}</span>
+          {% endif %}
+        </div>
+
+        <div class="sidebar-user-meta">
+          <div class="sidebar-user-label">Logged in as</div>
+          <div class="sidebar-user-name">
+            {% with uname=user.get_username %}
+              {% if uname %}{{ uname }}{% else %}User #{{ user.id }}{% endif %}
+            {% endwith %}
+          </div>
+        </div>
+      </div>
 
       <form method="post" action="{% url 'logout' %}" class="logout-form">
         {% csrf_token %}

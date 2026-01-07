@@ -4,13 +4,17 @@
     --accent: #ffd60a;
     --accent-soft: rgba(255, 214, 10, 0.12);
     --text-main: #f5f5f5;
+    /* Alias for older/accidental usages */
+    --text: var(--text-main);
     --text-muted: #9a9a9a;
     --border-subtle: #242424;
     --danger: #ff4d4f;
     --radius-xl: 18px;
 }
 
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
 body {
     margin: 0;
@@ -84,7 +88,9 @@ body {
     line-height: 1.6;
 }
 
-.sidebar-tip span { color: var(--accent); }
+.sidebar-tip span {
+    color: var(--accent);
+}
 
 .content {
     flex: 1;
@@ -167,7 +173,9 @@ body {
     gap: 24px;
 }
 
-.field { margin-bottom: 14px; }
+.field {
+    margin-bottom: 14px;
+}
 
 .field-label {
     display: block;
@@ -275,11 +283,15 @@ body {
     font-size: 12px;
 }
 
-.accent-link:hover { opacity: 0.9; }
+.accent-link:hover {
+    opacity: 0.9;
+}
 
 /* logout */
 
-.logout-form { margin-top: -4px; }
+.logout-form {
+    margin-top: -4px;
+}
 
 .logout-btn {
     background: none;
@@ -295,28 +307,53 @@ body {
     opacity: 0.85;
 }
 
-.logout-btn-small:hover { opacity: 1; }
+.logout-btn-small:hover {
+    opacity: 1;
+}
 
 
 /* ===== Animations ===== */
 
 @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes shakeX {
-    0%, 100% { transform: translateX(0); }
-    20% { transform: translateX(-4px); }
-    40% { transform: translateX(4px); }
-    60% { transform: translateX(-3px); }
-    80% { transform: translateX(3px); }
+    0%, 100% {
+        transform: translateX(0);
+    }
+    20% {
+        transform: translateX(-4px);
+    }
+    40% {
+        transform: translateX(4px);
+    }
+    60% {
+        transform: translateX(-3px);
+    }
+    80% {
+        transform: translateX(3px);
+    }
 }
 
-.fade-in { animation: fadeUp 260ms ease both; }
-.shake-x { animation: shakeX 220ms ease; }
+.fade-in {
+    animation: fadeUp 260ms ease both;
+}
 
-.alerts-stack { margin-bottom: 16px; }
+.shake-x {
+    animation: shakeX 220ms ease;
+}
+
+.alerts-stack {
+    margin-bottom: 16px;
+}
 
 /* Sidebar footer buttons */
 .sidebar-actions {
@@ -356,10 +393,21 @@ body {
     animation: fadeUp 200ms ease both;
 }
 
-.toast--success { border-color: rgba(255, 214, 10, 0.6); }
-.toast--info    { border-color: rgba(255, 214, 10, 0.35); }
-.toast--warning { border-color: rgba(255, 214, 10, 0.8); }
-.toast--error   { border-color: rgba(255, 77, 79, 0.9); }
+.toast--success {
+    border-color: rgba(255, 214, 10, 0.6);
+}
+
+.toast--info {
+    border-color: rgba(255, 214, 10, 0.35);
+}
+
+.toast--warning {
+    border-color: rgba(255, 214, 10, 0.8);
+}
+
+.toast--error {
+    border-color: rgba(255, 77, 79, 0.9);
+}
 
 .toast-body {
     font-size: 13px;
@@ -398,7 +446,10 @@ body {
     font-size: 18px;
 }
 
-.toast-close:hover { border-color: var(--accent); color: var(--accent); }
+.toast-close:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
 
 .toast--hide {
     opacity: 0;
@@ -414,7 +465,9 @@ body {
     justify-content: space-between;
 }
 
-.nav-text { display: inline-block; }
+.nav-text {
+    display: inline-block;
+}
 
 .nav-lock {
     display: inline-flex;
@@ -476,51 +529,105 @@ body {
 
 /* Clickable brand */
 .logo-link {
-  color: inherit;
-  text-decoration: none;
-  display: inline-block;
+    color: inherit;
+    text-decoration: none;
+    display: inline-block;
 }
 
 .logo-link:focus,
 .logo-link:hover {
-  text-decoration: none; /* no underline */
-  opacity: 1;            /* no “highlight” effect */
+    text-decoration: none; /* no underline */
+    opacity: 1; /* no “highlight” effect */
 }
 
 /* Nav layout + lock */
 .nav-link {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.nav-text { display: inline-block; }
+.nav-text {
+    display: inline-block;
+}
 
 /* Lock button + tooltip */
 .nav-lock-btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-  width: 28px;
-  height: 28px;
+    width: 28px;
+    height: 28px;
 
-  border-radius: 10px;
-  border: 1px solid var(--border-subtle);
-  background: transparent;
+    border-radius: 10px;
+    border: 1px solid var(--border-subtle);
+    background: transparent;
 
-  color: var(--text-muted);
-  font-size: 14px;
-  line-height: 1;
-  cursor: pointer;
-  padding: 0;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
 }
 
 .nav-lock-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent);
 }
 
-.nav-lock-btn:hover::after { opacity: 1; }
+.nav-lock-btn:hover::after {
+    opacity: 1;
+}
+
+.sidebar-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 10px;
+    border: 1px solid rgba(255, 255, 255, .10);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .02)
+}
+
+.sidebar-user-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--accent);
+    background: rgba(255, 255, 255, .04);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0
+}
+
+.sidebar-user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover
+}
+
+.sidebar-user-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.1
+}
+
+.sidebar-user-name {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text-main);
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.sidebar-user-initial {
+    font-weight: 700;
+    color: var(--text-main);
+}

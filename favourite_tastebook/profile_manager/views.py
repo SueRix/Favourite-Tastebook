@@ -1,66 +1,24 @@
+from django.views import View
+from django.http import HttpRequest, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
-from django.views.generic import DetailView, View, TemplateView
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
 
-from .forms import ProfileForm, UserUpdateForm
-from .models import Profile
-
-
-class ProfileDetailView(LoginRequiredMixin, DetailView):
-    model = Profile
-    template_name = "profile/detail.html"
-    context_object_name = "profile"
-
-    def get_object(self, queryset=None):
-        profile, _ = Profile.objects.get_or_create(user=self.request.user)
-        return profile
+from .handlers.profile import profile_detail, profile_edit
 
 
-class ProfileUpdateView(LoginRequiredMixin, View):
-    template_name = "profile/edit.html"
+@method_decorator(login_required, name="dispatch")
+class ProfileDetailView(View):
+    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        return profile_detail(request)
 
-    def get_forms(self, user):
-        try:
-            profile = user.profile
-        except Profile.DoesNotExist:
-            profile = Profile.objects.create(user=user)
 
-        if self.request.method == "POST":
-            user_form = UserUpdateForm(self.request.POST, instance=user)
-            profile_form = ProfileForm(self.request.POST, self.request.FILES, instance=profile)
-        else:
-            user_form = UserUpdateForm(instance=user)
-            profile_form = ProfileForm(instance=profile)
+@method_decorator(login_required, name="dispatch")
+class ProfileUpdateView(View):
+    def dispatch(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        return profile_edit(request)
 
-        return user_form, profile_form
-
-    def get(self, request, *args, **kwargs):
-        user_form, profile_form = self.get_forms(request.user)
-        ctx = {"user_form": user_form, "profile_form": profile_form}
-        return render(request, self.template_name, ctx)
-
-    def post(self, request, *args, **kwargs):
-        user_form, profile_form = self.get_forms(request.user)
-
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            ctx = {
-                "user_form": user_form,
-                "profile_form": profile_form,
-                "saved": True
-            }
-            return render(request, self.template_name, ctx)
-
-        ctx = {
-            "user_form": user_form,
-            "profile_form": profile_form,
-            "errors": {
-                "user": user_form.errors,
-                "profile": profile_form.errors
-            },
-        }
-        return render(request, self.template_name, ctx, status=400)
 
 
 class TastesView(LoginRequiredMixin, TemplateView):
