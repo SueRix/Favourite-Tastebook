@@ -1,45 +1,118 @@
+{# templates/includes/sidebar.html #}
 <aside class="sidebar">
-    <div>
-        <div class="logo">Favourite Tastebook</div>
-
-        <nav class="nav-section">
-            <a href="{% url 'home' %}" class="nav-link">Home</a>
-
-            <a href="{% url 'profile_detail' %}"
-               class="nav-link {% if request.resolver_match.url_name == 'profile_detail' %}nav-link--active{% endif %}">
-                My Account
-            </a>
-
-            <a href="{% url 'profile_edit' %}"
-               class="nav-link {% if request.resolver_match.url_name == 'profile_edit' %}nav-link--active{% endif %}">
-                Settings
-            </a>
-
-            <a href="{% url 'tastes' %}"
-               class="nav-link {% if request.resolver_match.url_name == 'tastes' %}nav-link--active{% endif %}">
-                Taste Preferences
-            </a>
-
-            <a href="{% url 'cookbooks' %}"
-               class="nav-link {% if request.resolver_match.url_name == 'cookbooks' %}nav-link--active{% endif %}">
-                My Cookbooks
-            </a>
-
-            <a href="{% url 'saved_recipes' %}"
-               class="nav-link {% if request.resolver_match.url_name == 'saved_recipes' %}nav-link--active{% endif %}">
-                Saved Recipes
-            </a>
-        </nav>
+  <div>
+    <div class="logo">
+      <a href="{% url 'home' %}" class="logo-link" aria-label="Go to Home">
+        Favourite Tastebook
+      </a>
     </div>
 
-    <div class="sidebar-footer">
-        <p class="sidebar-tip">
-            Logged in as <span>{{ request.user.username }}</span>.
-        </p>
+    <nav class="nav-section">
+      <a href="{% url 'home' %}"
+         class="nav-link {% if request.resolver_match.url_name == 'home' %}nav-link--active{% endif %}">
+        <span class="nav-text">Home</span>
+      </a>
 
-        <form method="post" action="{% url 'logout' %}" class="logout-form">
-            {% csrf_token %}
-            <button type="submit" class="logout-btn logout-btn-small">Logout</button>
-        </form>
-    </div>
+      <a href="{% url 'profile_detail' %}"
+         data-auth-required="1"
+         class="nav-link {% if request.resolver_match.url_name == 'profile_detail' %}nav-link--active{% endif %}">
+        <span class="nav-text">My Account</span>
+
+        {% if not user.is_authenticated %}
+          <button type="button"
+                  class="nav-lock-btn"
+                  data-go-login="1"
+                  aria-label="Registered users only">
+            🔒
+          </button>
+        {% endif %}
+      </a>
+
+      <a href="{% url 'profile_edit' %}"
+         data-auth-required="1"
+         class="nav-link {% if request.resolver_match.url_name == 'profile_edit' %}nav-link--active{% endif %}">
+        <span class="nav-text">Settings</span>
+
+        {% if not user.is_authenticated %}
+          <button type="button"
+                  class="nav-lock-btn"
+                  data-go-login="1"
+                  aria-label="Registered users only">
+            🔒
+          </button>
+        {% endif %}
+      </a>
+
+      <a href="{% url 'tastes' %}"
+         data-auth-required="1"
+         class="nav-link {% if request.resolver_match.url_name == 'tastes' %}nav-link--active{% endif %}">
+        <span class="nav-text">Taste Preferences</span>
+
+        {% if not user.is_authenticated %}
+          <button type="button"
+                  class="nav-lock-btn"
+                  data-go-login="1"
+                  aria-label="Registered users only">
+            🔒
+          </button>
+        {% endif %}
+      </a>
+
+      <a href="{% url 'cookbooks' %}"
+         data-auth-required="1"
+         class="nav-link {% if request.resolver_match.url_name == 'cookbooks' %}nav-link--active{% endif %}">
+        <span class="nav-text">My Cookbooks</span>
+
+        {% if not user.is_authenticated %}
+          <button type="button"
+                  class="nav-lock-btn"
+                  data-go-login="1"
+                  aria-label="Registered users only">
+            🔒
+          </button>
+        {% endif %}
+      </a>
+
+      <a href="{% url 'saved_recipes' %}"
+         data-auth-required="1"
+         class="nav-link {% if request.resolver_match.url_name == 'saved_recipes' %}nav-link--active{% endif %}">
+        <span class="nav-text">Saved Recipes</span>
+
+        {% if not user.is_authenticated %}
+          <button type="button"
+                  class="nav-lock-btn"
+                  data-go-login="1"
+                  aria-label="Registered users only">
+            🔒
+          </button>
+        {% endif %}
+      </a>
+    </nav>
+  </div>
+
+  <div class="sidebar-footer">
+    {% if user.is_authenticated %}
+      <p class="sidebar-tip">
+        Logged in as
+        <span>
+          {% with uname=user.get_username %}
+            {% if uname %}{{ uname }}{% elif user.email %}{{ user.email }}{% else %}User #{{ user.id }}{% endif %}
+          {% endwith %}
+        </span>.
+      </p>
+
+      <form method="post" action="{% url 'logout' %}" class="logout-form">
+        {% csrf_token %}
+        <button type="submit" class="logout-btn logout-btn-small">Logout</button>
+      </form>
+    {% else %}
+      <p class="sidebar-tip">
+        You are not logged in. Please log in to use all the app’s features.
+      </p>
+
+      <div class="sidebar-actions">
+        <a class="btn btn-secondary btn-small" href="{% url 'login' %}">Authentication</a>
+      </div>
+    {% endif %}
+  </div>
 </aside>

@@ -1,23 +1,53 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{% block title %}Favourite Tastebook{% endblock %}</title>
+    <meta charset="UTF-8">
+    <title>{% block title %}Favourite Tastebook{% endblock %}</title>
 
-  <link rel="stylesheet" href="{% static 'profile_manager/profile.css' %}">
-  {% block extra_css %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block extra_css %}{% endblock %}
 </head>
-<body>
-  <div class="layout">
-    {% include "includes/sidebar.html" %}
+
+<body
+  data-authenticated="{% if request.user.is_authenticated %}1{% else %}0{% endif %}"
+  data-login-url="{% url 'login' %}"
+  data-register-url="{% url 'register' %}"
+>
+<div class="layout">
+    {% block sidebar %}
+        {% include "includes/sidebar.html" %}
+    {% endblock %}
 
     <main class="content">
-      {% block content %}{% endblock %}
-    </main>
-  </div>
+        {% if messages %}
+            <div class="alerts-stack">
+                {% for message in messages %}
+                    <div class="alert {% if 'success' in message.tags %}alert-success{% else %}alert-error{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
 
-  {% block extra_js %}{% endblock %}
+            {# JS-toasts source #}
+            <div class="js-messages" style="display:none;">
+                {% for message in messages %}
+                    <div
+                      class="js-message"
+                      data-level="{{ message.tags }}"
+                      data-text="{{ message|escapejs }}"
+                    ></div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+</div>
+
+<div id="toast-root" class="toast-root" aria-live="polite" aria-atomic="true"></div>
+
+<script src="{% static 'js/base.js' %}"></script>
+{% block extra_js %}{% endblock %}
 </body>
 </html>
