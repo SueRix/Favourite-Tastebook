@@ -1,18 +1,144 @@
-{% extends "base.html" %}
+{% extends "layout/base.html" %}
 {% load static %}
 
-{% block title %}Tastebook{% endblock %}
+{% block title %}Home • Favourite Tastebook{% endblock %}
 
 {% block extra_css %}
-  <link rel="stylesheet" href="{% static 'recipe_manager/tastebook.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 
 {% block content %}
-  <div class="favtastebook-page">
-    ...
-  </div>
+    <div class="home-header">
+        <div>
+            <h1 class="page-title">Home</h1>
+            <p class="page-subtitle">Select ingredients to find recipes.</p>
+        </div>
+
+        <label class="taste-toggle">
+            <input
+                    type="checkbox"
+                    id="use-tastes"
+                    name="use_tastes"
+                    form="filters-form"
+                    data-auth-required="1"
+                    {% if request.GET.use_tastes %}checked{% endif %}
+            >
+            <span>Use your profile tastes</span>
+        </label>
+    </div>
+
+    <form id="filters-form" method="get" action="{% url 'home' %}">
+        <input type="hidden" name="q" value="{{ request.GET.q|default:'' }}">
+        <input type="hidden" name="category" value="{{ request.GET.category|default:'' }}" id="category-hidden">
+        <input type="hidden" name="strict" value="{{ request.GET.strict|default:'' }}" id="strict-hidden">
+
+        {% if selected_ids %}
+            {% for sid in selected_ids %}
+                <input type="hidden" name="ingredient" value="{{ sid }}" data-ingredient-hidden="{{ sid }}">
+            {% endfor %}
+        {% endif %}
+    </form>
+
+    <section class="home-grid">
+
+        {# LEFT #}
+        <div class="home-col home-left">
+            <div class="card home-card">
+                <div class="home-card-head">
+                    <div class="card-title">Selected ingredients</div>
+                    <button class="btn btn-secondary btn-small" type="button" id="clear-selected">Clear</button>
+                </div>
+
+                <div
+                        id="selected-ingredients"
+                        class="box box-scroll"
+                        hx-get="{% url 'partials_selected' %}"
+                        hx-trigger="load, ft:filtersChanged from:body"
+                        hx-include="#filters-form"
+                        hx-swap="innerHTML"
+                >
+                    {% include "partials/selected_ingredients.html" %}
+                </div>
+            </div>
+
+            <div class="card home-card">
+                <div class="card-title">Upload photo</div>
+                <p class="home-muted">Upload a photo of what you have — and we will try to find matching recipes.</p>
+
+                <div class="upload-box">
+                    <div class="upload-icon" aria-hidden="true">✦</div>
+
+                    <div class="upload-actions">
+                        <button class="btn" type="button" data-auth-required="1" id="upload-btn">Upload photo</button>
+                        <button class="btn btn-secondary" type="button" disabled>Open camera</button>
+                    </div>
+
+                    <p class="home-hint">Photo recognition can be added later. UI is ready.</p>
+                </div>
+            </div>
+        </div>
+
+        {# MIDDLE #}
+        <div class="home-col home-mid">
+            <div class="card home-card">
+                <div class="home-card-head">
+                    <div class="card-title">Available ingredients</div>
+
+                    <div class="filters-row">
+                        <select class="mini-select" id="category-select">
+                            <option value="">All categories</option>
+                            {% for c in categories %}
+                                <option value="{{ c }}"
+                                        {% if request.GET.category == c %}selected{% endif %}>{{ c }}</option>
+                            {% endfor %}
+                        </select>
+
+                        <label class="mini-check">
+                            <input type="checkbox" id="strict-check" {% if request.GET.strict %}checked{% endif %}>
+                            <span>Strict</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div
+                        id="ingredients-list"
+                        class="box box-scroll"
+                        hx-get="{% url 'partials_ingredients' %}"
+                        hx-trigger="load, ft:filtersChanged from:body"
+                        hx-include="#filters-form"
+                        hx-swap="innerHTML"
+                >
+                    {% include "partials/ingredients_list.html" %}
+                </div>
+            </div>
+        </div>
+
+        {# RIGHT #}
+        <div class="home-col home-right">
+            <div class="card home-card">
+                <div class="home-card-head">
+                    <div class="card-title">Recipes found</div>
+                    <div class="home-muted small" id="recipes-meta"></div>
+                </div>
+
+                <div
+                        id="recipes-panel"
+                        class="recipes-panel"
+                        hx-get="{% url 'partials_recipes' %}"
+                        hx-trigger="load, ft:filtersChanged from:body"
+                        hx-include="#filters-form"
+                        hx-swap="innerHTML"
+                >
+                    {% include "partials/recipes_found.html" %}
+                </div>
+            </div>
+        </div>
+
+
+    </section>
 {% endblock %}
 
 {% block extra_js %}
-  <script src="{% static 'recipe_manager/favtastebook.js' %}"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}

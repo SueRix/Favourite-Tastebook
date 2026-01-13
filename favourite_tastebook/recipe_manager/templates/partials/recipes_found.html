@@ -1,15 +1,95 @@
-{# templates/partials/recipes_found.html #}
-<div>
-  <div>DEBUG selected_ids: {{ selected_ids }}</div>
-  <div>DEBUG recipes_count: {{ recipes|length }}</div>
+{# FIXME: fix auto closing recipe showing in blocks #}
+{% if not selected_count %}
+  <div class="placeholder-card">
+    No ingredients selected, please select if you want to make a selection
+  </div>
 
-  {% if recipes %}
-    <ul>
-      {% for r in recipes %}
-        <li>#{{ r.id }} — {{ r.title }}</li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <div>NO RECIPES FOUND</div>
-  {% endif %}
-</div>
+{% elif featured %}
+  <div class="rf-feature">
+
+    {# === TOP: title + meta === #}
+    <div class="rf-top">
+      <div class="rf-title">{{ featured.title|default:"Recipe" }}</div>
+
+      <div class="rf-meta">
+        <div class="rf-meta-row">
+          <span class="rf-meta-label">Cook time:</span>
+          <span class="rf-meta-value">
+            {% if featured.cook_time %}
+              {{ featured.cook_time }} min
+            {% else %}
+              —
+            {% endif %}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    {# === MAIN: photo + side (reserved) === #}
+    <div class="rf-main">
+      <div class="rf-photo">
+        {% if featured.image_url %}
+          <img src="{{ featured.image_url }}" alt="{{ featured.title }}">
+        {% else %}
+          <div class="photo-ph">Photo of recipe</div>
+        {% endif %}
+      </div>
+
+      <div class="rf-side">
+        <div class="rf-desc">
+          Cuisine type and ingredients list will be here.
+        </div>
+      </div>
+    </div>
+
+    {# === HOW TO COOK === #}
+    <div class="rf-howto">
+      <div class="rf-howto-title">Detail info “How to cook it”</div>
+
+      <div class="rf-howto-body">
+        {% if featured.steps %}
+          <ol class="rf-steps">
+            {% for step in featured.steps %}
+              <li>{{ step }}</li>
+            {% endfor %}
+          </ol>
+        {% else %}
+          <div class="placeholder-card">
+            No cooking steps available.
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {# === MORE RECIPES === #}
+    <div class="rf-more">
+      <div class="rf-more-head">
+        <div class="home-muted">Second, third recipes</div>
+        <div class="down-arrow" aria-hidden="true">⬇</div>
+      </div>
+
+      <div class="rf-more-list box box-scroll">
+        {% for r in recipes|slice:"1:" %}
+          <button
+            type="button"
+            class="recipe-row"
+            hx-get="{% url 'partials_recipes' %}?recipe={{ r.id }}"
+            hx-target="#recipes-panel"
+            hx-include="#filters-form"
+          >
+            <span class="recipe-row-title">{{ r.title|default:"Recipe" }}</span>
+            <span class="recipe-row-hint">open</span>
+          </button>
+        {% empty %}
+          <div class="placeholder-card">No more recipes.</div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+
+{% else %}
+  <div class="placeholder-card">
+    No recipes found. Try selecting more ingredients or disable strict mode.
+  </div>
+{% endif %}
