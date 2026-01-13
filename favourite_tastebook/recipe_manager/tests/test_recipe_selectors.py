@@ -1,4 +1,4 @@
-# recipe_manager/tests/test_recipe_selectors.py
+# js/tests/test_recipe_selectors.py
 from django.test import TestCase
 
 from recipe_manager.domain.enums import Importance

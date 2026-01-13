@@ -1,4 +1,3 @@
-{# FIXME: fix auto closing recipe showing in blocks #}
 {% if not selected_count %}
   <div class="placeholder-card">
     No ingredients selected, please select if you want to make a selection
@@ -69,7 +68,8 @@
       </div>
 
       <div class="rf-more-list box box-scroll">
-        {% for r in recipes|slice:"1:" %}
+        {% for r in more_recipes %}
+
           <button
             type="button"
             class="recipe-row"

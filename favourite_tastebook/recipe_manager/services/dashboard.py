@@ -1,3 +1,4 @@
+#FIXME: this file as a orchestrator must be extracted to another layer
 from recipe_manager.selectors.ingredients import IngredientSelector
 from recipe_manager.services.search_recipes import RecipeSearchService
 from recipe_manager.services.recipe_steps import RecipeStepsService
@@ -57,6 +58,8 @@ class DashboardService:
         }
 
     @classmethod
+
+    #ARCH-TODO: logic of recipes validation must be extracted to another low-layer file.
     def build_recipes_partial(cls, filters):
         selected = IngredientSelector.list_selected(filters)
         selected_ids = list(selected.values_list("id", flat=True))
@@ -64,18 +67,22 @@ class DashboardService:
         recipes = RecipeSearchService.find_recipes(filters)
 
         featured = None
+        more_recipes = recipes.none()
+
         rid = filters.get("recipe")
 
-        if recipes:
+        if recipes.exists():
             if rid:
                 featured = recipes.filter(id=rid).first()
+
             if featured is None:
                 featured = recipes.first()
 
             featured.steps = RecipeStepsService.split(featured.description)
+            more_recipes = recipes.exclude(id=featured.id)
 
         return {
-            "recipes": recipes,
-            "featured": featured,
             "selected_count": len(selected_ids),
+            "featured": featured,
+            "more_recipes": more_recipes,
         }

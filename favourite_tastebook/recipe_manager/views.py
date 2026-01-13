@@ -42,16 +42,17 @@ class SelectedIngredientsPartialView(SearchParamsMixin, ListView):
 class RecipesPartialView(SearchParamsMixin, ListView):
     model = Recipe
     template_name = "partials/recipes_found.html"
-    context_object_name = "recipes"
+    context_object_name = "more_recipes"
 
     def get_queryset(self):
         data = DashboardService.build_recipes_partial(self.filters)
-        return data["recipes"]
+        return data["more_recipes"]
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx.update(DashboardService.build_recipes_partial(self.filters))
         return ctx
+
 
 
 
