@@ -2,7 +2,7 @@ from django.views.generic import ListView, TemplateView
 
 from .mixins import SearchParamsMixin
 from .models import Ingredient, Recipe
-from .services.dashboard import DashboardService
+from recipe_manager.application.use_cases.dashboard import DashboardUseCase
 
 
 class MainTastebookView(SearchParamsMixin, TemplateView):
@@ -10,7 +10,7 @@ class MainTastebookView(SearchParamsMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx.update(DashboardService.build_home(self.filters))
+        ctx.update(DashboardUseCase.build_home(self.filters))
         return ctx
 
 
@@ -20,12 +20,12 @@ class IngredientsPartialView(SearchParamsMixin, ListView):
     context_object_name = "ingredients"
 
     def get_queryset(self):
-        data = DashboardService.build_ingredients_partial(self.filters)
+        data = DashboardUseCase.build_ingredients_partial(self.filters)
         return data["ingredients"]
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx.update(DashboardService.build_ingredients_partial(self.filters))
+        ctx.update(DashboardUseCase.build_ingredients_partial(self.filters))
         return ctx
 
 
@@ -35,7 +35,7 @@ class SelectedIngredientsPartialView(SearchParamsMixin, ListView):
     context_object_name = "selected_ingredients"
 
     def get_queryset(self):
-        data = DashboardService.build_selected_partial(self.filters)
+        data = DashboardUseCase.build_selected_partial(self.filters)
         return data["selected_ingredients"]
 
 
@@ -45,16 +45,10 @@ class RecipesPartialView(SearchParamsMixin, ListView):
     context_object_name = "more_recipes"
 
     def get_queryset(self):
-        data = DashboardService.build_recipes_partial(self.filters)
+        data = DashboardUseCase.build_recipes_partial(self.filters)
         return data["more_recipes"]
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx.update(DashboardService.build_recipes_partial(self.filters))
+        ctx.update(DashboardUseCase.build_recipes_partial(self.filters))
         return ctx
-
-
-
-
-
-

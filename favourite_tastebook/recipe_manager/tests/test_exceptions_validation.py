@@ -9,7 +9,7 @@ from recipe_manager.domain.exceptions.services import (
     EmptyIngredientsError,
     InvalidWeightConfigurationError,
 )
-from recipe_manager.selectors.recipes import search_recipes_by_ingredients
+from recipe_manager.infrastructure.selectors.recipes import search_recipes_by_ingredients
 from recipe_manager.services.recipe_selection_service import annotate_recipe_scores
 
 

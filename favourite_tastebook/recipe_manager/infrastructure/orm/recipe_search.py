@@ -1,8 +1,8 @@
 from recipe_manager.models import Recipe
-from recipe_manager.services.scoring import RecipeScoringService
+from recipe_manager.infrastructure.orm.scoring import RecipeScoringService
 
 
-class RecipeSearchService:
+class RecipeSearchORM:
     @classmethod
     def find_recipes(cls, filters: dict):
         selected_ingredients = filters.get("ingredient")
