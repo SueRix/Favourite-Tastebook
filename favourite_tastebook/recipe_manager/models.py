@@ -20,7 +20,7 @@ class Recipe(models.Model):
     title = models.CharField(max_length=512, unique=True)
     description = models.TextField(blank=True)
     cook_time = models.PositiveIntegerField(help_text="Time in minutes")
-    image_url = models.URLField(blank=True, null=True)
+    image_url = models.ImageField(upload_to="recipe_photos/", blank=True, null=True)
     cuisine = models.ForeignKey(
         Cuisine,
         on_delete=models.SET_NULL,
