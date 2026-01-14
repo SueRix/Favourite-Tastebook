@@ -7,13 +7,13 @@ def load_fixtures(apps, schema_editor):
     call_command('loaddata', 'ingredients/01_ing.json')
 
     call_command('loaddata', 'recipes/01_ukrainian.json')
-    call_command('loaddata', 'recipes/02_common.json')
-    call_command('loaddata', 'recipes/03_italian.json')
+    call_command('loaddata', 'recipes/02_cmn.json')
+    call_command('loaddata', 'recipes/03_itl.json')
 
 
     call_command('loaddata', 'recipe_ingredients/01_ukr.json')
-    call_command('loaddata', 'recipe_ingredients/02_common.json')
-    call_command('loaddata', 'recipe_ingredients/03_italian.json')
+    call_command('loaddata', 'recipe_ingredients/02_cmn.json')
+    call_command('loaddata', 'recipe_ingredients/03_itl.json')
 
 
 def reverse_func(apps, schema_editor):
