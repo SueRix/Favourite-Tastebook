@@ -392,10 +392,49 @@
     padding: 12px;
 }
 
-.box-scroll {
-    max-height: 520px;
-    overflow: auto;
+
+/* Firefox */
+.box-scroll,
+.rf-more-list {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.22) rgba(0, 0, 0, 0.25);
 }
+
+/* WebKit (Chrome/Edge/Safari) */
+.box-scroll::-webkit-scrollbar,
+.rf-more-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+.box-scroll::-webkit-scrollbar-track,
+.rf-more-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 999px;
+    margin: 6px 0;
+}
+
+.box-scroll::-webkit-scrollbar-thumb,
+.rf-more-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 999px;
+    border: 2px solid rgba(0, 0, 0, 0.25);
+}
+
+.box-scroll::-webkit-scrollbar-thumb:hover,
+.rf-more-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 214, 10, 0.45);
+}
+
+.box-scroll::-webkit-scrollbar-thumb:active,
+.rf-more-list::-webkit-scrollbar-thumb:active {
+    background: rgba(255, 214, 10, 0.60);
+}
+
+.box-scroll:focus-within::-webkit-scrollbar-thumb,
+.rf-more-list:focus-within::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.28);
+}
+
 
 #selected-ingredients.box-scroll {
     max-height: 320px;
@@ -609,124 +648,125 @@
 /* ===== Recipes Found: unified block ===== */
 
 .rf-feature {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
 }
 
 .rf-top {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .rf-title {
-  font-size: 16px;
-  font-weight: 700;
+    font-size: 16px;
+    font-weight: 700;
 }
 
 .rf-meta {
-  display: grid;
-  gap: 6px;
-  font-size: 13px;
-  color: var(--text-muted);
+    display: grid;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-muted);
 }
 
 .rf-meta-row {
-  display: flex;
-  gap: 8px;
-  align-items: baseline;
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
 }
 
 .rf-meta-label {
-  color: var(--text-muted);
-  min-width: 110px;
+    color: var(--text-muted);
+    min-width: 110px;
 }
 
 .rf-meta-value {
-  color: var(--text-main);
-  opacity: 0.9;
+    color: var(--text-main);
+    opacity: 0.9;
 }
 
 .rf-main {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: 14px;
-  align-items: stretch;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 14px;
+    align-items: stretch;
 }
 
 .rf-photo {
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--border-subtle);
-  overflow: hidden;
-  background: #050505;
-  min-height: 170px;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-subtle);
+    overflow: hidden;
+    background: #050505;
+    min-height: 170px;
 }
 
 .rf-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .rf-side {
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--border-subtle);
-  padding: 14px;
-  background: rgba(255, 255, 255, .02);
-  min-height: 170px;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-subtle);
+    padding: 14px;
+    background: rgba(255, 255, 255, .02);
+    min-height: 170px;
 }
 
 .rf-desc {
-  font-size: 13px;
-  color: var(--text-main);
-  line-height: 1.5;
-  opacity: 0.95;
+    font-size: 13px;
+    color: var(--text-main);
+    line-height: 1.5;
+    opacity: 0.95;
 }
 
 .rf-howto-title {
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--text-main);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-main);
 }
 
 .rf-howto-body {
-  padding: 14px;
+    padding: 14px;
 }
 
 .rf-more-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
 
 .rf-more-list {
-  max-height: 220px;
-  overflow: auto;
+    max-height: 220px;
+    overflow: auto;
 }
 
 .rf-more-list::-webkit-scrollbar {
-  width: 10px;
+    width: 10px;
 }
+
 .rf-more-list::-webkit-scrollbar-thumb {
-  background: var(--border-subtle);
-  border-radius: 999px;
+    background: var(--border-subtle);
+    border-radius: 999px;
 }
 
 .rf-steps {
-  margin: 0;
-  padding-left: 18px;
-  display: grid;
-  gap: 10px;
+    margin: 0;
+    padding-left: 18px;
+    display: grid;
+    gap: 10px;
 }
 
 .rf-steps li {
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--text-main);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-main);
 }
 
 /* ==========================================================================
@@ -740,47 +780,51 @@
    ========================================================================== */
 
 /* Stop responsive shrink/reflow; keep a stable desktop canvas */
-html, body { min-width: 1260px; }
+html, body {
+    min-width: 1260px;
+}
 
 /* Push content to the left, not centered */
 .home-container,
 .container,
 main {
-  max-width: none;
-  width: 100%;
-  margin-left: 24px;
-  margin-right: 24px;
+    max-width: none;
+    width: 100%;
+    margin-left: 24px;
+    margin-right: 24px;
 }
 
 /* Fixed grid: make two left columns narrower, right (recipes) wider */
 .home-grid {
-  display: grid;
-  grid-template-columns: 280px 340px minmax(0, 1fr);
-  gap: 16px;
-  align-items: start;
+    display: grid;
+    grid-template-columns: 280px 340px minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
 }
 
 /* Slightly tighter cards */
-.home-card { padding: 14px; }
+.home-card {
+    padding: 14px;
+}
 
 /* ===== Fixed "red-line" caps (do NOT depend on viewport) ===== */
 
 /* Available ingredients: hard cap + scroll */
 #ingredients-list.box-scroll {
-  max-height: 520px;
-  overflow: auto;
+    max-height: 520px;
+    overflow: auto;
 }
 
 /* Selected ingredients: smaller cap + scroll */
 #selected-ingredients.box-scroll {
-  max-height: 260px;
-  overflow: auto;
+    max-height: 260px;
+    overflow: auto;
 }
 
 /* Right recipes: cap the long instruction/details area and any extra list */
 .recipes-panel .rf-more-list {
-  max-height: 180px;
-  overflow: auto;
+    max-height: 180px;
+    overflow: auto;
 }
 
 .recipes-panel .box-scroll,
@@ -788,80 +832,80 @@ main {
 .recipes-panel .recipe-howto,
 .recipes-panel .recipe-details,
 .recipes-panel .recipe-steps {
-  max-height: 520px;
-  overflow: auto;
+    max-height: 520px;
+    overflow: auto;
 }
 
 /* Ensure right column can actually be wider */
 .home-grid > :last-child {
-  min-width: 520px;
+    min-width: 520px;
 }
 
 /* Make sure no accidental max-width on panels */
 .selected-panel, .ingredients-panel, .recipes-panel {
-  max-width: none;
+    max-width: none;
 }
 
 /* ===== Featured: cuisine + ingredients chips ===== */
 
 .rf-side-block {
-  display: grid;
-  gap: 8px;
-  margin-bottom: 14px;
+    display: grid;
+    gap: 8px;
+    margin-bottom: 14px;
 }
 
 .rf-side-title {
-  font-size: 12px;
-  color: var(--text-muted);
-  letter-spacing: 0.2px;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.2px;
 }
 
 .rf-side-value {
-  font-size: 13px;
-  color: var(--text-main);
-  opacity: 0.95;
+    font-size: 13px;
+    color: var(--text-main);
+    opacity: 0.95;
 }
 
 .rf-ings-group {
-  margin-top: 12px;
-  display: grid;
-  gap: 8px;
+    margin-top: 12px;
+    display: grid;
+    gap: 8px;
 }
 
 .rf-ings-title {
-  font-size: 12px;
-  color: var(--text-muted);
+    font-size: 12px;
+    color: var(--text-muted);
 }
 
 .rf-ings-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .ing-chip {
-  display: inline-flex;
-  align-items: center;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.03);
-  color: rgba(255,255,255,0.92);
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.03);
+    color: rgba(255, 255, 255, 0.92);
 }
 
 .ing-chip.is-have {
-  border-color: rgba(46, 204, 113, 0.55);
-  background: rgba(46, 204, 113, 0.10);
+    border-color: rgba(46, 204, 113, 0.55);
+    background: rgba(46, 204, 113, 0.10);
 }
 
 .ing-chip.is-missing {
-  border-color: rgba(231, 76, 60, 0.55);
-  background: rgba(231, 76, 60, 0.10);
+    border-color: rgba(231, 76, 60, 0.55);
+    background: rgba(231, 76, 60, 0.10);
 }
 
 .rf-ings-meta {
-  margin-top: 12px;
-  font-size: 12px;
-  color: var(--text-muted);
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--text-muted);
 }
