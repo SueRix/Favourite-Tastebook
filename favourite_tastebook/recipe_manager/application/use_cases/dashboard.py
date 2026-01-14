@@ -2,7 +2,6 @@ from recipe_manager.infrastructure.selectors.ingredients import IngredientSelect
 from recipe_manager.infrastructure.orm.recipe_search import RecipeSearchORM
 from recipe_manager.infrastructure.presentation.featured_recipe import FeaturedRecipePresenter
 
-
 class DashboardUseCase:
     """
     Application layer: orchestrates scenario for Home/HTMX.
@@ -49,6 +48,7 @@ class DashboardUseCase:
         featured, more_recipes = FeaturedRecipePresenter.select(
             recipes,
             recipe_id=filters.get("recipe"),
+            selected_ids=selected_ids,
         )
 
         return {

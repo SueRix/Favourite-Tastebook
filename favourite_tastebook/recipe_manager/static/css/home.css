@@ -801,3 +801,67 @@ main {
 .selected-panel, .ingredients-panel, .recipes-panel {
   max-width: none;
 }
+
+/* ===== Featured: cuisine + ingredients chips ===== */
+
+.rf-side-block {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.rf-side-title {
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.2px;
+}
+
+.rf-side-value {
+  font-size: 13px;
+  color: var(--text-main);
+  opacity: 0.95;
+}
+
+.rf-ings-group {
+  margin-top: 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.rf-ings-title {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.rf-ings-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ing-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.92);
+}
+
+.ing-chip.is-have {
+  border-color: rgba(46, 204, 113, 0.55);
+  background: rgba(46, 204, 113, 0.10);
+}
+
+.ing-chip.is-missing {
+  border-color: rgba(231, 76, 60, 0.55);
+  background: rgba(231, 76, 60, 0.10);
+}
+
+.rf-ings-meta {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
