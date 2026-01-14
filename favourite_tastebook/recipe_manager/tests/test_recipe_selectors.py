@@ -1,9 +1,9 @@
-# recipe_manager/tests/test_recipe_selectors.py
+# js/tests/test_recipe_selectors.py
 from django.test import TestCase
 
 from recipe_manager.domain.enums import Importance
 from recipe_manager.models import Cuisine, Ingredient, Recipe, RecipeIngredient
-from recipe_manager.selectors.recipes import search_recipes_by_ingredients
+from recipe_manager.infrastructure.selectors.recipes import search_recipes_by_ingredients
 
 
 class RecipeSelectorsTests(TestCase):

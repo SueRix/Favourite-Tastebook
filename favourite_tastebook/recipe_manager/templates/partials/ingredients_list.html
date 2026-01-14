@@ -1,0 +1,26 @@
+{% if ingredients %}
+  <div class="ingredients-meta">
+    <span class="muted">Selected:</span>
+    <span class="count">{{ selected_count|default:0 }}</span>
+    <span class="loading" id="ing-loading" hidden>Loading…</span>
+  </div>
+
+  <div class="pill-grid pill-grid-one">
+    {% for ing in ingredients %}
+      <button
+        type="button"
+        class="pill-btn {% if ing.id in selected_ids %}is-selected{% endif %}"
+        data-ingredient-id="{{ ing.id }}"
+        aria-pressed="{% if ing.id in selected_ids %}true{% else %}false{% endif %}"
+        title="{{ ing.name }}"
+      >
+        <span class="pill-name">{{ ing.name }}</span>
+        <span class="pill-plus" aria-hidden="true">
+          {% if ing.id in selected_ids %}✓{% else %}+{% endif %}
+        </span>
+      </button>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="placeholder-card">No ingredients found for current filters.</div>
+{% endif %}

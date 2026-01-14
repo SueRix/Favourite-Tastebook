@@ -1,6 +1,6 @@
 from django.db.models import Count, Q, F, Value, IntegerField, ExpressionWrapper
 from recipe_manager.domain.enums import Importance
-from recipe_manager.domain.constants import (
+from recipe_manager.domain.enums import (
     SCORE_REQUIRED_MATCH,
     SCORE_SECONDARY_MATCH,
     SCORE_OPTIONAL_MATCH,
