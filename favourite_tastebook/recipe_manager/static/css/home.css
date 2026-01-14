@@ -1,4 +1,3 @@
-/* Home layout */
 .home-header {
     display: flex;
     align-items: center;
@@ -728,4 +727,77 @@
   font-size: 13px;
   line-height: 1.5;
   color: var(--text-main);
+}
+
+/* ==========================================================================
+   FIXED LAYOUT (pixel-locked) + left aligned
+   Notes:
+   - Browser zoom ALWAYS scales pixels; CSS cannot "ignore" zoom. What we can do
+     is avoid responsive reflow by using fixed pixel columns/heights and allow
+     page scrolling on small viewports.
+   - On small screens (e.g., 800x600) layout will overflow horizontally, but
+     remain identical in size (you get horizontal scroll).
+   ========================================================================== */
+
+/* Stop responsive shrink/reflow; keep a stable desktop canvas */
+html, body { min-width: 1260px; }
+
+/* Push content to the left, not centered */
+.home-container,
+.container,
+main {
+  max-width: none;
+  width: 100%;
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+/* Fixed grid: make two left columns narrower, right (recipes) wider */
+.home-grid {
+  display: grid;
+  grid-template-columns: 280px 340px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+/* Slightly tighter cards */
+.home-card { padding: 14px; }
+
+/* ===== Fixed "red-line" caps (do NOT depend on viewport) ===== */
+
+/* Available ingredients: hard cap + scroll */
+#ingredients-list.box-scroll {
+  max-height: 520px;
+  overflow: auto;
+}
+
+/* Selected ingredients: smaller cap + scroll */
+#selected-ingredients.box-scroll {
+  max-height: 260px;
+  overflow: auto;
+}
+
+/* Right recipes: cap the long instruction/details area and any extra list */
+.recipes-panel .rf-more-list {
+  max-height: 180px;
+  overflow: auto;
+}
+
+.recipes-panel .box-scroll,
+.recipes-panel .recipes-grid,
+.recipes-panel .recipe-howto,
+.recipes-panel .recipe-details,
+.recipes-panel .recipe-steps {
+  max-height: 520px;
+  overflow: auto;
+}
+
+/* Ensure right column can actually be wider */
+.home-grid > :last-child {
+  min-width: 520px;
+}
+
+/* Make sure no accidental max-width on panels */
+.selected-panel, .ingredients-panel, .recipes-panel {
+  max-width: none;
 }
