@@ -949,7 +949,6 @@ main {
     opacity: 0.85;
 }
 
-/* Slight emphasis depending on have/missing */
 .ing-chip.is-have .ing-chip-meta {
     color: rgba(46, 204, 113, 0.85);
     border-left-color: rgba(46, 204, 113, 0.22);
@@ -958,4 +957,42 @@ main {
 .ing-chip.is-missing .ing-chip-meta {
     color: rgba(231, 76, 60, 0.85);
     border-left-color: rgba(231, 76, 60, 0.22);
+}
+.taste-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    user-select: none;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border-subtle);
+    background: rgba(255, 255, 255, 0.05);
+    margin-left: auto;
+    white-space: nowrap;
+}
+
+.taste-toggle input {
+    width: 14px;
+    height: 14px;
+}
+
+.home-grid {
+    margin-top: 0;
+}
+
+
+#ingredients-list.box-scroll {
+    max-height: 620px;
+    overflow: auto;
+}
+
+.recipes-panel .box-scroll,
+.recipes-panel .recipes-grid,
+.recipes-panel .recipe-howto,
+.recipes-panel .recipe-details,
+.recipes-panel .recipe-steps {
+    max-height: 620px;
+    overflow: auto;
 }

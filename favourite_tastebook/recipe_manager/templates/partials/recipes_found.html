@@ -48,20 +48,19 @@
                                     <div class="rf-ings-title">{{ grp.title }}</div>
                                     <div class="rf-ings-chips">
                                         {% for it in grp.items %}
-  <span class="ing-chip {% if it.is_selected %}is-have{% else %}is-missing{% endif %}">
+                                            <span class="ing-chip {% if it.is_selected %}is-have{% else %}is-missing{% endif %}">
     <span class="ing-chip-name">{{ it.name }}</span>
 
     <span class="ing-chip-meta">
       {% if it.amount %}
-        {{ it.amount }}{% if it.unit %}&nbsp;{{ it.unit }}{% endif %}
+          {{ it.amount }}{% if it.unit %}&nbsp;{{ it.unit }}{% endif %}
       {% else %}
-        —
+          —
       {% endif %}
 
     </span>
   </span>
-{% endfor %}
-
+                                        {% endfor %}
 
 
                                     </div>
