@@ -994,3 +994,141 @@ main {
     max-height: 620px;
     overflow: auto;
 }
+
+html, body {
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+.home-grid {
+    height: calc(100vh - 100px);
+    display: grid;
+    grid-template-columns: 280px 310px minmax(0, 1fr);
+    gap: 16px;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin-bottom: 0;
+    padding-bottom: 20px;
+}
+
+.home-col {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    gap: 16px;
+    overflow: hidden;
+}
+
+.home-card {
+    display: flex;
+    flex-direction: column;
+    padding: 14px;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.home-left .home-card:last-child {
+    flex: 0 0 auto;
+    min-height: auto;
+    overflow: visible;
+}
+
+.home-card-head {
+    flex-shrink: 0;
+    margin-bottom: 12px;
+}
+
+#ingredients-list,
+#selected-ingredients,
+.recipes-panel,
+.rf-more-list {
+    flex: 1;
+    overflow-y: auto;
+    height: 100% !important;
+    max-height: none !important;
+    min-height: 0;
+}
+
+.recipes-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#ingredients-list::-webkit-scrollbar,
+.recipes-panel::-webkit-scrollbar,
+#selected-ingredients::-webkit-scrollbar {
+    width: 6px;
+}
+
+#ingredients-list::-webkit-scrollbar-thumb,
+.recipes-panel::-webkit-scrollbar-thumb,
+#selected-ingredients::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+@media (max-width: 900px) {
+    html, body { height: auto; overflow: auto; }
+    .home-grid { height: auto; display: block; }
+    .home-col { height: auto; margin-bottom: 20px; }
+    #ingredients-list, .recipes-panel { max-height: 500px !important; }
+}
+
+#ingredients-list {
+    padding-right: 6px;
+}
+
+.pill-grid-one .pill-btn {
+    padding: 8px 10px;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.pill-grid-one .pill-name {
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    min-width: 0;
+}
+
+.pill-grid-one .pill-plus {
+    flex: 0 0 22px;
+    width: 22px;
+    height: 22px;
+}
+.home-mid .home-card-head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    height: auto;
+}
+
+.home-mid .filters-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.home-mid .mini-select {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+}
+
+.home-mid .mini-check {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.home-mid .card-title {
+    margin-bottom: 0;
+}
