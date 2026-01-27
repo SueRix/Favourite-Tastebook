@@ -1,3 +1,59 @@
+/* ==========================================================================
+   BASE & LAYOUT
+   ========================================================================== */
+html, body {
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    min-width: 1260px; /* Fixed layout base */
+}
+
+.home-container,
+.container,
+main {
+    max-width: none;
+    width: 100%;
+    margin-left: 24px;
+    margin-right: 24px;
+}
+
+.home-grid {
+    display: grid;
+    /* Final column configuration found in file */
+    grid-template-columns: 280px 310px minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+    /* Full height fixed layout logic */
+    height: calc(100vh - 100px);
+    box-sizing: border-box;
+    overflow: hidden;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 20px;
+}
+
+/* Ensure right column can actually be wider */
+.home-grid > :last-child {
+    min-width: 520px;
+}
+
+.home-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.home-col-wide {
+    gap: 18px;
+}
+
+/* ==========================================================================
+   HEADER & ACTIONS
+   ========================================================================== */
 .home-header {
     display: flex;
     align-items: center;
@@ -15,40 +71,41 @@
 .taste-toggle {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    font-size: 13px;
+    gap: 8px;
+    font-size: 12px;
     color: var(--text-muted);
     user-select: none;
-    padding: 10px 12px;
+    padding: 6px 10px;
     border-radius: 999px;
     border: 1px solid var(--border-subtle);
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(255, 255, 255, 0.05);
+    margin-left: auto;
+    white-space: nowrap;
 }
 
 .taste-toggle input {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
 }
 
-.home-grid {
-    display: grid;
-    grid-template-columns: 360px 380px minmax(0, 1fr);
-    gap: 18px;
-    align-items: start;
-}
-
-.home-col {
+/* ==========================================================================
+   CARDS & CONTAINERS
+   ========================================================================== */
+.home-card {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    padding: 14px;
+    /* Flex logic for full height */
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
 }
 
-.home-col-wide {
-    gap: 18px;
-}
-
-.home-card {
-    padding: 18px;
+/* Left column last card override (usually upload/extra) */
+.home-left .home-card:last-child {
+    flex: 0 0 auto;
+    min-height: auto;
+    overflow: visible;
 }
 
 .home-card-head {
@@ -57,8 +114,34 @@
     justify-content: space-between;
     gap: 12px;
     margin-bottom: 12px;
+    flex-shrink: 0;
 }
 
+/* Specific override for Middle Column Header */
+.home-mid .home-card-head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    height: auto;
+}
+
+.home-mid .card-title {
+    margin-bottom: 0;
+}
+
+.box {
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+    padding: 12px;
+}
+
+/* Make panels strict max-width none */
+.selected-panel, .ingredients-panel, .recipes-panel {
+    max-width: none;
+}
+
+/* Common text styles */
 .home-muted {
     margin: 0;
     color: var(--text-muted);
@@ -77,11 +160,21 @@
     opacity: 0.9;
 }
 
-/* Filters */
+/* ==========================================================================
+   FILTERS & CONTROLS
+   ========================================================================== */
 .filters-row {
     display: inline-flex;
     align-items: center;
     gap: 10px;
+}
+
+/* Middle column filters specific layout */
+.home-mid .filters-row {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
 }
 
 .mini-select {
@@ -93,6 +186,12 @@
     padding: 0 12px;
     font-size: 13px;
     outline: none;
+}
+
+.home-mid .mini-select {
+    flex: 1;
+    min-width: 0;
+    width: auto;
 }
 
 .mini-select:focus {
@@ -111,16 +210,24 @@
     background: rgba(255, 255, 255, 0.02);
 }
 
+.home-mid .mini-check {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
 .mini-check input {
     width: 16px;
     height: 16px;
 }
 
-/* Ingredients */
+/* ==========================================================================
+   INGREDIENTS (Grid & Vertical List)
+   ========================================================================== */
 .ingredients-box {
     min-height: 520px;
 }
 
+/* Old Pill Grid (keeping for compatibility) */
 .pill-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -149,15 +256,81 @@
     height: 16px;
 }
 
+/* New Vertical List Style */
+.pill-grid-one {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.pill-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+    transition: 0.14s ease;
+    box-sizing: border-box;
+}
+
+.pill-btn:hover {
+    border-color: rgba(255, 214, 10, 0.55);
+    background: rgba(255, 214, 10, 0.06);
+}
+
+.pill-btn.is-selected {
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.06);
+}
+
 .pill-name {
+    color: rgba(255, 255, 255, 0.92);
     font-size: 13px;
-    color: var(--text-main);
+    line-height: 1.2;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    /* Flex logic from end of file */
+    flex: 1;
+    min-width: 0;
 }
 
-/* Selected */
+.pill-plus {
+    flex: 0 0 22px;
+    width: 22px;
+    height: 22px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.pill-btn.is-selected .pill-plus {
+    border-color: rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.10);
+}
+
+/* Full height scroll container logic */
+#ingredients-list {
+    flex: 1;
+    overflow-y: auto;
+    height: 100% !important;
+    max-height: none !important;
+    min-height: 0;
+    padding-right: 6px;
+}
+
+/* ==========================================================================
+   SELECTED ITEMS
+   ========================================================================== */
 .selected-box {
     min-height: 260px;
 }
@@ -195,37 +368,30 @@
     white-space: nowrap;
 }
 
-/* Upload */
-.upload-box {
-    border-radius: var(--radius-xl);
-    border: 1px dashed var(--border-subtle);
-    background: rgba(255, 255, 255, 0.02);
-    padding: 18px;
-    display: grid;
-    gap: 12px;
+#selected-ingredients {
+    flex: 1;
+    overflow-y: auto;
+    height: 100% !important;
+    max-height: none !important;
+    min-height: 0;
 }
 
-.upload-icon {
-    width: 120px;
-    height: 120px;
-    border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    display: grid;
-    place-items: center;
-    font-size: 42px;
-    color: var(--accent);
-    background: rgba(255, 214, 10, 0.06);
-}
-
-.upload-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-/* Recipes */
+/* ==========================================================================
+   RECIPES & RECIPE LISTS
+   ========================================================================== */
 .recipes-box {
     min-height: 520px;
+}
+
+.recipes-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    overflow-y: auto;
+    height: 100% !important;
+    max-height: none !important;
+    min-height: 0;
 }
 
 .recipes-grid {
@@ -234,6 +400,7 @@
     gap: 12px;
 }
 
+/* Standard Recipe Card */
 .recipe-card {
     width: 100%;
     text-align: left;
@@ -293,7 +460,7 @@
     object-fit: cover;
 }
 
-.photo-ph {
+.photo-ph, .info-ph {
     font-size: 13px;
     color: var(--text-muted);
 }
@@ -306,163 +473,40 @@
     min-height: 150px;
 }
 
-.info-ph {
-    font-size: 13px;
-    color: var(--text-muted);
-    line-height: 1.5;
-}
-
-/* Detail */
-.detail-box {
-    min-height: 260px;
-}
-
-/* More */
-.more-box {
-    margin-top: 14px;
-    padding-top: 12px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+/* List View Row Style */
+.recipe-row {
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.down-arrow {
-    font-size: 16px;
-    color: var(--text-muted);
-}
-
-/* Responsive */
-@media (max-width: 1280px) {
-    .home-grid {
-        grid-template-columns: 340px 360px minmax(0, 1fr);
-    }
-}
-
-@media (max-width: 900px) {
-    .home-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .recipe-body {
-        grid-template-columns: 1fr;
-    }
-}
-
-.home-grid {
-    display: grid;
-    grid-template-columns: 360px 420px minmax(0, 1fr);
-    gap: 18px;
-    align-items: start;
-}
-
-@media (max-width: 900px) {
-    .home-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* === Колонки === */
-.home-col {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
-
-.home-left {
-}
-
-.home-mid {
-}
-
-.home-right {
-}
-
-.home-card {
-    padding: 18px;
-}
-
-.box {
-    border-radius: var(--radius-xl);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.02);
-    padding: 12px;
-}
-
-
-/* Firefox */
-.box-scroll,
-.rf-more-list {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.22) rgba(0, 0, 0, 0.25);
-}
-
-/* WebKit (Chrome/Edge/Safari) */
-.box-scroll::-webkit-scrollbar,
-.rf-more-list::-webkit-scrollbar {
-    width: 10px;
-}
-
-.box-scroll::-webkit-scrollbar-track,
-.rf-more-list::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.25);
-    border-radius: 999px;
-    margin: 6px 0;
-}
-
-.box-scroll::-webkit-scrollbar-thumb,
-.rf-more-list::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.22);
-    border-radius: 999px;
-    border: 2px solid rgba(0, 0, 0, 0.25);
-}
-
-.box-scroll::-webkit-scrollbar-thumb:hover,
-.rf-more-list::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 214, 10, 0.45);
-}
-
-.box-scroll::-webkit-scrollbar-thumb:active,
-.rf-more-list::-webkit-scrollbar-thumb:active {
-    background: rgba(255, 214, 10, 0.60);
-}
-
-.box-scroll:focus-within::-webkit-scrollbar-thumb,
-.rf-more-list:focus-within::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.28);
-}
-
-
-#selected-ingredients.box-scroll {
-    max-height: 320px;
-}
-
-#ingredients-list.box-scroll {
-    max-height: 740px;
-}
-
-.recipes-panel {
-    display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     gap: 12px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(0, 0, 0, 0.25);
+    cursor: pointer;
 }
 
-.detail-box {
-    min-height: 280px;
+.recipe-row:hover {
+    border-color: rgba(255, 214, 10, 0.55);
+    background: rgba(255, 214, 10, 0.06);
 }
 
-.more-card {
-    padding: 10px 18px;
+.recipe-row-title {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-.more-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+.recipe-row-hint {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 12px;
+    flex: 0 0 auto;
 }
 
+/* Featured Recipe Style */
 .recipe-featured {
     border-radius: var(--radius-xl);
     border: 1px solid rgba(255, 255, 255, 0.10);
@@ -511,140 +555,9 @@
     line-height: 1.5;
 }
 
-.recipe-row {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 10px 12px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.02);
-    cursor: pointer;
-}
-
-.recipe-row:hover {
-    border-color: rgba(255, 214, 10, 0.55);
-    background: rgba(255, 214, 10, 0.06);
-}
-
-.recipe-row-title {
-    color: var(--text-main);
-    font-size: 13px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.recipe-row-hint {
-    color: var(--text-muted);
-    font-size: 12px;
-}
-
-/* Ingredients: one vertical list, dark style */
-.pill-grid-one {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-}
-
-.pill-btn {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* name left, plus right */
-    gap: 12px;
-
-    padding: 10px 12px;
-    border-radius: 14px;
-
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    background: rgba(0, 0, 0, 0.35);
-    cursor: pointer;
-
-    transition: 0.14s ease;
-}
-
-.pill-btn:hover {
-    border-color: rgba(255, 214, 10, 0.55);
-    background: rgba(255, 214, 10, 0.06);
-}
-
-.pill-name {
-    color: rgba(255, 255, 255, 0.92);
-    font-size: 13px;
-    line-height: 1.2;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.pill-plus {
-    flex: 0 0 auto;
-    width: 22px;
-    height: 22px;
-    border-radius: 8px;
-
-    display: grid;
-    place-items: center;
-
-    font-weight: 800;
-    color: rgba(255, 255, 255, 0.92);
-
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: rgba(255, 255, 255, 0.03);
-}
-
-/* selected = grey highlight */
-.pill-btn.is-selected {
-    border-color: rgba(255, 255, 255, 0.22);
-    background: rgba(255, 255, 255, 0.06);
-}
-
-.pill-btn.is-selected .pill-plus {
-    border-color: rgba(255, 255, 255, 0.28);
-    background: rgba(255, 255, 255, 0.10);
-}
-
-.recipe-row {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-
-    padding: 10px 12px;
-    border-radius: 12px;
-
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    background: rgba(0, 0, 0, 0.25);
-    cursor: pointer;
-}
-
-.recipe-row:hover {
-    border-color: rgba(255, 214, 10, 0.55);
-    background: rgba(255, 214, 10, 0.06);
-}
-
-.recipe-row-title {
-    color: rgba(255, 255, 255, 0.92);
-    font-size: 13px;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.recipe-row-hint {
-    color: rgba(255, 255, 255, 0.55);
-    font-size: 12px;
-    flex: 0 0 auto;
-}
-
-/* ===== Recipes Found: unified block ===== */
-
+/* ==========================================================================
+   RECIPES FOUND & DETAILS (Unified RF Block)
+   ========================================================================== */
 .rf-feature {
     display: flex;
     flex-direction: column;
@@ -741,17 +654,11 @@
 }
 
 .rf-more-list {
-    max-height: 220px;
-    overflow: auto;
-}
-
-.rf-more-list::-webkit-scrollbar {
-    width: 10px;
-}
-
-.rf-more-list::-webkit-scrollbar-thumb {
-    background: var(--border-subtle);
-    border-radius: 999px;
+    flex: 1;
+    overflow-y: auto;
+    height: 100% !important;
+    max-height: none !important;
+    min-height: 0;
 }
 
 .rf-steps {
@@ -767,85 +674,31 @@
     color: var(--text-main);
 }
 
-/* ==========================================================================
-   FIXED LAYOUT (pixel-locked) + left aligned
-   Notes:
-   - Browser zoom ALWAYS scales pixels; CSS cannot "ignore" zoom. What we can do
-     is avoid responsive reflow by using fixed pixel columns/heights and allow
-     page scrolling on small viewports.
-   - On small screens (e.g., 800x600) layout will overflow horizontally, but
-     remain identical in size (you get horizontal scroll).
-   ========================================================================== */
-
-/* Stop responsive shrink/reflow; keep a stable desktop canvas */
-html, body {
-    min-width: 1260px;
+/* Detail & More boxes */
+.detail-box {
+    min-height: 280px;
 }
 
-/* Push content to the left, not centered */
-.home-container,
-.container,
-main {
-    max-width: none;
-    width: 100%;
-    margin-left: 24px;
-    margin-right: 24px;
+.more-card {
+    padding: 10px 18px;
 }
 
-/* Fixed grid: make two left columns narrower, right (recipes) wider */
-.home-grid {
-    display: grid;
-    grid-template-columns: 280px 340px minmax(0, 1fr);
-    gap: 16px;
-    align-items: start;
+.more-box {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
-/* Slightly tighter cards */
-.home-card {
-    padding: 14px;
+.down-arrow {
+    font-size: 16px;
+    color: var(--text-muted);
 }
 
-/* ===== Fixed "red-line" caps (do NOT depend on viewport) ===== */
-
-/* Available ingredients: hard cap + scroll */
-#ingredients-list.box-scroll {
-    max-height: 520px;
-    overflow: auto;
-}
-
-/* Selected ingredients: smaller cap + scroll */
-#selected-ingredients.box-scroll {
-    max-height: 260px;
-    overflow: auto;
-}
-
-/* Right recipes: cap the long instruction/details area and any extra list */
-.recipes-panel .rf-more-list {
-    max-height: 180px;
-    overflow: auto;
-}
-
-.recipes-panel .box-scroll,
-.recipes-panel .recipes-grid,
-.recipes-panel .recipe-howto,
-.recipes-panel .recipe-details,
-.recipes-panel .recipe-steps {
-    max-height: 520px;
-    overflow: auto;
-}
-
-/* Ensure right column can actually be wider */
-.home-grid > :last-child {
-    min-width: 520px;
-}
-
-/* Make sure no accidental max-width on panels */
-.selected-panel, .ingredients-panel, .recipes-panel {
-    max-width: none;
-}
-
-/* ===== Featured: cuisine + ingredients chips ===== */
-
+/* Chips in Side block */
 .rf-side-block {
     display: grid;
     gap: 8px;
@@ -881,9 +734,19 @@ main {
     gap: 8px;
 }
 
+.rf-ings-meta {
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* Ingredient Chip Styling */
 .ing-chip {
     display: inline-flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    max-width: 100%;
     padding: 6px 10px;
     border-radius: 999px;
     font-size: 12px;
@@ -902,20 +765,14 @@ main {
     background: rgba(231, 76, 60, 0.10);
 }
 
-.rf-ings-meta {
-    margin-top: 12px;
-    font-size: 12px;
-    color: var(--text-muted);
+.ing-chip.is-have .ing-chip-meta {
+    color: rgba(46, 204, 113, 0.85);
+    border-left-color: rgba(46, 204, 113, 0.22);
 }
 
-/* ===== Ingredient chip: name + meta (amount/unit/category) ===== */
-
-.ing-chip {
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    max-width: 100%;
+.ing-chip.is-missing .ing-chip-meta {
+    color: rgba(231, 76, 60, 0.85);
+    border-left-color: rgba(231, 76, 60, 0.22);
 }
 
 .ing-chip-name {
@@ -947,188 +804,119 @@ main {
     opacity: 0.85;
 }
 
-.ing-chip.is-have .ing-chip-meta {
-    color: rgba(46, 204, 113, 0.85);
-    border-left-color: rgba(46, 204, 113, 0.22);
-}
-
-.ing-chip.is-missing .ing-chip-meta {
-    color: rgba(231, 76, 60, 0.85);
-    border-left-color: rgba(231, 76, 60, 0.22);
-}
-.taste-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    color: var(--text-muted);
-    user-select: none;
-    padding: 6px 10px;
-    border-radius: 999px;
-    border: 1px solid var(--border-subtle);
-    background: rgba(255, 255, 255, 0.05);
-    margin-left: auto;
-    white-space: nowrap;
-}
-
-.taste-toggle input {
-    width: 14px;
-    height: 14px;
-}
-
-.home-grid {
-    margin-top: 0;
-}
-
-
-#ingredients-list.box-scroll {
-    max-height: 620px;
-    overflow: auto;
-}
-
-.recipes-panel .box-scroll,
-.recipes-panel .recipes-grid,
-.recipes-panel .recipe-howto,
-.recipes-panel .recipe-details,
-.recipes-panel .recipe-steps {
-    max-height: 620px;
-    overflow: auto;
-}
-
-html, body {
-    height: 100vh;
-    width: 100%;
-    margin: 0;
-    overflow: hidden;
-}
-
-.home-grid {
-    height: calc(100vh - 100px);
+/* ==========================================================================
+   UPLOAD & UTILS
+   ========================================================================== */
+.upload-box {
+    border-radius: var(--radius-xl);
+    border: 1px dashed var(--border-subtle);
+    background: rgba(255, 255, 255, 0.02);
+    padding: 18px;
     display: grid;
-    grid-template-columns: 280px 310px minmax(0, 1fr);
-    gap: 16px;
-    box-sizing: border-box;
-    overflow: hidden;
-    margin-bottom: 0;
-    padding-bottom: 20px;
-}
-
-.home-col {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    min-height: 0;
-    gap: 16px;
-    overflow: hidden;
-}
-
-.home-card {
-    display: flex;
-    flex-direction: column;
-    padding: 14px;
-    flex: 1;
-    min-height: 0;
-    overflow: hidden;
-}
-
-.home-left .home-card:last-child {
-    flex: 0 0 auto;
-    min-height: auto;
-    overflow: visible;
-}
-
-.home-card-head {
-    flex-shrink: 0;
-    margin-bottom: 12px;
-}
-
-#ingredients-list,
-#selected-ingredients,
-.recipes-panel,
-.rf-more-list {
-    flex: 1;
-    overflow-y: auto;
-    height: 100% !important;
-    max-height: none !important;
-    min-height: 0;
-}
-
-.recipes-panel {
-    display: flex;
-    flex-direction: column;
     gap: 12px;
 }
 
+.upload-icon {
+    width: 120px;
+    height: 120px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    display: grid;
+    place-items: center;
+    font-size: 42px;
+    color: var(--accent);
+    background: rgba(255, 214, 10, 0.06);
+}
+
+.upload-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   SCROLLBARS
+   ========================================================================== */
+/* Firefox */
+.box-scroll,
+.rf-more-list,
+#ingredients-list,
+.recipes-panel,
+#selected-ingredients {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.22) rgba(0, 0, 0, 0.25);
+}
+
+/* WebKit (Chrome/Edge/Safari) */
+.box-scroll::-webkit-scrollbar,
+.rf-more-list::-webkit-scrollbar,
 #ingredients-list::-webkit-scrollbar,
 .recipes-panel::-webkit-scrollbar,
 #selected-ingredients::-webkit-scrollbar {
-    width: 6px;
+    width: 6px; /* Unified to the smaller size found at end of file */
 }
 
+.box-scroll::-webkit-scrollbar-track,
+.rf-more-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 999px;
+    margin: 6px 0;
+}
+
+.box-scroll::-webkit-scrollbar-thumb,
+.rf-more-list::-webkit-scrollbar-thumb,
 #ingredients-list::-webkit-scrollbar-thumb,
 .recipes-panel::-webkit-scrollbar-thumb,
 #selected-ingredients::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
+    border-radius: 999px;
+    border: 2px solid transparent; /* Adjusted for consistency */
+}
+
+.box-scroll::-webkit-scrollbar-thumb:hover,
+.rf-more-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 214, 10, 0.45);
+}
+
+.box-scroll::-webkit-scrollbar-thumb:active,
+.rf-more-list::-webkit-scrollbar-thumb:active {
+    background: rgba(255, 214, 10, 0.60);
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 1280px) {
+    .home-grid {
+        grid-template-columns: 340px 360px minmax(0, 1fr);
+    }
 }
 
 @media (max-width: 900px) {
-    html, body { height: auto; overflow: auto; }
-    .home-grid { height: auto; display: block; }
-    .home-col { height: auto; margin-bottom: 20px; }
-    #ingredients-list, .recipes-panel { max-height: 500px !important; }
-}
+    html, body {
+        height: auto;
+        overflow: auto;
+    }
 
-#ingredients-list {
-    padding-right: 6px;
-}
+    .home-grid {
+        height: auto;
+        display: block; /* Switch from grid to block flow */
+        grid-template-columns: 1fr;
+    }
 
-.pill-grid-one .pill-btn {
-    padding: 8px 10px;
-    gap: 8px;
-    width: 100%;
-    box-sizing: border-box;
-}
+    .home-col {
+        height: auto;
+        margin-bottom: 20px;
+    }
 
-.pill-grid-one .pill-name {
-    font-size: 13px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex: 1;
-    min-width: 0;
-}
+    .recipe-body {
+        grid-template-columns: 1fr;
+    }
 
-.pill-grid-one .pill-plus {
-    flex: 0 0 22px;
-    width: 22px;
-    height: 22px;
-}
-.home-mid .home-card-head {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-    height: auto;
-}
-
-.home-mid .filters-row {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    gap: 8px;
-}
-
-.home-mid .mini-select {
-    flex: 1;
-    min-width: 0;
-    width: auto;
-}
-
-.home-mid .mini-check {
-    flex-shrink: 0;
-    white-space: nowrap;
-}
-
-.home-mid .card-title {
-    margin-bottom: 0;
+    /* Reset fixed heights for mobile */
+    #ingredients-list,
+    .recipes-panel {
+        max-height: 500px !important;
+        height: auto !important;
+    }
 }
