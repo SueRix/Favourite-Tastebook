@@ -350,7 +350,6 @@
     }
 }
 
-/* === GRID как на вайрфрейме: 3 колонки всегда на десктопе === */
 .home-grid {
     display: grid;
     grid-template-columns: 360px 420px minmax(0, 1fr);
@@ -380,7 +379,6 @@
 .home-right {
 }
 
-/* === Общая “высота рабочего поля” (под сайдбар/хедер) === */
 .home-card {
     padding: 18px;
 }
@@ -574,7 +572,7 @@
 }
 
 .pill-name {
-    color: rgba(255, 255, 255, 0.92); /* было невидно из-за цвета/наследования */
+    color: rgba(255, 255, 255, 0.92);
     font-size: 13px;
     line-height: 1.2;
 
