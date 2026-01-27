@@ -4,121 +4,109 @@
     </div>
 
 {% elif featured %}
-    <div class="rf-feature">
+    <div class="rf-feature-v2">
 
-        <div class="rf-top">
-            <div class="rf-title">{{ featured.title|default:"Recipe" }}</div>
-
-            <div class="rf-meta">
-                <div class="rf-meta-row">
-                    <span class="rf-meta-label">Cook time:</span>
-                    <span class="rf-meta-value">
-            {% if featured.cook_time %}
-                {{ featured.cook_time }} min
-            {% else %}
-                —
-            {% endif %}
-          </span>
-                </div>
+        <div class="rf-head-row">
+            <div class="rf-title-large">{{ featured.title|default:"Recipe" }}</div>
+            <div class="rf-meta-badge">
+                <span class="icon">⏱</span>
+                <span>
+                    {% if featured.cook_time %}
+                        {{ featured.cook_time }} min
+                    {% else %}
+                        —
+                    {% endif %}
+                </span>
             </div>
         </div>
 
-        <div class="rf-main">
-            <div class="rf-photo">
-                {% if featured.image_url %}
-                    <img src="{{ featured.image_url }}" alt="{{ featured.title }}">
-                {% else %}
-                    <div class="photo-ph">Photo of recipe</div>
-                {% endif %}
+        <div class="rf-hero-image">
+            {% if featured.image_url %}
+                <img src="{{ featured.image_url }}" alt="{{ featured.title }}">
+            {% else %}
+                <div class="photo-ph-large">Photo of recipe</div>
+            {% endif %}
+        </div>
+
+        <div class="rf-content-grid">
+
+            <div class="rf-col-left">
+                <div class="rf-info-bar">
+                    <div class="rf-info-item">
+                        <span class="label">Cuisine</span>
+                        <span class="value">{{ featured.cuisine_label }}</span>
+                    </div>
+                    </div>
+
+                <div class="rf-section-title">Instructions</div>
+                <div class="rf-howto-body-v2">
+                    {% if featured.steps %}
+                        <ol class="rf-steps-list">
+                            {% for step in featured.steps %}
+                                <li>{{ step }}</li>
+                            {% endfor %}
+                        </ol>
+                    {% else %}
+                        <div class="placeholder-text">
+                            No cooking steps available.
+                        </div>
+                    {% endif %}
+                </div>
             </div>
 
-            <div class="rf-side">
-                <div class="rf-side-block">
-                    <div class="rf-side-title">Cuisine</div>
-                    <div class="rf-side-value">{{ featured.cuisine_label }}</div>
-                </div>
+            <div class="rf-col-right">
+                <div class="rf-panel-box">
+                    <div class="rf-panel-head">
+                        <div class="rf-section-title no-margin">Ingredients</div>
+                        <div class="rf-match-stats">
+                            <span class="good">Match: {{ featured.matched_count }}</span>
+                            <span class="bad">Miss: {{ featured.missing_count }}</span>
+                        </div>
+                    </div>
 
-                <div class="rf-side-block">
-                    <div class="rf-side-title">Ingredients</div>
-
+                    <div class="rf-ing-list-v2">
                     {% if featured.ingredient_groups %}
                         {% for grp in featured.ingredient_groups %}
                             {% if grp.items %}
-                                <div class="rf-ings-group">
-                                    <div class="rf-ings-title">{{ grp.title }}</div>
-                                    <div class="rf-ings-chips">
-                                        {% for it in grp.items %}
-                                            <span class="ing-chip {% if it.is_selected %}is-have{% else %}is-missing{% endif %}">
-    <span class="ing-chip-name">{{ it.name }}</span>
-
-    <span class="ing-chip-meta">
-      {% if it.amount %}
-          {{ it.amount }}{% if it.unit %}&nbsp;{{ it.unit }}{% endif %}
-      {% else %}
-          —
-      {% endif %}
-
-    </span>
-  </span>
-                                        {% endfor %}
-
-
-                                    </div>
+                                <div class="rf-group-label">{{ grp.title }}</div>
+                                <div class="rf-chips-wrap">
+                                    {% for it in grp.items %}
+                                        <div class="ing-pill {% if it.is_selected %}have{% else %}miss{% endif %}">
+                                            <span class="name">{{ it.name }}</span>
+                                            {% if it.amount %}
+                                                <span class="amount">{{ it.amount }}{{ it.unit }}</span>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
                                 </div>
                             {% endif %}
                         {% endfor %}
                     {% else %}
-                        <div class="placeholder-card">No ingredients data.</div>
+                        <div class="placeholder-text">No ingredients data.</div>
                     {% endif %}
-
-                    <div class="rf-ings-meta">
-                        Matched: {{ featured.matched_count }} · Missing: {{ featured.missing_count }}
-                        {% if featured.missing_required is not None %}
-                            · Missing required: {{ featured.missing_required }}
-                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="rf-howto">
-            <div class="rf-howto-title">Detail info “How to cook it”</div>
-
-            <div class="rf-howto-body">
-                {% if featured.steps %}
-                    <ol class="rf-steps">
-                        {% for step in featured.steps %}
-                            <li>{{ step }}</li>
-                        {% endfor %}
-                    </ol>
-                {% else %}
-                    <div class="placeholder-card">
-                        No cooking steps available.
-                    </div>
-                {% endif %}
+        <div class="rf-more-section">
+            <div class="rf-more-divider">
+                <span>Other recipes found</span>
             </div>
-        </div>
-
-        <div class="rf-more">
-            <div class="rf-more-head">
-                <div class="home-muted">Second, third recipes</div>
-                <div class="down-arrow" aria-hidden="true">⬇</div>
-            </div>
-
-            <div class="rf-more-list box box-scroll">
+            <div class="rf-more-grid">
                 {% for r in more_recipes %}
                     <button
                             type="button"
-                            class="recipe-row"
+                            class="more-recipe-card"
                             hx-get="{% url 'partials_recipes' %}?recipe={{ r.id }}"
                             hx-target="#recipes-panel"
                             hx-include="#filters-form"
                     >
-                        <span class="recipe-row-title">{{ r.title|default:"Recipe" }}</span>
-                        <span class="recipe-row-hint">open</span>
+                        <span class="title">{{ r.title|default:"Recipe" }}</span>
+                        <span class="action">Open ↗</span>
                     </button>
                 {% empty %}
-                    <div class="placeholder-card">No more recipes.</div>
+                    <div class="placeholder-text">No more recipes found.</div>
                 {% endfor %}
             </div>
         </div>
@@ -127,6 +115,6 @@
 
 {% else %}
     <div class="placeholder-card">
-        No recipes found. Try selecting more ingredients or disable strict mode.
+        No recipes found. Try selecting more ingredients.
     </div>
 {% endif %}
