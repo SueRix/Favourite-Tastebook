@@ -28,16 +28,48 @@
             {% endif %}
         </div>
 
-        <div class="rf-content-grid">
+        <div class="rf-layout-stack">
 
-            <div class="rf-col-left">
-                <div class="rf-info-bar">
-                    <div class="rf-info-item">
-                        <span class="label">Cuisine</span>
-                        <span class="value">{{ featured.cuisine_label }}</span>
-                    </div>
+            <div class="rf-panel-box">
+                <div class="rf-panel-head centered-mode">
+
+                    <div class="rf-section-title no-margin">Ingredients</div>
+
+                    <div class="rf-cuisine-center">
+                        <span class="c-label">Cuisine:</span>
+                        <span class="c-value">{{ featured.cuisine_label }}</span>
                     </div>
 
+                    <div class="rf-match-stats">
+                        <span class="good">Match: {{ featured.matched_count }}</span>
+                        <span class="bad">Miss: {{ featured.missing_count }}</span>
+                    </div>
+                </div>
+
+                <div class="rf-ing-list-v2">
+                {% if featured.ingredient_groups %}
+                    {% for grp in featured.ingredient_groups %}
+                        {% if grp.items %}
+                            <div class="rf-group-label">{{ grp.title }}</div>
+                            <div class="rf-chips-wrap">
+                                {% for it in grp.items %}
+                                    <div class="ing-pill {% if it.is_selected %}have{% else %}miss{% endif %}">
+                                        <span class="name">{{ it.name }}</span>
+                                        {% if it.amount %}
+                                            <span class="amount">{{ it.amount }}{{ it.unit }}</span>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <div class="placeholder-text">No ingredients data.</div>
+                {% endif %}
+                </div>
+            </div>
+
+            <div class="rf-instructions-full">
                 <div class="rf-section-title">Instructions</div>
                 <div class="rf-howto-body-v2">
                     {% if featured.steps %}
@@ -54,41 +86,7 @@
                 </div>
             </div>
 
-            <div class="rf-col-right">
-                <div class="rf-panel-box">
-                    <div class="rf-panel-head">
-                        <div class="rf-section-title no-margin">Ingredients</div>
-                        <div class="rf-match-stats">
-                            <span class="good">Match: {{ featured.matched_count }}</span>
-                            <span class="bad">Miss: {{ featured.missing_count }}</span>
-                        </div>
-                    </div>
-
-                    <div class="rf-ing-list-v2">
-                    {% if featured.ingredient_groups %}
-                        {% for grp in featured.ingredient_groups %}
-                            {% if grp.items %}
-                                <div class="rf-group-label">{{ grp.title }}</div>
-                                <div class="rf-chips-wrap">
-                                    {% for it in grp.items %}
-                                        <div class="ing-pill {% if it.is_selected %}have{% else %}miss{% endif %}">
-                                            <span class="name">{{ it.name }}</span>
-                                            {% if it.amount %}
-                                                <span class="amount">{{ it.amount }}{{ it.unit }}</span>
-                                            {% endif %}
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                    {% else %}
-                        <div class="placeholder-text">No ingredients data.</div>
-                    {% endif %}
-                    </div>
-                </div>
-            </div>
         </div>
-
         <div class="rf-more-section">
             <div class="rf-more-divider">
                 <span>Other recipes found</span>

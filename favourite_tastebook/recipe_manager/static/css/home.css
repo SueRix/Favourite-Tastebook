@@ -5,7 +5,7 @@ html, body {
     height: 100vh;
     width: 100%;
     margin: 0;
-    overflow: hidden;
+    overflow-x: auto;
     min-width: 1260px; /* Fixed layout base */
 }
 
@@ -1179,5 +1179,160 @@ main {
 @media (max-width: 1100px) {
     .rf-content-grid {
         grid-template-columns: 1fr;
+    }
+}
+/* ==========================================================================
+   NEW LAYOUT OVERRIDES (Unified Ingredients & Instructions)
+   ========================================================================== */
+
+/* Main container for the content stack */
+.rf-layout-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 24px;
+}
+
+/* 1. TOP SPLIT (Yellow Zone equivalent) */
+.rf-top-split {
+    display: grid;
+    /* Left column 250px, Right column takes remaining space */
+    grid-template-columns: 250px minmax(0, 1fr);
+    gap: 24px;
+    align-items: stretch;
+}
+
+/* Style for the Info Box (Left side of top split) */
+.rf-info-box {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.rf-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Ensure Ingredients Panel (Right side) fills height */
+.rf-panel-box {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* 2. INSTRUCTIONS FULL (Red Zone equivalent) */
+.rf-instructions-full {
+    width: 100%;
+    /* Optional: Add background to separate visually, or keep clean */
+    /* background: rgba(255,255,255,0.01); */
+    /* border-radius: 16px; */
+    /* padding: 16px; */
+}
+
+/* Update list style to look good on full width */
+.rf-steps-list {
+    max-width: 900px; /* Readability limit, prevents lines from being too long */
+}
+
+.rf-steps-list li {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.rf-steps-list li:last-child {
+    border-bottom: none;
+}
+
+/* RESPONSIVE: Stack everything on mobile */
+@media (max-width: 900px) {
+    .rf-top-split {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .rf-info-box, .rf-panel-box {
+        width: 100%;
+    }
+}
+
+/* 1. Reset the top split to allow full width stacking */
+.rf-layout-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 24px;
+}
+
+/* Ensure panel is full width */
+.rf-panel-box {
+    width: 100%;
+    box-sizing: border-box;
+    /* Previous styles persist: background, border, etc. */
+}
+
+/* 2. New Header Layout (Left - Center - Right) */
+.rf-panel-head.centered-mode {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative; /* Needed for absolute centering */
+    gap: 12px;
+}
+
+/* The Cuisine Block in the middle */
+.rf-cuisine-center {
+    /* Absolute positioning ensures it is strictly in the center,
+       regardless of the width of left/right elements */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* Styling */
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 4px 12px;
+    border-radius: 99px;
+}
+
+.rf-cuisine-center .c-label {
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+}
+
+.rf-cuisine-center .c-value {
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+/* 3. Mobile adjustments */
+@media (max-width: 650px) {
+    .rf-panel-head.centered-mode {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 16px;
+    }
+
+    /* On small screens, move cuisine to its own row or flow normally */
+    .rf-cuisine-center {
+        position: static;
+        transform: none;
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        padding: 0;
     }
 }
