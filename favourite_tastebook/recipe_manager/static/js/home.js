@@ -147,6 +147,32 @@
     });
   }
 
+  function bootSearchClear() {
+    const input = document.getElementById("ingredient-search-input");
+    const btn = document.getElementById("clear-search-btn");
+    const hiddenSearch = document.getElementById("hidden-search");
+
+    if (!input || !btn) return;
+
+    const toggleBtn = () => {
+      btn.hidden = input.value.trim() === "";
+    };
+
+    input.addEventListener("input", toggleBtn);
+
+    toggleBtn();
+
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      input.value = "";
+      input.focus();
+      btn.hidden = true;
+      if (hiddenSearch) hiddenSearch.value = "";
+
+      htmx.trigger(input, "searchClear");
+    });
+  }
+
   /* =========================
      Init
   ========================= */
@@ -157,5 +183,6 @@
     bootStrictFilter();
     bootHtmxLoading();
     bootSearchSync();
+    bootSearchClear();
   });
 })();
