@@ -121,6 +121,17 @@
     });
   }
 
+  function bootSearchSync() {
+    const searchInput = document.getElementById("ingredient-search-input");
+    const hiddenSearch = document.getElementById("hidden-search");
+
+    if (!searchInput || !hiddenSearch) return;
+
+    searchInput.addEventListener("input", (e) => {
+      hiddenSearch.value = e.target.value;
+    });
+  }
+
   /* =========================
      HTMX loading (optional)
   ========================= */
@@ -145,5 +156,6 @@
     bootCategoryFilter();
     bootStrictFilter();
     bootHtmxLoading();
+    bootSearchSync();
   });
 })();

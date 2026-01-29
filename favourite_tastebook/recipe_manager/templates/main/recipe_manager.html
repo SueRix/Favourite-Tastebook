@@ -9,7 +9,7 @@
 
 {% block content %}
     <form id="filters-form" method="get" action="{% url 'home' %}">
-        <input type="hidden" name="q" value="{{ request.GET.q|default:'' }}">
+        <input type="hidden" name="q" value="{{ request.GET.q|default:'' }}" id="hidden-search">
         <input type="hidden" name="category" value="{{ request.GET.category|default:'' }}" id="category-hidden">
         <input type="hidden" name="strict" value="{{ request.GET.strict|default:'' }}" id="strict-hidden">
 
@@ -28,7 +28,8 @@
                     <div class="card-title">Selected ingredients</div>
                     <button class="btn btn-secondary btn-small" type="button" id="clear-selected">Clear</button>
                 </div>
-                <div id="selected-ingredients" class="box box-scroll" hx-get="{% url 'partials_selected' %}" hx-trigger="load, ft:filtersChanged from:body" hx-include="#filters-form" hx-swap="innerHTML">
+                <div id="selected-ingredients" class="box box-scroll" hx-get="{% url 'partials_selected' %}"
+                     hx-trigger="load, ft:filtersChanged from:body" hx-include="#filters-form" hx-swap="innerHTML">
                     {% include "partials/selected_ingredients.html" %}
                 </div>
             </div>
@@ -51,12 +52,26 @@
         <div class="home-col home-mid">
             <div class="card home-card">
                 <div class="home-card-head">
-                    <div class="card-title">Available ingredients</div>
+                    <div class="search-wrapper" style="position: relative; flex: 1; margin-bottom: 8px;">
+                        <input type="text"
+                               id="ingredient-search-input"
+                               class="mini-select"
+                               style="width: 100%; padding-left: 35px;"
+                               placeholder="Search ingredients..."
+                               hx-get="{% url 'ingredient_search_results' %}"
+                               hx-trigger="keyup changed delay:300ms"
+                               hx-target="#ingredients-list"
+                               hx-include="#filters-form"
+                               value="{{ request.GET.q|default:'' }}">
+                        <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); opacity: 0.5;">🔍</span>
+                    </div>
+
                     <div class="filters-row">
                         <select class="mini-select" id="category-select">
                             <option value="">All categories</option>
                             {% for c in categories %}
-                                <option value="{{ c }}" {% if request.GET.category == c %}selected{% endif %}>{{ c }}</option>
+                                <option value="{{ c }}"
+                                        {% if request.GET.category == c %}selected{% endif %}>{{ c }}</option>
                             {% endfor %}
                         </select>
                         <label class="mini-check">
@@ -65,7 +80,8 @@
                         </label>
                     </div>
                 </div>
-                <div id="ingredients-list" class="box box-scroll" hx-get="{% url 'partials_ingredients' %}" hx-trigger="load, ft:filtersChanged from:body" hx-include="#filters-form" hx-swap="innerHTML">
+                <div id="ingredients-list" class="box box-scroll" hx-get="{% url 'partials_ingredients' %}"
+                     hx-trigger="load, ft:filtersChanged from:body" hx-include="#filters-form" hx-swap="innerHTML">
                     {% include "partials/ingredients_list.html" %}
                 </div>
             </div>
@@ -91,7 +107,8 @@
                     <div class="home-muted small" id="recipes-meta"></div>
                 </div>
 
-                <div id="recipes-panel" class="recipes-panel" hx-get="{% url 'partials_recipes' %}" hx-trigger="load, ft:filtersChanged from:body" hx-include="#filters-form" hx-swap="innerHTML">
+                <div id="recipes-panel" class="recipes-panel" hx-get="{% url 'partials_recipes' %}"
+                     hx-trigger="load, ft:filtersChanged from:body" hx-include="#filters-form" hx-swap="innerHTML">
                     {% include "partials/recipes_found.html" %}
                 </div>
             </div>
