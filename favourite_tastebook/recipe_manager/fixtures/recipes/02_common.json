@@ -218,5 +218,16 @@
       "image_url": "recipes/cuisine/general/30.jpg",
       "cuisine": 2
     }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 61,
+    "fields": {
+      "title": "Old-Fashioned Chicken Noodle Soup",
+      "description": "1) The Broth (Foundation):\n   - Place chicken thighs in a pot and cover with 2 liters of cold water. Bring to a boil, skim the foam, then reduce heat.\n   - Simmer gently for 30-40 minutes until chicken is tender. Thighs are preferred over breasts for a richer broth.\n   - Remove chicken, shred the meat, and set aside. Return bones to the pot if you have time for extra simmering (optional), otherwise proceed.\n\n2) Vegetables:\n   - Dice the onion and slice the carrot into rounds or half-moons.\n   - Add vegetables to the broth and simmer for 10 minutes.\n\n3) The Noodles:\n   - Add the egg noodles to the boiling broth.\n   - Cook according to package instructions (usually 5-7 minutes) until al dente.\n   - Return the shredded chicken to the pot.\n\n4) Seasoning:\n   - Season with salt and plenty of black pepper.\n   - Add chopped dill or parsley at the very end for freshness.\n\n5) Serving:\n   - Serve steaming hot. This is the ultimate comfort food for cold days.",
+      "cook_time": 60,
+      "image_url": "recipes/cuisine/general/61.jpg",
+      "cuisine": 2
+    }
   }
 ]
