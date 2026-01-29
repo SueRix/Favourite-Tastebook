@@ -21,10 +21,12 @@
         </div>
 
         <div class="rf-hero-image">
-            {% if featured.image_url %}
-                <img src="{{ featured.image_url }}" alt="{{ featured.title }}">
+            {% if featured.poster_url %}
+                <img src="{{ featured.poster_url }}" alt="{{ featured.title }}" loading="lazy">
             {% else %}
-                <div class="photo-ph-large">Photo of recipe</div>
+                <div class="photo-ph-large">
+                    <span>No photo available</span>
+                </div>
             {% endif %}
         </div>
 
@@ -47,25 +49,25 @@
                 </div>
 
                 <div class="rf-ing-list-v2">
-                {% if featured.ingredient_groups %}
-                    {% for grp in featured.ingredient_groups %}
-                        {% if grp.items %}
-                            <div class="rf-group-label">{{ grp.title }}</div>
-                            <div class="rf-chips-wrap">
-                                {% for it in grp.items %}
-                                    <div class="ing-pill {% if it.is_selected %}have{% else %}miss{% endif %}">
-                                        <span class="name">{{ it.name }}</span>
-                                        {% if it.amount %}
-                                            <span class="amount">{{ it.amount }}{{ it.unit }}</span>
-                                        {% endif %}
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                {% else %}
-                    <div class="placeholder-text">No ingredients data.</div>
-                {% endif %}
+                    {% if featured.ingredient_groups %}
+                        {% for grp in featured.ingredient_groups %}
+                            {% if grp.items %}
+                                <div class="rf-group-label">{{ grp.title }}</div>
+                                <div class="rf-chips-wrap">
+                                    {% for it in grp.items %}
+                                        <div class="ing-pill {% if it.is_selected %}have{% else %}miss{% endif %}">
+                                            <span class="name">{{ it.name }}</span>
+                                            {% if it.amount %}
+                                                <span class="amount">{{ it.amount }}{{ it.unit }}</span>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <div class="placeholder-text">No ingredients data.</div>
+                    {% endif %}
                 </div>
             </div>
 
