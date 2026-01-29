@@ -1,0 +1,156 @@
+[
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 51,
+    "fields": {
+      "title": "American Cheeseburger",
+      "description": "1) Preparation of the meat:\n   - Use ground beef with a fat content of at least 20% (this is key for juiciness). Keep the meat cold until the moment of cooking.\n   - Divide the meat into 4 equal parts (150g each). Gently form round balls, but do not pack them too tightly to keep the texture tender.\n   - Flatten the balls into patties slightly wider than your buns (meat shrinks during cooking). Make a small indentation in the center with your thumb to prevent the patty from bulging.\n   - Generously season with salt and pepper ONLY on the outside, right before frying.\n\n2) Toasting the buns:\n   - Cut the buns in half. Lightly butter the cut sides.\n   - Fry them on a dry pan or grill until golden brown (30-60 seconds). This creates a barrier so the sauce doesn't make the bun soggy.\n\n3) Frying the patties:\n   - Heat a cast-iron skillet or grill to high heat. Add a drop of oil.\n   - Place the patties and fry for 3-4 minutes on one side until a dark, caramelized crust forms (Maillard reaction).\n   - Flip the patties. Immediately place a slice of cheese on each patty.\n   - Cover with a lid for 1 minute to melt the cheese perfectly.\n\n4) Assembly (Classic order):\n   - Bottom bun -> Sauce (mix ketchup, mayonnaise, and mustard) -> Lettuce (acts as a shield for the juice) -> Patty with melted cheese -> Tomato slices -> Onion rings -> Pickles -> Top bun with sauce.\n   - Press slightly to bond the ingredients.\n\n5) Serving:\n   - Serve immediately with fries or coleslaw. The burger should be juicy, with the sauce dripping slightly.",
+      "cook_time": 25,
+      "image_url": "recipes/cuisine/american/51.jpg",
+      "cuisine": 4
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 52,
+    "fields": {
+      "title": "NY Style Hot Dog",
+      "description": "1) The Onions (The secret weapon):\n   - Finely dice the onions or slice them into half-rings.\n   - Heat oil in a pan over medium heat. Add onions and sauté slowly for 10-15 minutes.\n   - When onions are soft and golden, add a pinch of sugar (or ketchup) and a splash of water to create a 'saucy' consistency. This is the classic New York pushcart onion sauce.\n\n2) The Sausages:\n   - For an authentic taste, sausages should be grilled or boiled. If grilling: cook over medium heat until they have grill marks and are heated through.\n   - If boiling (dirty water dog style): simmer gently in water seasoned with a little vinegar and spices for 5-7 minutes.\n\n3) The Buns:\n   - Steam the buns for 1-2 minutes until they are soft and warm (you can place a colander over a pot of boiling water).\n   - Alternatively, toast them lightly inside for texture.\n\n4) Assembly:\n   - Place the sausage in the warm bun.\n   - Apply a zig-zag of yellow mustard (classic choice).\n   - Top generously with the caramelized onion mixture.\n   - Add ketchup if desired (though purists might argue against it!).\n   - Optional: Add sauerkraut if available for extra tang.\n\n5) Serve immediately wrapped in foil or paper to keep everything warm and soft.",
+      "cook_time": 20,
+      "image_url": "recipes/cuisine/american/52.jpg",
+      "cuisine": 4
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 53,
+    "fields": {
+      "title": "Creamy Coleslaw",
+      "description": "1) Vegetable Prep:\n   - Remove the outer damaged leaves of the cabbage. Cut into quarters and remove the hard core.\n   - Shred the cabbage very finely using a sharp knife or a mandoline slicer. The thinner the better for texture.\n   - Grate the carrots on the large holes of a box grater.\n   - Finely chop a small amount of onion (optional, for bite).\n   - Combine vegetables in a large bowl.\n\n2) The Dressing:\n   - In a separate small bowl, whisk together mayonnaise, vinegar (apple cider or white), sugar, salt, and black pepper.\n   - Taste the dressing: it should be a balance of creamy, sweet, and tangy. Adjust vinegar or sugar to your preference.\n\n3) Combining:\n   - Pour 2/3 of the dressing over the vegetables.\n   - Toss well to coat. The cabbage will release water over time, so start with less dressing than you think you need.\n   - If it looks too dry, add the remaining dressing.\n\n4) Marinating (Crucial Step):\n   - Cover and refrigerate for at least 1 hour (preferably 2-3 hours). This allows the cabbage to soften slightly and absorb the flavors.\n   - Stir again before serving and drain any excess liquid if it's too watery.\n\n5) Serving:\n   - Perfect side dish for BBQ, burgers (Recipe 51), or fried chicken. It cuts through the fat of heavy meats.",
+      "cook_time": 15,
+      "image_url": "recipes/cuisine/american/53.jpg",
+      "cuisine": 4
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 54,
+    "fields": {
+      "title": "Classic American Meatloaf",
+      "description": "1) The Base:\n   - Preheat oven to 190°C.\n   - Finely dice the onion and mince the garlic. Sauté them in a little oil until soft (5 mins) and let cool. This prevents crunchy raw onions in the soft meatloaf.\n   - In a large bowl, whisk the egg with salt, pepper, and dried herbs (if using).\n   - Add breadcrumbs (or milk-soaked bread) to the egg mixture. This acts as a binder (panade) to keep the meat moist.\n\n2) Mixing:\n   - Add the ground beef and the cooled onion mixture to the bowl.\n   - Add a tablespoon of mustard and ketchup for internal flavor.\n   - Mix gently with your hands. DO NOT overmix, or the meatloaf will be tough and rubbery. Stop as soon as it's combined.\n\n3) Shaping:\n   - Transfer the mixture to a baking sheet lined with foil or parchment.\n   - Shape it into a loaf (approx. 10x20 cm). Using a free-form shape on a sheet creates a better crust than using a loaf pan.\n\n4) The Glaze (The best part):\n   - In a small bowl, mix ketchup, a teaspoon of mustard, and brown sugar (or regular sugar).\n   - Brush half of this glaze over the entire loaf before baking.\n\n5) Baking:\n   - Bake for 45-55 minutes. Halfway through cooking, brush with the remaining glaze for a sticky, caramelized top.\n   - Internal temperature should reach 70°C.\n   - Let it rest for 10 minutes before slicing, otherwise, it will crumble.\n\n6) Serve with mashed potatoes and green beans.",
+      "cook_time": 75,
+      "image_url": "recipes/cuisine/american/54.jpg",
+      "cuisine": 4
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 55,
+    "fields": {
+      "title": "Sticky Honey-Soy Chicken Wings",
+      "description": "1) Wing Prep:\n   - Pat the chicken wings very dry with paper towels. Moisture is the enemy of crispiness.\n   - If using whole wings, separate them into drums and flats; discard tips.\n   - Toss wings with a little oil, salt, and pepper.\n\n2) Baking (Crispy method):\n   - Preheat oven to 200°C.\n   - Arrange wings in a single layer on a wire rack over a baking sheet (this allows air to circulate underneath).\n   - Bake for 45-50 minutes, flipping once halfway through, until skin is crispy and golden brown.\n\n3) The Sauce:\n   - While wings bake, combine soy sauce, honey, ketchup, minced garlic, and vinegar in a small saucepan.\n   - Bring to a simmer over medium heat.\n   - Cook for 5-7 minutes until the sauce reduces and thickens into a glaze that coats the back of a spoon.\n   - Taste: it should be savory (soy), sweet (honey), and tangy (vinegar/ketchup).\n\n4) Glazing:\n   - Transfer the hot, crispy wings to a large bowl.\n   - Pour the hot glaze over them.\n   - Toss vigorously until every wing is coated in sticky sauce.\n\n5) Serving:\n   - Serve immediately while hot and sticky.\n   - garnish with sesame seeds or green onions if available.\n   - Keep plenty of napkins nearby!",
+      "cook_time": 60,
+      "image_url": "recipes/cuisine/american/55.jpg",
+      "cuisine": 4
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 56,
+    "fields": {
+      "title": "Tex-Mex Chili con Carne",
+      "description": "1) Prep:\n   - Finely chop the onion and mince the garlic.\n   - Drain the canned beans and corn slightly (you can keep a little liquid for body).\n   - This is a 'dump and simmer' meal, perfect for a hearty dinner.\n\n2) Browning the Meat:\n   - Heat oil in a large heavy-bottomed pot over medium-high heat.\n   - Add ground beef and cook, breaking it up with a wooden spoon, until brown and crispy bits form (about 8-10 mins). Don't rush this—browning equals flavor.\n   - Add the chopped onions and cook for another 5 minutes until soft.\n   - Add minced garlic and chili flakes (adjust spice level to taste) and stir for 30 seconds until fragrant.\n\n3) The Simmer:\n   - Pour in the canned tomatoes (with their juices). Crush them with the spoon if they are whole.\n   - Add the canned beans and canned corn.\n   - Season with salt, plenty of black pepper, and if you have any dried oregano or cumin in your pantry (even if not in the list), throw it in.\n   - Bring to a boil, then reduce heat to low.\n\n4) Cooking:\n   - Cover slightly askew and simmer for at least 30-40 minutes.\n   - The liquid should reduce and thicken into a rich sauce.\n   - If it gets too thick, add a splash of water. If too thin, simmer uncovered for the last 10 minutes.\n\n5) Serving:\n   - Serve hot in bowls.\n   - It pairs perfectly with rice or just crusty bread.",
+      "cook_time": 50,
+      "image_url": "recipes/cuisine/american/56.jpg",
+      "cuisine": 4
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 57,
+    "fields": {
+      "title": "American-Chinese Fried Rice",
+      "description": "1) The Rice Rule:\n   - Use COLD, leftover rice. If you use freshly boiled hot rice, it will turn into mush. Cook the rice the day before or spread fresh rice on a tray and freeze for 20 mins to dry it out.\n\n2) Prep:\n   - Beat the eggs in a small bowl with a pinch of salt.\n   - Drain canned corn and peas.\n   - Finely dice the onion and slice the green onions (keep white and green parts separate).\n\n3) The Scramble:\n   - Heat 1 tbsp of oil in a wok or large pan over high heat.\n   - Pour in the eggs and scramble quickly until just set but still soft. Remove eggs from the pan and set aside.\n\n4) The Fry:\n   - Add more oil to the hot pan.\n   - Add onions and the white parts of green onions. Stir-fry for 2 minutes.\n   - Add the cold rice. Break up any clumps with a spatula.\n   - Fry the rice undisturbed for 1-2 minutes to let it get slightly crispy, then toss.\n   - Add corn and peas.\n\n5) Seasoning:\n   - Drizzle soy sauce over the rice (not in one spot, but around the pan). The rice should turn a light golden-brown color.\n   - Add the cooked eggs back in and break them up into smaller pieces.\n   - Toss everything together for another 2 minutes.\n   - Finish with the green parts of the green onion.\n\n6) Serve immediately as a main dish or side.",
+      "cook_time": 20,
+      "image_url": "recipes/cuisine/american/57.jpg",
+      "cuisine": 4
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 58,
+    "fields": {
+      "title": "Sausage & Rice Skillet",
+      "description": "1) Prep:\n   - Slice the sausages into rounds (coins).\n   - Dice the bell pepper and onion.\n   - Rinse the rice under cold water until clear to remove excess starch.\n\n2) Searing:\n   - Heat a deep skillet over medium-high heat. Add the sausage slices.\n   - Fry until they are browned and have released some of their flavorful fat. Remove sausage to a plate, leaving the fat in the pan.\n\n3) The Base:\n   - Add onion and bell pepper to the sausage fat (add a little oil if dry).\n   - Sauté for 5-7 minutes until vegetables are softened and slightly charred.\n   - Add minced garlic and cook for 1 minute.\n\n4) Toasting & Simmering:\n   - Add the raw rice to the pan and stir to coat it in the oils. Toasting the rice for 1 minute adds a nutty flavor.\n   - Pour in the canned tomatoes (with juice) and water (ratio: 2 parts liquid to 1 part rice).\n   - Return the sausages to the pan.\n   - Bring to a boil, then cover with a tight lid.\n\n5) Cooking:\n   - Reduce heat to low and simmer for 15-20 minutes. DO NOT peek or stir, or the steam will escape.\n   - Turn off the heat and let it stand covered for another 5-10 minutes. This ensures the rice is fluffy.\n\n6) Fluff with a fork and serve.",
+      "cook_time": 40,
+      "image_url": "recipes/cuisine/american/58.jpg",
+      "cuisine": 4
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 59,
+    "fields": {
+      "title": "Honey Mustard Glazed Chicken",
+      "description": "1) The Sauce (Marinade & Glaze):\n   - In a bowl, whisk together the mustard (this gives the tang), honey (sweetness), and mayonnaise (creaminess and coating).\n   - Ideally, use a ratio of 2 parts mustard, 2 parts honey, and 1 part mayo.\n   - Add a pinch of salt and black pepper.\n   - Reserve half of this sauce for serving later.\n\n2) Chicken Prep:\n   - Cut chicken breasts into large bite-sized chunks or leave whole if preferred (cooking time will vary).\n   - Toss the chicken in the remaining half of the sauce to coat evenly.\n\n3) Cooking:\n   - Heat oil in a non-stick pan over medium heat.\n   - Add the chicken pieces. Do not overcrowd the pan.\n   - Cook for 5-7 minutes per side. The honey in the sauce will caramelize quickly, creating a dark, sticky crust. Watch carefully so it doesn't burn black.\n   - If the sauce browns too fast, lower the heat.\n\n4) Resting:\n   - Remove chicken from the pan and let it rest for 5 minutes.\n\n5) Serving:\n   - Serve the chicken over steamed rice (to use up your rice stock).\n   - Drizzle the reserved fresh Honey-Mustard sauce over the top for an extra kick.\n   - A simple and kid-friendly American classic.",
+      "cook_time": 20,
+      "image_url": "recipes/cuisine/american/59.jpg",
+      "cuisine": 4
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 60,
+    "fields": {
+      "title": "Creamy Tuna & Rice Salad",
+      "description": "1) Rice Base:\n   - Cook the rice in salted water until tender. Drain and rinse under cold water to stop the cooking and cool it down rapidly.\n   - Shake well to remove excess water (watery salad is bad).\n\n2) Prep Mix-ins:\n   - Open and drain the canned tuna thoroughly. Flake it with a fork into chunks.\n   - Drain the canned corn.\n   - Dice the cucumber into small cubes for crunch.\n   - Finely chop the green onions.\n\n3) The Dressing:\n   - In a large mixing bowl, combine a generous amount of mayonnaise with a splash of lemon juice (if available) or vinegar.\n   - Season with salt and lots of black pepper.\n\n4) Assembly:\n   - Add the cold rice, tuna, corn, cucumber, and green onions to the bowl with the dressing.\n   - Fold everything together gently until well combined.\n\n5) chilling:\n   - This salad tastes best after sitting in the fridge for 30 minutes, allowing the flavors to meld and the rice to firm up slightly.\n\n6) Serving:\n   - Perfect for lunchboxes, picnics, or a light dinner.\n   - It's a great way to turn pantry staples (canned goods + rice) into a complete meal.",
+      "cook_time": 15,
+      "image_url": "recipes/cuisine/american/60.jpg",
+      "cuisine": 4
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 62,
+    "fields": {
+      "title": "Healthy Turkey Burger",
+      "description": "1) The Meat Mix:\n   - Turkey meat is leaner than beef, so it needs help to stay juicy. In a bowl, mix the ground turkey with salt, plenty of black pepper, and a tablespoon of mayonnaise (this is the secret to moisture).\n   - Gently form into 4 patties. Don't overwork the meat. Press a small dimple in the center of each patty.\n\n2) Cooking:\n   - Heat oil in a non-stick skillet over medium heat (turkey burns faster than beef, so avoid high heat).\n   - Cook patties for 5-6 minutes per side. Unlike beef, turkey must be cooked through completely (no pink centers).\n\n3) Assembly:\n   - Lightly toast the buns.\n   - Spread a little more mayo or your favorite sauce on the bun.\n   - Layer lettuce, a slice of tomato, and the turkey patty.\n   - Top with raw or caramelized onions.\n\n4) Serving:\n   - Great with a side salad or baked sweet potato fries for a lighter American meal.",
+      "cook_time": 25,
+      "image_url": "recipes/cuisine/american/62.jpg",
+      "cuisine": 4
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 63,
+    "fields": {
+      "title": "Buffalo Cauliflower Wings",
+      "description": "1) The Batter:\n   - Preheat oven to 220°C.\n   - Cut the cauliflower head into bite-sized florets.\n   - In a bowl, whisk flour, milk (or water), salt, and garlic powder (if you have it, otherwise minced garlic) to create a batter. It should be thick enough to coat a spoon.\n\n2) Coating & Baking (Step 1):\n   - Dip each floret into the batter, shaking off excess.\n   - Arrange on a baking sheet lined with parchment paper. Don't crowd them.\n   - Bake for 20 minutes until the batter is set and starting to brown.\n\n3) The Buffalo Sauce:\n   - While baking, melt the butter in a small pan.\n   - Whisk in the chili flakes (or hot sauce if available), vinegar, and paprika.\n\n4) Glazing & Baking (Step 2):\n   - Remove cauliflower from oven. Brush generously with the buffalo butter sauce.\n   - Return to the oven for another 10-15 minutes until crispy and dark orange.\n\n5) Serving:\n   - Serve hot as a spicy appetizer or snack. Traditionally served with celery sticks to cool down the heat.",
+      "cook_time": 45,
+      "image_url": "recipes/cuisine/american/63.jpg",
+      "cuisine": 4
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 64,
+    "fields": {
+      "title": "Panda Style Orange Chicken",
+      "description": "1) Chicken Prep:\n   - Cut chicken breast into 2-3 cm cubes.\n   - Toss them in flour mixed with a pinch of salt until well coated. This creates the crust.\n\n2) Frying:\n   - Heat oil in a deep pan. Fry the chicken in batches for 4-5 minutes until golden and cooked through.\n   - Remove to a paper towel to drain.\n\n3) The Orange Sauce:\n   - Zest the orange (colored part of peel only) and squeeze the juice.\n   - In a clean pan, combine orange juice, soy sauce, sugar (or honey), vinegar, minced garlic, and the orange zest.\n   - Simmer over medium heat until the sugar dissolves and the sauce bubbles.\n   - Allow it to reduce until it becomes syrupy (about 5-8 minutes).\n\n4) Tossing:\n   - Add the fried chicken pieces back into the pan with the sauce.\n   - Toss quickly just to coat. Don't let them sit too long or the crust gets soggy.\n\n5) Serving:\n   - Serve immediately over steamed rice. The taste is a perfect balance of sweet, sour, and savory.",
+      "cook_time": 30,
+      "image_url": "recipes/cuisine/american/64.jpg",
+      "cuisine": 4
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 65,
+    "fields": {
+      "title": "Fudgy Chocolate Brownies",
+      "description": "1) The Chocolate Base:\n   - Preheat oven to 175°C. Line a square baking tin with parchment paper.\n   - Melt the butter in a saucepan. Remove from heat.\n   - Stir in the sugar while the butter is hot; this helps create the shiny top crust.\n\n2) Mixing:\n   - Add the cocoa powder and mix well.\n   - Add eggs one by one, beating vigorously after each addition until the mixture is glossy.\n   - Add vanilla sugar.\n\n3) Dry Ingredients:\n   - Sift in the flour, baking soda, and salt.\n   - Fold gently with a spatula just until the white streaks disappear. DO NOT overmix, or you get cake instead of brownies.\n\n4) Baking:\n   - Pour batter into the tin and smooth the top.\n   - Bake for 20-25 minutes. A toothpick inserted into the center should come out with moist crumbs attached, NOT clean (clean means dry brownies).\n\n5) Cooling:\n   - Let cool completely in the tin before slicing. They set as they cool.\n   - Cut into squares and serve with a glass of milk.",
+      "cook_time": 40,
+      "image_url": "recipes/cuisine/american/65.jpg",
+      "cuisine": 4
+    }
+  }
+]

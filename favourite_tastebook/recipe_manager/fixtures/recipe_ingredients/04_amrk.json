@@ -1,0 +1,1377 @@
+[
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 455,
+    "fields": {
+      "recipe": 51,
+      "ingredient": 89,
+      "amount": "600.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 456,
+    "fields": {
+      "recipe": 51,
+      "ingredient": 74,
+      "amount": "4.00",
+      "unit": "pcs",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 457,
+    "fields": {
+      "recipe": 51,
+      "ingredient": 47,
+      "amount": "4.00",
+      "unit": "slices",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 458,
+    "fields": {
+      "recipe": 51,
+      "ingredient": 62,
+      "amount": "4.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 459,
+    "fields": {
+      "recipe": 51,
+      "ingredient": 63,
+      "amount": "2.00",
+      "unit": "tsp",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 460,
+    "fields": {
+      "recipe": 51,
+      "ingredient": 61,
+      "amount": "2.00",
+      "unit": "tbsp",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 461,
+    "fields": {
+      "recipe": 51,
+      "ingredient": 50,
+      "amount": "1.00",
+      "unit": "pcs",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 462,
+    "fields": {
+      "recipe": 51,
+      "ingredient": 52,
+      "amount": "4.00",
+      "unit": "leaves",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 463,
+    "fields": {
+      "recipe": 51,
+      "ingredient": 8,
+      "amount": "1.00",
+      "unit": "pcs",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 464,
+    "fields": {
+      "recipe": 52,
+      "ingredient": 45,
+      "amount": "4.00",
+      "unit": "pcs",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 465,
+    "fields": {
+      "recipe": 52,
+      "ingredient": 74,
+      "amount": "4.00",
+      "unit": "pcs",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 466,
+    "fields": {
+      "recipe": 52,
+      "ingredient": 62,
+      "amount": "3.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 467,
+    "fields": {
+      "recipe": 52,
+      "ingredient": 63,
+      "amount": "3.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 468,
+    "fields": {
+      "recipe": 52,
+      "ingredient": 8,
+      "amount": "100.00",
+      "unit": "g",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 469,
+    "fields": {
+      "recipe": 52,
+      "ingredient": 17,
+      "amount": "1.00",
+      "unit": "tsp",
+      "importance": "optional"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 470,
+    "fields": {
+      "recipe": 53,
+      "ingredient": 11,
+      "amount": "400.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 471,
+    "fields": {
+      "recipe": 53,
+      "ingredient": 9,
+      "amount": "150.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 472,
+    "fields": {
+      "recipe": 53,
+      "ingredient": 61,
+      "amount": "100.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 473,
+    "fields": {
+      "recipe": 53,
+      "ingredient": 18,
+      "amount": "1.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 474,
+    "fields": {
+      "recipe": 53,
+      "ingredient": 17,
+      "amount": "1.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 475,
+    "fields": {
+      "recipe": 53,
+      "ingredient": 1,
+      "amount": "0.50",
+      "unit": "tsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 476,
+    "fields": {
+      "recipe": 54,
+      "ingredient": 89,
+      "amount": "700.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 477,
+    "fields": {
+      "recipe": 54,
+      "ingredient": 27,
+      "amount": "50.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 478,
+    "fields": {
+      "recipe": 54,
+      "ingredient": 24,
+      "amount": "1.00",
+      "unit": "pcs",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 479,
+    "fields": {
+      "recipe": 54,
+      "ingredient": 8,
+      "amount": "1.00",
+      "unit": "pcs",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 480,
+    "fields": {
+      "recipe": 54,
+      "ingredient": 62,
+      "amount": "100.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 481,
+    "fields": {
+      "recipe": 54,
+      "ingredient": 63,
+      "amount": "1.00",
+      "unit": "tbsp",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 482,
+    "fields": {
+      "recipe": 54,
+      "ingredient": 17,
+      "amount": "1.00",
+      "unit": "tbsp",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 483,
+    "fields": {
+      "recipe": 54,
+      "ingredient": 7,
+      "amount": "2.00",
+      "unit": "pcs",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 484,
+    "fields": {
+      "recipe": 55,
+      "ingredient": 87,
+      "amount": "800.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 485,
+    "fields": {
+      "recipe": 55,
+      "ingredient": 62,
+      "amount": "100.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 486,
+    "fields": {
+      "recipe": 55,
+      "ingredient": 64,
+      "amount": "2.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 487,
+    "fields": {
+      "recipe": 55,
+      "ingredient": 40,
+      "amount": "2.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 488,
+    "fields": {
+      "recipe": 55,
+      "ingredient": 7,
+      "amount": "2.00",
+      "unit": "pcs",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 489,
+    "fields": {
+      "recipe": 55,
+      "ingredient": 18,
+      "amount": "1.00",
+      "unit": "tsp",
+      "importance": "optional"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 490,
+    "fields": {
+      "recipe": 56,
+      "ingredient": 89,
+      "amount": "500.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 491,
+    "fields": {
+      "recipe": 56,
+      "ingredient": 71,
+      "amount": "400.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 492,
+    "fields": {
+      "recipe": 56,
+      "ingredient": 72,
+      "amount": "200.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 493,
+    "fields": {
+      "recipe": 56,
+      "ingredient": 70,
+      "amount": "400.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 494,
+    "fields": {
+      "recipe": 56,
+      "ingredient": 8,
+      "amount": "150.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 495,
+    "fields": {
+      "recipe": 56,
+      "ingredient": 7,
+      "amount": "2.00",
+      "unit": "pcs",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 496,
+    "fields": {
+      "recipe": 56,
+      "ingredient": 60,
+      "amount": "1.00",
+      "unit": "tsp",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 497,
+    "fields": {
+      "recipe": 57,
+      "ingredient": 25,
+      "amount": "300.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 498,
+    "fields": {
+      "recipe": 57,
+      "ingredient": 24,
+      "amount": "2.00",
+      "unit": "pcs",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 499,
+    "fields": {
+      "recipe": 57,
+      "ingredient": 64,
+      "amount": "4.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 500,
+    "fields": {
+      "recipe": 57,
+      "ingredient": 72,
+      "amount": "100.00",
+      "unit": "g",
+      "importance": "optional"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 501,
+    "fields": {
+      "recipe": 57,
+      "ingredient": 73,
+      "amount": "100.00",
+      "unit": "g",
+      "importance": "optional"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 502,
+    "fields": {
+      "recipe": 57,
+      "ingredient": 56,
+      "amount": "20.00",
+      "unit": "g",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 503,
+    "fields": {
+      "recipe": 57,
+      "ingredient": 4,
+      "amount": "3.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 504,
+    "fields": {
+      "recipe": 58,
+      "ingredient": 45,
+      "amount": "300.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 505,
+    "fields": {
+      "recipe": 58,
+      "ingredient": 25,
+      "amount": "250.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 506,
+    "fields": {
+      "recipe": 58,
+      "ingredient": 53,
+      "amount": "1.00",
+      "unit": "pcs",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 507,
+    "fields": {
+      "recipe": 58,
+      "ingredient": 8,
+      "amount": "1.00",
+      "unit": "pcs",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 508,
+    "fields": {
+      "recipe": 58,
+      "ingredient": 70,
+      "amount": "200.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 509,
+    "fields": {
+      "recipe": 58,
+      "ingredient": 7,
+      "amount": "2.00",
+      "unit": "pcs",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 510,
+    "fields": {
+      "recipe": 59,
+      "ingredient": 22,
+      "amount": "500.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 511,
+    "fields": {
+      "recipe": 59,
+      "ingredient": 63,
+      "amount": "3.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 512,
+    "fields": {
+      "recipe": 59,
+      "ingredient": 40,
+      "amount": "3.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 513,
+    "fields": {
+      "recipe": 59,
+      "ingredient": 61,
+      "amount": "2.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 514,
+    "fields": {
+      "recipe": 59,
+      "ingredient": 4,
+      "amount": "2.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 515,
+    "fields": {
+      "recipe": 60,
+      "ingredient": 69,
+      "amount": "200.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 516,
+    "fields": {
+      "recipe": 60,
+      "ingredient": 25,
+      "amount": "200.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 517,
+    "fields": {
+      "recipe": 60,
+      "ingredient": 72,
+      "amount": "150.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 518,
+    "fields": {
+      "recipe": 60,
+      "ingredient": 61,
+      "amount": "4.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 519,
+    "fields": {
+      "recipe": 60,
+      "ingredient": 51,
+      "amount": "100.00",
+      "unit": "g",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 520,
+    "fields": {
+      "recipe": 60,
+      "ingredient": 56,
+      "amount": "20.00",
+      "unit": "g",
+      "importance": "optional"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 521,
+    "fields": {
+      "recipe": 51,
+      "ingredient": 51,
+      "amount": "50.00",
+      "unit": "g",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 522,
+    "fields": {
+      "recipe": 52,
+      "ingredient": 18,
+      "amount": "1.00",
+      "unit": "tsp",
+      "importance": "optional"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 523,
+    "fields": {
+      "recipe": 52,
+      "ingredient": 32,
+      "amount": "50.00",
+      "unit": "g",
+      "importance": "optional"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 524,
+    "fields": {
+      "recipe": 53,
+      "ingredient": 8,
+      "amount": "0.50",
+      "unit": "pcs",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 525,
+    "fields": {
+      "recipe": 53,
+      "ingredient": 2,
+      "amount": "0.50",
+      "unit": "tsp",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 526,
+    "fields": {
+      "recipe": 53,
+      "ingredient": 79,
+      "amount": "1.00",
+      "unit": "pcs",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 527,
+    "fields": {
+      "recipe": 54,
+      "ingredient": 1,
+      "amount": "1.00",
+      "unit": "tsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 528,
+    "fields": {
+      "recipe": 54,
+      "ingredient": 2,
+      "amount": "0.50",
+      "unit": "tsp",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 529,
+    "fields": {
+      "recipe": 55,
+      "ingredient": 4,
+      "amount": "1.00",
+      "unit": "tbsp",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 530,
+    "fields": {
+      "recipe": 55,
+      "ingredient": 1,
+      "amount": "1.00",
+      "unit": "tsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 531,
+    "fields": {
+      "recipe": 55,
+      "ingredient": 2,
+      "amount": "0.50",
+      "unit": "tsp",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 532,
+    "fields": {
+      "recipe": 56,
+      "ingredient": 4,
+      "amount": "2.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 533,
+    "fields": {
+      "recipe": 56,
+      "ingredient": 1,
+      "amount": "1.00",
+      "unit": "tsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 534,
+    "fields": {
+      "recipe": 56,
+      "ingredient": 2,
+      "amount": "1.00",
+      "unit": "tsp",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 535,
+    "fields": {
+      "recipe": 57,
+      "ingredient": 8,
+      "amount": "1.00",
+      "unit": "pcs",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 536,
+    "fields": {
+      "recipe": 58,
+      "ingredient": 14,
+      "amount": "0.40",
+      "unit": "l",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 537,
+    "fields": {
+      "recipe": 58,
+      "ingredient": 4,
+      "amount": "1.00",
+      "unit": "tbsp",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 538,
+    "fields": {
+      "recipe": 58,
+      "ingredient": 1,
+      "amount": "1.00",
+      "unit": "tsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 539,
+    "fields": {
+      "recipe": 58,
+      "ingredient": 2,
+      "amount": "0.50",
+      "unit": "tsp",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 540,
+    "fields": {
+      "recipe": 59,
+      "ingredient": 1,
+      "amount": "0.50",
+      "unit": "tsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 541,
+    "fields": {
+      "recipe": 59,
+      "ingredient": 2,
+      "amount": "0.50",
+      "unit": "tsp",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 542,
+    "fields": {
+      "recipe": 60,
+      "ingredient": 97,
+      "amount": "1.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 543,
+    "fields": {
+      "recipe": 60,
+      "ingredient": 1,
+      "amount": "0.50",
+      "unit": "tsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 544,
+    "fields": {
+      "recipe": 60,
+      "ingredient": 2,
+      "amount": "0.50",
+      "unit": "tsp",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 552,
+    "fields": {
+      "recipe": 62,
+      "ingredient": 88,
+      "amount": "500.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 553,
+    "fields": {
+      "recipe": 62,
+      "ingredient": 74,
+      "amount": "4.00",
+      "unit": "pcs",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 554,
+    "fields": {
+      "recipe": 62,
+      "ingredient": 52,
+      "amount": "4.00",
+      "unit": "leaves",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 555,
+    "fields": {
+      "recipe": 62,
+      "ingredient": 50,
+      "amount": "1.00",
+      "unit": "pcs",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 556,
+    "fields": {
+      "recipe": 62,
+      "ingredient": 61,
+      "amount": "2.00",
+      "unit": "tbsp",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 557,
+    "fields": {
+      "recipe": 62,
+      "ingredient": 4,
+      "amount": "1.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 558,
+    "fields": {
+      "recipe": 62,
+      "ingredient": 1,
+      "amount": "1.00",
+      "unit": "tsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 559,
+    "fields": {
+      "recipe": 62,
+      "ingredient": 2,
+      "amount": "1.00",
+      "unit": "tsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 560,
+    "fields": {
+      "recipe": 63,
+      "ingredient": 94,
+      "amount": "1.00",
+      "unit": "pcs",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 561,
+    "fields": {
+      "recipe": 63,
+      "ingredient": 23,
+      "amount": "100.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 562,
+    "fields": {
+      "recipe": 63,
+      "ingredient": 28,
+      "amount": "0.15",
+      "unit": "l",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 563,
+    "fields": {
+      "recipe": 63,
+      "ingredient": 5,
+      "amount": "50.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 564,
+    "fields": {
+      "recipe": 63,
+      "ingredient": 60,
+      "amount": "1.00",
+      "unit": "tsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 565,
+    "fields": {
+      "recipe": 63,
+      "ingredient": 57,
+      "amount": "1.00",
+      "unit": "tsp",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 566,
+    "fields": {
+      "recipe": 63,
+      "ingredient": 1,
+      "amount": "1.00",
+      "unit": "tsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 567,
+    "fields": {
+      "recipe": 63,
+      "ingredient": 7,
+      "amount": "1.00",
+      "unit": "tsp",
+      "importance": "optional"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 568,
+    "fields": {
+      "recipe": 64,
+      "ingredient": 22,
+      "amount": "500.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 569,
+    "fields": {
+      "recipe": 64,
+      "ingredient": 80,
+      "amount": "2.00",
+      "unit": "pcs",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 570,
+    "fields": {
+      "recipe": 64,
+      "ingredient": 64,
+      "amount": "3.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 571,
+    "fields": {
+      "recipe": 64,
+      "ingredient": 17,
+      "amount": "2.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 572,
+    "fields": {
+      "recipe": 64,
+      "ingredient": 18,
+      "amount": "2.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 573,
+    "fields": {
+      "recipe": 64,
+      "ingredient": 23,
+      "amount": "50.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 574,
+    "fields": {
+      "recipe": 64,
+      "ingredient": 4,
+      "amount": "4.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 575,
+    "fields": {
+      "recipe": 64,
+      "ingredient": 7,
+      "amount": "2.00",
+      "unit": "pcs",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 576,
+    "fields": {
+      "recipe": 65,
+      "ingredient": 5,
+      "amount": "150.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 577,
+    "fields": {
+      "recipe": 65,
+      "ingredient": 17,
+      "amount": "200.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 578,
+    "fields": {
+      "recipe": 65,
+      "ingredient": 83,
+      "amount": "80.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 579,
+    "fields": {
+      "recipe": 65,
+      "ingredient": 23,
+      "amount": "80.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 580,
+    "fields": {
+      "recipe": 65,
+      "ingredient": 24,
+      "amount": "2.00",
+      "unit": "pcs",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 581,
+    "fields": {
+      "recipe": 65,
+      "ingredient": 35,
+      "amount": "0.50",
+      "unit": "tsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 582,
+    "fields": {
+      "recipe": 65,
+      "ingredient": 30,
+      "amount": "1.00",
+      "unit": "tsp",
+      "importance": "optional"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 583,
+    "fields": {
+      "recipe": 65,
+      "ingredient": 1,
+      "amount": "1.00",
+      "unit": "pinch",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 585,
+    "fields": {
+      "recipe": 62,
+      "ingredient": 8,
+      "amount": "0.50",
+      "unit": "pcs",
+      "importance": "secondary"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 586,
+    "fields": {
+      "recipe": 63,
+      "ingredient": 18,
+      "amount": "1.00",
+      "unit": "tbsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 587,
+    "fields": {
+      "recipe": 64,
+      "ingredient": 1,
+      "amount": "0.50",
+      "unit": "tsp",
+      "importance": "required"
+    }
+  }
+]
