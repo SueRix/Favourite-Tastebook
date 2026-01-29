@@ -5,14 +5,14 @@ from recipe_manager.domain.parsers.recipe_steps import RecipeStepsParser
 
 class FeaturedRecipePresenter:
     """
-    Presentation adapter: подготавливает данные рецептов специально для отображения в UI.
+    Presentation adapter: Prepares recipe data specifically for display in the UI.
     """
 
     @staticmethod
     def _get_poster_url(recipe):
         """
-        Приватный метод для определения пути к изображению.
-        Логика полностью динамическая на основе ID рецепта.
+            A private method for determining the path to an image.
+            The logic is completely dynamic, based on the recipe ID.
         """
         if recipe.image_url:
             return recipe.image_url.url
