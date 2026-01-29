@@ -11,4 +11,4 @@ def reload_fixtures(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [('recipe_manager', '0003_alter_recipe_image_url_and_more')]
-    operations = [migrations.RunPython(reload_fixtures)]
+    operations = [migrations.RunPython(reload_fixtures, reverse_code=migrations.RunPython.noop)]
