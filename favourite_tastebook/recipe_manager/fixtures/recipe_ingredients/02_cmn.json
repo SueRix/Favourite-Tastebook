@@ -269,7 +269,7 @@
     "fields": {
       "recipe": 15,
       "ingredient": 74,
-      "amount": "2.00",
+      "amount": "4.00",
       "unit": "pcs",
       "importance": "required"
     }
@@ -1228,7 +1228,7 @@
       "ingredient": 7,
       "amount": "3.00",
       "unit": "pcs",
-      "importance": "secondary"
+      "importance": "required"
     }
   },
   {
@@ -1413,7 +1413,7 @@
     "fields": {
       "recipe": 27,
       "ingredient": 28,
-      "amount": "0.30",
+      "amount": "0.50",
       "unit": "l",
       "importance": "required"
     }
