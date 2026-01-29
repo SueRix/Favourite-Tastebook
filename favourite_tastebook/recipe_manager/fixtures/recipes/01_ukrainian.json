@@ -49,7 +49,7 @@
     "fields": {
       "title": "Chicken Kyiv",
       "description": "Prep notes:\n- Cold butter + tight sealing = butter stays inside instead of leaking.\n- Double breading helps create a “barrier” against leaks.\n\n1) Prepare the herb butter:\n   - Mix softened butter with minced garlic and chopped parsley.\n   - Shape into a small log (about finger-thick), wrap, and chill or freeze until very firm.\n\n2) Prepare the chicken:\n   - Place chicken breast between film and pound gently to an even thickness (about 0.7–1 cm).\n   - Season both sides with salt and pepper.\n\n3) Wrap and seal:\n   - Place butter log near the center.\n   - Fold sides over butter, then roll very tightly into a cylinder.\n   - Pinch seams and ends closed. Chill 15–30 minutes to firm up.\n\n4) Bread properly:\n   - Dredge in flour (shake off excess) → dip in beaten egg → coat in breadcrumbs.\n   - For a thicker crust: repeat egg → breadcrumbs once more.\n   - Chill again 10 minutes so the coating adheres.\n\n5) Cook through without burning:\n   - Fry in oil over medium heat until evenly golden on all sides (about 5–7 minutes total, turning gently).\n   - Transfer to oven at 180°C for 10–12 minutes to finish (or until chicken is fully cooked).\n   - Rest 5 minutes before cutting; slicing immediately increases butter leakage.\n\nServing:\n- Slice to show the butter center. Serve with mashed potatoes, rice, or a simple salad.",
-      "cook_time": 60,
+      "cook_time": 80,
       "image_url": "recipes/cuisine/ukrainian/5.jpg",
       "cuisine": 1
     }
@@ -82,7 +82,7 @@
     "fields": {
       "title": "Kapusniak (Sauerkraut Soup)",
       "description": "Prep notes:\n- Sauerkraut sourness varies: rinse lightly for milder soup, use as-is for stronger tang.\n- Add sauerkraut after potatoes start cooking; too early can slow potato softening.\n\n1) Make the broth:\n   - Cover pork with cold water, bring to a boil, skim foam, then simmer 50–60 minutes until tender.\n   - Remove meat, slice/shred, and return to pot (optional but recommended for neat texture).\n\n2) Start the grains:\n   - Rinse millet thoroughly (it can be bitter if not washed well).\n   - Add millet to broth and simmer 10 minutes.\n\n3) Add potatoes:\n   - Dice potatoes and add to the pot; simmer until potatoes are almost tender (about 10–12 minutes).\n\n4) Build flavor with sauté:\n   - Sauté onion and carrot in sunflower oil until soft and lightly golden.\n   - Optional: add a little tomato paste and cook 1 minute to remove raw taste.\n\n5) Add sauerkraut and finish:\n   - Add sauerkraut plus the sauté, bay leaf, salt, and pepper.\n   - Simmer 15–20 minutes until potatoes are fully tender and flavors are cohesive.\n   - Turn off heat, add minced garlic and dill, cover, and rest 10 minutes.\n\nServing:\n- Serve hot. A spoon of sour cream is optional depending on how sour you like it.",
-      "cook_time": 90,
+      "cook_time": 120,
       "image_url": "recipes/cuisine/ukrainian/8.jpg",
       "cuisine": 1
     }
