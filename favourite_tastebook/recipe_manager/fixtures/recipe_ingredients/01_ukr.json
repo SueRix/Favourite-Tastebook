@@ -1266,7 +1266,7 @@
   },
   {
     "model": "recipe_manager.recipeingredient",
-    "pk": 116,
+    "pk": 454,
     "fields": {
       "recipe": 4,
       "ingredient": 7,
