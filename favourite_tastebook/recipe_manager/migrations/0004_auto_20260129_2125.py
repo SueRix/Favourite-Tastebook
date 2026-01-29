@@ -2,12 +2,23 @@
 
 from django.db import migrations
 
-#created full image path's for every recipe
+
 def reload_fixtures(apps, schema_editor):
     from django.core.management import call_command
+
+    call_command('loaddata', 'cuisines/cuisines.json')
+    call_command('loaddata', 'ingredients/01_ing.json')
+
     call_command('loaddata', 'recipes/01_ukrainian.json')
     call_command('loaddata', 'recipes/02_common.json')
     call_command('loaddata', 'recipes/03_italian.json')
+    call_command('loaddata', 'recipes/04_american.json')
+
+    call_command('loaddata', 'recipe_ingredients/01_ukr.json')
+    call_command('loaddata', 'recipe_ingredients/02_cmn.json')
+    call_command('loaddata', 'recipe_ingredients/03_itl.json')
+    call_command('loaddata', 'recipe_ingredients/04_amrk.json')
+
 
 class Migration(migrations.Migration):
     dependencies = [('recipe_manager', '0003_alter_recipe_image_url_and_more')]
