@@ -22,15 +22,29 @@ class DashboardUseCase:
         }
 
     @classmethod
-    def build_ingredients_partial(cls, filters):
+    def _build_ingredients_context(cls, ingredients_queryset, filters):
         selected = IngredientSelector.list_selected(filters)
         selected_ids = list(selected.values_list("id", flat=True))
 
         return {
-            "ingredients": IngredientSelector.list_ingredients(filters),
+            "ingredients": ingredients_queryset,
             "selected_ids": selected_ids,
             "selected_count": len(selected_ids),
         }
+
+    @classmethod
+    def build_ingredients_partial(cls, filters):
+        qs = IngredientSelector.list_ingredients(filters)
+        return cls._build_ingredients_context(qs, filters)
+
+    @classmethod
+    def build_search_results_partial(cls, filters):
+        query = filters.get("q", "")
+        category = filters.get("category")
+
+        qs = IngredientSelector.search_by_name(query, category=category)
+
+        return cls._build_ingredients_context(qs, filters)
 
     @classmethod
     def build_selected_partial(cls, filters):
