@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'authentication',
     'profile_manager',
     'recipe_manager',
+    'recipe_saver',
 ]
 
 MIDDLEWARE = [
