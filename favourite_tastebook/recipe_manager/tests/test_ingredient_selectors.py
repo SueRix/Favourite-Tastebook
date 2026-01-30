@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from recipe_manager.models import Ingredient
-from recipe_manager.selectors.selection_ingredients import (
+from recipe_manager.infrastructure.selectors import (
     get_ingredients,
     get_ingredient_categories,
 )

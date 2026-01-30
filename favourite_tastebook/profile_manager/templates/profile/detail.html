@@ -1,6 +1,11 @@
-{% extends 'profile/base.html' %}
+{% extends "layout/base.html" %}
+{% load static %}
 
 {% block title %}My Profile{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'profile/css/profile.css' %}">
+{% endblock %}
 
 {% block content %}
     <section class="profile-header">

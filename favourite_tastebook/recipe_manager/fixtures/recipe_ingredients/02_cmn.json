@@ -269,7 +269,7 @@
     "fields": {
       "recipe": 15,
       "ingredient": 74,
-      "amount": "2.00",
+      "amount": "4.00",
       "unit": "pcs",
       "importance": "required"
     }
@@ -1228,7 +1228,7 @@
       "ingredient": 7,
       "amount": "3.00",
       "unit": "pcs",
-      "importance": "secondary"
+      "importance": "required"
     }
   },
   {
@@ -1413,7 +1413,7 @@
     "fields": {
       "recipe": 27,
       "ingredient": 28,
-      "amount": "0.30",
+      "amount": "0.50",
       "unit": "l",
       "importance": "required"
     }
@@ -1680,6 +1680,94 @@
       "amount": "0.05",
       "unit": "l",
       "importance": "optional"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 545,
+    "fields": {
+      "recipe": 61,
+      "ingredient": 86,
+      "amount": "500.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 546,
+    "fields": {
+      "recipe": 61,
+      "ingredient": 14,
+      "amount": "2.00",
+      "unit": "l",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 547,
+    "fields": {
+      "recipe": 61,
+      "ingredient": 68,
+      "amount": "150.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 548,
+    "fields": {
+      "recipe": 61,
+      "ingredient": 9,
+      "amount": "100.00",
+      "unit": "g",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 549,
+    "fields": {
+      "recipe": 61,
+      "ingredient": 8,
+      "amount": "1.00",
+      "unit": "pcs",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 550,
+    "fields": {
+      "recipe": 61,
+      "ingredient": 1,
+      "amount": "2.00",
+      "unit": "tsp",
+      "importance": "required"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 551,
+    "fields": {
+      "recipe": 61,
+      "ingredient": 15,
+      "amount": "10.00",
+      "unit": "g",
+      "importance": "optional"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 584,
+    "fields": {
+      "recipe": 61,
+      "ingredient": 2,
+      "amount": "0.50",
+      "unit": "tsp",
+      "importance": "secondary"
     }
   }
 ]

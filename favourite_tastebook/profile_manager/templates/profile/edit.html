@@ -1,6 +1,177 @@
-{% extends 'profile/base.html' %}
+{% extends "layout/base.html" %}
+{% load static %}
 
-{% block title %}Edit Profile{% endblock %}
+{% block title %}Edit Profile
+    <script>
+      (function () {
+        const fileInput = document.querySelector('input[type="file"][name$="avatar"]');
+        const img = document.getElementById('avatarPreviewImg');
+        const ph = document.getElementById('avatarPreviewPlaceholder');
+
+        const dlg = document.getElementById('avatarPreviewDialog');
+        const dlgImg = document.getElementById('avatarPreviewDialogImg');
+        const openBtn = document.getElementById('openAvatarPreview');
+        const closeBtn = document.getElementById('closeAvatarPreview');
+
+        function setImgSrc(src) {
+          if (img) img.src = src;
+          if (dlgImg) dlgImg.src = src;
+        }
+
+        function showImgMode(hasImage) {
+          if (!img || !ph) return;
+          img.style.display = hasImage ? 'block' : 'none';
+          ph.style.display = hasImage ? 'none' : 'grid';
+        }
+
+        // init: if template rendered an <img>, keep; else placeholder
+        if (img && img.getAttribute('src')) {
+          showImgMode(true);
+          setImgSrc(img.getAttribute('src'));
+        } else {
+          showImgMode(false);
+        }
+
+        if (fileInput) {
+          fileInput.addEventListener('change', function () {
+            const f = fileInput.files && fileInput.files[0];
+            if (!f) return;
+
+            // Basic guard: image only
+            if (!f.type || !f.type.startsWith('image/')) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              const src = e.target.result;
+              if (img) {
+                showImgMode(true);
+                setImgSrc(src);
+              } else if (dlgImg) {
+                setImgSrc(src);
+              }
+            };
+            reader.readAsDataURL(f);
+          });
+        }
+
+        if (openBtn && dlg && dlgImg) {
+          openBtn.addEventListener('click', function () {
+            // prefer current preview image; else do nothing
+            const src = (img && img.getAttribute('src')) ? img.getAttribute('src') : '';
+            if (src) {
+              dlgImg.src = src;
+              if (typeof dlg.showModal === 'function') dlg.showModal();
+            }
+          });
+        }
+
+        if (closeBtn && dlg) {
+          closeBtn.addEventListener('click', function () {
+            dlg.close();
+          });
+        }
+
+        if (dlg) {
+          dlg.addEventListener('click', function (e) {
+            const rect = dlg.getBoundingClientRect();
+            const inDialog = (
+              e.clientX >= rect.left && e.clientX <= rect.right &&
+              e.clientY >= rect.top && e.clientY <= rect.bottom
+            );
+            if (!inDialog) dlg.close();
+          });
+        }
+      })();
+    </script>
+
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'profile/css/profile.css' %}">
+
+    <script>
+      (function () {
+        const fileInput = document.querySelector('input[type="file"][name$="avatar"]');
+        const img = document.getElementById('avatarPreviewImg');
+        const ph = document.getElementById('avatarPreviewPlaceholder');
+
+        const dlg = document.getElementById('avatarPreviewDialog');
+        const dlgImg = document.getElementById('avatarPreviewDialogImg');
+        const openBtn = document.getElementById('openAvatarPreview');
+        const closeBtn = document.getElementById('closeAvatarPreview');
+
+        function setImgSrc(src) {
+          if (img) img.src = src;
+          if (dlgImg) dlgImg.src = src;
+        }
+
+        function showImgMode(hasImage) {
+          if (!img || !ph) return;
+          img.style.display = hasImage ? 'block' : 'none';
+          ph.style.display = hasImage ? 'none' : 'grid';
+        }
+
+        // init: if template rendered an <img>, keep; else placeholder
+        if (img && img.getAttribute('src')) {
+          showImgMode(true);
+          setImgSrc(img.getAttribute('src'));
+        } else {
+          showImgMode(false);
+        }
+
+        if (fileInput) {
+          fileInput.addEventListener('change', function () {
+            const f = fileInput.files && fileInput.files[0];
+            if (!f) return;
+
+            // Basic guard: image only
+            if (!f.type || !f.type.startsWith('image/')) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              const src = e.target.result;
+              if (img) {
+                showImgMode(true);
+                setImgSrc(src);
+              } else if (dlgImg) {
+                setImgSrc(src);
+              }
+            };
+            reader.readAsDataURL(f);
+          });
+        }
+
+        if (openBtn && dlg && dlgImg) {
+          openBtn.addEventListener('click', function () {
+            // prefer current preview image; else do nothing
+            const src = (img && img.getAttribute('src')) ? img.getAttribute('src') : '';
+            if (src) {
+              dlgImg.src = src;
+              if (typeof dlg.showModal === 'function') dlg.showModal();
+            }
+          });
+        }
+
+        if (closeBtn && dlg) {
+          closeBtn.addEventListener('click', function () {
+            dlg.close();
+          });
+        }
+
+        if (dlg) {
+          dlg.addEventListener('click', function (e) {
+            const rect = dlg.getBoundingClientRect();
+            const inDialog = (
+              e.clientX >= rect.left && e.clientX <= rect.right &&
+              e.clientY >= rect.top && e.clientY <= rect.bottom
+            );
+            if (!inDialog) dlg.close();
+          });
+        }
+      })();
+    </script>
+
+{% endblock %}
 
 {% block content %}
     <h1 class="page-title">Account Settings</h1>
@@ -23,21 +194,44 @@
     <form method="post" enctype="multipart/form-data" novalidate>
         {% csrf_token %}
 
-        <div class="card card--edit">
+        <div class="card">
             <div class="card-title">Profile & Preferences</div>
 
             <div class="edit-layout">
                 <div class="edit-avatar">
                     <div class="edit-avatar-title">Avatar</div>
 
-                    <div class="avatar-preview avatar-preview--large">
+                    <div class="avatar-preview-shell">
+                        <div class="avatar-preview avatar-preview--large">
                         {% if profile_form.instance.avatar %}
-                            <img src="{{ profile_form.instance.avatar.url }}" alt="Current avatar">
+                            <img id="avatarPreviewImg" src="{{ profile_form.instance.avatar.url }}" alt="Current avatar">
                         {% else %}
-                            <div class="avatar-placeholder">
+                            <div id="avatarPreviewPlaceholder" class="avatar-placeholder">
                                 {{ request.user.username|first|upper }}
                             </div>
                         {% endif %}
+                    
+                    <div class="avatar-actions">
+                        <button type="button" class="btn btn-secondary btn-small" id="openAvatarPreview">Preview</button>
+                    </div>
+
+                    <dialog class="avatar-dialog" id="avatarPreviewDialog">
+                        <div class="avatar-dialog-card">
+                            <div class="avatar-dialog-head">
+                                <div class="avatar-dialog-title">Avatar preview</div>
+                                <button type="button" class="avatar-dialog-close" id="closeAvatarPreview" aria-label="Close">×</button>
+                            </div>
+                            <div class="avatar-dialog-body">
+                                <div class="avatar-dialog-preview">
+                                    <img id="avatarPreviewDialogImg" alt="Avatar preview">
+                                </div>
+                                <div class="avatar-dialog-hint">
+                                    This is a preview of the selected image before saving.
+                                </div>
+                            </div>
+                        </div>
+                    </dialog>
+</div>
                     </div>
 
                     <div class="avatar-upload-block">
@@ -63,6 +257,7 @@
                 <div class="edit-fields">
                     <div class="edit-section-title">Login Data</div>
                     {% for field in user_form %}
+                        {% if field.name != "email" %}
                         <div class="field">
                             <label class="field-label" for="{{ field.id_for_label }}">
                                 {{ field.label }}
@@ -74,6 +269,7 @@
                                 <div class="field-errors">{{ field.errors|striptags }}</div>
                             {% endif %}
                         </div>
+                    {% endif %}
                     {% endfor %}
 
                     <div class="edit-section-title">Kitchen Preferences</div>
@@ -106,4 +302,87 @@
             </a>
         </div>
     </form>
+
+    <script>
+      (function () {
+        const fileInput = document.querySelector('input[type="file"][name$="avatar"]');
+        const img = document.getElementById('avatarPreviewImg');
+        const ph = document.getElementById('avatarPreviewPlaceholder');
+
+        const dlg = document.getElementById('avatarPreviewDialog');
+        const dlgImg = document.getElementById('avatarPreviewDialogImg');
+        const openBtn = document.getElementById('openAvatarPreview');
+        const closeBtn = document.getElementById('closeAvatarPreview');
+
+        function setImgSrc(src) {
+          if (img) img.src = src;
+          if (dlgImg) dlgImg.src = src;
+        }
+
+        function showImgMode(hasImage) {
+          if (!img || !ph) return;
+          img.style.display = hasImage ? 'block' : 'none';
+          ph.style.display = hasImage ? 'none' : 'grid';
+        }
+
+        // init: if template rendered an <img>, keep; else placeholder
+        if (img && img.getAttribute('src')) {
+          showImgMode(true);
+          setImgSrc(img.getAttribute('src'));
+        } else {
+          showImgMode(false);
+        }
+
+        if (fileInput) {
+          fileInput.addEventListener('change', function () {
+            const f = fileInput.files && fileInput.files[0];
+            if (!f) return;
+
+            // Basic guard: image only
+            if (!f.type || !f.type.startsWith('image/')) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              const src = e.target.result;
+              if (img) {
+                showImgMode(true);
+                setImgSrc(src);
+              } else if (dlgImg) {
+                setImgSrc(src);
+              }
+            };
+            reader.readAsDataURL(f);
+          });
+        }
+
+        if (openBtn && dlg && dlgImg) {
+          openBtn.addEventListener('click', function () {
+            // prefer current preview image; else do nothing
+            const src = (img && img.getAttribute('src')) ? img.getAttribute('src') : '';
+            if (src) {
+              dlgImg.src = src;
+              if (typeof dlg.showModal === 'function') dlg.showModal();
+            }
+          });
+        }
+
+        if (closeBtn && dlg) {
+          closeBtn.addEventListener('click', function () {
+            dlg.close();
+          });
+        }
+
+        if (dlg) {
+          dlg.addEventListener('click', function (e) {
+            const rect = dlg.getBoundingClientRect();
+            const inDialog = (
+              e.clientX >= rect.left && e.clientX <= rect.right &&
+              e.clientY >= rect.top && e.clientY <= rect.bottom
+            );
+            if (!inDialog) dlg.close();
+          });
+        }
+      })();
+    </script>
+
 {% endblock %}

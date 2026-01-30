@@ -1,120 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+{% extends "layout/base.html" %}
+{% load static %}
 
-        .register-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
+{% block title %}Register | Favourite Tastebook{% endblock %}
 
-        .register-container h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #333;
-        }
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
 
-        form {
-            text-align: left;
-        }
+{% block content %}
+<div class="auth-page fade-in">
+    <div class="auth-card">
+        <h1 class="auth-title">Create Account</h1>
+        <p class="auth-subtitle">Join us today</p>
 
-        form input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-
-        form input:focus {
-            border-color: #007bff;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-
-        .register-container button {
-            background-color: #007bff;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.3s ease;
-        }
-
-        .register-container button:hover {
-            background-color: #0056b3;
-        }
-
-        .login-link {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #555;
-        }
-
-        .login-link a {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-
-        .error-messages {
-            color: red;
-            text-align: left;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-    </style>
-</head>
-<body>
-    <div class="register-container">
-        <h2>Register</h2>
-
-        {% if messages %}
-        <div class="error-messages">
-            <ul>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% endif %}
-
-        <form method="post">
+        <form method="post" class="auth-form">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Register</button>
+
+            {% for field in form %}
+                <div class="field">
+                    <label class="field-label">{{ field.label }}</label>
+                    <div class="field-input">{{ field }}</div>
+
+                    {% if field.help_text %}
+                        <div class="field-help">{{ field.help_text }}</div>
+                    {% endif %}
+
+                    {% for error in field.errors %}
+                        <div class="field-errors">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <div class="field-errors">{{ error }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <button type="submit" class="btn auth-btn">Register</button>
         </form>
 
-        <p class="login-link">Already have an account?
-            <a href="{% url 'login' %}">Login Here</a>
-        </p>
+        <div class="auth-footer">
+            Already have an account?
+            <a href="{% url 'login' %}">Log in</a>
+        </div>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

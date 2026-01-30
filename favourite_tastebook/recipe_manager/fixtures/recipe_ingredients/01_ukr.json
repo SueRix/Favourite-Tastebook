@@ -115,8 +115,8 @@
     "fields": {
       "recipe": 1,
       "ingredient": 18,
-      "amount": "1.00",
-      "unit": "tbsp",
+      "amount": "2.00",
+      "unit": "tsp",
       "importance": "secondary"
     }
   },
@@ -1260,6 +1260,17 @@
       "recipe": 10,
       "ingredient": 42,
       "amount": "3.00",
+      "unit": "pcs",
+      "importance": "optional"
+    }
+  },
+  {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 454,
+    "fields": {
+      "recipe": 4,
+      "ingredient": 7,
+      "amount": "1.50",
       "unit": "pcs",
       "importance": "optional"
     }

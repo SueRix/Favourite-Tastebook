@@ -22,3 +22,14 @@ class IngredientSelector:
     def list_selected(cls, filters: dict):
         qs = filters.get("ingredient")
         return qs.order_by("name") if qs else Ingredient.objects.none()
+
+    @classmethod
+    def search_by_name(cls, query, category=None):
+        qs = Ingredient.objects.all()
+        if category:
+            qs = qs.filter(category=category)
+
+        if not query:
+            return qs.order_by("category", "name")
+
+        return qs.filter(name__icontains=query).order_by("category", "name")

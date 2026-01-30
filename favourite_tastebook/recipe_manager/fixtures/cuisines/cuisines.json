@@ -19,5 +19,12 @@
     "fields": {
       "name": "Italian"
     }
+  },
+  {
+    "model": "recipe_manager.cuisine",
+    "pk": 4,
+    "fields": {
+      "name": "American"
+    }
   }
 ]

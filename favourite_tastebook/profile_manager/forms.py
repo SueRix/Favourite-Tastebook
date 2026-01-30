@@ -6,23 +6,12 @@ from django.conf import settings
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['first_name', 'last_name']
         widgets = {
             "first_name": forms.TextInput(attrs={"placeholder": "First Name"}),
             "last_name": forms.TextInput(attrs={"placeholder": "Last Name"}),
-            "email": forms.EmailInput(attrs={"placeholder": "Email"}),
         }
 
-    def clean_email(self):
-        email = self.cleaned_data.get("email")
-        if not email:
-            return email
-        qs = User.objects.filter(email__iexact=email)
-        if self.instance.pk:
-            qs = qs.exclude(pk=self.instance.pk)
-        if qs.exists():
-            raise forms.ValidationError("This email is already in use by another account.")
-        return email
 
 
 class ProfileForm(forms.ModelForm):

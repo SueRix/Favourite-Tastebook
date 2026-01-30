@@ -7,6 +7,8 @@ class RecipeSearchForm(forms.Form):
     category = forms.CharField(required=False)
     strict = forms.BooleanField(required=False)
 
+    recipe = forms.IntegerField(required=False)
+
     ingredient = forms.ModelMultipleChoiceField(
         queryset=Ingredient._default_manager,
         required=False,

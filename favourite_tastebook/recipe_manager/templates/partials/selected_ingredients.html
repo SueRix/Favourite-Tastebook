@@ -1,0 +1,22 @@
+{% if selected_ingredients %}
+  <div class="selected-grid">
+    {% for ing in selected_ingredients %}
+      <div class="selected-chip" data-ingredient-id="{{ ing.id }}">
+        <span class="dot"></span>
+        <span class="selected-name">{{ ing.name }}</span>
+
+        <button
+          type="button"
+          class="chip-remove"
+          data-remove-id="{{ ing.id }}"
+          title="Remove"
+          aria-label="Remove {{ ing.name }}"
+        >
+          ×
+        </button>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="placeholder-card">Nothing selected yet. Pick ingredients in the middle column.</div>
+{% endif %}
