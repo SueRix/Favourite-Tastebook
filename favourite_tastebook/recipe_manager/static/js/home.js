@@ -52,7 +52,6 @@
 
   /* =========================
      Click handlers
-     (ВАЖНО: preventDefault)
   ========================= */
   function bootIngredientHandlers() {
     document.addEventListener("click", (e) => {
