@@ -25,7 +25,7 @@ class FeaturedRecipePresenter:
         return f"{settings.MEDIA_URL}recipes/cuisine/{cuisine_slug}/{recipe.id}.jpg"
 
     @classmethod
-    def select(cls, recipes, recipe_id=None, selected_ids=None):
+    def select(cls, recipes, recipe_id=None, selected_ids=None, saved_ids=None):
 
         if not recipes.exists():
             return None, recipes.none()
@@ -36,9 +36,12 @@ class FeaturedRecipePresenter:
             return None, recipes.none()
 
         featured.poster_url = cls._get_poster_url(featured)
-
         featured.steps = RecipeStepsParser.parse(featured.description)
         featured.cuisine_label = featured.cuisine.name if featured.cuisine_id else "General"
+
+        saved_ids = saved_ids or set()
+
+        featured.is_saved = featured.id in saved_ids
 
         selected_set = set(int(x) for x in (selected_ids or []))
         recipe_items = list(featured.ingredients.all())
