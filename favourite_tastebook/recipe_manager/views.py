@@ -4,8 +4,6 @@ from recipe_manager.application.use_cases.home_dashboard import DashboardUseCase
 from django.views.generic import ListView, View, TemplateView
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 
 from recipe_manager.application.use_cases.saved_recipes_dashboard import SavedRecipesUseCase
 from recipe_manager.decorators import handle_recipe_exceptions
@@ -89,7 +87,6 @@ class SavedRecipeListView(LoginRequiredMixin, ListView):
         return ctx
 
 
-@method_decorator(csrf_exempt, name='dispatch')
 class SavedRecipeActionView(LoginRequiredMixin, View):
 
     @handle_recipe_exceptions
@@ -105,3 +102,10 @@ class SavedRecipeActionView(LoginRequiredMixin, View):
             return HttpResponse(status=200)
 
         return JsonResponse({"detail": "Removed from saved."}, status=200)
+
+class TastesView(LoginRequiredMixin, TemplateView):
+    template_name = "profile/tastes_stub.html"
+
+
+class CookbooksView(LoginRequiredMixin, TemplateView):
+    template_name = "profile/cookbooks_stub.html"
