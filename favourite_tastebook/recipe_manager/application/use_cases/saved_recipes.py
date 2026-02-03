@@ -1,5 +1,5 @@
 from recipe_manager.models import Recipe, SavedRecipe
-from recipe_manager.infrastructure.selectors import saved_recipes as selectors
+from recipe_manager.infrastructure.selectors import recipe as selectors
 from recipe_manager.infrastructure.presentation.saved_recipe import SavedRecipePresenter
 from recipe_manager.domain.exceptions.saved_recipe import (
     RecipeAlreadySavedError,
@@ -20,14 +20,11 @@ class SavedRecipesUseCase:
         Orchestrates fetching and presenting the saved recipes list.
         Returns the specific list for the ListView queryset or full context.
         """
-        # 1. Получаем "сырые" данные через Селектор
         queryset = selectors.get_user_saved_recipes(user)
 
-        # 2. Превращаем их в красивый JSON/Dict через Презентер
         presenter = SavedRecipePresenter(queryset)
         formatted_data = presenter.data()
 
-        # Возвращаем словарь, как в твоем DashboardUseCase
         return {
             "saved_recipes": formatted_data,
             "count": len(formatted_data)
