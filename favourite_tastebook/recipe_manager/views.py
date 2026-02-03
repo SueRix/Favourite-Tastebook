@@ -1,13 +1,13 @@
 from .mixins import SearchParamsMixin
 from .models import Ingredient, Recipe
-from recipe_manager.application.use_cases.dashboard import DashboardUseCase
+from recipe_manager.application.use_cases.home_dashboard import DashboardUseCase
 from django.views.generic import ListView, View, TemplateView
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
-from recipe_manager.application.use_cases.saved_recipes import SavedRecipesUseCase
+from recipe_manager.application.use_cases.saved_recipes_dashboard import SavedRecipesUseCase
 from recipe_manager.decorators import handle_recipe_exceptions
 
 

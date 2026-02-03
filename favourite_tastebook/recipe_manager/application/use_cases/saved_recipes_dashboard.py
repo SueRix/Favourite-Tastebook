@@ -1,5 +1,5 @@
 from recipe_manager.models import Recipe, SavedRecipe
-from recipe_manager.infrastructure.selectors import recipe as selectors
+from recipe_manager.infrastructure.selectors import RecipeSaver
 from recipe_manager.infrastructure.presentation.saved_recipe import SavedRecipePresenter
 from recipe_manager.domain.exceptions.saved_recipe import (
     RecipeAlreadySavedError,
@@ -20,7 +20,7 @@ class SavedRecipesUseCase:
         Orchestrates fetching and presenting the saved recipes list.
         Returns the specific list for the ListView queryset or full context.
         """
-        queryset = selectors.get_user_saved_recipes(user)
+        queryset = RecipeSaver.get_user_saved_recipes(user)
 
         presenter = SavedRecipePresenter(queryset)
         formatted_data = presenter.data()

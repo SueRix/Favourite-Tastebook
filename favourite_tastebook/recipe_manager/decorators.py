@@ -2,7 +2,7 @@ from functools import wraps
 
 from django.http import JsonResponse
 
-from recipe_saver.exceptions import RecipeNotFoundError, RecipeAlreadySavedError
+from recipe_manager.domain.exceptions.saved_recipe import RecipeNotFoundError, RecipeAlreadySavedError
 
 
 def handle_recipe_exceptions(func):
