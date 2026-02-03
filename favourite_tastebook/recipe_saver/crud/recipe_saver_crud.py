@@ -6,9 +6,9 @@ from ..exceptions import RecipeAlreadySavedError, RecipeNotFoundError
 def add_recipe_to_saved(user, recipe_id):
     try:
         recipe = Recipe.objects.get(id=recipe_id)
-    except Recipe.objects.model.DoesNotExist:
+    except Recipe.DoesNotExist:
         raise RecipeNotFoundError()
-
+ 
     try:
         return SavedRecipe.objects.create(user=user, recipe=recipe)
     except IntegrityError:
