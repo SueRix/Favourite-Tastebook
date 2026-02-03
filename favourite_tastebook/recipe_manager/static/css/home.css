@@ -1473,3 +1473,56 @@ main {
     font-style: italic;
     color: rgba(255, 255, 255, 0.4);
 }
+
+.btn-fav {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.6);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+    margin-left: 15px;
+}
+
+.btn-fav svg {
+    width: 20px;
+    height: 20px;
+    fill: transparent;
+    stroke: currentColor;
+    stroke-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.btn-fav:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.btn-fav.active {
+    border-color: #ffca28;
+    color: #ffca28;
+    background: rgba(255, 202, 40, 0.1);
+    box-shadow: 0 0 10px rgba(255, 202, 40, 0.3);
+}
+
+.btn-fav.active svg {
+    fill: #ffca28;
+    stroke: #ffca28;
+}
+
+@keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.btn-fav.animating {
+    animation: pop 0.3s ease;
+}

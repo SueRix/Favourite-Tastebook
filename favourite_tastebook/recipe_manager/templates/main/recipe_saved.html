@@ -1,26 +1,27 @@
-{% extends 'base.html' %}
+{% extends 'layout/base.html' %}
 {% load static %}
 
 {% block title %}Saved Recipes{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/saved_recipes.css' %}">
+    <link rel="stylesheet" href="{% static 'css/saved.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="saved-header">
-        <h1 class="saved-title">Your Cookbook</h1>
+        <h1 class="saved-title">Your Saved Recipes</h1>
     </div>
 
-    <div class="saved-grid">
+    <div class="saved-grid" id="saved-recipes-grid">
         {% for item in saved_recipes %}
         <details class="saved-card">
             <summary class="saved-summary">
+
                 {% if item.image %}
                     <img src="{{ item.image }}" alt="{{ item.title }}" class="saved-thumb">
                 {% else %}
-                    <div class="saved-thumb" style="display:grid; place-items:center; color:#555;">No Img</div>
+                    <div class="saved-thumb no-img">No Img</div>
                 {% endif %}
 
                 <div class="saved-info">
@@ -30,21 +31,21 @@
                     </div>
                     <div class="saved-meta">
                         {% if item.cuisine %}
-                            <span class="meta-item" style="color: var(--accent); opacity: 0.8;">
+                            <span class="meta-accent">
                                 {{ item.cuisine }}
                             </span>
-                            <span>•</span>
+                            <span class="separator">•</span>
                         {% endif %}
                         <span class="meta-item">⏱ {{ item.cook_time }} min</span>
-                        <span>•</span>
+                        <span class="separator">•</span>
                         <span class="meta-item">Saved: {{ item.saved_at }}</span>
                     </div>
                 </div>
 
                 <div class="saved-actions">
-                    <button 
+                    <button
                         class="btn-delete"
-                        hx-delete="{% url 'saved-recipe-action' recipe_id=item.id %}"
+                        hx-delete="{% url 'saved_recipe_action' recipe_id=item.id %}"
                         hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                         hx-confirm="Are you sure you want to remove this recipe?"
                         hx-target="closest .saved-card"
@@ -56,32 +57,43 @@
             </summary>
 
             <div class="saved-content">
-                <div style="margin-bottom: 12px; font-weight: 600; color: #fff;">Preparation:</div>
-                
+                <div class="content-label">Preparation:</div>
+
                 {% if item.instructions %}
                     {% if item.instructions|length > 0 %}
-                        <ol style="padding-left: 20px; margin: 0;">
+                        <ol class="instructions-list">
                         {% for step in item.instructions %}
-                            <li style="margin-bottom: 8px;">{{ step }}</li>
+                            <li>{{ step }}</li>
                         {% endfor %}
                         </ol>
                     {% else %}
                         <p>{{ item.instructions }}</p>
                     {% endif %}
                 {% else %}
-                    <p style="color: var(--text-muted); font-style: italic;">No instructions available.</p>
+                    <p class="no-instructions">No instructions available.</p>
                 {% endif %}
             </div>
         </details>
+
         {% empty %}
-            <div class="box" style="text-align: center; padding: 40px; color: var(--text-muted);">
+            <div class="empty-state-box empty-message-initial">
                 <h3>No saved recipes yet</h3>
                 <p>Go to the home page to find something tasty!</p>
-                <a href="{% url 'home' %}" class="btn btn-primary" style="margin-top: 10px; display:inline-block; color: var(--accent);">
+                <a href="{% url 'home' %}" class="empty-btn">
                     Explore Recipes
                 </a>
             </div>
         {% endfor %}
     </div>
+
+    <div id="js-empty-state" class="empty-state-box hidden-state">
+        <h3>No saved recipes left</h3>
+        <p>Your cookbook is empty now.</p>
+        <a href="{% url 'home' %}" class="empty-btn">
+            Find New Recipes
+        </a>
+    </div>
 </div>
+
+<script src="{% static 'js/saved_recipes.js' %}"></script>
 {% endblock %}
