@@ -1,0 +1,159 @@
+.saved-header {
+    margin-bottom: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 16px;
+}
+
+.saved-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-main, #fff);
+}
+
+.saved-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 40px;
+}
+
+/* Карточка-аккордеон */
+.saved-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.saved-card:hover {
+    border-color: rgba(255, 214, 10, 0.3);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+/* SUMMARY - Видимая шапка */
+.saved-summary {
+    list-style: none;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Скрываем стандартный треугольник Webkit */
+.saved-summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Картинка */
+.saved-thumb {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    background: #000;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.saved-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.saved-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-main, #fff);
+}
+
+.saved-meta {
+    display: flex;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--text-muted, #999);
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Кнопка удаления */
+.saved-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 2;
+}
+
+.btn-delete {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+    border: 1px solid rgba(231, 76, 60, 0.2);
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.btn-delete:hover {
+    background: rgba(231, 76, 60, 0.2);
+    border-color: rgba(231, 76, 60, 0.5);
+}
+
+/* Раскрывающаяся часть (BODY) */
+.saved-content {
+    padding: 0 16px 16px 112px; /* Отступ слева под картинку */
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    margin-top: -8px;
+    padding-top: 16px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    line-height: 1.6;
+    animation: slideDown 0.2s ease-out;
+}
+
+/* Индикатор раскрытия (стрелочка) */
+.toggle-icon {
+    margin-right: 10px;
+    font-size: 12px;
+    color: var(--text-muted);
+    transition: transform 0.2s;
+    display: inline-block;
+}
+
+/* Состояние "Открыто" */
+details[open] .toggle-icon {
+    transform: rotate(90deg);
+    color: var(--accent, #ffd60a);
+}
+
+details[open] .saved-card {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Анимация появления */
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    .saved-summary {
+        grid-template-columns: 60px 1fr;
+    }
+    .saved-thumb { width: 60px; height: 60px; }
+    .saved-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+        margin-top: 8px;
+    }
+    .saved-content { padding-left: 16px; }
+}

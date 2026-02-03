@@ -11,8 +11,6 @@ urlpatterns = [
     path("profile/", include("profile_manager.urls")),
 
     path("home/", include("recipe_manager.urls")),
-
-    path("saved-recipes/", include("recipe_saver.urls")),
 ]
 
 if settings.DEBUG:

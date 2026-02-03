@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Saved Recipes{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/saved_recipes.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="saved-header">
+        <h1 class="saved-title">Your Cookbook</h1>
+    </div>
+
+    <div class="saved-grid">
+        {% for item in saved_recipes %}
+        <details class="saved-card">
+            <summary class="saved-summary">
+                {% if item.image %}
+                    <img src="{{ item.image }}" alt="{{ item.title }}" class="saved-thumb">
+                {% else %}
+                    <div class="saved-thumb" style="display:grid; place-items:center; color:#555;">No Img</div>
+                {% endif %}
+
+                <div class="saved-info">
+                    <div class="saved-name">
+                        <span class="toggle-icon">▶</span>
+                        {{ item.title }}
+                    </div>
+                    <div class="saved-meta">
+                        {% if item.cuisine %}
+                            <span class="meta-item" style="color: var(--accent); opacity: 0.8;">
+                                {{ item.cuisine }}
+                            </span>
+                            <span>•</span>
+                        {% endif %}
+                        <span class="meta-item">⏱ {{ item.cook_time }} min</span>
+                        <span>•</span>
+                        <span class="meta-item">Saved: {{ item.saved_at }}</span>
+                    </div>
+                </div>
+
+                <div class="saved-actions">
+                    <button 
+                        class="btn-delete"
+                        hx-delete="{% url 'saved-recipe-action' recipe_id=item.id %}"
+                        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                        hx-confirm="Are you sure you want to remove this recipe?"
+                        hx-target="closest .saved-card"
+                        hx-swap="outerHTML"
+                    >
+                        Remove
+                    </button>
+                </div>
+            </summary>
+
+            <div class="saved-content">
+                <div style="margin-bottom: 12px; font-weight: 600; color: #fff;">Preparation:</div>
+                
+                {% if item.instructions %}
+                    {% if item.instructions|length > 0 %}
+                        <ol style="padding-left: 20px; margin: 0;">
+                        {% for step in item.instructions %}
+                            <li style="margin-bottom: 8px;">{{ step }}</li>
+                        {% endfor %}
+                        </ol>
+                    {% else %}
+                        <p>{{ item.instructions }}</p>
+                    {% endif %}
+                {% else %}
+                    <p style="color: var(--text-muted); font-style: italic;">No instructions available.</p>
+                {% endif %}
+            </div>
+        </details>
+        {% empty %}
+            <div class="box" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                <h3>No saved recipes yet</h3>
+                <p>Go to the home page to find something tasty!</p>
+                <a href="{% url 'home' %}" class="btn btn-primary" style="margin-top: 10px; display:inline-block; color: var(--accent);">
+                    Explore Recipes
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
