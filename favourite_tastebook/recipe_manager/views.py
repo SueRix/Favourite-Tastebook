@@ -79,14 +79,13 @@ class SavedRecipeListView(LoginRequiredMixin, ListView):
     template_name = 'main/recipe_saved.html'
     context_object_name = 'saved_recipes'
 
-    # ListView требует get_queryset, но мы берем данные из UseCase
     def get_queryset(self):
         data = SavedRecipesUseCase.build_saved_list(self.request.user)
         return data["saved_recipes"]
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        # ctx.update(SavedRecipesUseCase.build_saved_list(self.request.user))
+        ctx.update(SavedRecipesUseCase.build_saved_list(self.request.user))
         return ctx
 
 
