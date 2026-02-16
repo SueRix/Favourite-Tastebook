@@ -798,5 +798,141 @@
       "name": "jam",
       "category": "sweeteners"
     }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 101,
+    "fields": {
+      "name": "celery",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 102,
+    "fields": {
+      "name": "pumpkin",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 103,
+    "fields": {
+      "name": "sweet potato",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 104,
+    "fields": {
+      "name": "radish",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 105,
+    "fields": {
+      "name": "leek",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 106,
+    "fields": {
+      "name": "asparagus",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 107,
+    "fields": {
+      "name": "brussels sprouts",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 108,
+    "fields": {
+      "name": "green beans",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 109,
+    "fields": {
+      "name": "ginger",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 110,
+    "fields": {
+      "name": "fresh chili pepper",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 111,
+    "fields": {
+      "name": "avocado",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 112,
+    "fields": {
+      "name": "corn cob",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 113,
+    "fields": {
+      "name": "arugula",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 114,
+    "fields": {
+      "name": "kale",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 115,
+    "fields": {
+      "name": "artichoke",
+      "category": "vegetables"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 116,
+    "fields": {
+      "name": "salted herring",
+      "category": "seafood"
+    }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 117,
+    "fields": {
+      "name": "pickles",
+      "category": "canned"
+    }
   }
 ]

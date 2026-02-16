@@ -1,15 +1,17 @@
 #File that logging adding ids to database for control ids in ManyToMany conflicts
 
-main info about recipes id's:
+start info about id ingredients:
+    - 100 ing-ids
 
+info about recipes id's:
     - 50 recipes:
-        1)Ukr ids 1-10
+        1)Ukr ids 1-10, 66-77
         2)Common ids - 11-30; 61
         3)Italian ids - 31-50
         4)American ids - 51-60; 62-65
 
-
-- 453 ids to 3 cuisines
+start info about id connections between recipes and ingredients:
+    - 453 ids to 3 cuisines
 
 29.01.2026:
     - added 454's id for ukr cuisine
@@ -18,3 +20,8 @@ main info about recipes id's:
     - added 51-60 recipes id for american cuisine
     - added 62-64 recipes id for american cuisine
     - added 583's ids for american cuisine
+
+16.02.2026:
+    - added 101-117 ids ingredients.
+    - added 66-77 recipes ids for ukr cuisine
+    - added 584-691's ids for connections of ukr recipes
