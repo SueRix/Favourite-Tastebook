@@ -1,8 +1,12 @@
-from django.views.generic import ListView, TemplateView
-
 from .mixins import SearchParamsMixin
 from .models import Ingredient, Recipe
-from recipe_manager.application.use_cases.dashboard import DashboardUseCase
+from recipe_manager.application.use_cases.home_dashboard import DashboardUseCase
+from django.views.generic import ListView, View, TemplateView
+from django.http import JsonResponse, HttpResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from recipe_manager.application.use_cases.saved_recipes_dashboard import SavedRecipesUseCase
+from recipe_manager.decorators import handle_recipe_exceptions
 
 
 class MainTastebookView(SearchParamsMixin, TemplateView):
@@ -28,6 +32,7 @@ class IngredientsPartialView(SearchParamsMixin, ListView):
         ctx.update(DashboardUseCase.build_ingredients_partial(self.filters))
         return ctx
 
+
 class IngredientSearchView(SearchParamsMixin, ListView):
     model = Ingredient
     template_name = "partials/ingredients_list.html"
@@ -41,6 +46,7 @@ class IngredientSearchView(SearchParamsMixin, ListView):
         ctx = super().get_context_data(**kwargs)
         ctx.update(DashboardUseCase.build_search_results_partial(self.filters))
         return ctx
+
 
 class SelectedIngredientsPartialView(SearchParamsMixin, ListView):
     model = Ingredient
@@ -56,12 +62,55 @@ class RecipesPartialView(SearchParamsMixin, ListView):
     model = Recipe
     template_name = "partials/recipes_found.html"
     context_object_name = "more_recipes"
+    cached_data = None
 
     def get_queryset(self):
-        data = DashboardUseCase.build_recipes_partial(self.filters)
-        return data["more_recipes"]
+        self.cached_data = DashboardUseCase.build_recipes_partial(
+            self.filters,
+            self.request.user
+        )
+        return self.cached_data["more_recipes"]
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx.update(DashboardUseCase.build_recipes_partial(self.filters))
+        ctx.update(self.cached_data)
+
         return ctx
+
+
+class SavedRecipeListView(LoginRequiredMixin, ListView):
+    template_name = 'main/recipe_saved.html'
+    context_object_name = 'saved_recipes'
+
+    def get_queryset(self):
+        data = SavedRecipesUseCase.build_saved_list(self.request.user)
+        return data["saved_recipes"]
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx.update(SavedRecipesUseCase.build_saved_list(self.request.user))
+        return ctx
+
+
+class SavedRecipeActionView(LoginRequiredMixin, View):
+
+    @handle_recipe_exceptions
+    def post(self, request, recipe_id):
+        SavedRecipesUseCase.add_to_saved(request.user, recipe_id)
+        return JsonResponse({"detail": "Saved successfully."}, status=201)
+
+    @handle_recipe_exceptions
+    def delete(self, request, recipe_id):
+        SavedRecipesUseCase.remove_from_saved(request.user, recipe_id)
+
+        if request.headers.get('HX-Request'):
+            return HttpResponse(status=200)
+
+        return JsonResponse({"detail": "Removed from saved."}, status=200)
+
+class TastesView(LoginRequiredMixin, TemplateView):
+    template_name = "profile/tastes_stub.html"
+
+
+class CookbooksView(LoginRequiredMixin, TemplateView):
+    template_name = "profile/cookbooks_stub.html"

@@ -1,20 +1,51 @@
 (function () {
+  "use strict";
+
   /* =========================
-     Helpers
+     Helpers & Utilities
   ========================= */
+
+  /**
+   * Dispatches a custom event when filters change.
+   * Other components can listen to "ft:filtersChanged".
+   */
   function emitFiltersChanged() {
     document.body.dispatchEvent(
       new Event("ft:filtersChanged", { bubbles: true })
     );
   }
 
+  /**
+   * Returns the main filters form element.
+   */
   function formEl() {
     return document.getElementById("filters-form");
   }
 
+  /**
+   * Retrieves a cookie value by name (Standard Django approach).
+   * Used primarily for CSRF tokens.
+   */
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      const cookies = document.cookie.split(";");
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
   /* =========================
-     Hidden ingredients logic
+     Hidden Ingredients Logic
+     (Manages hidden inputs for form submission)
   ========================= */
+
   function hasHiddenIngredient(id) {
     return !!document.querySelector(
       `#filters-form input[name="ingredient"][value="${id}"]`
@@ -35,9 +66,7 @@
 
   function removeHiddenIngredient(id) {
     document
-      .querySelectorAll(
-        `#filters-form input[name="ingredient"][value="${id}"]`
-      )
+      .querySelectorAll(`#filters-form input[name="ingredient"][value="${id}"]`)
       .forEach((n) => n.remove());
   }
 
@@ -51,10 +80,76 @@
   }
 
   /* =========================
-     Click handlers
+     Favorites Logic (IVI / Cinema Style)
   ========================= */
+
+  /**
+   * Toggles the favorite status of a recipe.
+   * Handles visual state changes and backend sync via fetch.
+   * @param {HTMLElement} btn - The button element clicked.
+   */
+  async function toggleFavorite(btn) {
+    const recipeId = btn.dataset.id;
+    // Check current state from data attribute (string "true" or "false")
+    const isSaved = btn.dataset.isSaved === "true";
+
+    // Determine method: DELETE if saved, POST if not
+    const method = isSaved ? "DELETE" : "POST";
+    const url = `/home/saved/${recipeId}/`;
+
+    // Disable pointer events to prevent double-clicking
+    btn.style.pointerEvents = "none";
+
+    try {
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          "X-CSRFToken": getCookie("csrftoken"),
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+      });
+
+      if (response.ok) {
+        // SUCCESS: Invert the state
+        const newState = !isSaved;
+
+        // 1. Update data attribute
+        btn.dataset.isSaved = String(newState);
+
+        // 2. Toggle visual class
+        if (newState) {
+          btn.classList.add("active");
+        } else {
+          btn.classList.remove("active");
+        }
+
+        // 3. Add pop animation
+        btn.classList.add("animating");
+        setTimeout(() => btn.classList.remove("animating"), 300);
+      } else {
+        console.error("Save error:", response.status);
+        // Optional: show a toast or alert here
+      }
+    } catch (err) {
+      console.error("Network error:", err);
+    } finally {
+      // Re-enable button
+      btn.style.pointerEvents = "auto";
+    }
+  }
+
+  // EXPOSE TO GLOBAL SCOPE
+  // Essential because the HTML uses onclick="toggleFavorite(this)"
+  window.toggleFavorite = toggleFavorite;
+
+  /* =========================
+     Event Handlers & Bootstrapping
+  ========================= */
+
   function bootIngredientHandlers() {
     document.addEventListener("click", (e) => {
+      // Handle Pill Button clicks
       const pill = e.target.closest?.(".pill-btn");
       if (pill) {
         e.preventDefault();
@@ -65,6 +160,7 @@
         return;
       }
 
+      // Handle 'X' remove clicks inside chips
       const rm = e.target.closest?.(".chip-remove");
       if (rm) {
         e.preventDefault();
@@ -79,9 +175,6 @@
     });
   }
 
-  /* =========================
-     Clear selected
-  ========================= */
   function bootClearSelected() {
     const btn = document.getElementById("clear-selected");
     if (!btn) return;
@@ -95,9 +188,6 @@
     });
   }
 
-  /* =========================
-     Category + strict filters
-  ========================= */
   function bootCategoryFilter() {
     const sel = document.getElementById("category-select");
     const hidden = document.getElementById("category-hidden");
@@ -131,9 +221,6 @@
     });
   }
 
-  /* =========================
-     HTMX loading (optional)
-  ========================= */
   function bootHtmxLoading() {
     document.body.addEventListener("htmx:beforeRequest", () => {
       const el = document.getElementById("ing-loading");
@@ -159,6 +246,7 @@
 
     input.addEventListener("input", toggleBtn);
 
+    // Initial check
     toggleBtn();
 
     btn.addEventListener("click", (e) => {
@@ -168,12 +256,15 @@
       btn.hidden = true;
       if (hiddenSearch) hiddenSearch.value = "";
 
-      htmx.trigger(input, "searchClear");
+      // Trigger HTMX if attached to input
+      if (typeof htmx !== "undefined") {
+        htmx.trigger(input, "searchClear");
+      }
     });
   }
 
   /* =========================
-     Init
+     Initialization
   ========================= */
   document.addEventListener("DOMContentLoaded", function () {
     bootIngredientHandlers();

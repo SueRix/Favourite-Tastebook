@@ -1,6 +1,8 @@
 from recipe_manager.infrastructure.selectors.ingredients import IngredientSelector
 from recipe_manager.infrastructure.orm.recipe_search import RecipeSearchORM
 from recipe_manager.infrastructure.presentation.featured_recipe import FeaturedRecipePresenter
+from recipe_manager.models import SavedRecipe
+
 
 class DashboardUseCase:
     """
@@ -54,16 +56,23 @@ class DashboardUseCase:
         }
 
     @classmethod
-    def build_recipes_partial(cls, filters):
+    def build_recipes_partial(cls, filters, user):
         selected = IngredientSelector.list_selected(filters)
         selected_ids = list(selected.values_list("id", flat=True))
 
         recipes = RecipeSearchORM.find_recipes(filters)
+        saved_recipes_ids = set()
+        if user.is_authenticated:
+            saved_recipe_ids = set(
+                SavedRecipe.objects.filter(user=user).values_list('recipe_id', flat=True)
+            )
         featured, more_recipes = FeaturedRecipePresenter.select(
             recipes,
             recipe_id=filters.get("recipe"),
             selected_ids=selected_ids,
+            saved_ids=saved_recipe_ids
         )
+
 
         return {
             "selected_count": len(selected_ids),

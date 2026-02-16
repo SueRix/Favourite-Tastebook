@@ -1,0 +1,456 @@
+/* --- Layout & Grid --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.saved-header {
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+}
+
+.saved-title {
+    font-size: 2rem;
+    color: #fff;
+    margin: 0;
+}
+
+.saved-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* --- Card Structure --- */
+.saved-card {
+    background: #1e1e1e; /* Темный фон карточки */
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    overflow: hidden; /* Важно для анимации */
+}
+
+/* Скрываем стандартный треугольник details */
+.saved-card > summary {
+    list-style: none;
+}
+.saved-card > summary::-webkit-details-marker {
+    display: none;
+}
+
+.saved-summary {
+    display: grid;
+    grid-template-columns: 80px 1fr auto; /* Картинка | Инфо | Кнопка */
+    gap: 20px;
+    padding: 15px;
+    align-items: center;
+    cursor: pointer;
+    background: #252525;
+    transition: background-color 0.2s ease;
+}
+
+.saved-summary:hover {
+    background: #2a2a2a;
+}
+
+/* --- Thumbnail --- */
+.saved-thumb {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.saved-thumb.no-img {
+    display: grid;
+    place-items: center;
+    background: #333;
+    color: #888;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* --- Info Section --- */
+.saved-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.saved-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.toggle-icon {
+    font-size: 0.8rem;
+    color: #888;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+/* Поворот стрелки при активном классе (добавляется через JS) */
+summary.active .toggle-icon {
+    transform: rotate(90deg);
+    color: #fff;
+}
+
+.saved-meta {
+    font-size: 0.9rem;
+    color: #aaa;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.meta-accent {
+    color: var(--accent, #ff9f43); /* Используем переменную или фоллбек */
+    opacity: 0.9;
+}
+
+.separator {
+    color: #444;
+}
+
+/* --- Actions (Buttons) --- */
+.saved-actions {
+    padding-left: 10px;
+}
+
+.btn-delete {
+    background: transparent;
+    border: 1px solid #d63031;
+    color: #d63031;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+}
+
+.btn-delete:hover {
+    background: #d63031;
+    color: #fff;
+}
+
+/* --- Expanded Content --- */
+.saved-content {
+    padding: 20px;
+    background: #1a1a1a;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    color: #ddd;
+    line-height: 1.6;
+}
+
+.content-label {
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.instructions-list {
+    padding-left: 20px;
+    margin: 0;
+}
+
+.instructions-list li {
+    margin-bottom: 8px;
+}
+
+.no-instructions {
+    color: var(--text-muted, #777);
+    font-style: italic;
+}
+
+/* --- Empty States --- */
+.empty-state-box {
+    text-align: center;
+    padding: 60px 20px;
+    background: #1e1e1e;
+    border-radius: 8px;
+    color: #888;
+    margin-top: 20px;
+}
+
+.empty-state-box h3 {
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.hidden-state {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.empty-btn {
+    margin-top: 15px;
+    display: inline-block;
+    color: var(--accent, #ff9f43);
+    text-decoration: none;
+    border: 1px solid currentColor;
+    padding: 8px 16px;
+    border-radius: 4px;
+}
+
+.empty-btn:hover {
+    background: rgba(255, 159, 67, 0.1);
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 600px) {
+    .saved-summary {
+        grid-template-columns: 60px 1fr;
+        gap: 10px;
+    }
+
+    .saved-actions {
+        grid-column: 1 / -1;
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    .btn-delete {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* --- Layout & Grid --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.saved-header {
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+}
+
+.saved-title {
+    font-size: 2rem;
+    color: #fff;
+    margin: 0;
+}
+
+.saved-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* --- Card Structure --- */
+.saved-card {
+    background: #1e1e1e;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+}
+
+/* Remove default details marker */
+.saved-card > summary {
+    list-style: none;
+}
+.saved-card > summary::-webkit-details-marker {
+    display: none;
+}
+
+.saved-summary {
+    display: grid;
+    grid-template-columns: 80px 1fr auto; /* Image | Info | Button */
+    gap: 20px;
+    padding: 15px;
+    align-items: center;
+    cursor: pointer;
+    background: #252525;
+    transition: background-color 0.2s ease;
+}
+
+.saved-summary:hover {
+    background: #2a2a2a;
+}
+
+/* --- Thumbnail --- */
+.saved-thumb {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.saved-thumb.no-img {
+    display: grid;
+    place-items: center;
+    background: #333;
+    color: #888;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* --- Info Section --- */
+.saved-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.saved-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.toggle-icon {
+    font-size: 0.8rem;
+    color: #888;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+/* Rotate arrow when active (class added by JS) */
+summary.active .toggle-icon {
+    transform: rotate(90deg);
+    color: #fff;
+}
+
+.saved-meta {
+    font-size: 0.9rem;
+    color: #aaa;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.meta-accent {
+    color: #ff9f43; /* Adjust to match your theme variable */
+    opacity: 0.9;
+}
+
+.separator {
+    color: #444;
+}
+
+/* --- Actions (Delete Button) --- */
+.saved-actions {
+    padding-left: 10px;
+}
+
+.btn-delete {
+    background: transparent;
+    border: 1px solid #d63031;
+    color: #d63031;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+}
+
+.btn-delete:hover {
+    background: #d63031;
+    color: #fff;
+}
+
+/* --- Expanded Content --- */
+.saved-content {
+    padding: 20px;
+    background: #1a1a1a;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    color: #ddd;
+    line-height: 1.6;
+}
+
+.content-label {
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.instructions-list {
+    padding-left: 20px;
+    margin: 0;
+}
+
+.instructions-list li {
+    margin-bottom: 8px;
+}
+
+.no-instructions {
+    color: #777;
+    font-style: italic;
+}
+
+/* --- Empty States & Main Action Button --- */
+.empty-state-box {
+    text-align: center;
+    padding: 60px 20px;
+    background: #1e1e1e;
+    border-radius: 8px;
+    color: #888;
+    margin-top: 20px;
+}
+
+.empty-state-box h3 {
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.hidden-state {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+/* FIXED BUTTON STYLES */
+.empty-btn {
+    margin-top: 15px;
+    display: inline-block;
+    padding: 10px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+
+    /* Default State: Outline Only */
+    background-color: transparent;
+    color: #ff9f43; /* Your accent color */
+    border: 2px solid #ff9f43;
+}
+
+.empty-btn:hover {
+    /* Hover State: Solid Fill */
+    background-color: #ff9f43;
+    color: #1e1e1e; /* Dark text for contrast against yellow */
+    text-decoration: none;
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 600px) {
+    .saved-summary {
+        grid-template-columns: 60px 1fr;
+        gap: 10px;
+    }
+
+    .saved-actions {
+        grid-column: 1 / -1;
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    .btn-delete {
+        width: 100%;
+        text-align: center;
+    }
+}

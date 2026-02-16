@@ -7,19 +7,32 @@
     <div class="rf-feature-v2">
 
         <div class="rf-head-row">
-            <div class="rf-title-large">{{ featured.title|default:"Recipe" }}</div>
+            <div style="display: flex; align-items: center;">
+                <div class="rf-title-large">{{ featured.title|default:"Recipe" }}</div>
+
+                <button type="button"
+                        class="btn-fav {% if featured.is_saved %}active{% endif %}"
+                        data-id="{{ featured.id }}"
+                        data-is-saved="{% if featured.is_saved %}true{% else %}false{% endif %}"
+                        onclick="toggleFavorite(this)">
+
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </button>
+            </div>
+
             <div class="rf-meta-badge">
                 <span class="icon">⏱</span>
                 <span>
-                    {% if featured.cook_time %}
-                        {{ featured.cook_time }} min
-                    {% else %}
-                        —
-                    {% endif %}
-                </span>
+            {% if featured.cook_time %}
+                {{ featured.cook_time }} min
+            {% else %}
+                —
+            {% endif %}
+        </span>
             </div>
         </div>
-
         <div class="rf-hero-image">
             {% if featured.poster_url %}
                 <img src="{{ featured.poster_url }}" alt="{{ featured.title }}" loading="lazy">
