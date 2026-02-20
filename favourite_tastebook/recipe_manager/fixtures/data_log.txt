@@ -28,3 +28,5 @@ start info about id connections between recipes and ingredients:
 
 20.02.2026
     - added 692's ids for recings
+    - added common recipes id 78-82's
+    - added 693-721 ids for recings
