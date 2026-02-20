@@ -20,22 +20,12 @@ class RecipeScoringService:
         return Count("ingredients", filter=q, distinct=True)
 
     @classmethod
-    def annotate_scores(cls, qs, selected_ids, weights=None):
-        w = {
-            "required_match": SCORE_REQUIRED_MATCH,
-            "secondary_match": SCORE_SECONDARY_MATCH,
-            "optional_match": SCORE_OPTIONAL_MATCH,
-            "missing_required_match": SCORE_MISSING_REQUIRED_PENALTY,
-            "missing_secondary_match": SCORE_MISSING_SECONDARY_PENALTY,
-        }
-        if weights:
-            w.update(weights)
-
+    def annotate_base_metrics(cls, qs, selected_ids):
         req = Importance.REQUIRED
         sec = Importance.SECONDARY
         opt = Importance.OPTIONAL
 
-        qs = (
+        return (
             qs.annotate(
                 required_total=cls.count_total(req),
                 secondary_total=cls.count_total(sec),
@@ -48,34 +38,64 @@ class RecipeScoringService:
                 missing_required=F("required_total") - F("required_matched"),
                 missing_secondary=F("secondary_total") - F("secondary_matched"),
             )
-            .annotate(
-                score=ExpressionWrapper(
-                    F("required_matched") * Value(w["required_match"])
-                    + F("secondary_matched") * Value(w["secondary_match"])
-                    + F("optional_matched") * Value(w["optional_match"])
-                    - F("missing_required") * Value(w["missing_required_match"])
-                    - F("missing_secondary") * Value(w["missing_secondary_match"]),
-                    output_field=IntegerField(),
-                )
+        )
+
+    @classmethod
+    def apply_normal_scoring(cls, qs):
+        w_req = SCORE_REQUIRED_MATCH
+        w_sec = SCORE_SECONDARY_MATCH
+        w_opt = SCORE_OPTIONAL_MATCH
+
+        qs = qs.annotate(
+            score=ExpressionWrapper(
+                F("required_matched") * Value(w_req)
+                + F("secondary_matched") * Value(w_sec)
+                + F("optional_matched") * Value(w_opt),
+                output_field=IntegerField(),
             )
         )
 
         qs = qs.annotate(
             relevance_tier=Case(
-                # Tier 1: At least one required and total matches >= 2
-                When(
-                    Q(required_matched__gte=1) & Q(total_matches__gte=2),
-                    then=Value(1)
-                ),
-                # Tier 2: Positive score and at least one match, but doesn't fit Tier 1
-                When(
-                    Q(score__gt=0) & Q(total_matches__gte=1),
-                    then=Value(2)
-                ),
-                # Tier 3: Garbage (no required ingredients, negative score, etc.)
+                When(required_matched__gte=1, then=Value(1)),
+                When(total_matches__gte=1, then=Value(2)),
                 default=Value(3),
                 output_field=IntegerField()
             )
         )
+        return qs
 
+    @classmethod
+    def apply_strict_scoring(cls, qs):
+        w_req = SCORE_REQUIRED_MATCH
+        w_sec = SCORE_SECONDARY_MATCH
+        w_opt = SCORE_OPTIONAL_MATCH
+        w_miss_req = SCORE_MISSING_REQUIRED_PENALTY
+        w_miss_sec = SCORE_MISSING_SECONDARY_PENALTY
+
+        qs = qs.annotate(
+            score=ExpressionWrapper(
+                F("required_matched") * Value(w_req)
+                + F("secondary_matched") * Value(w_sec)
+                + F("optional_matched") * Value(w_opt)
+                - F("missing_required") * Value(w_miss_req)
+                - F("missing_secondary") * Value(w_miss_sec),
+                output_field=IntegerField(),
+            )
+        )
+
+        qs = qs.annotate(
+            relevance_tier=Case(
+                When(
+                    Q(score__gte=0) & Q(required_matched__gte=1),
+                    then=Value(1)
+                ),
+                When(
+                    Q(total_matches__gte=1) & Q(score__gte=-15),
+                    then=Value(2)
+                ),
+                default=Value(3),
+                output_field=IntegerField()
+            )
+        )
         return qs
