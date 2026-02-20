@@ -3,7 +3,6 @@ from django.db.models import Prefetch
 from recipe_manager.models import Recipe, RecipeIngredient
 from recipe_manager.infrastructure.orm.scoring import RecipeScoringService
 
-
 class RecipeSearchORM:
     @classmethod
     def find_recipes(cls, filters: dict):
@@ -34,6 +33,6 @@ class RecipeSearchORM:
         if strict:
             qs = qs.filter(missing_required=0)
         else:
-            qs = qs.filter(total_matches__gt=0)
+            qs = qs.exclude(relevance_tier=3)
 
-        return qs.order_by("-score", "missing_required", "title")
+        return qs.order_by("relevance_tier", "-score", "missing_required", "missing_secondary", "title")
