@@ -61,21 +61,23 @@ class DashboardUseCase:
         selected_ids = list(selected.values_list("id", flat=True))
 
         recipes = RecipeSearchORM.find_recipes(filters)
-        saved_recipes_ids = set()
+        saved_recipe_ids = set()
+
         if user.is_authenticated:
             saved_recipe_ids = set(
                 SavedRecipe.objects.filter(user=user).values_list('recipe_id', flat=True)
             )
-        featured, more_recipes = FeaturedRecipePresenter.select(
+
+        featured, tier_1, tier_2 = FeaturedRecipePresenter.select(
             recipes,
             recipe_id=filters.get("recipe"),
             selected_ids=selected_ids,
             saved_ids=saved_recipe_ids
         )
 
-
         return {
             "selected_count": len(selected_ids),
             "featured": featured,
-            "more_recipes": more_recipes,
+            "tier_1_recipes": tier_1,
+            "tier_2_recipes": tier_2,
         }

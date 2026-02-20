@@ -58,23 +58,16 @@ class SelectedIngredientsPartialView(SearchParamsMixin, ListView):
         return data["selected_ingredients"]
 
 
-class RecipesPartialView(SearchParamsMixin, ListView):
-    model = Recipe
+class RecipesPartialView(SearchParamsMixin, TemplateView):
     template_name = "partials/recipes_found.html"
-    context_object_name = "more_recipes"
-    cached_data = None
-
-    def get_queryset(self):
-        self.cached_data = DashboardUseCase.build_recipes_partial(
-            self.filters,
-            self.request.user
-        )
-        return self.cached_data["more_recipes"]
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx.update(self.cached_data)
-
+        new_context = DashboardUseCase.build_recipes_partial(
+            self.filters,
+            self.request.user
+        )
+        ctx.update(new_context)
         return ctx
 
 
