@@ -124,8 +124,8 @@
     "model": "recipe_manager.recipe",
     "pk": 22,
     "fields": {
-      "title": "Tomato and Cucumber Salad",
-      "description": "1) Slice tomato and cucumber into similar-size pieces for even texture. If using onion, slice it very thin so it doesn’t overpower.\n2) Add chopped dill. Dill is the “main aroma” here, so don’t be shy.\n3) Dress with olive oil; add vinegar if you like sharper acidity. Mix gently.\n4) Season with salt and black pepper. Taste and adjust—tomatoes vary a lot in sweetness and water content.\n5) Let the salad sit 3–5 minutes before serving: salt draws a little juice, creating a light natural dressing at the bottom.\nServing tip: spoon some of the tomato juice over the salad when plating—this is part of the flavor.",
+      "title": "Simply Tomato Salad",
+      "description": "1) Slice tomato and cucumber into similar-size pieces for even texture. If using onion, slice it very thin so it doesn’t overpower.\n2) Add chopped dill and parsley. Dill and parsley is the “main aroma” here, so don’t be shy.\n3) Dress with olive oil; add vinegar if you like sharper acidity. Mix gently.\n4) Season with salt and black pepper. Taste and adjust—tomatoes vary a lot in sweetness and water content.\n5) Let the salad sit 3–5 minutes before serving: salt draws a little juice, creating a light natural dressing at the bottom.\nServing tip: spoon some of the tomato juice over the salad when plating—this is part of the flavor.",
       "cook_time": 10,
       "image_url": "recipes/cuisine/general/22.jpg",
       "cuisine": 2

@@ -1769,5 +1769,16 @@
       "unit": "tsp",
       "importance": "secondary"
     }
+  },
+    {
+    "model": "recipe_manager.recipeingredient",
+    "pk": 692,
+    "fields": {
+      "recipe": 22,
+      "ingredient": 16,
+      "amount": "15.00",
+      "unit": "g",
+      "importance": "required"
+    }
   }
 ]

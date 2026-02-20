@@ -25,3 +25,6 @@ start info about id connections between recipes and ingredients:
     - added 101-117 ids ingredients.
     - added 66-77 recipes ids for ukr cuisine
     - added 584-691's ids for connections of ukr recipes
+
+20.02.2026
+    - added 692's ids for recings
