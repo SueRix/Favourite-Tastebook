@@ -93,7 +93,8 @@
                             <span>Strict Match</span>
                         </label>
                         <label class="mini-check compact-check">
-                            <input type="checkbox" id="auto-show-check" {% if request.GET.auto_show %}checked{% endif %}>
+                            <input type="checkbox" id="auto-show-check"
+                                   {% if request.GET.auto_show %}checked{% endif %}>
                             <span>Instant Best Match</span>
                         </label>
                     </div>
@@ -117,7 +118,12 @@
         <div class="home-col home-right">
             <div class="card home-card">
                 <div class="home-card-head">
-                    <div class="card-title">Recipes found</div>
+                    <div class="card-title" style="display: flex; align-items: center; gap: 8px;">
+                        Recipes found
+                        <span id="search-mode-indicator" style="color: #999; font-size: 0.8em; font-weight: normal;">
+                    {% if request.GET.strict %}точный{% else %}общий{% endif %}
+                </span>
+                    </div>
 
                     <label class="taste-toggle">
                         <input

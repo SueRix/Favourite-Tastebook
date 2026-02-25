@@ -1,3 +1,7 @@
+<span id="search-mode-indicator" hx-swap-oob="true" style="color: #999; font-size: 0.8em; font-weight: normal;">
+    {% if request.GET.strict %}(An strict search method is used){% else %}(A general search method is used){% endif %}
+</span>
+
 {% if not selected_count %}
     <div class="placeholder-card">
         No ingredients selected, please select if you want to make a selection
