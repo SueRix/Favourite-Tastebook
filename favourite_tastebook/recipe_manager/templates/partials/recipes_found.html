@@ -3,131 +3,149 @@
         No ingredients selected, please select if you want to make a selection
     </div>
 
-{% elif featured %}
-    <div class="rf-feature-v2">
+{% else %}
 
-        <div class="rf-head-row">
-            <div style="display: flex; align-items: center;">
-                <div class="rf-title-large">{{ featured.title|default:"Recipe" }}</div>
-
-                <button type="button"
-                        class="btn-fav {% if featured.is_saved %}active{% endif %}"
-                        data-id="{{ featured.id }}"
-                        data-is-saved="{% if featured.is_saved %}true{% else %}false{% endif %}"
-                        onclick="toggleFavorite(this)">
-
-                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                </button>
-            </div>
-
-            <div class="rf-meta-badge">
-                <span class="icon">⏱</span>
-                <span>
-            {% if featured.cook_time %}
-                {{ featured.cook_time }} min
-            {% else %}
-                —
-            {% endif %}
-        </span>
-            </div>
-        </div>
-        <div class="rf-hero-image">
-            {% if featured.poster_url %}
-                <img src="{{ featured.poster_url }}" alt="{{ featured.title }}" loading="lazy">
-            {% else %}
-                <div class="photo-ph-large">
-                    <span>No photo available</span>
-                </div>
-            {% endif %}
-        </div>
-
-        <div class="rf-layout-stack">
-
-            <div class="rf-panel-box">
-                <div class="rf-panel-head centered-mode">
-
-                    <div class="rf-section-title no-margin">Ingredients</div>
-
-                    <div class="rf-cuisine-center">
-                        <span class="c-label">Cuisine:</span>
-                        <span class="c-value">{{ featured.cuisine_label }}</span>
-                    </div>
-
-                    <div class="rf-match-stats">
-                        <span class="good">Match: {{ featured.matched_count }}</span>
-                        <span class="bad">Miss: {{ featured.missing_count }}</span>
-                    </div>
-                </div>
-
-                <div class="rf-ing-list-v2">
-                    {% if featured.ingredient_groups %}
-                        {% for grp in featured.ingredient_groups %}
-                            {% if grp.items %}
-                                <div class="rf-group-label">{{ grp.title }}</div>
-                                <div class="rf-chips-wrap">
-                                    {% for it in grp.items %}
-                                        <div class="ing-pill {% if it.is_selected %}have{% else %}miss{% endif %}">
-                                            <span class="name">{{ it.name }}</span>
-                                            {% if it.amount %}
-                                                <span class="amount">{{ it.amount }}{{ it.unit }}</span>
-                                            {% endif %}
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                    {% else %}
-                        <div class="placeholder-text">No ingredients data.</div>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="rf-instructions-full">
-                <div class="rf-section-title">Instructions</div>
-                <div class="rf-howto-body-v2">
-                    {% if featured.steps %}
-                        <ol class="rf-steps-list">
-                            {% for step in featured.steps %}
-                                <li>{{ step }}</li>
-                            {% endfor %}
-                        </ol>
-                    {% else %}
-                        <div class="placeholder-text">
-                            No cooking steps available.
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-
-        </div>
-        <div class="rf-more-section">
+    <div class="rf-more-section" style="margin-top: 0; margin-bottom: 24px;">
+        {% if tier_1_recipes or featured and featured.relevance_tier == 1 %}
             <div class="rf-more-divider">
-                <span>Other recipes found</span>
+                <span>Perfect Matches 🔥(An important ingredient has been found in the recipe)</span>
             </div>
             <div class="rf-more-grid">
-                {% for r in more_recipes %}
-                    <button
-                            type="button"
-                            class="more-recipe-card"
+                {% if featured and featured.relevance_tier == 1 and not request.GET.recipe and request.GET.auto_show != '1' %}
+                    <button type="button" class="more-recipe-card"
+                            hx-get="{% url 'partials_recipes' %}?recipe={{ featured.id }}"
+                            hx-target="#recipes-panel" hx-include="#filters-form">
+                        <span class="title">{{ featured.title|default:"Recipe" }} (Best Match)</span>
+                        <span class="action">Open ↗</span>
+                    </button>
+                {% endif %}
+                {% for r in tier_1_recipes %}
+                    <button type="button" class="more-recipe-card"
                             hx-get="{% url 'partials_recipes' %}?recipe={{ r.id }}"
-                            hx-target="#recipes-panel"
-                            hx-include="#filters-form"
-                    >
+                            hx-target="#recipes-panel" hx-include="#filters-form">
                         <span class="title">{{ r.title|default:"Recipe" }}</span>
                         <span class="action">Open ↗</span>
                     </button>
-                {% empty %}
-                    <div class="placeholder-text">No more recipes found.</div>
                 {% endfor %}
             </div>
+        {% endif %}
+
+        {% if tier_2_recipes or featured and featured.relevance_tier == 2 %}
+            <div class="rf-more-divider" style="margin-top: 16px;">
+                <span>Partial Matches (Partial mention of components) 🛒</span>
+            </div>
+            <div class="rf-more-grid">
+                {% if featured and featured.relevance_tier == 2 and not request.GET.recipe and request.GET.auto_show != '1' %}
+                    <button type="button" class="more-recipe-card"
+                            hx-get="{% url 'partials_recipes' %}?recipe={{ featured.id }}"
+                            hx-target="#recipes-panel" hx-include="#filters-form">
+                        <span class="title">{{ featured.title|default:"Recipe" }} (Best Match)</span>
+                        <span class="action">Open ↗</span>
+                    </button>
+                {% endif %}
+                {% for r in tier_2_recipes %}
+                    <button type="button" class="more-recipe-card"
+                            hx-get="{% url 'partials_recipes' %}?recipe={{ r.id }}"
+                            hx-target="#recipes-panel" hx-include="#filters-form">
+                        <span class="title">{{ r.title|default:"Recipe" }}</span>
+                        <span class="action">Open ↗</span>
+                    </button>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if not tier_1_recipes and not tier_2_recipes and not featured %}
+            <div class="placeholder-card">
+                No good matches found. Try modifying your ingredients.
+            </div>
+        {% endif %}
+    </div>
+
+    {% if featured and request.GET.auto_show == '1' or featured and request.GET.recipe %}
+        <div class="rf-feature-v2" id="featured-recipe-view">
+            <div class="rf-head-row">
+                <div style="display: flex; align-items: center;">
+                    <div class="rf-title-large">{{ featured.title|default:"Recipe" }}</div>
+                    <button type="button" class="btn-fav {% if featured.is_saved %}active{% endif %}"
+                            data-id="{{ featured.id }}"
+                            data-is-saved="{% if featured.is_saved %}true{% else %}false{% endif %}"
+                            onclick="toggleFavorite(this)">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="rf-meta-badge">
+                    <span class="icon">⏱</span>
+                    <span>{% if featured.cook_time %}{{ featured.cook_time }} min{% else %}—{% endif %}</span>
+                </div>
+            </div>
+
+            <div class="rf-hero-image">
+                {% if featured.poster_url %}
+                    <img src="{{ featured.poster_url }}" alt="{{ featured.title }}" loading="lazy">
+                {% else %}
+                    <div class="photo-ph-large"><span>No photo available</span></div>
+                {% endif %}
+            </div>
+
+            <div class="rf-layout-stack">
+                <div class="rf-panel-box">
+                    <div class="rf-panel-head centered-mode">
+                        <div class="rf-section-title no-margin">Ingredients</div>
+                        <div class="rf-cuisine-center">
+                            <span class="c-label">Cuisine:</span>
+                            <span class="c-value">{{ featured.cuisine_label }}</span>
+                        </div>
+                        <div class="rf-match-stats">
+                            <span class="good">Match: {{ featured.matched_count }}</span>
+                            <span class="bad">Miss: {{ featured.missing_count }}</span>
+                        </div>
+                    </div>
+
+                    <div class="rf-ing-list-v2">
+                        {% if featured.ingredient_groups %}
+                            {% for grp in featured.ingredient_groups %}
+                                {% if grp.items %}
+                                    <div class="rf-group-label">{{ grp.title }}</div>
+                                    <div class="rf-chips-wrap">
+                                        {% for it in grp.items %}
+                                            <div class="ing-pill {% if it.is_selected %}have{% else %}miss{% endif %}">
+                                                <span class="name">{{ it.name }}</span>
+                                                {% if it.amount %}
+                                                    <span class="amount">{{ it.amount }}{{ it.unit }}</span>
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <div class="placeholder-text">No ingredients data.</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="rf-instructions-full">
+                    <div class="rf-section-title">Instructions</div>
+                    <div class="rf-howto-body-v2">
+                        {% if featured.steps %}
+                            <ol class="rf-steps-list">
+                                {% for step in featured.steps %}
+                                    <li>{{ step }}</li>
+                                {% endfor %}
+                            </ol>
+                        {% else %}
+                            <div class="placeholder-text">No cooking steps available.</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
+    {% elif tier_1_recipes or tier_2_recipes or featured %}
+        <div class="placeholder-card" style="margin-top: 20px; border-style: dashed;">
+            Select a recipe from the list above to view details.
+        </div>
+    {% endif %}
 
-    </div>
-
-{% else %}
-    <div class="placeholder-card">
-        No recipes found. Try selecting more ingredients.
-    </div>
 {% endif %}

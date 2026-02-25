@@ -1075,8 +1075,13 @@ main {
     gap: 8px;
 }
 
-.rf-match-stats .good { color: #4ade80; }
-.rf-match-stats .bad { color: #f87171; }
+.rf-match-stats .good {
+    color: #4ade80;
+}
+
+.rf-match-stats .bad {
+    color: #f87171;
+}
 
 .rf-group-label {
     font-size: 12px;
@@ -1116,7 +1121,7 @@ main {
 .ing-pill .amount {
     opacity: 0.6;
     padding-left: 6px;
-    border-left: 1px solid rgba(255,255,255,0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
     font-size: 11px;
 }
 
@@ -1152,8 +1157,8 @@ main {
 }
 
 .more-recipe-card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     padding: 10px 14px;
     border-radius: 8px;
     color: var(--text-main);
@@ -1166,7 +1171,7 @@ main {
 }
 
 .more-recipe-card:hover {
-    background: rgba(255,255,255,0.08);
+    background: rgba(255, 255, 255, 0.08);
     border-color: var(--accent, #ffd60a);
 }
 
@@ -1181,6 +1186,7 @@ main {
         grid-template-columns: 1fr;
     }
 }
+
 /* ==========================================================================
    NEW LAYOUT OVERRIDES (Unified Ingredients & Instructions)
    ========================================================================== */
@@ -1336,6 +1342,7 @@ main {
         padding: 0;
     }
 }
+
 /* Wrapper to position the icon inside the input */
 .search-wrapper {
     position: relative;
@@ -1518,11 +1525,162 @@ main {
 }
 
 @keyframes pop {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .btn-fav.animating {
     animation: pop 0.3s ease;
+}
+
+/* ==========================================================================
+   NEW MIDDLE COLUMN LAYOUT CLASSES
+   ========================================================================== */
+
+.search-wrapper-spaced {
+    margin-bottom: 12px;
+    width: 100%;
+}
+
+.filters-row-combined {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.flex-fill {
+    flex: 1;
+    min-width: 0;
+}
+
+.checkbox-group {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.selected-counter-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 4px;
+    margin-bottom: 12px;
+}
+
+.oob-meta {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+}
+
+.oob-meta .meta-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+}
+
+.compact-controls-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 0 4px;
+}
+
+.checkbox-group {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.compact-check {
+    padding: 6px 10px;
+}
+
+.compact-check span {
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.oob-meta {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+}
+
+.oob-meta .meta-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   MIDDLE COLUMN CONTROLS LAYOUT
+   ========================================================================== */
+
+.w-100 {
+    width: 100% !important;
+}
+
+.mb-12 {
+    margin-bottom: 12px;
+}
+
+.checkbox-row {
+    display: flex;
+    gap: 8px;
+    padding: 0 4px;
+}
+
+.counter-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 4px;
+    margin-bottom: 8px;
+}
+
+.compact-check {
+    padding: 6px 10px;
+}
+
+.compact-check span {
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.oob-meta {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+}
+
+.oob-meta .meta-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
 }

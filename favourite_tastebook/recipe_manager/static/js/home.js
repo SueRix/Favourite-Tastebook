@@ -209,6 +209,16 @@
       emitFiltersChanged();
     });
   }
+  function bootAutoShowFilter() {
+    const chk = document.getElementById("auto-show-check");
+    const hidden = document.getElementById("auto-show-hidden");
+    if (!chk || !hidden) return;
+
+    chk.addEventListener("change", () => {
+      hidden.value = chk.checked ? "1" : "";
+      emitFiltersChanged();
+    });
+  }
 
   function bootSearchSync() {
     const searchInput = document.getElementById("ingredient-search-input");
@@ -271,6 +281,7 @@
     bootClearSelected();
     bootCategoryFilter();
     bootStrictFilter();
+    bootAutoShowFilter();
     bootHtmxLoading();
     bootSearchSync();
     bootSearchClear();

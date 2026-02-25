@@ -1,13 +1,10 @@
 {% if ingredients %}
-    <div class="ingredients-meta">
-        <div style="display: flex; align-items: center;">
-            <span>Selected</span>
+    <div id="selected-count-oob" hx-swap-oob="true" class="counter-row">
+        <div class="ingredients-meta oob-meta">
+            <span class="meta-label">Selected</span>
             <span class="count">{{ selected_count|default:0 }}</span>
         </div>
-        <span class="loading" id="ing-loading" hidden>Updating...</span>
-    </div>
-
-    <div class="pill-grid pill-grid-one">
+        <span class="loading" id="ing-loading" hidden>...</span>
     </div>
 
     <div class="pill-grid pill-grid-one">
@@ -21,11 +18,18 @@
             >
                 <span class="pill-name">{{ ing.name }}</span>
                 <span class="pill-plus" aria-hidden="true">
-          {% if ing.id in selected_ids %}✓{% else %}+{% endif %}
-        </span>
+                  {% if ing.id in selected_ids %}✓{% else %}+{% endif %}
+                </span>
             </button>
         {% endfor %}
     </div>
 {% else %}
+    <div id="selected-count-oob" hx-swap-oob="true" class="counter-row">
+        <div class="ingredients-meta oob-meta">
+            <span class="meta-label">Selected</span>
+            <span class="count">0</span>
+        </div>
+        <span class="loading" id="ing-loading" hidden>...</span>
+    </div>
     <div class="placeholder-card">No ingredients found for current filters.</div>
 {% endif %}
