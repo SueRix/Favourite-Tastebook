@@ -240,5 +240,16 @@
       "image_url": "recipes/cuisine/ukrainian/77.jpg",
       "cuisine": 1
     }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 83,
+    "fields": {
+      "title": "Okroshka (Cold Summer Soup)",
+      "description": "Prep notes:\n- Cut all solid ingredients into uniform, small cubes (about the size of a pea) for the best texture.\n- Chill the liquid base thoroughly before serving.\n\n1) Cook base ingredients:\n   - Boil potatoes in their jackets until tender (20-25 mins). Cool completely, then peel and dice.\n   - Hard-boil the eggs (10 mins). Cool in ice water, peel, and dice.\n\n2) Chop fresh ingredients and meat:\n   - Dice the cucumbers, radishes, and cooked sausage into small, uniform cubes.\n   - Finely chop the green onions and dill.\n\n3) Mix the base:\n   - In a large pot or bowl, combine the diced potatoes, eggs, sausage, cucumbers, radishes, green onions, and dill.\n   - (Optional tip: Mash the green onions lightly with a pinch of salt to release their flavor before mixing with other ingredients).\n\n4) Prepare the liquid:\n   - In a separate bowl, whisk together the sour cream, cold water, lemon juice, salt, and mustard until completely smooth.\n\n5) Combine and serve:\n   - Pour the liquid over the chopped ingredients and stir well.\n   - Taste and adjust seasoning (add more salt or lemon juice if needed).\n   - Refrigerate for at least 1-2 hours before serving so flavors meld. Serve very cold.",
+      "cook_time": 45,
+      "image_url": "recipes/cuisine/ukrainian/83.jpg",
+      "cuisine": 1
+    }
   }
 ]

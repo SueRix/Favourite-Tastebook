@@ -934,5 +934,13 @@
       "name": "pickles",
       "category": "canned"
     }
+  },
+  {
+    "model": "recipe_manager.ingredient",
+    "pk": 118,
+    "fields": {
+      "name": "cooked sausage",
+      "category": "meat"
+    }
   }
 ]
