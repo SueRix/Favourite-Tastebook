@@ -3,34 +3,19 @@ from ..mixins import SearchParamsMixin
 from ..models import Ingredient
 from recipe_manager.application.use_cases.home_dashboard import DashboardUseCase
 
+
 class IngredientsPartialView(SearchParamsMixin, ListView):
     model = Ingredient
     template_name = "partials/ingredients_panel.html"
     context_object_name = "ingredients"
 
     def get_queryset(self):
-        # Build ingredients list based on filters
         data = DashboardUseCase.build_ingredients_partial(self.filters)
         return data["ingredients"]
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx.update(DashboardUseCase.build_ingredients_partial(self.filters))
-        return ctx
-
-
-class IngredientSearchView(SearchParamsMixin, ListView):
-    model = Ingredient
-    template_name = "partials/ingredients_panel.html"
-    context_object_name = "ingredients"
-
-    def get_queryset(self):
-        data = DashboardUseCase.build_search_results_partial(self.filters)
-        return data["ingredients"]
-
-    def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        ctx.update(DashboardUseCase.build_search_results_partial(self.filters))
         return ctx
 
 
