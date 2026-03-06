@@ -929,7 +929,8 @@ main {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    height: 100%;
+    /* height: 100%; <- Consider removing this to allow natural flow */
+    flex-shrink: 0; /* Strictly prevents the detailed recipe view from squishing */
     overflow-y: auto;
     padding-right: 8px;
 }
@@ -1127,7 +1128,12 @@ main {
 
 /* 4. MORE RECIPES FOOTER */
 .rf-more-section {
-    margin-top: 20px;
+    max-height: 280px; /* Limits the height to show approx 2-3 rows */
+    overflow-y: auto;
+    padding-right: 8px;
+    flex-shrink: 0; /* Prevents the section from being squished */
+    margin-top: 0;
+    margin-bottom: 24px;
 }
 
 .rf-more-divider {
