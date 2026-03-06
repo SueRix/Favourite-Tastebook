@@ -30,6 +30,8 @@ class DashboardUseCase:
 
         return {
             "ingredients": ingredients_queryset,
+            # Added selected_ingredients for the unified HTMX partial
+            "selected_ingredients": selected,
             "selected_ids": selected_ids,
             "selected_count": len(selected_ids),
         }
