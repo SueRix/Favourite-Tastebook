@@ -701,8 +701,13 @@ main {
     gap: 8px;
 }
 
-.rf-match-stats .good { color: #4ade80; }
-.rf-match-stats .bad { color: #f87171; }
+.rf-match-stats .good {
+    color: #4ade80;
+}
+
+.rf-match-stats .bad {
+    color: #f87171;
+}
 
 .rf-group-label {
     font-size: 12px;
@@ -891,9 +896,15 @@ main {
 }
 
 @keyframes pop {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .btn-fav.animating {
