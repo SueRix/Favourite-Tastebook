@@ -95,13 +95,12 @@ main {
     flex: 1;
     min-height: 0;
     overflow: hidden;
+
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
 }
 
-.home-left .home-card:last-child {
-    flex: 0 0 auto;
-    min-height: auto;
-    overflow: visible;
-}
 
 .home-card-head {
     display: flex;
@@ -618,7 +617,8 @@ main {
 
 .rf-hero-image {
     width: 100%;
-    height: 240px;
+    height: 100%; /* Adapts to grid row height */
+    min-height: 240px;
     border-radius: 16px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -930,6 +930,14 @@ main {
         height: auto;
         margin-bottom: 20px;
     }
+
+    .rf-top-row {
+        grid-template-columns: 1fr; /* Stack vertically on small screens */
+    }
+
+    .rf-hero-image {
+        height: 240px; /* Restore fixed height when stacked */
+    }
 }
 
 @media (max-width: 650px) {
@@ -1012,4 +1020,12 @@ select#category-select::-webkit-scrollbar-thumb:hover,
 select#category-select::-webkit-scrollbar-thumb:active,
 #selected-ingredients::-webkit-scrollbar-thumb:active {
     background-color: rgba(255, 214, 10, 0.60);
+}
+
+.rf-top-row {
+    display: grid;
+    grid-template-columns: 3fr 2fr; /* 3/5 width for image, 2/5 for ingredients */
+    gap: 20px;
+    margin-top: 24px;
+    align-items: stretch; /* Ensures both blocks have the same height */
 }

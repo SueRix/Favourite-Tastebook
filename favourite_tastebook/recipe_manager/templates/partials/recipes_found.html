@@ -85,15 +85,15 @@
                 </div>
             </div>
 
-            <div class="rf-hero-image">
-                {% if featured.poster_url %}
-                    <img src="{{ featured.poster_url }}" alt="{{ featured.title }}" loading="lazy">
-                {% else %}
-                    <div class="photo-ph-large"><span>No photo available</span></div>
-                {% endif %}
-            </div>
+            <div class="rf-top-row">
+                <div class="rf-hero-image">
+                    {% if featured.poster_url %}
+                        <img src="{{ featured.poster_url }}" alt="{{ featured.title }}" loading="lazy">
+                    {% else %}
+                        <div class="photo-ph-large"><span>No photo available</span></div>
+                    {% endif %}
+                </div>
 
-            <div class="rf-layout-stack">
                 <div class="rf-panel-box">
                     <div class="rf-panel-head centered-mode">
                         <div class="rf-section-title no-margin">Ingredients</div>
@@ -129,7 +129,9 @@
                         {% endif %}
                     </div>
                 </div>
+            </div>
 
+            <div class="rf-layout-stack">
                 <div class="rf-instructions-full">
                     <div class="rf-section-title">Instructions</div>
                     <div class="rf-howto-body-v2">
@@ -148,7 +150,8 @@
         </div>
     {% elif tier_1_recipes or tier_2_recipes or featured %}
         <div class="placeholder-card" style="margin-top: 20px; border-style: dashed;">
-            Select a recipe from the list above to view details. Or enable "Instant Best Match" which will show you a similar recipe for an ingredient.
+            Select a recipe from the list above to view details. Or enable "Instant Best Match" which will show you a
+            similar recipe for an ingredient.
 
             (In strict mode, the instant method works differently.)
         </div>

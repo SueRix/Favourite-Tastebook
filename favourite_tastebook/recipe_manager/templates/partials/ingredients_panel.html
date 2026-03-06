@@ -1,0 +1,44 @@
+<span id="selected-count-badge" hx-swap-oob="true" class="count">{{ selected_count|default:0 }}</span>
+
+<div class="selected-section">
+    {% if selected_ingredients %}
+      <div class="selected-grid">
+        {% for ing in selected_ingredients %}
+          <div class="selected-chip" data-ingredient-id="{{ ing.id }}">
+            <span class="dot"></span>
+            <span class="selected-name">{{ ing.name }}</span>
+            <button type="button" class="chip-remove" data-remove-id="{{ ing.id }}" title="Remove" aria-label="Remove {{ ing.name }}">×</button>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="placeholder-card placeholder-card-center">
+          Nothing selected yet. Pick ingredients below.
+      </div>
+    {% endif %}
+</div>
+
+<hr class="panel-divider">
+
+<div class="list-section">
+    {% if ingredients %}
+        <div class="pill-grid pill-grid-one">
+            {% for ing in ingredients %}
+                <button type="button" 
+                        class="pill-btn {% if ing.id in selected_ids %}is-selected{% endif %}"
+                        data-ingredient-id="{{ ing.id }}"
+                        aria-pressed="{% if ing.id in selected_ids %}true{% else %}false{% endif %}"
+                        title="{{ ing.name }}">
+                    <span class="pill-name">{{ ing.name }}</span>
+                    <span class="pill-plus" aria-hidden="true">
+                      {% if ing.id in selected_ids %}✓{% else %}+{% endif %}
+                    </span>
+                </button>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="placeholder-card placeholder-card-center">
+            No ingredients found for current filters.
+        </div>
+    {% endif %}
+</div>
