@@ -24,9 +24,11 @@ class RecipesPartialView(SearchParamsMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
+        auto_show = self.request.GET.get('auto_show') == '1'
         new_context = DashboardUseCase.build_recipes_partial(
             self.filters,
-            self.request.user
+            self.request.user,
+            auto_show=auto_show
         )
         ctx.update(new_context)
         return ctx

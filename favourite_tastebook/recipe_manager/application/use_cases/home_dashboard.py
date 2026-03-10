@@ -38,7 +38,7 @@ class DashboardUseCase:
         return cls._build_ingredients_context(qs, filters)
 
     @classmethod
-    def build_recipes_partial(cls, filters, user):
+    def build_recipes_partial(cls, filters, user, auto_show=False):
         selected = IngredientSelector.list_selected(filters)
         selected_ids = list(selected.values_list("id", flat=True))
 
@@ -49,8 +49,6 @@ class DashboardUseCase:
             saved_recipe_ids = set(
                 SavedRecipe.objects.filter(user=user).values_list('recipe_id', flat=True)
             )
-
-        auto_show = filters.get("auto_show") == '1'
 
         featured, tier_1, tier_2 = FeaturedRecipePresenter.select(
             recipes,
