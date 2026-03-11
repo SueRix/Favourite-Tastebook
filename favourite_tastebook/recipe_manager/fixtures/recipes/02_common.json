@@ -124,8 +124,8 @@
     "model": "recipe_manager.recipe",
     "pk": 22,
     "fields": {
-      "title": "Tomato and Cucumber Salad",
-      "description": "1) Slice tomato and cucumber into similar-size pieces for even texture. If using onion, slice it very thin so it doesn’t overpower.\n2) Add chopped dill. Dill is the “main aroma” here, so don’t be shy.\n3) Dress with olive oil; add vinegar if you like sharper acidity. Mix gently.\n4) Season with salt and black pepper. Taste and adjust—tomatoes vary a lot in sweetness and water content.\n5) Let the salad sit 3–5 minutes before serving: salt draws a little juice, creating a light natural dressing at the bottom.\nServing tip: spoon some of the tomato juice over the salad when plating—this is part of the flavor.",
+      "title": "Simply Tomato Salad",
+      "description": "1) Slice tomato and cucumber into similar-size pieces for even texture. If using onion, slice it very thin so it doesn’t overpower.\n2) Add chopped dill and parsley. Dill and parsley is the “main aroma” here, so don’t be shy.\n3) Dress with olive oil; add vinegar if you like sharper acidity. Mix gently.\n4) Season with salt and black pepper. Taste and adjust—tomatoes vary a lot in sweetness and water content.\n5) Let the salad sit 3–5 minutes before serving: salt draws a little juice, creating a light natural dressing at the bottom.\nServing tip: spoon some of the tomato juice over the salad when plating—this is part of the flavor.",
       "cook_time": 10,
       "image_url": "recipes/cuisine/general/22.jpg",
       "cuisine": 2
@@ -227,6 +227,61 @@
       "description": "1) The Broth (Foundation):\n   - Place chicken thighs in a pot and cover with 2 liters of cold water. Bring to a boil, skim the foam, then reduce heat.\n   - Simmer gently for 30-40 minutes until chicken is tender. Thighs are preferred over breasts for a richer broth.\n   - Remove chicken, shred the meat, and set aside. Return bones to the pot if you have time for extra simmering (optional), otherwise proceed.\n\n2) Vegetables:\n   - Dice the onion and slice the carrot into rounds or half-moons.\n   - Add vegetables to the broth and simmer for 10 minutes.\n\n3) The Noodles:\n   - Add the egg noodles to the boiling broth.\n   - Cook according to package instructions (usually 5-7 minutes) until al dente.\n   - Return the shredded chicken to the pot.\n\n4) Seasoning:\n   - Season with salt and plenty of black pepper.\n   - Add chopped dill or parsley at the very end for freshness.\n\n5) Serving:\n   - Serve steaming hot. This is the ultimate comfort food for cold days.",
       "cook_time": 60,
       "image_url": "recipes/cuisine/general/61.jpg",
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 78,
+    "fields": {
+      "title": "Crispy Chicken Legs (Pan or Air Fryer)",
+      "description": "Prep notes:\n- Pat the chicken dry before marinating for better crispiness.\n\n1) Marinate:\n   - Place the chicken pieces in a bowl. Add sunflower oil, salt, black pepper, paprika, and your favorite chicken seasoning (or dried herbs).\n   - Rub the spices evenly over the meat. Let it marinate for at least 20 minutes at room temperature.\n\n2) Cooking (Choose your method):\n   Method A: Pan-Fried\n   - Heat a skillet over medium-low heat (no extra oil needed if the marinade has enough).\n   - Place chicken skin-side down. Cook for 12-15 minutes until golden and crispy.\n   - Flip and cook for another 10-15 minutes until fully cooked through (juices run clear).\n\n   Method B: Air Fryer\n   - Preheat the air fryer to 195°C (380°F).\n   - Arrange chicken in a single layer in the basket (do not overcrowd).\n   - Cook for 18-22 minutes, flipping halfway through, until the skin is crispy and the internal temperature reaches 74°C (165°F).\n\n3) Serving:\n   - Let it rest for 5 minutes before serving to keep the juices inside.",
+      "cook_time": 45,
+      "image_url": "recipes/cuisine/general/78.jpg",
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 79,
+    "fields": {
+      "title": "Fried Mushrooms (Pan or Air Fryer)",
+      "description": "Prep notes:\n- Wipe mushrooms with a damp paper towel instead of washing them to prevent them from becoming soggy.\n\n1) Prepare:\n   - Slice the mushrooms evenly (or halve them if they are small).\n   - Toss them in a bowl with sunflower oil, salt, and minced garlic.\n\n2) Cooking (Choose your method):\n   Method A: Pan-Fried\n   - Heat a dry skillet over medium-high heat. Add the seasoned mushrooms.\n   - Let them sit undisturbed for 2 minutes to sear.\n   - Cook for another 5-7 minutes, stirring occasionally, until all released water evaporates and they turn golden brown.\n\n   Method B: Air Fryer\n   - Preheat to 190°C (375°F).\n   - Place mushrooms in the basket in a single layer.\n   - Cook for 10-12 minutes, shaking the basket halfway through, until roasted and tender.\n\n3) Serving:\n   - Serve hot as a side dish or add fresh herbs on top.",
+      "cook_time": 20,
+      "image_url": "recipes/cuisine/general/79.jpg",
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 80,
+    "fields": {
+      "title": "Simple Dietary Chicken Soup",
+      "description": "Prep notes:\n- This soup avoids frying any vegetables to keep it light and easy on the stomach.\n\n1) The Broth:\n   - Place chicken breast in a pot and cover with water. Bring to a boil.\n   - Carefully skim off all the foam that rises to the top to ensure a clear broth.\n   - Reduce heat to a gentle simmer and cook for 20 minutes.\n\n2) The Vegetables:\n   - Peel and dice the potatoes, carrots, and onion into small cubes.\n   - Add all the raw vegetables directly into the simmering broth.\n\n3) Simmer:\n   - Season with salt.\n   - Simmer for another 15-20 minutes until the potatoes and carrots are completely tender.\n   - Take the chicken breast out, shred it with two forks, and return it to the soup.\n\n4) Finish:\n   - Turn off the heat. Stir in freshly chopped dill. Let it sit for 5 minutes before serving.",
+      "cook_time": 45,
+      "image_url": "recipes/cuisine/general/80.jpg",
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 81,
+    "fields": {
+      "title": "Garlic Fried Broccoli",
+      "description": "Prep notes:\n- Cut broccoli florets into roughly equal sizes so they cook at the same rate.\n\n1) Prep:\n   - Cut broccoli into florets. Finely mince the garlic.\n\n2) Sear:\n   - Heat olive oil in a large skillet over medium-high heat.\n   - Add the broccoli florets and spread them into a single layer.\n   - Let them cook undisturbed for 2-3 minutes until the bottoms start to brown nicely.\n\n3) Steam and Flavor:\n   - Stir the broccoli, add a splash of water (about 2 tbsp), and immediately cover with a lid.\n   - Let it steam for 2 minutes until tender but still vibrant green and slightly crisp.\n\n4) Finish:\n   - Remove the lid, add the minced garlic and salt.\n   - Sauté for 1 more minute until the garlic is fragrant (do not let the garlic burn).\n\nServing:\n- Serve immediately. A squeeze of fresh lemon juice on top is highly recommended.",
+      "cook_time": 15,
+      "image_url": "recipes/cuisine/general/81.jpg",
+      "cuisine": 2
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 82,
+    "fields": {
+      "title": "Classic Pan-Fried Fish",
+      "description": "Prep notes:\n- This method works perfectly for any white fish (cod, tilapia) or salmon.\n- The fish must be dry before coating, otherwise it will steam instead of searing.\n\n1) Prep the fish:\n   - Pat the fish fillets completely dry with paper towels.\n   - Season both sides generously with salt and black pepper.\n\n2) Coating:\n   - Place flour on a shallow plate.\n   - Dredge each fillet in the flour, shaking off any excess. This creates a thin, crispy crust and prevents sticking.\n\n3) Fry:\n   - Heat sunflower oil in a non-stick skillet over medium-high heat until shimmering.\n   - Carefully place the fish in the pan (lay it away from you to avoid splashing oil).\n   - Cook for 3-4 minutes on the first side until golden brown.\n   - Carefully flip and cook for another 2-4 minutes depending on the thickness of the fillet.\n\n4) Serving:\n   - Remove from the pan and let it rest on a paper towel for a minute.\n   - Serve immediately with fresh lemon wedges to squeeze over the top.",
+      "cook_time": 15,
+      "image_url": "recipes/cuisine/general/82.jpg",
       "cuisine": 2
     }
   }

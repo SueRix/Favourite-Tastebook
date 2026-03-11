@@ -5,9 +5,6 @@ from recipe_manager.models import SavedRecipe
 
 
 class DashboardUseCase:
-    """
-    Application layer: orchestrates scenario for Home/HTMX.
-    """
 
     @classmethod
     def build_home(cls, filters):
@@ -30,6 +27,7 @@ class DashboardUseCase:
 
         return {
             "ingredients": ingredients_queryset,
+            "selected_ingredients": selected,
             "selected_ids": selected_ids,
             "selected_count": len(selected_ids),
         }
@@ -40,42 +38,29 @@ class DashboardUseCase:
         return cls._build_ingredients_context(qs, filters)
 
     @classmethod
-    def build_search_results_partial(cls, filters):
-        query = filters.get("q", "")
-        category = filters.get("category")
-
-        qs = IngredientSelector.search_by_name(query, category=category)
-
-        return cls._build_ingredients_context(qs, filters)
-
-    @classmethod
-    def build_selected_partial(cls, filters):
-        selected = IngredientSelector.list_selected(filters)
-        return {
-            "selected_ingredients": selected,
-        }
-
-    @classmethod
-    def build_recipes_partial(cls, filters, user):
+    def build_recipes_partial(cls, filters, user, auto_show=False):
         selected = IngredientSelector.list_selected(filters)
         selected_ids = list(selected.values_list("id", flat=True))
 
         recipes = RecipeSearchORM.find_recipes(filters)
-        saved_recipes_ids = set()
+        saved_recipe_ids = set()
+
         if user.is_authenticated:
             saved_recipe_ids = set(
                 SavedRecipe.objects.filter(user=user).values_list('recipe_id', flat=True)
             )
-        featured, more_recipes = FeaturedRecipePresenter.select(
+
+        featured, tier_1, tier_2 = FeaturedRecipePresenter.select(
             recipes,
             recipe_id=filters.get("recipe"),
             selected_ids=selected_ids,
-            saved_ids=saved_recipe_ids
+            saved_ids=saved_recipe_ids,
+            auto_show=auto_show
         )
-
 
         return {
             "selected_count": len(selected_ids),
             "featured": featured,
-            "more_recipes": more_recipes,
+            "tier_1_recipes": tier_1,
+            "tier_2_recipes": tier_2,
         }

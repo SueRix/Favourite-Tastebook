@@ -108,5 +108,148 @@
       "image_url": "recipes/cuisine/ukrainian/10.jpg",
       "cuisine": 1
     }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 66,
+    "fields": {
+      "title": "Pampushky with Garlic",
+      "description": "Prep notes:\n- Dough loves warmth; ensure milk/water is lukewarm (35–40°C), not hot, or it will kill the yeast.\n- Serve these warm while the garlic coating is fresh.\n\n1) Activate the yeast:\n   - In a large bowl, mix warm milk/water with sugar and dry yeast.\n   - Let stand 5–10 minutes until frothy.\n\n2) Make the dough:\n   - Add salt, oil, and sifted flour gradually.\n   - Knead for 8–10 minutes until smooth and soft (slightly sticky is okay).\n   - Cover and let rise in a warm place for 60–90 minutes (it should double).\n\n3) Shape and proof:\n   - Punch down dough. Divide into small balls (about 30–40g each).\n   - Arrange them in a greased baking dish, leaving a little space between them (they will touch after rising).\n   - Cover and let proof again for 20–30 minutes.\n\n4) Bake:\n   - Brush tops with beaten egg for shine.\n   - Bake at 190°C for 20–25 minutes until golden brown.\n\n5) The garlic sauce:\n   - Crush garlic with a pinch of salt and chopped dill.\n   - Whisk with oil and a splash of cold water.\n   - Toss the hot pampushky with this sauce immediately upon removing from oven.\n\nServing:\n- Serve immediately alongside Borscht.",
+      "cook_time": 130,
+      "image_url": "recipes/cuisine/ukrainian/66.jpg",
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 67,
+    "fields": {
+      "title": "Green Borscht (Spring Soup)",
+      "description": "Prep notes:\n- This soup is lighter than red borscht and relies on the acidity of spinach combined with lemon juice.\n- Hard-boil eggs in advance or chop them raw to poach in the soup (this recipe uses boiled).\n\n1) Make the broth:\n   - Boil meat in water with salt until tender (45–60 mins).\n   - Skim foam. When meat is cooked, remove and chop it, then return to pot.\n\n2) Vegetables:\n   - Dice potatoes and add to the broth. Cook 10–12 minutes.\n   - Sauté chopped onion and carrot in oil until soft; add to the pot.\n\n3) The Greens:\n   - Wash spinach thoroughly and chop into ribbons.\n   - Add to the pot once potatoes are fully tender. Simmer only 2–3 minutes so they stay bright.\n\n4) Balance the acid:\n   - Add lemon juice to taste now.\n   - Add chopped hard-boiled eggs directly to the pot.\n\n5) Finish:\n   - Season with pepper and bay leaf. Add fresh dill.\n   - Turn off heat and rest 10 minutes.\n\nServing:\n- Serve hot with a generous dollop of sour cream and crusty bread.",
+      "cook_time": 80,
+      "image_url": "recipes/cuisine/ukrainian/67.jpg",
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 68,
+    "fields": {
+      "title": "Bograch (Carpathian Goulash)",
+      "description": "Prep notes:\n- Traditionally cooked outdoors in a cauldron, but works in a heavy-bottomed pot (Dutch oven).\n- Do not burn the paprika; add liquid quickly after adding it.\n\n1) Render the base:\n   - Fry chopped bacon/fat until fat renders.\n   - Add chopped onions and cook until golden.\n   - Remove from heat briefly, stir in paprika (lots of it), and immediately add the beef cubes and a splash of water.\n\n2) Stew the meat:\n   - Return to heat. Simmer meat on low heat with very little liquid for 60–80 minutes until nearly tender.\n   - Add water/broth to reach desired soup consistency.\n\n3) Add vegetables:\n   - Add diced carrots, bell peppers, and chili (if using).\n   - Cook 10 minutes, then add potatoes.\n   - Simmer until potatoes are soft.\n\n4) Season:\n   - Add salt, pepper, and garlic.\n   - Drop in fresh tomato slices near the end.\n\nServing:\n- Serve piping hot. It should be thick, spicy, and very rich.",
+      "cook_time": 150,
+      "image_url": "recipes/cuisine/ukrainian/68.jpg",
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 69,
+    "fields": {
+      "title": "Banosh with Feta",
+      "description": "Prep notes:\n- Authentic banosh is cooked in sour cream.\n- Use millet and stir constantly.\n\n1) Heat the liquid:\n   - Pour sour cream (and a little water if the cream is too thick) into a heavy pot.\n   - Bring to a gentle boil.\n\n2) Add grains:\n   - Slowly stream in the millet while whisking vigorously.\n   - Reduce heat to very low.\n\n3) Cook:\n   - Simmer, stirring frequently with a wooden spoon.\n   - Cook until the porridge thickens and you see droplets of butterfat separating from the sour cream on the surface (15–20 mins).\n\n4) Toppings:\n   - While porridge cooks, fry bacon bits/cracklings until crispy.\n   - Crumble the feta cheese.\n\nServing:\n- Pour hot banosh into a bowl. Top generously with feta and cracklings. Do not stir—eat by taking a bit of everything on the spoon.",
+      "cook_time": 30,
+      "image_url": "recipes/cuisine/ukrainian/69.jpg",
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 70,
+    "fields": {
+      "title": "Kruchenyky (Meat Rolls)",
+      "description": "Prep notes:\n- Use tough cuts of meat; the pounding and braising will tenderize them.\n\n1) Prepare the meat:\n   - Slice pork into thin steaks.\n   - Pound them very thin with a meat mallet. Season with salt and pepper.\n\n2) The Filling:\n   - Sauté chopped mushrooms and onions until dry and golden.\n   - Mix with grated cheese or chopped prunes (optional).\n\n3) Roll:\n   - Place a spoon of filling on the edge of each steak.\n   - Roll tightly and secure with a toothpick or thread.\n   - Dredge lightly in flour.\n\n4) Fry and Braise:\n   - Sear rolls in hot oil until brown on all sides.\n   - Transfer to a pot/baking dish.\n   - Add a little water or broth and a spoonful of sour cream.\n   - Simmer covered (stovetop or oven) for 30–40 minutes until meat is tender.\n\nServing:\n- Remove toothpicks/thread. Serve with the braising sauce and mashed potatoes.",
+      "cook_time": 60,
+      "image_url": "recipes/cuisine/ukrainian/70.jpg",
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 71,
+    "fields": {
+      "title": "Home-style Kotlety",
+      "description": "Prep notes:\n- The secret to juicy kotlety is soaking bread in milk and adding it to the meat.\n\n1) Prepare the bread binder:\n   - Remove crusts from stale white bread.\n   - Soak in milk for 5 minutes, then squeeze out excess liquid.\n\n2) Mix the meat:\n   - Combine ground meat with the soaked bread, finely chopped (or grated) onion, and egg.\n   - Season with salt and pepper.\n   - Knead the mixture by hand for 3–5 minutes, \"throwing\" it into the bowl to compact the proteins.\n\n3) Shape:\n   - With wet hands, form oval patties.\n   - Dredge in breadcrumbs for a crispy crust (optional, but recommended).\n\n4) Cook:\n   - Heat oil in a skillet.\n   - Fry 3–4 minutes per side until brown.\n   - Reduce heat, cover, and steam for 5 minutes to ensure they are cooked through.\n\nServing:\n- Serve with mashed potatoes or buckwheat.",
+      "cook_time": 40,
+      "image_url": "recipes/cuisine/ukrainian/71.jpg",
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 72,
+    "fields": {
+      "title": "Vinaigrette Salad",
+      "description": "Prep notes:\n- Boil beets separately (or bake them) so they don't stain the other vegetables during cooking.\n- Toss beets with oil *before* mixing with other ingredients to keep colors distinct.\n\n1) Cook vegetables:\n   - Boil or roast beetroots, potatoes, and carrots in their skins until tender. Let cool completely.\n   - Peel and dice into small uniform cubes (0.5 cm).\n\n2) Chop remaining ingredients:\n   - Dice pickles and onions to the same size.\n\n3) Assemble:\n   - In a bowl, toss diced beets with half the oil (this coats them).\n   - Add potatoes, carrots, pickles, onions, and drained beans.\n   - Season with salt.\n\n4) Dress:\n   - Add remaining unrefined sunflower oil (or olive oil).\n   - Mix gently.\n\nServing:\n- chill for 30 minutes before serving to let flavors meld. Garnish with green onions.",
+      "cook_time": 60,
+      "image_url": "recipes/cuisine/ukrainian/72.jpg",
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 73,
+    "fields": {
+      "title": "Kholodets (Meat Aspic)",
+      "description": "Prep notes:\n- Requires long, slow boiling to extract natural gelatin from bones.\n- No gelatin powder needed if done correctly.\n\n1) The long boil:\n   - Put meat (ensure some pieces have bones/cartilage like pork trotters or beef shank) in a large pot.\n   - Cover with cold water (water should be 2-3cm above meat).\n   - Bring to boil, skim foam aggressively.\n   - Add peeled onion and carrot (whole). Simmer on very low heat (barely bubbling) for 5–6 hours.\n\n2) Seasoning:\n   - 30 minutes before end, add bay leaves, peppercorns, and salt (make it slightly salty as cold dulls flavor).\n   - Add minced garlic right at the end.\n\n3) Strain and pick:\n   - Strain broth through cheesecloth.\n   - Discard bones/veg. Shred the meat into small pieces.\n\n4) Set:\n   - Arrange meat in serving dishes/molds. Decorate with cooked carrot slices if desired.\n   - Pour strained broth over meat.\n   - Refrigerate overnight until solid.\n\nServing:\n- Serve cold with strong horseradish or mustard.",
+      "cook_time": 360,
+      "image_url": "recipes/cuisine/ukrainian/73.jpg",
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 74,
+    "fields": {
+      "title": "Salo with Garlic Spread",
+      "description": "Prep notes:\n- Use fresh, unsalted or lightly salted fatback. If using salted, skip adding extra salt.\n\n1) Preparation:\n   - Remove skin from the pork fatback.\n   - Cut into chunks convenient for a grinder or food processor.\n\n2) Grind:\n   - Pass the salo and peeled garlic cloves through a meat grinder (fine mesh).\n   - Alternatively, use a food processor to pulse until it becomes a spreadable paste.\n\n3) Season:\n   - Mix in black pepper, paprika, and chopped dill.\n   - Stir well.\n\n4) Chill:\n   - Pack into a jar or shape into a roll in plastic wrap.\n   - Refrigerate for at least 2 hours to firm up.\n\nServing:\n- Spread on dark rye bread. Ideally served with Borscht.",
+      "cook_time": 15,
+      "image_url": "recipes/cuisine/ukrainian/74.jpg",
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 75,
+    "fields": {
+      "title": "Varenyky with Berries",
+      "description": "Prep notes:\n- Fresh berries are classic, but frozen work (drain them well).\n- The dough is similar to savory varenyky but slightly sweeter.\n\n1) Make the dough:\n   - Mix flour, water (or milk), egg, and a pinch of salt.\n   - Knead until elastic. Cover and rest 20 minutes.\n\n2) Prepare berries:\n   - Wash and dry berries gently. Toss with a little flour (instead of starch) to bind the juices.\n   - Do not mix sugar *into* the bowl of berries (it draws out juice); add sugar to each dumpling individually.\n\n3) Shape:\n   - Roll dough thin. Cut circles.\n   - Place berries in center. Sprinkle 1/2 tsp sugar on top of berries.\n   - Seal edges very tightly (braid edge if possible) to keep juice in.\n\n4) Boil:\n   - Boil in salted water for 3–5 minutes (until they float and dough is cooked).\n\nServing:\n- Serve with sour cream and a sprinkling of sugar on top.",
+      "cook_time": 60,
+      "image_url": "recipes/cuisine/ukrainian/75.jpg",
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 76,
+    "fields": {
+      "title": "Olivier Salad",
+      "description": "Prep notes:\n- The ultimate New Year's staple.\n- Dice all ingredients to the size of a pea (matching the green peas) for the best texture.\n\n1) Cook proteins and veg:\n   - Boil potatoes and carrots in skins until tender. Cool, peel, and dice.\n   - Hard boil eggs (10 mins). Cool, peel, and dice.\n   - Dice the ham.\n\n2) Chop fresh items:\n   - Dice the pickles.\n   - Finely chop the onion (optional, rinse with boiling water to reduce harshness).\n\n3) Mix:\n   - In a large bowl, combine potatoes, carrots, eggs, meat, pickles, onion, and drained canned peas.\n\n4) Dress:\n   - Add mayonnaise. Season with salt and pepper.\n   - Mix thoroughly.\n\nServing:\n- Chill for at least 1 hour before serving. Serve with fresh bread.",
+      "cook_time": 50,
+      "image_url": "recipes/cuisine/ukrainian/76.jpg",
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 77,
+    "fields": {
+      "title": "Shuba (Herring under a Fur Coat)",
+      "description": "Prep notes:\n- Use salted herring fillets. Ensure all bones are removed.\n- Vegetables should be boiled in their skins to preserve flavor and texture, then peeled.\n- Grate vegetables directly over the serving dish for a fluffier texture, or grate into bowls first for precision.\n\n1) Cook the vegetables and eggs:\n   - Boil potatoes, carrots, and beets until tender. Beets take the longest (45–60 mins), so cook them separately or take others out earlier.\n   - Hard boil eggs (10 mins).\n   - Let everything cool completely, then peel.\n\n2) Prepare the base:\n   - Dice the salted herring fillets into small cubes (0.5 cm).\n   - Finely chop the onion. If the onion is bitter, scald it with boiling water for 1 minute and drain.\n\n3) Assemble the layers (Bottom to Top):\n   - Layer 1: Spread diced herring on the bottom of a flat dish.\n   - Layer 2: Top with chopped onion. Drizzle lightly with mayonnaise.\n   - Layer 3: Grated potatoes. Press down very gently. Season lightly with salt. Spread a thin layer of mayonnaise.\n   - Layer 4: Grated carrots. Spread a thin layer of mayonnaise.\n   - Layer 5: Grated beets. This is the \"fur coat\". Cover generously with mayonnaise and smooth it out (it should turn purple).\n\n4) Garnish:\n   - Grate hard-boiled eggs (or just yolks) on top for decoration.\n\n5) Chill (Crucial):\n   - Refrigerate for at least 4–6 hours (preferably overnight). The salad needs time for the mayonnaise to soak through the layers.",
+      "cook_time": 90,
+      "image_url": "recipes/cuisine/ukrainian/77.jpg",
+      "cuisine": 1
+    }
+  },
+  {
+    "model": "recipe_manager.recipe",
+    "pk": 83,
+    "fields": {
+      "title": "Okroshka (Cold Summer Soup)",
+      "description": "Prep notes:\n- Cut all solid ingredients into uniform, small cubes (about the size of a pea) for the best texture.\n- Chill the liquid base thoroughly before serving.\n\n1) Cook base ingredients:\n   - Boil potatoes in their jackets until tender (20-25 mins). Cool completely, then peel and dice.\n   - Hard-boil the eggs (10 mins). Cool in ice water, peel, and dice.\n\n2) Chop fresh ingredients and meat:\n   - Dice the cucumbers, radishes, and cooked sausage into small, uniform cubes.\n   - Finely chop the green onions and dill.\n\n3) Mix the base:\n   - In a large pot or bowl, combine the diced potatoes, eggs, sausage, cucumbers, radishes, green onions, and dill.\n   - (Optional tip: Mash the green onions lightly with a pinch of salt to release their flavor before mixing with other ingredients).\n\n4) Prepare the liquid:\n   - In a separate bowl, whisk together the sour cream, cold water, lemon juice, salt, and mustard until completely smooth.\n\n5) Combine and serve:\n   - Pour the liquid over the chopped ingredients and stir well.\n   - Taste and adjust seasoning (add more salt or lemon juice if needed).\n   - Refrigerate for at least 1-2 hours before serving so flavors meld. Serve very cold.",
+      "cook_time": 45,
+      "image_url": "recipes/cuisine/ukrainian/83.jpg",
+      "cuisine": 1
+    }
   }
 ]

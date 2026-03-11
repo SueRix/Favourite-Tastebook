@@ -29,11 +29,14 @@ class RecipeSearchORM:
         )
 
         selected_ids = list(selected_ingredients.values_list("id", flat=True))
-        qs = RecipeScoringService.annotate_scores(qs, selected_ids)
+
+        qs = RecipeScoringService.annotate_base_metrics(qs, selected_ids)
 
         if strict:
-            qs = qs.filter(missing_required=0)
+            qs = RecipeScoringService.apply_strict_scoring(qs)
+            qs = qs.exclude(relevance_tier=3)
         else:
-            qs = qs.filter(total_matches__gt=0)
+            qs = RecipeScoringService.apply_normal_scoring(qs)
+            qs = qs.exclude(relevance_tier=3)
 
-        return qs.order_by("-score", "missing_required", "title")
+        return qs.order_by("relevance_tier", "-score", "missing_required", "missing_secondary", "title")
