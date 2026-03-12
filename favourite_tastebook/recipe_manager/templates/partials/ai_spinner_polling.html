@@ -1,0 +1,13 @@
+<div id="ai-processing-container"
+     hx-get="{% url 'ai_task_status' task_id=task_id %}"
+     hx-trigger="every 2s"
+     hx-swap="outerHTML"
+     class="text-center p-4">
+
+    <p class="text-gray-500 text-sm mb-2">Task ID: {{ task_id }}</p>
+
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">AI is analyzing your fridge...</p>
+</div>

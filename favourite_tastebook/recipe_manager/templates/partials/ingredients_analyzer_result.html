@@ -1,0 +1,13 @@
+<div id="ai-processing-container" class="alert alert-success p-4 rounded">
+    <h5 class="text-success fw-bold">{{ ai_success_message }}</h5>
+
+    {% if selected_ingredients %}
+        <hr>
+        <p class="mb-2">Added to your filters:</p>
+        <ul class="list-unstyled mb-0">
+            {% for ingredient in selected_ingredients %}
+                <li>✔️ {{ ingredient.name }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
