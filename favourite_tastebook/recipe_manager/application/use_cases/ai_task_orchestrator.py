@@ -9,12 +9,9 @@ class AITaskOrchestratorUseCase:
     """
 
     @classmethod
-    def trigger_analysis(cls, cleaned_data: dict, image_base64: str) -> dict:
-        user_ingredients = cleaned_data.get('ingredients', [])
-
+    def trigger_analysis(cls, image_base64: str) -> dict:
         task_id = CeleryAIAnalyzerAdapter.trigger_analysis(
-            image_base64=image_base64,
-            user_ingredients=user_ingredients
+            image_base64=image_base64
         )
 
         return {'task_id': task_id}
@@ -37,6 +34,9 @@ class AITaskOrchestratorUseCase:
 
             context = DashboardUseCase.build_ingredients_partial(filters)
             context['ai_success_message'] = f"Found {len(matched_ingredients)} ingredients!"
+            context['status'] = 'success'
+            context['match_count'] = len(matched_ingredients)
+            context['matched_ingredients'] = matched_ingredients
 
             return {
                 'status': 'success',

@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.shortcuts import render
@@ -6,12 +7,14 @@ from django.views.decorators.csrf import csrf_exempt
 from recipe_manager.forms import ImageAIAnalysisForm
 from recipe_manager.application.use_cases.ai_task_orchestrator import AITaskOrchestratorUseCase
 
+#dev decorator
 @method_decorator(csrf_exempt, name='dispatch')
 class AIFormView(View):
     def get(self, request, *args, **kwargs):
         context = {'form': ImageAIAnalysisForm()}
         return render(request, 'partials/upload_image_for_ai.html', context)
 
+#dev decorator
 @method_decorator(csrf_exempt, name='dispatch')
 class AIProcessView(View):
     def post(self, request, *args, **kwargs):
@@ -22,12 +25,11 @@ class AIProcessView(View):
             return render(request, 'partials/upload_image_for_ai.html', context)
 
         context = AITaskOrchestratorUseCase.trigger_analysis(
-            cleaned_data=form.cleaned_data,
             image_base64=form.get_base64_image()
         )
         return render(request, 'partials/ai_spinner_polling.html', context)
 
-
+#dev
 @method_decorator(csrf_exempt, name='dispatch')
 class AIStatusView(View):
     def get(self, request, task_id, *args, **kwargs):

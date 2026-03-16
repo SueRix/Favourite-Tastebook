@@ -5,11 +5,10 @@ from recipe_manager.application.use_cases.analyze_image_use_case import AnalyzeI
 logger = logging.getLogger(__name__)
 
 @shared_task(bind=True, max_retries=3)
-def analyze_image_task(self, image_base64: str, user_ingredients: list) -> dict:
+def analyze_image_task(self, image_base64: str) -> dict:
     try:
         result = AnalyzeImageIngredientsUseCase.execute(
-            image_base64=image_base64,
-            user_ingredients=user_ingredients
+            image_base64=image_base64
         )
         return result
 
