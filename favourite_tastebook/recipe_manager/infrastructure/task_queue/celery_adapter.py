@@ -9,11 +9,11 @@ class CeleryAIAnalyzerAdapter:
     """
 
     @staticmethod
-    def trigger_analysis(image_base64: str, user_ingredients: list) -> str:
+    def trigger_analysis(image_base64: str) -> str:
         """
         Dispatches the Celery task and returns the task ID.
         """
-        task = analyze_image_task.delay(image_base64, user_ingredients)
+        task = analyze_image_task.delay(image_base64)
         return task.id
 
     @staticmethod
