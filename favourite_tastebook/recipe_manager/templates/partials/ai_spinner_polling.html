@@ -1,13 +1,22 @@
-<div id="ai-processing-container"
+<div class="ai-feature-wrapper"
      hx-get="{% url 'ai_task_status' task_id=task_id %}"
      hx-trigger="every 2s"
-     hx-swap="outerHTML"
-     class="text-center p-4">
+     hx-target="#ai-panel-container"
+     hx-swap="innerHTML">
 
-    <p class="text-gray-500 text-sm mb-2">Task ID: {{ task_id }}</p>
-
-    <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
+    <div class="home-card-head ai-card-head">
+        <div class="card-title title-with-badge">
+            <span class="spinner-mini"></span>
+            Processing...
+        </div>
     </div>
-    <p class="mt-2">AI is analyzing your fridge...</p>
+
+    <div class="box ai-polling-box">
+        <div class="ai-blur-bg" style="background-image: url('data:image/jpeg;base64,{{ image_base64 }}');"></div>
+        <div class="ai-spinner-overlay">
+            <div class="ai-loader"></div>
+            <div class="ai-spinner-text">Looking for ingredients</div>
+            <div class="home-hint ai-spinner-hint">This takes just a moment</div>
+        </div>
+    </div>
 </div>
