@@ -16,6 +16,12 @@ class RecipeSearchForm(forms.Form):
         queryset=Ingredient._default_manager,
         required=False,
     )
+    def clean(self):
+        cleaned_data = super().clean()
+        if self.data and 'ai_selected' in self.data:
+            cleaned_data['ai_selected'] = self.data.getlist('ai_selected')
+
+        return cleaned_data
 
 
 class ImageAIAnalysisForm(forms.Form):
