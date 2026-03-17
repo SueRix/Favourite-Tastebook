@@ -1,5 +1,8 @@
-from django import forms
 from .models import Ingredient
+import json
+import base64
+from django import forms
+from django.core.exceptions import ValidationError
 
 
 class RecipeSearchForm(forms.Form):
@@ -13,3 +16,21 @@ class RecipeSearchForm(forms.Form):
         queryset=Ingredient._default_manager,
         required=False,
     )
+    def clean(self):
+        cleaned_data = super().clean()
+        if self.data and 'ai_selected' in self.data:
+            cleaned_data['ai_selected'] = self.data.getlist('ai_selected')
+
+        return cleaned_data
+
+
+class ImageAIAnalysisForm(forms.Form):
+    image = forms.ImageField(
+        required=True,
+        error_messages={'required': 'An image of the ingredients is required.'}
+    )
+
+    def get_base64_image(self) -> str:
+        image_file = self.cleaned_data.get('image')
+        image_file.seek(0)
+        return base64.b64encode(image_file.read()).decode('utf-8')

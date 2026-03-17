@@ -1,289 +1,359 @@
 (function () {
-  "use strict";
+    "use strict";
 
-  /* =========================
-     Helpers & Utilities
-  ========================= */
+    /* =========================
+       Helpers & Utilities
+    ========================= */
 
-  /**
-   * Dispatches a custom event when filters change.
-   * Other components can listen to "ft:filtersChanged".
-   */
-  function emitFiltersChanged() {
-    document.body.dispatchEvent(
-      new Event("ft:filtersChanged", { bubbles: true })
-    );
-  }
+    /**
+     * Dispatches a custom event when filters change.
+     * Other components can listen to "ft:filtersChanged".
+     */
+    function emitFiltersChanged() {
+        document.body.dispatchEvent(
+            new Event("ft:filtersChanged", {bubbles: true})
+        );
+    }
 
-  /**
-   * Returns the main filters form element.
-   */
-  function formEl() {
-    return document.getElementById("filters-form");
-  }
+    /**
+     * Returns the main filters form element.
+     */
+    function formEl() {
+        return document.getElementById("filters-form");
+    }
 
-  /**
-   * Retrieves a cookie value by name (Standard Django approach).
-   * Used primarily for CSRF tokens.
-   */
-  function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== "") {
-      const cookies = document.cookie.split(";");
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.substring(0, name.length + 1) === name + "=") {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
+    /**
+     * Retrieves a cookie value by name (Standard Django approach).
+     * Used primarily for CSRF tokens.
+     */
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+            const cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === name + "=") {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
         }
-      }
+        return cookieValue;
     }
-    return cookieValue;
-  }
 
-  /* =========================
-     Hidden Ingredients Logic
-     (Manages hidden inputs for form submission)
-  ========================= */
+    /* =========================
+       Hidden Ingredients Logic
+       (Manages hidden inputs for form submission)
+    ========================= */
 
-  function hasHiddenIngredient(id) {
-    return !!document.querySelector(
-      `#filters-form input[name="ingredient"][value="${id}"]`
-    );
-  }
-
-  function addHiddenIngredient(id) {
-    const f = formEl();
-    if (!f || hasHiddenIngredient(id)) return;
-
-    const inp = document.createElement("input");
-    inp.type = "hidden";
-    inp.name = "ingredient";
-    inp.value = String(id);
-    inp.setAttribute("data-ingredient-hidden", String(id));
-    f.appendChild(inp);
-  }
-
-  function removeHiddenIngredient(id) {
-    document
-      .querySelectorAll(`#filters-form input[name="ingredient"][value="${id}"]`)
-      .forEach((n) => n.remove());
-  }
-
-  function toggleIngredient(id) {
-    if (hasHiddenIngredient(id)) {
-      removeHiddenIngredient(id);
-    } else {
-      addHiddenIngredient(id);
+    function hasHiddenIngredient(id) {
+        return !!document.querySelector(
+            `#filters-form input[name="ingredient"][value="${id}"]`
+        );
     }
-    emitFiltersChanged();
-  }
 
-  /* =========================
-     Favorites Logic (IVI / Cinema Style)
-  ========================= */
+    function addHiddenIngredient(id) {
+        const f = formEl();
+        if (!f || hasHiddenIngredient(id)) return;
 
-  /**
-   * Toggles the favorite status of a recipe.
-   * Handles visual state changes and backend sync via fetch.
-   * @param {HTMLElement} btn - The button element clicked.
-   */
-  async function toggleFavorite(btn) {
-    const recipeId = btn.dataset.id;
-    // Check current state from data attribute (string "true" or "false")
-    const isSaved = btn.dataset.isSaved === "true";
+        const inp = document.createElement("input");
+        inp.type = "hidden";
+        inp.name = "ingredient";
+        inp.value = String(id);
+        inp.setAttribute("data-ingredient-hidden", String(id));
+        f.appendChild(inp);
+    }
 
-    // Determine method: DELETE if saved, POST if not
-    const method = isSaved ? "DELETE" : "POST";
-    const url = `/home/saved/${recipeId}/`;
+    function removeHiddenIngredient(id) {
+        document
+            .querySelectorAll(`#filters-form input[name="ingredient"][value="${id}"]`)
+            .forEach((n) => n.remove());
+    }
 
-    // Disable pointer events to prevent double-clicking
-    btn.style.pointerEvents = "none";
-
-    try {
-      const response = await fetch(url, {
-        method: method,
-        headers: {
-          "X-CSRFToken": getCookie("csrftoken"),
-          "Content-Type": "application/json",
-          "X-Requested-With": "XMLHttpRequest",
-        },
-      });
-
-      if (response.ok) {
-        // SUCCESS: Invert the state
-        const newState = !isSaved;
-
-        // 1. Update data attribute
-        btn.dataset.isSaved = String(newState);
-
-        // 2. Toggle visual class
-        if (newState) {
-          btn.classList.add("active");
+    function toggleIngredient(id) {
+        if (hasHiddenIngredient(id)) {
+            removeHiddenIngredient(id);
         } else {
-          btn.classList.remove("active");
+            addHiddenIngredient(id);
         }
-
-        // 3. Add pop animation
-        btn.classList.add("animating");
-        setTimeout(() => btn.classList.remove("animating"), 300);
-      } else {
-        console.error("Save error:", response.status);
-        // Optional: show a toast or alert here
-      }
-    } catch (err) {
-      console.error("Network error:", err);
-    } finally {
-      // Re-enable button
-      btn.style.pointerEvents = "auto";
+        emitFiltersChanged();
     }
-  }
 
-  // EXPOSE TO GLOBAL SCOPE
-  // Essential because the HTML uses onclick="toggleFavorite(this)"
-  window.toggleFavorite = toggleFavorite;
+    /* =========================
+       Favorites Logic (IVI / Cinema Style)
+    ========================= */
 
-  /* =========================
-     Event Handlers & Bootstrapping
-  ========================= */
+    /**
+     * Toggles the favorite status of a recipe.
+     * Handles visual state changes and backend sync via fetch.
+     * @param {HTMLElement} btn - The button element clicked.
+     */
+    async function toggleFavorite(btn) {
+        const recipeId = btn.dataset.id;
+        // Check current state from data attribute (string "true" or "false")
+        const isSaved = btn.dataset.isSaved === "true";
 
-  function bootIngredientHandlers() {
-    document.addEventListener("click", (e) => {
-      // Handle Pill Button clicks
-      const pill = e.target.closest?.(".pill-btn");
-      if (pill) {
-        e.preventDefault();
-        e.stopPropagation();
+        // Determine method: DELETE if saved, POST if not
+        const method = isSaved ? "DELETE" : "POST";
+        const url = `/home/saved/${recipeId}/`;
 
-        const id = pill.dataset.ingredientId;
-        if (id) toggleIngredient(id);
-        return;
-      }
+        // Disable pointer events to prevent double-clicking
+        btn.style.pointerEvents = "none";
 
-      // Handle 'X' remove clicks inside chips
-      const rm = e.target.closest?.(".chip-remove");
-      if (rm) {
-        e.preventDefault();
-        e.stopPropagation();
+        try {
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest",
+                },
+            });
 
-        const id = rm.dataset.removeId;
-        if (id) {
-          removeHiddenIngredient(id);
-          emitFiltersChanged();
+            if (response.ok) {
+                // SUCCESS: Invert the state
+                const newState = !isSaved;
+
+                // 1. Update data attribute
+                btn.dataset.isSaved = String(newState);
+
+                // 2. Toggle visual class
+                if (newState) {
+                    btn.classList.add("active");
+                } else {
+                    btn.classList.remove("active");
+                }
+
+                // 3. Add pop animation
+                btn.classList.add("animating");
+                setTimeout(() => btn.classList.remove("animating"), 300);
+            } else {
+                console.error("Save error:", response.status);
+                // Optional: show a toast or alert here
+            }
+        } catch (err) {
+            console.error("Network error:", err);
+        } finally {
+            // Re-enable button
+            btn.style.pointerEvents = "auto";
         }
-      }
+    }
+
+    // EXPOSE TO GLOBAL SCOPE
+    // Essential because the HTML uses onclick="toggleFavorite(this)"
+    window.toggleFavorite = toggleFavorite;
+
+    /* =========================
+       Event Handlers & Bootstrapping
+    ========================= */
+
+    function bootIngredientHandlers() {
+        document.addEventListener("click", (e) => {
+            // Handle Pill Button clicks
+            const pill = e.target.closest?.(".pill-btn");
+            if (pill) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const id = pill.dataset.ingredientId;
+                if (id) toggleIngredient(id);
+                return;
+            }
+
+            // Handle 'X' remove clicks inside chips
+            const rm = e.target.closest?.(".chip-remove");
+            if (rm) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const id = rm.dataset.removeId;
+                if (id) {
+                    removeHiddenIngredient(id);
+                    emitFiltersChanged();
+                }
+            }
+        });
+    }
+
+    function bootClearSelected() {
+        const btn = document.getElementById("clear-selected");
+        if (!btn) return;
+
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            document
+                .querySelectorAll(`#filters-form input[name="ingredient"]`)
+                .forEach((n) => n.remove());
+            emitFiltersChanged();
+        });
+    }
+
+    function bootCategoryFilter() {
+        const sel = document.getElementById("category-select");
+        const hidden = document.getElementById("category-hidden");
+        if (!sel || !hidden) return;
+
+        sel.addEventListener("change", () => {
+            hidden.value = sel.value || "";
+            emitFiltersChanged();
+        });
+    }
+
+    function bootStrictFilter() {
+        const chk = document.getElementById("strict-check");
+        const hidden = document.getElementById("strict-hidden");
+        if (!chk || !hidden) return;
+
+        chk.addEventListener("change", () => {
+            hidden.value = chk.checked ? "1" : "";
+            emitFiltersChanged();
+        });
+    }
+
+    function bootAutoShowFilter() {
+        const chk = document.getElementById("auto-show-check");
+        const hidden = document.getElementById("auto-show-hidden");
+        if (!chk || !hidden) return;
+
+        chk.addEventListener("change", () => {
+            hidden.value = chk.checked ? "1" : "";
+            emitFiltersChanged();
+        });
+    }
+
+    function bootSearchSync() {
+        const searchInput = document.getElementById("ingredient-search-input");
+        const hiddenSearch = document.getElementById("hidden-search");
+
+        if (!searchInput || !hiddenSearch) return;
+
+        searchInput.addEventListener("input", (e) => {
+            hiddenSearch.value = e.target.value;
+        });
+    }
+
+    function bootHtmxLoading() {
+        document.body.addEventListener("htmx:beforeRequest", () => {
+            const el = document.getElementById("ing-loading");
+            if (el) el.hidden = false;
+        });
+
+        document.body.addEventListener("htmx:afterRequest", () => {
+            const el = document.getElementById("ing-loading");
+            if (el) el.hidden = true;
+        });
+    }
+
+    function bootSearchClear() {
+        const input = document.getElementById("ingredient-search-input");
+        const btn = document.getElementById("clear-search-btn");
+        const hiddenSearch = document.getElementById("hidden-search");
+
+        if (!input || !btn) return;
+
+        const toggleBtn = () => {
+            btn.hidden = input.value.trim() === "";
+        };
+
+        input.addEventListener("input", toggleBtn);
+
+        // Initial check
+        toggleBtn();
+
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            input.value = "";
+            input.focus();
+            btn.hidden = true;
+            if (hiddenSearch) hiddenSearch.value = "";
+
+            // Trigger HTMX if attached to input
+            if (typeof htmx !== "undefined") {
+                htmx.trigger(input, "searchClear");
+            }
+        });
+    }
+
+
+    /* =========================
+       AI Analyzer Logic
+    ========================= */
+
+function openAiPanel(btnElement) {
+        const standardView = document.getElementById('standard-search-view');
+        const aiContainer = document.getElementById('ai-panel-container');
+        const url = btnElement.getAttribute('data-ai-url');
+
+        standardView.style.display = 'none';
+        aiContainer.style.display = 'flex';
+
+        const indicator = document.getElementById('search-mode-indicator');
+        if (indicator) {
+            indicator.innerHTML = '✦ AI Smart Search';
+        }
+
+        htmx.ajax('GET', url, {target: '#ai-panel-container', swap: 'innerHTML'});
+    }
+
+    function closeAiPanel() {
+        const standardView = document.getElementById('standard-search-view');
+        const aiContainer = document.getElementById('ai-panel-container');
+
+        aiContainer.innerHTML = '';
+        aiContainer.style.display = 'none';
+        standardView.style.display = 'flex';
+
+        const indicator = document.getElementById('search-mode-indicator');
+        const strictCheck = document.getElementById('strict-check');
+        if (indicator && strictCheck) {
+            indicator.innerHTML = strictCheck.checked ? '🎯 Strict Match' : '🔍 Flexible Match';
+        }
+
+        const aiInputs = document.querySelectorAll('.ai-injected-input');
+        if (aiInputs.length > 0) {
+            aiInputs.forEach(inp => inp.remove());
+            setTimeout(() => {
+                document.body.dispatchEvent(new Event("ft:filtersChanged", {bubbles: true}));
+            }, 50);
+        }
+    }
+
+    function previewAiImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('ai-dropzone-text').style.display = 'none';
+                var img = document.getElementById('ai-image-preview');
+                img.src = e.target.result;
+                img.style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function applyAiResults() {
+        closeAiPanel();
+        setTimeout(() => {
+            emitFiltersChanged();
+        }, 150);
+    }
+
+    window.openAiPanel = openAiPanel;
+    window.closeAiPanel = closeAiPanel;
+    window.previewAiImage = previewAiImage;
+    window.applyAiResults = applyAiResults;
+
+    /* =========================
+       Initialization
+    ========================= */
+    document.addEventListener("DOMContentLoaded", function () {
+        bootIngredientHandlers();
+        bootClearSelected();
+        bootCategoryFilter();
+        bootStrictFilter();
+        bootAutoShowFilter();
+        bootHtmxLoading();
+        bootSearchSync();
+        bootSearchClear();
     });
-  }
-
-  function bootClearSelected() {
-    const btn = document.getElementById("clear-selected");
-    if (!btn) return;
-
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      document
-        .querySelectorAll(`#filters-form input[name="ingredient"]`)
-        .forEach((n) => n.remove());
-      emitFiltersChanged();
-    });
-  }
-
-  function bootCategoryFilter() {
-    const sel = document.getElementById("category-select");
-    const hidden = document.getElementById("category-hidden");
-    if (!sel || !hidden) return;
-
-    sel.addEventListener("change", () => {
-      hidden.value = sel.value || "";
-      emitFiltersChanged();
-    });
-  }
-
-  function bootStrictFilter() {
-    const chk = document.getElementById("strict-check");
-    const hidden = document.getElementById("strict-hidden");
-    if (!chk || !hidden) return;
-
-    chk.addEventListener("change", () => {
-      hidden.value = chk.checked ? "1" : "";
-      emitFiltersChanged();
-    });
-  }
-  function bootAutoShowFilter() {
-    const chk = document.getElementById("auto-show-check");
-    const hidden = document.getElementById("auto-show-hidden");
-    if (!chk || !hidden) return;
-
-    chk.addEventListener("change", () => {
-      hidden.value = chk.checked ? "1" : "";
-      emitFiltersChanged();
-    });
-  }
-
-  function bootSearchSync() {
-    const searchInput = document.getElementById("ingredient-search-input");
-    const hiddenSearch = document.getElementById("hidden-search");
-
-    if (!searchInput || !hiddenSearch) return;
-
-    searchInput.addEventListener("input", (e) => {
-      hiddenSearch.value = e.target.value;
-    });
-  }
-
-  function bootHtmxLoading() {
-    document.body.addEventListener("htmx:beforeRequest", () => {
-      const el = document.getElementById("ing-loading");
-      if (el) el.hidden = false;
-    });
-
-    document.body.addEventListener("htmx:afterRequest", () => {
-      const el = document.getElementById("ing-loading");
-      if (el) el.hidden = true;
-    });
-  }
-
-  function bootSearchClear() {
-    const input = document.getElementById("ingredient-search-input");
-    const btn = document.getElementById("clear-search-btn");
-    const hiddenSearch = document.getElementById("hidden-search");
-
-    if (!input || !btn) return;
-
-    const toggleBtn = () => {
-      btn.hidden = input.value.trim() === "";
-    };
-
-    input.addEventListener("input", toggleBtn);
-
-    // Initial check
-    toggleBtn();
-
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      input.value = "";
-      input.focus();
-      btn.hidden = true;
-      if (hiddenSearch) hiddenSearch.value = "";
-
-      // Trigger HTMX if attached to input
-      if (typeof htmx !== "undefined") {
-        htmx.trigger(input, "searchClear");
-      }
-    });
-  }
-
-  /* =========================
-     Initialization
-  ========================= */
-  document.addEventListener("DOMContentLoaded", function () {
-    bootIngredientHandlers();
-    bootClearSelected();
-    bootCategoryFilter();
-    bootStrictFilter();
-    bootAutoShowFilter();
-    bootHtmxLoading();
-    bootSearchSync();
-    bootSearchClear();
-  });
 })();

@@ -509,7 +509,7 @@ body {
 
 /* Tooltip */
 .nav-lock-btn::after {
-    content: "Registered users only";
+    content: "Please, login.";
     position: absolute;
     right: 34px;
     top: 50%;

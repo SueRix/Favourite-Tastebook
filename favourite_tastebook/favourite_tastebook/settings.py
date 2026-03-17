@@ -134,3 +134,9 @@ LOGIN_URL = reverse_lazy('login')
 
 MAX_BIO_LEN = 1000
 MAX_AVATAR_MB = 5
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'

@@ -1,0 +1,50 @@
+<div class="ai-feature-wrapper">
+    <div class="home-card-head ai-card-head">
+        <div class="card-title title-with-badge">
+            <span class="ai-title-icon-success">✓</span>
+            Analysis Complete
+        </div>
+        <button type="button" class="search-clear-btn ai-close-btn" onclick="closeAiPanel()">✕</button>
+    </div>
+
+    <div class="box box-scroll ai-result-box">
+        {% if status == 'success' and match_count > 0 %}
+            <div class="ingredients-meta oob-meta ai-meta-margin">
+                <span class="meta-label">AI Found Matches</span>
+                <span class="count ai-count-success">{{ match_count }}</span>
+            </div>
+
+            <div class="pill-grid pill-grid-one">
+                {% for item in matched_ingredients %}
+                    <div class="pill-btn is-selected ai-pill-static">
+                        <span class="pill-name">{{ item }}</span>
+                        <span class="pill-plus ai-pill-plus-success">✓</span>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div hx-swap-oob="beforeend:#filters-form">
+                {% for item in matched_ingredients %}
+                    <input type="hidden" name="ai_selected" value="{{ item }}" class="ai-injected-input">
+                {% endfor %}
+            </div>
+
+            <script>
+                setTimeout(() => {
+                    document.body.dispatchEvent(new Event("ft:filtersChanged", {bubbles: true}));
+                }, 50);
+            </script>
+
+        {% else %}
+            <div class="placeholder-card placeholder-card-center ai-placeholder-margin">
+                Could not confidently identify any known ingredients. Please try another photo.
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="ai-actions-row">
+        <button type="button" class="btn ai-btn-back" onclick="closeAiPanel()">
+            Back to Search
+        </button>
+    </div>
+</div>

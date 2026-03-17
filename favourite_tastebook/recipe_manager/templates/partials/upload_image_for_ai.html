@@ -1,0 +1,36 @@
+<div class="ai-feature-wrapper">
+    <div class="home-card-head ai-card-head">
+        <div class="card-title title-with-badge">
+            <span class="ai-title-icon-star">✦</span>
+            AI Photo Analyzer
+        </div>
+        <button type="button" class="search-clear-btn ai-close-btn" onclick="closeAiPanel()">✕</button>
+    </div>
+
+    <form id="ai-upload-form" class="ai-form-container"
+          hx-post="{% url 'ai_process_image' %}"
+          hx-encoding="multipart/form-data"
+          hx-target="#ai-panel-container"
+          hx-swap="innerHTML">
+
+        <div class="box ai-dropzone">
+            <input type="file" name="image" id="id_image" accept="image/jpeg, image/jpg, image/png" class="ai-file-input" required onchange="previewAiImage(this)">
+
+            <div class="ai-dropzone-text-wrapper" id="ai-dropzone-text">
+                <div class="ai-dropzone-icon">📸</div>
+                <div class="home-muted ai-dropzone-title">Click or drop photo here</div>
+                <div class="home-hint mt-1">JPEG, PNG up to 5MB</div>
+            </div>
+
+            <img id="ai-image-preview" src="" class="ai-image-preview" />
+        </div>
+
+        {% if error_message %}
+            <div class="ai-error-text">{{ error_message }}</div>
+        {% endif %}
+
+        <button type="submit" class="upload-ai-btn-external ai-submit-btn">
+            Find recipes!
+        </button>
+    </form>
+</div>

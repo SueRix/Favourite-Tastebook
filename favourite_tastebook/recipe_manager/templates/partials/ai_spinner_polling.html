@@ -1,0 +1,22 @@
+<div class="ai-feature-wrapper"
+     hx-get="{% url 'ai_task_status' task_id=task_id %}"
+     hx-trigger="every 2s"
+     hx-target="#ai-panel-container"
+     hx-swap="innerHTML">
+
+    <div class="home-card-head ai-card-head">
+        <div class="card-title title-with-badge">
+            <span class="spinner-mini"></span>
+            Processing...
+        </div>
+    </div>
+
+    <div class="box ai-polling-box">
+        <div class="ai-blur-bg" style="background-image: url('data:image/jpeg;base64,{{ image_base64 }}');"></div>
+        <div class="ai-spinner-overlay">
+            <div class="ai-loader"></div>
+            <div class="ai-spinner-text">Looking for ingredients</div>
+            <div class="home-hint ai-spinner-hint">This takes just a moment</div>
+        </div>
+    </div>
+</div>

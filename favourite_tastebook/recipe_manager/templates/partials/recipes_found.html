@@ -1,32 +1,39 @@
-<span id="search-mode-indicator" hx-swap-oob="true" style="color: #999; font-size: 0.8em; font-weight: normal;">
-    {% if request.GET.strict %}(An strict search method is using){% else %}(A soft search method is using){% endif %}
+<span id="search-mode-indicator" hx-swap-oob="true" class="mode-indicator">
+    {% if is_ai_mode %}
+        ✦ AI Smart Search
+    {% elif request.GET.strict %}
+        🎯 Strict Match
+    {% else %}
+        🔍 Flexible Match
+    {% endif %}
 </span>
 
 {% if not selected_count %}
-    <div class="placeholder-card">
-        No ingredients selected, please select if you want to make a selection
+    <div class="placeholder-card placeholder-card-center result-reveal-fast">
+        <div class="empty-board-title">Your recipe board is empty. 🍽️</div>
+        <div class="empty-board-desc">Select ingredients or click <span class="accent-star">✦</span> to scan photo.
+        </div>
     </div>
-
 {% else %}
 
-    <div class="rf-more-section" style="margin-top: 0; margin-bottom: 24px;">
+    <div class="rf-more-section {% if is_ai_mode %}ai-reveal-slow{% else %}result-reveal-fast{% endif %}">
         {% if tier_1_recipes or featured and featured.relevance_tier == 1 %}
             <div class="rf-more-divider">
-                <span>Perfect Matches 🔥(An important ingredient has been found in the recipe)</span>
+                {% if is_ai_mode %}AI Magic Matches ✦{% else %}Top Matches ✨{% endif %}
             </div>
             <div class="rf-more-grid">
-                {% if featured and featured.relevance_tier == 1 and not request.GET.recipe and request.GET.auto_show != '1' %}
+                {% if featured and featured.relevance_tier == 1 and not request.GET.recipe and request.GET.auto_show != '1' and not is_ai_mode %}
                     <button type="button" class="more-recipe-card"
-                            hx-get="{% url 'partials_recipes' %}?recipe={{ featured.id }}"
-                            hx-target="#recipes-panel" hx-include="#filters-form">
+                            hx-get="{% url 'partials_recipes' %}?recipe={{ featured.id }}" hx-target="#recipes-panel"
+                            hx-include="#filters-form">
                         <span class="title">{{ featured.title|default:"Recipe" }} (Best Match)</span>
                         <span class="action">Open ↗</span>
                     </button>
                 {% endif %}
                 {% for r in tier_1_recipes %}
                     <button type="button" class="more-recipe-card"
-                            hx-get="{% url 'partials_recipes' %}?recipe={{ r.id }}"
-                            hx-target="#recipes-panel" hx-include="#filters-form">
+                            hx-get="{% url 'partials_recipes' %}?recipe={{ r.id }}" hx-target="#recipes-panel"
+                            hx-include="#filters-form">
                         <span class="title">{{ r.title|default:"Recipe" }}</span>
                         <span class="action">Open ↗</span>
                     </button>
@@ -35,40 +42,38 @@
         {% endif %}
 
         {% if tier_2_recipes or featured and featured.relevance_tier == 2 %}
-            <div class="rf-more-divider" style="margin-top: 16px;">
-                <span>Partial Matches (Partial mention of components) 🛒</span>
+            <div class="rf-more-divider rf-more-divider-spaced">
+                {% if is_ai_mode %}More Delicious Options 🍽️{% else %}Inspirational Ideas 💡{% endif %}
             </div>
             <div class="rf-more-grid">
-                {% if featured and featured.relevance_tier == 2 and not request.GET.recipe and request.GET.auto_show != '1' %}
-                    <button type="button" class="more-recipe-card"
-                            hx-get="{% url 'partials_recipes' %}?recipe={{ featured.id }}"
-                            hx-target="#recipes-panel" hx-include="#filters-form">
-                        <span class="title">{{ featured.title|default:"Recipe" }} (Best Match)</span>
-                        <span class="action">Open ↗</span>
-                    </button>
+                {% if featured and featured.relevance_tier == 2 and not request.GET.recipe %}
+                    {% if request.GET.auto_show != '1' or is_ai_mode %}
+                        <button type="button" class="more-recipe-card"
+                                hx-get="{% url 'partials_recipes' %}?recipe={{ featured.id }}"
+                                hx-target="#recipes-panel" hx-include="#filters-form">
+                            <span class="title">{{ featured.title|default:"Recipe" }} (Best Match)</span>
+                            <span class="action">Open ↗</span>
+                        </button>
+                    {% endif %}
                 {% endif %}
                 {% for r in tier_2_recipes %}
                     <button type="button" class="more-recipe-card"
-                            hx-get="{% url 'partials_recipes' %}?recipe={{ r.id }}"
-                            hx-target="#recipes-panel" hx-include="#filters-form">
+                            hx-get="{% url 'partials_recipes' %}?recipe={{ r.id }}" hx-target="#recipes-panel"
+                            hx-include="#filters-form">
                         <span class="title">{{ r.title|default:"Recipe" }}</span>
                         <span class="action">Open ↗</span>
                     </button>
                 {% endfor %}
             </div>
         {% endif %}
-
-        {% if not tier_1_recipes and not tier_2_recipes and not featured %}
-            <div class="placeholder-card">
-                No good matches found. Try modifying your ingredients.
-            </div>
-        {% endif %}
     </div>
 
-    {% if featured and request.GET.auto_show == '1' or featured and request.GET.recipe %}
-        <div class="rf-feature-v2" id="featured-recipe-view">
+    {% if featured and request.GET.auto_show == '1' and not is_ai_mode or featured and is_ai_mode and featured.relevance_tier == 1 or featured and request.GET.recipe %}
+        <div class="rf-feature-v2 {% if is_ai_mode %}ai-reveal-slow delay-200{% else %}result-reveal-fast{% endif %}"
+             id="featured-recipe-view">
+
             <div class="rf-head-row">
-                <div style="display: flex; align-items: center;">
+                <div class="rf-head-title-wrap">
                     <div class="rf-title-large">{{ featured.title|default:"Recipe" }}</div>
                     <button type="button" class="btn-fav {% if featured.is_saved %}active{% endif %}"
                             data-id="{{ featured.id }}"
@@ -147,13 +152,18 @@
                     </div>
                 </div>
             </div>
-        </div>
-    {% elif tier_1_recipes or tier_2_recipes or featured %}
-        <div class="placeholder-card" style="margin-top: 20px; border-style: dashed;">
-            Select a recipe from the list above to view details. Or enable "Instant Best Match" which will show you a
-            similar recipe for an ingredient.
 
-            (In strict mode, the instant method works differently.)
+        </div>
+
+    {% elif tier_1_recipes or tier_2_recipes or featured %}
+        <div class="placeholder-card placeholder-card-dashed {% if is_ai_mode %}ai-reveal-slow delay-200{% else %}result-reveal-fast{% endif %}">
+            {% if is_ai_mode and not tier_1_recipes and featured.relevance_tier != 1 %}
+                <span class="ai-fail-title">Sorry, our database can't find for your ingredient good recipe 😕</span>
+                But you can also use <b>More Delicious Options</b> recipes above for inspiration!
+            {% else %}
+                Select a recipe from the list above to view details. Or enable "Instant Best Match" which will show you
+                the best recipe automatically.
+            {% endif %}
         </div>
     {% endif %}
 

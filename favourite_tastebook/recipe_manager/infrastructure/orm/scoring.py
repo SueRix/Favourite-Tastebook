@@ -6,6 +6,12 @@ from recipe_manager.domain.enums import (
     SCORE_OPTIONAL_MATCH,
     SCORE_MISSING_REQUIRED_PENALTY,
     SCORE_MISSING_SECONDARY_PENALTY,
+    SCORE_AI_MISSING_REQUIRED_PENALTY,
+    SCORE_AI_MISSING_SECONDARY_PENALTY,
+    SCORE_AI_DENSITY_BONUS,
+    AI_TIER_1_MIN_SCORE,
+    AI_TIER_1_MIN_MATCHES,
+    AI_TIER_2_MIN_MATCHES,
 )
 
 class RecipeScoringService:
@@ -40,18 +46,28 @@ class RecipeScoringService:
             )
         )
 
+    @staticmethod
+    def _build_score_expression(w_req, w_sec, w_opt, w_miss_req=0, w_miss_sec=0):
+        """
+        Builds the Django ORM ExpressionWrapper for score calculation.
+        Reusable component for normal, strict, and AI scoring methods.
+        """
+        return ExpressionWrapper(
+            F("required_matched") * Value(w_req)
+            + F("secondary_matched") * Value(w_sec)
+            + F("optional_matched") * Value(w_opt)
+            - F("missing_required") * Value(w_miss_req)
+            - F("missing_secondary") * Value(w_miss_sec),
+            output_field=IntegerField(),
+        )
+
     @classmethod
     def apply_normal_scoring(cls, qs):
-        w_req = SCORE_REQUIRED_MATCH
-        w_sec = SCORE_SECONDARY_MATCH
-        w_opt = SCORE_OPTIONAL_MATCH
-
         qs = qs.annotate(
-            score=ExpressionWrapper(
-                F("required_matched") * Value(w_req)
-                + F("secondary_matched") * Value(w_sec)
-                + F("optional_matched") * Value(w_opt),
-                output_field=IntegerField(),
+            score=cls._build_score_expression(
+                w_req=SCORE_REQUIRED_MATCH,
+                w_sec=SCORE_SECONDARY_MATCH,
+                w_opt=SCORE_OPTIONAL_MATCH
             )
         )
 
@@ -67,20 +83,13 @@ class RecipeScoringService:
 
     @classmethod
     def apply_strict_scoring(cls, qs):
-        w_req = SCORE_REQUIRED_MATCH
-        w_sec = SCORE_SECONDARY_MATCH
-        w_opt = SCORE_OPTIONAL_MATCH
-        w_miss_req = SCORE_MISSING_REQUIRED_PENALTY
-        w_miss_sec = SCORE_MISSING_SECONDARY_PENALTY
-
         qs = qs.annotate(
-            score=ExpressionWrapper(
-                F("required_matched") * Value(w_req)
-                + F("secondary_matched") * Value(w_sec)
-                + F("optional_matched") * Value(w_opt)
-                - F("missing_required") * Value(w_miss_req)
-                - F("missing_secondary") * Value(w_miss_sec),
-                output_field=IntegerField(),
+            score=cls._build_score_expression(
+                w_req=SCORE_REQUIRED_MATCH,
+                w_sec=SCORE_SECONDARY_MATCH,
+                w_opt=SCORE_OPTIONAL_MATCH,
+                w_miss_req=SCORE_MISSING_REQUIRED_PENALTY,
+                w_miss_sec=SCORE_MISSING_SECONDARY_PENALTY
             )
         )
 
@@ -92,6 +101,38 @@ class RecipeScoringService:
                 ),
                 When(
                     Q(total_matches__gte=1) & Q(score__gte=-15),
+                    then=Value(2)
+                ),
+                default=Value(3),
+                output_field=IntegerField()
+            )
+        )
+        return qs
+
+    @classmethod
+    def apply_ai_scoring(cls, qs):
+        qs = qs.annotate(
+            base_score=cls._build_score_expression(
+                w_req=SCORE_REQUIRED_MATCH,
+                w_sec=SCORE_SECONDARY_MATCH,
+                w_opt=SCORE_OPTIONAL_MATCH,
+                w_miss_req=SCORE_AI_MISSING_REQUIRED_PENALTY,
+                w_miss_sec=SCORE_AI_MISSING_SECONDARY_PENALTY
+            ),
+            score=ExpressionWrapper(
+                F("base_score") + (F("total_matches") * Value(SCORE_AI_DENSITY_BONUS)),
+                output_field=IntegerField()
+            )
+        )
+
+        qs = qs.annotate(
+            relevance_tier=Case(
+                When(
+                    Q(score__gte=AI_TIER_1_MIN_SCORE) & Q(total_matches__gte=AI_TIER_1_MIN_MATCHES),
+                    then=Value(1)
+                ),
+                When(
+                    Q(total_matches__gte=AI_TIER_2_MIN_MATCHES),
                     then=Value(2)
                 ),
                 default=Value(3),

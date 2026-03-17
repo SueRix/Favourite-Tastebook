@@ -1,3 +1,4 @@
+from django.db.models import Q
 from recipe_manager.models import Ingredient
 
 
@@ -20,8 +21,24 @@ class IngredientSelector:
 
     @classmethod
     def list_selected(cls, filters: dict):
-        qs = filters.get("ingredient")
-        return qs.order_by("name") if qs else Ingredient.objects.none()
+        form_qs = filters.get("ingredient", Ingredient.objects.none())
+        if hasattr(form_qs, "query"):
+            ingredient_ids = list(form_qs.values_list("id", flat=True))
+        else:
+            ingredient_ids = filters.getlist("ingredient") if hasattr(filters, "getlist") else []
+
+        ai_names = filters.getlist("ai_selected") if hasattr(filters, "getlist") else filters.get("ai_selected", [])
+
+        if not ingredient_ids and not ai_names:
+            return Ingredient.objects.none()
+
+        query = Q()
+        if ingredient_ids:
+            query |= Q(id__in=ingredient_ids)
+        if ai_names:
+            query |= Q(name__in=ai_names)
+
+        return Ingredient.objects.filter(query).distinct().order_by("name")
 
     @classmethod
     def search_by_name(cls, query, category=None):
