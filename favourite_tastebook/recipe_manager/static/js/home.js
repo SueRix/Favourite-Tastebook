@@ -297,7 +297,16 @@
 
         aiContainer.innerHTML = '';
         aiContainer.style.display = 'none';
+
         standardView.style.display = 'flex';
+
+        const aiInputs = document.querySelectorAll('.ai-injected-input');
+        if (aiInputs.length > 0) {
+            aiInputs.forEach(inp => inp.remove());
+            setTimeout(() => {
+                document.body.dispatchEvent(new Event("ft:filtersChanged", {bubbles: true}));
+            }, 50);
+        }
     }
 
     function previewAiImage(input) {
