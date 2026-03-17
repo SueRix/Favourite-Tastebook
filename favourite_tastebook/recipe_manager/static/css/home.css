@@ -1285,3 +1285,27 @@ select#category-select::-webkit-scrollbar-thumb:active,
     height: 100%;
     width: 100%;
 }
+
+@keyframes revealDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-12px) translateZ(0);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+    }
+}
+
+.ai-reveal-slow {
+    animation: revealDown 2.2s cubic-bezier(0.15, 0.85, 0.35, 1) both;
+    will-change: transform, opacity;
+}
+
+.result-reveal-fast {
+    animation: revealDown 0.2s ease-out both;
+}
+
+.delay-200 {
+    animation-delay: 0.2s;
+}
