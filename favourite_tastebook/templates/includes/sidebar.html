@@ -16,28 +16,13 @@
             <a href="{% url 'profile_detail' %}"
                data-auth-required="1"
                class="nav-link {% if request.resolver_match.url_name == 'profile_detail' %}nav-link--active{% endif %}">
-                <span class="nav-text">My Account</span>
+                <span class="nav-text">My Hub</span>
 
                 {% if not user.is_authenticated %}
                     <button type="button"
                             class="nav-lock-btn"
                             data-go-login="1"
-                            aria-label="Registered users only">
-                        🔒
-                    </button>
-                {% endif %}
-            </a>
-
-            <a href="{% url 'profile_edit' %}"
-               data-auth-required="1"
-               class="nav-link {% if request.resolver_match.url_name == 'profile_edit' %}nav-link--active{% endif %}">
-                <span class="nav-text">Settings</span>
-
-                {% if not user.is_authenticated %}
-                    <button type="button"
-                            class="nav-lock-btn"
-                            data-go-login="1"
-                            aria-label="Registered users only">
+                            aria-label="Please, login to go here.">
                         🔒
                     </button>
                 {% endif %}
@@ -52,7 +37,7 @@
                     <button type="button"
                             class="nav-lock-btn"
                             data-go-login="1"
-                            aria-label="Registered users only">
+                            aria-label="Please, login to go here.">
                         🔒
                     </button>
                 {% endif %}
@@ -68,7 +53,7 @@
                     <button type="button"
                             class="nav-lock-btn"
                             data-go-login="1"
-                            aria-label="Registered users only">
+                            aria-label="Please, login to go here.">
                         🔒
                     </button>
                 {% endif %}
