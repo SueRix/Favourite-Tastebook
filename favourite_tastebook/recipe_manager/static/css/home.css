@@ -1213,6 +1213,8 @@ select#category-select::-webkit-scrollbar-thumb:active,
 .ai-result-box {
     flex: 1;
     min-height: 0;
+    overflow-y: auto;
+    padding-right: 8px;
 }
 
 .ai-meta-margin {

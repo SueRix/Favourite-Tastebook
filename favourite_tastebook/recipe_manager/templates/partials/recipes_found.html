@@ -14,8 +14,7 @@
             Your recipe board is empty. 🍽️
         </div>
         <div style="font-size: 13px;">
-            Select ingredients from the list on the left, or click the <span
-                style="color: var(--accent, #ffd60a);">✦</span> icon to scan your photo using AI.
+            Select ingredients from the list on the left, or click the <span style="color: var(--accent, #ffd60a);">✦</span> icon to scan your photo using AI.
         </div>
     </div>
 
@@ -59,13 +58,15 @@
                 {% endif %}
             </div>
             <div class="rf-more-grid">
-                {% if featured and featured.relevance_tier == 2 and not request.GET.recipe and request.GET.auto_show != '1' and not is_ai_mode %}
+                {% if featured and featured.relevance_tier == 2 and not request.GET.recipe %}
+                    {% if request.GET.auto_show != '1' or is_ai_mode %}
                     <button type="button" class="more-recipe-card"
                             hx-get="{% url 'partials_recipes' %}?recipe={{ featured.id }}"
                             hx-target="#recipes-panel" hx-include="#filters-form">
                         <span class="title">{{ featured.title|default:"Recipe" }} (Best Match)</span>
                         <span class="action">Open ↗</span>
                     </button>
+                    {% endif %}
                 {% endif %}
                 {% for r in tier_2_recipes %}
                     <button type="button" class="more-recipe-card"
@@ -85,7 +86,7 @@
         {% endif %}
     </div>
 
-    {% if featured and request.GET.auto_show == '1' or featured and is_ai_mode or featured and request.GET.recipe %}
+    {% if featured and request.GET.auto_show == '1' and not is_ai_mode or featured and is_ai_mode and featured.relevance_tier == 1 or featured and request.GET.recipe %}
         <div class="rf-feature-v2" id="featured-recipe-view">
             <div class="rf-head-row">
                 <div style="display: flex; align-items: center;">
@@ -170,8 +171,14 @@
         </div>
     {% elif tier_1_recipes or tier_2_recipes or featured %}
         <div class="placeholder-card" style="margin-top: 20px; border-style: dashed;">
-            Select a recipe from the list above to view details. Or enable "Instant Best Match" which will show you the
-            best recipe automatically.
+            {% if is_ai_mode and featured.relevance_tier == 2 %}
+                <span style="font-size: 15px; color: var(--text-main); font-weight: 600; display: block; margin-bottom: 8px;">
+                    Not enough ingredients for a full dish. 😕
+                </span>
+                We couldn't find a perfect recipe match for your photo, but you can explore the <b>More Delicious Options</b> above for inspiration!
+            {% else %}
+                Select a recipe from the list above to view details. Or enable "Instant Best Match" which will show you the best recipe automatically.
+            {% endif %}
         </div>
     {% endif %}
 

@@ -279,7 +279,7 @@
        AI Analyzer Logic
     ========================= */
 
-    function openAiPanel(btnElement) {
+function openAiPanel(btnElement) {
         const standardView = document.getElementById('standard-search-view');
         const aiContainer = document.getElementById('ai-panel-container');
         const url = btnElement.getAttribute('data-ai-url');
@@ -287,55 +287,49 @@
         standardView.style.display = 'none';
         aiContainer.style.display = 'flex';
 
+        const indicator = document.getElementById('search-mode-indicator');
+        if (indicator) {
+            indicator.innerHTML = '✦ AI Smart Search';
+        }
+
         htmx.ajax('GET', url, {target: '#ai-panel-container', swap: 'innerHTML'});
     }
 
-function openAiPanel(btnElement) {
-      const standardView = document.getElementById('standard-search-view');
-      const aiContainer = document.getElementById('ai-panel-container');
-      const url = btnElement.getAttribute('data-ai-url');
+    function closeAiPanel() {
+        const standardView = document.getElementById('standard-search-view');
+        const aiContainer = document.getElementById('ai-panel-container');
 
-      // Hide standard search, show AI container
-      standardView.style.display = 'none';
-      aiContainer.style.display = 'flex';
+        aiContainer.innerHTML = '';
+        aiContainer.style.display = 'none';
+        standardView.style.display = 'flex';
 
-      // Instantly update the search mode indicator for better UX
-      const indicator = document.getElementById('search-mode-indicator');
-      if (indicator) {
-          indicator.innerHTML = '✦ AI Smart Search';
-      }
+        const indicator = document.getElementById('search-mode-indicator');
+        const strictCheck = document.getElementById('strict-check');
+        if (indicator && strictCheck) {
+            indicator.innerHTML = strictCheck.checked ? '🎯 Strict Match' : '🔍 Flexible Match';
+        }
 
-      // Trigger HTMX request to fetch form
-      htmx.ajax('GET', url, {target: '#ai-panel-container', swap: 'innerHTML'});
-  }
+        const aiInputs = document.querySelectorAll('.ai-injected-input');
+        if (aiInputs.length > 0) {
+            aiInputs.forEach(inp => inp.remove());
+            setTimeout(() => {
+                document.body.dispatchEvent(new Event("ft:filtersChanged", {bubbles: true}));
+            }, 50);
+        }
+    }
 
-  function closeAiPanel() {
-      const standardView = document.getElementById('standard-search-view');
-      const aiContainer = document.getElementById('ai-panel-container');
-
-      // Clear and hide AI container
-      aiContainer.innerHTML = '';
-      aiContainer.style.display = 'none';
-
-      // Restore standard search
-      standardView.style.display = 'flex';
-
-      // Instantly revert the indicator to match current checkbox state
-      const indicator = document.getElementById('search-mode-indicator');
-      const strictCheck = document.getElementById('strict-check');
-      if (indicator && strictCheck) {
-          indicator.innerHTML = strictCheck.checked ? '🎯 Strict Match' : '🔍 Flexible Match';
-      }
-
-      // CLEANUP: Remove AI inputs if they were injected, and trigger search reload
-      const aiInputs = document.querySelectorAll('.ai-injected-input');
-      if (aiInputs.length > 0) {
-          aiInputs.forEach(inp => inp.remove());
-          setTimeout(() => {
-              document.body.dispatchEvent(new Event("ft:filtersChanged", {bubbles: true}));
-          }, 50);
-      }
-  }
+    function previewAiImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('ai-dropzone-text').style.display = 'none';
+                var img = document.getElementById('ai-image-preview');
+                img.src = e.target.result;
+                img.style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 
     function applyAiResults() {
         closeAiPanel();
