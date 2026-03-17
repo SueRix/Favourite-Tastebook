@@ -22,6 +22,19 @@
                     </div>
                 {% endfor %}
             </div>
+
+            <div hx-swap-oob="beforeend:#filters-form">
+                {% for item in matched_ingredients %}
+                    <input type="hidden" name="ai_selected" value="{{ item }}" class="ai-injected-input">
+                {% endfor %}
+            </div>
+
+            <script>
+                setTimeout(() => {
+                    document.body.dispatchEvent(new Event("ft:filtersChanged", {bubbles: true}));
+                }, 50);
+            </script>
+
         {% else %}
             <div class="placeholder-card placeholder-card-center ai-placeholder-margin">
                 Could not confidently identify any known ingredients. Please try another photo.
@@ -31,12 +44,7 @@
 
     <div class="ai-actions-row">
         <button type="button" class="btn ai-btn-back" onclick="closeAiPanel()">
-            Back
+            Back to Search
         </button>
-        {% if match_count > 0 %}
-            <button type="button" class="upload-ai-btn-external ai-btn-view" onclick="applyAiResults()">
-                View Recipes
-            </button>
-        {% endif %}
     </div>
 </div>
