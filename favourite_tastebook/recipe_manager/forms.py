@@ -1,8 +1,6 @@
 from .models import Ingredient
-import json
 import base64
 from django import forms
-from django.core.exceptions import ValidationError
 
 
 class RecipeSearchForm(forms.Form):

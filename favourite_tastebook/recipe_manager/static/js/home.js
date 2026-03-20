@@ -338,10 +338,53 @@ function openAiPanel(btnElement) {
         }, 150);
     }
 
+    function toggleAiIngredient(btnElement) {
+        const ingredientValue = btnElement.getAttribute('data-value');
+        const form = document.getElementById("filters-form");
+        const existingInput = form.querySelector(`input[name="ai_selected"][value="${ingredientValue}"]`);
+        const iconSpan = btnElement.querySelector('.pill-plus');
+
+        if (existingInput) {
+            // Remove the ingredient from active search
+            existingInput.remove();
+            btnElement.classList.remove('is-selected');
+
+            if (iconSpan) {
+                iconSpan.textContent = '+';
+                iconSpan.classList.remove('ai-pill-plus-success');
+            }
+        } else {
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "ai_selected";
+            input.value = ingredientValue;
+            input.classList.add("ai-injected-input");
+            form.appendChild(input);
+
+            btnElement.classList.add('is-selected');
+
+            if (iconSpan) {
+                iconSpan.textContent = '✓';
+                iconSpan.classList.add('ai-pill-plus-success');
+            }
+        }
+
+        // Update the visual counter
+        const activeCount = form.querySelectorAll('input[name="ai_selected"]').length;
+        const countDisplay = document.getElementById('ai-dynamic-count');
+        if (countDisplay) {
+            countDisplay.textContent = activeCount;
+        }
+
+        // Trigger the global event to update recipes via HTMX or backend fetch
+        document.body.dispatchEvent(new Event("ft:filtersChanged", {bubbles: true}));
+    }
+
     window.openAiPanel = openAiPanel;
     window.closeAiPanel = closeAiPanel;
     window.previewAiImage = previewAiImage;
     window.applyAiResults = applyAiResults;
+    window.toggleAiIngredient = toggleAiIngredient;
 
     /* =========================
        Initialization

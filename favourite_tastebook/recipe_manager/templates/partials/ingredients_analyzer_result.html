@@ -11,12 +11,15 @@
         {% if status == 'success' and match_count > 0 %}
             <div class="ingredients-meta oob-meta ai-meta-margin">
                 <span class="meta-label">AI Found Matches</span>
-                <span class="count ai-count-success">{{ match_count }}</span>
+                <span class="count ai-count-success" id="ai-dynamic-count">{{ match_count }}</span>
             </div>
 
             <div class="pill-grid pill-grid-one">
                 {% for item in matched_ingredients %}
-                    <div class="pill-btn is-selected ai-pill-static">
+                    <div class="pill-btn is-selected ai-pill-interactive"
+                         style="cursor: pointer;"
+                         data-value="{{ item }}"
+                         onclick="toggleAiIngredient(this)">
                         <span class="pill-name">{{ item }}</span>
                         <span class="pill-plus ai-pill-plus-success">✓</span>
                     </div>

@@ -35,7 +35,6 @@ class AIProcessView(View):
 @method_decorator(csrf_exempt, name='dispatch')
 class AIStatusView(View):
     def get(self, request, task_id, *args, **kwargs):
-        # Removed query_params entirely
         result = AITaskOrchestratorUseCase.process_task_status(task_id=task_id)
 
         if result['status'] == 'ongoing':
