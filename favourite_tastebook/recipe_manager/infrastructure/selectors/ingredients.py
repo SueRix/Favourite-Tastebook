@@ -21,13 +21,27 @@ class IngredientSelector:
 
     @classmethod
     def list_selected(cls, filters: dict):
-        form_qs = filters.get("ingredient", Ingredient.objects.none())
+        form_qs = filters.get("ingredient")
+
+        # Extract manual IDs
         if hasattr(form_qs, "query"):
             ingredient_ids = list(form_qs.values_list("id", flat=True))
+        elif hasattr(filters, "getlist"):
+            ingredient_ids = filters.getlist("ingredient")
         else:
-            ingredient_ids = filters.getlist("ingredient") if hasattr(filters, "getlist") else []
+            raw_val = filters.get("ingredient", [])
+            ingredient_ids = raw_val if isinstance(raw_val, list) else [raw_val]
 
-        ai_names = filters.getlist("ai_selected") if hasattr(filters, "getlist") else filters.get("ai_selected", [])
+        # Extract AI names
+        if hasattr(filters, "getlist"):
+            ai_names = filters.getlist("ai_selected")
+        else:
+            raw_ai = filters.get("ai_selected", [])
+            ai_names = raw_ai if isinstance(raw_ai, list) else [raw_ai]
+
+        # Clean empty values
+        ingredient_ids = [i for i in ingredient_ids if i]
+        ai_names = [n for n in ai_names if n]
 
         if not ingredient_ids and not ai_names:
             return Ingredient.objects.none()
