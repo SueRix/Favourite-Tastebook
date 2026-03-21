@@ -7,7 +7,7 @@
           <div class="selected-chip" data-ingredient-id="{{ ing.id }}">
             <span class="dot"></span>
             <span class="selected-name">{{ ing.name }}</span>
-            <button type="button" class="chip-remove" data-remove-id="{{ ing.id }}" title="Remove" aria-label="Remove {{ ing.name }}">×</button>
+            <button type="button" class="chip-remove" data-remove-id="{{ ing.id }}" data-remove-name="{{ ing.name }}" title="Remove" aria-label="Remove {{ ing.name }}">×</button>
           </div>
         {% endfor %}
       </div>
@@ -24,9 +24,10 @@
     {% if ingredients %}
         <div class="pill-grid pill-grid-one">
             {% for ing in ingredients %}
-                <button type="button" 
+                <button type="button"
                         class="pill-btn {% if ing.id in selected_ids %}is-selected{% endif %}"
                         data-ingredient-id="{{ ing.id }}"
+                        data-ingredient-name="{{ ing.name }}"
                         aria-pressed="{% if ing.id in selected_ids %}true{% else %}false{% endif %}"
                         title="{{ ing.name }}">
                     <span class="pill-name">{{ ing.name }}</span>

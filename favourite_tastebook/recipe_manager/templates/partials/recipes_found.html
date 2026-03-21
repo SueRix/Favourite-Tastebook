@@ -1,8 +1,8 @@
 <span id="search-mode-indicator" hx-swap-oob="true" class="mode-indicator">
-    {% if is_ai_mode %}
-        ✦ AI Smart Search
-    {% elif request.GET.strict %}
+    {% if request.GET.strict %}
         🎯 Strict Match
+    {% elif is_ai_mode %}
+        ✦ AI Smart Search
     {% else %}
         🔍 Flexible Match
     {% endif %}
@@ -19,7 +19,11 @@
     <div class="rf-more-section {% if is_ai_mode %}ai-reveal-slow{% else %}result-reveal-fast{% endif %}">
         {% if tier_1_recipes or featured and featured.relevance_tier == 1 %}
             <div class="rf-more-divider">
-                {% if is_ai_mode %}AI Magic Matches ✦{% else %}Top Matches ✨{% endif %}
+                {% if is_ai_mode and not request.GET.strict %}
+                    AI Magic Matches ✦
+                {% else %}
+                    Top Matches ✨
+                {% endif %}
             </div>
             <div class="rf-more-grid">
                 {% if featured and featured.relevance_tier == 1 and not request.GET.recipe and request.GET.auto_show != '1' and not is_ai_mode %}

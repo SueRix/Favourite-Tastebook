@@ -46,15 +46,16 @@
        (Manages hidden inputs for form submission)
     ========================= */
 
-    function hasHiddenIngredient(id) {
-        return !!document.querySelector(
-            `#filters-form input[name="ingredient"][value="${id}"]`
-        );
+    function hasHiddenIngredient(id, name) {
+        const byId = !!document.querySelector(`#filters-form input[name="ingredient"][value="${id}"]`);
+        const byName = name ? !!document.querySelector(`#filters-form input[name="ai_selected"][value="${name}"]`) : false;
+        return byId || byName;
     }
 
     function addHiddenIngredient(id) {
         const f = formEl();
-        if (!f || hasHiddenIngredient(id)) return;
+        // If it's already there (either as ID or AI name), don't add duplicate
+        if (!f || hasHiddenIngredient(id, null)) return;
 
         const inp = document.createElement("input");
         inp.type = "hidden";
@@ -64,15 +65,42 @@
         f.appendChild(inp);
     }
 
-    function removeHiddenIngredient(id) {
-        document
-            .querySelectorAll(`#filters-form input[name="ingredient"][value="${id}"]`)
-            .forEach((n) => n.remove());
+    function removeHiddenIngredient(id, name) {
+        // 1. Remove standard ID-based inputs
+        if (id) {
+            document.querySelectorAll(`#filters-form input[name="ingredient"][value="${id}"]`)
+                .forEach((n) => n.remove());
+        }
+
+        // 2. Remove AI Name-based inputs
+        if (name) {
+            document.querySelectorAll(`#filters-form input[name="ai_selected"][value="${name}"]`)
+                .forEach((n) => n.remove());
+
+            // 3. Sync visual state of the simple AI pills if they exist in DOM
+            const aiBtn = document.querySelector(`.ai-pill-interactive[data-value="${name}"]`);
+            if (aiBtn) {
+                aiBtn.classList.remove('is-selected');
+                const iconSpan = aiBtn.querySelector('.pill-plus');
+                if (iconSpan) {
+                    iconSpan.textContent = '+';
+                    iconSpan.classList.remove('ai-pill-plus-success');
+                }
+
+                // Sync dynamic counter for AI matches
+                const form = document.getElementById("filters-form");
+                if (form) {
+                    const activeCount = form.querySelectorAll('input[name="ai_selected"]').length;
+                    const countDisplay = document.getElementById('ai-dynamic-count');
+                    if (countDisplay) countDisplay.textContent = activeCount;
+                }
+            }
+        }
     }
 
-    function toggleIngredient(id) {
-        if (hasHiddenIngredient(id)) {
-            removeHiddenIngredient(id);
+    function toggleIngredient(id, name) {
+        if (hasHiddenIngredient(id, name)) {
+            removeHiddenIngredient(id, name);
         } else {
             addHiddenIngredient(id);
         }
@@ -149,26 +177,28 @@
 
     function bootIngredientHandlers() {
         document.addEventListener("click", (e) => {
-            // Handle Pill Button clicks
+            // Handle standard Pill Button clicks (ignore simple AI pills, they have their own handler)
             const pill = e.target.closest?.(".pill-btn");
-            if (pill) {
+            if (pill && !pill.classList.contains('ai-pill-interactive')) {
                 e.preventDefault();
                 e.stopPropagation();
 
                 const id = pill.dataset.ingredientId;
-                if (id) toggleIngredient(id);
+                const name = pill.dataset.ingredientName;
+                if (id) toggleIngredient(id, name);
                 return;
             }
 
-            // Handle 'X' remove clicks inside chips
+            // Handle 'X' remove clicks inside selected chips
             const rm = e.target.closest?.(".chip-remove");
             if (rm) {
                 e.preventDefault();
                 e.stopPropagation();
 
                 const id = rm.dataset.removeId;
-                if (id) {
-                    removeHiddenIngredient(id);
+                const name = rm.dataset.removeName;
+                if (id || name) {
+                    removeHiddenIngredient(id, name);
                     emitFiltersChanged();
                 }
             }
@@ -181,9 +211,30 @@
 
         btn.addEventListener("click", (e) => {
             e.preventDefault();
-            document
-                .querySelectorAll(`#filters-form input[name="ingredient"]`)
-                .forEach((n) => n.remove());
+
+            // Remove standard items
+            document.querySelectorAll(`#filters-form input[name="ingredient"]`).forEach((n) => n.remove());
+
+            // Remove AI items and sync their UI state
+            document.querySelectorAll(`#filters-form input[name="ai_selected"]`).forEach((n) => {
+                const name = n.value;
+                n.remove();
+
+                const aiBtn = document.querySelector(`.ai-pill-interactive[data-value="${name}"]`);
+                if (aiBtn) {
+                    aiBtn.classList.remove('is-selected');
+                    const iconSpan = aiBtn.querySelector('.pill-plus');
+                    if (iconSpan) {
+                        iconSpan.textContent = '+';
+                        iconSpan.classList.remove('ai-pill-plus-success');
+                    }
+                }
+            });
+
+            // Reset AI count display
+            const countDisplay = document.getElementById('ai-dynamic-count');
+            if (countDisplay) countDisplay.textContent = '0';
+
             emitFiltersChanged();
         });
     }
@@ -279,7 +330,7 @@
        AI Analyzer Logic
     ========================= */
 
-function openAiPanel(btnElement) {
+    function openAiPanel(btnElement) {
         const standardView = document.getElementById('standard-search-view');
         const aiContainer = document.getElementById('ai-panel-container');
         const url = btnElement.getAttribute('data-ai-url');
@@ -287,17 +338,80 @@ function openAiPanel(btnElement) {
         standardView.style.display = 'none';
         aiContainer.style.display = 'flex';
 
+        // Add class to hide specific toggles via CSS
+        const wrapper = document.getElementById('main-ingredients-wrapper');
+        if (wrapper) wrapper.classList.add('in-ai-mode');
+
+        // Reset strict match to ensure default AI Smart Search is active
+        const strictCheck = document.getElementById('strict-check');
+        const strictHidden = document.getElementById('strict-hidden');
+        if (strictCheck && strictCheck.checked) {
+            strictCheck.checked = false;
+            if (strictHidden) strictHidden.value = '';
+        }
+
         const indicator = document.getElementById('search-mode-indicator');
         if (indicator) {
             indicator.innerHTML = '✦ AI Smart Search';
         }
 
+        const form = document.getElementById("filters-form");
+        if (form && !document.getElementById("ai-mode-flag")) {
+            const flag = document.createElement("input");
+            flag.type = "hidden";
+            flag.name = "ai_mode_active";
+            flag.value = "1";
+            flag.id = "ai-mode-flag";
+            form.appendChild(flag);
+        }
+
         htmx.ajax('GET', url, {target: '#ai-panel-container', swap: 'innerHTML'});
     }
 
+    function toggleAdvancedIngredients() {
+        const simpleView = document.getElementById('ai-simple-view');
+        const advancedViewTarget = document.getElementById('ai-advanced-view');
+        const toggleBtn = document.getElementById('ai-toggle-ingredients-btn');
+
+        // ID wrapper'а стандартного списка ингредиентов (см. шаг 3)
+        const standardPanel = document.getElementById('main-ingredients-wrapper');
+        const standardParent = document.getElementById('standard-search-view');
+
+        // Check if currently expanded
+        const isExpanded = simpleView.style.display === 'none';
+
+        if (!isExpanded) {
+            // Expand: Hide simple pills, move main panel into AI container
+            simpleView.style.display = 'none';
+            advancedViewTarget.style.display = 'block';
+            toggleBtn.innerHTML = '− Hide ingredients';
+
+            if (standardPanel) {
+                advancedViewTarget.appendChild(standardPanel);
+            }
+        } else {
+            // Collapse: Show simple pills, return main panel to standard view
+            simpleView.style.display = 'block';
+            advancedViewTarget.style.display = 'none';
+            toggleBtn.innerHTML = '+ Add ingredients';
+
+            if (standardPanel && standardParent) {
+                standardParent.appendChild(standardPanel);
+            }
+        }
+    }
+
+    // UPDATE EXISITNG closeAiPanel function
     function closeAiPanel() {
         const standardView = document.getElementById('standard-search-view');
         const aiContainer = document.getElementById('ai-panel-container');
+
+        const standardPanel = document.getElementById('main-ingredients-wrapper');
+        if (standardPanel && standardView) {
+            standardView.appendChild(standardPanel);
+            // Remove AI mode class to restore standard toggles
+            standardPanel.classList.remove('in-ai-mode');
+        }
 
         aiContainer.innerHTML = '';
         aiContainer.style.display = 'none';
@@ -309,13 +423,17 @@ function openAiPanel(btnElement) {
             indicator.innerHTML = strictCheck.checked ? '🎯 Strict Match' : '🔍 Flexible Match';
         }
 
+        const aiFlag = document.getElementById("ai-mode-flag");
+        if (aiFlag) aiFlag.remove();
+
         const aiInputs = document.querySelectorAll('.ai-injected-input');
         if (aiInputs.length > 0) {
             aiInputs.forEach(inp => inp.remove());
-            setTimeout(() => {
-                document.body.dispatchEvent(new Event("ft:filtersChanged", {bubbles: true}));
-            }, 50);
         }
+
+        setTimeout(() => {
+            document.body.dispatchEvent(new Event("ft:filtersChanged", {bubbles: true}));
+        }, 50);
     }
 
     function previewAiImage(input) {
@@ -385,6 +503,7 @@ function openAiPanel(btnElement) {
     window.previewAiImage = previewAiImage;
     window.applyAiResults = applyAiResults;
     window.toggleAiIngredient = toggleAiIngredient;
+    window.toggleAdvancedIngredients = toggleAdvancedIngredients;
 
     /* =========================
        Initialization

@@ -25,71 +25,82 @@
             <div class="card home-card position-relative" id="left-card-wrapper">
 
                 <div id="standard-search-view" class="standard-search-view-wrapper">
-                    <div class="home-card-head tools-header">
-                        <div class="search-and-ai-row">
-                            <div class="search-wrapper search-wrapper-spaced search-wrapper-ai">
-                                <span class="search-icon">🔍</span>
-                                <input type="text"
-                                       id="ingredient-search-input"
-                                       class="mini-select search-input large-input w-100"
-                                       placeholder="Search ingredients..."
-                                       hx-get="{% url 'partials_ingredients_panel' %}"
-                                       hx-trigger="keyup changed delay:300ms, searchClear"
-                                       hx-target="#ingredients-panel"
-                                       hx-include="#filters-form"
-                                       value="{{ request.GET.q|default:'' }}">
-                                <button type="button" id="clear-search-btn" class="search-clear-btn" hidden aria-label="Clear search">
-                                    ✕
+                    <div id="main-ingredients-wrapper"
+                         style="display: flex; flex-direction: column; height: 100%; width: 100%;">
+
+                        <div class="home-card-head tools-header">
+                            <div class="search-and-ai-row">
+                                <div class="search-wrapper search-wrapper-spaced search-wrapper-ai">
+                                    <span class="search-icon">🔍</span>
+                                    <input type="text"
+                                           id="ingredient-search-input"
+                                           class="mini-select search-input large-input w-100"
+                                           placeholder="Search ingredients..."
+                                           hx-get="{% url 'partials_ingredients_panel' %}"
+                                           hx-trigger="keyup changed delay:300ms, searchClear"
+                                           hx-target="#ingredients-panel"
+                                           hx-include="#filters-form"
+                                           value="{{ request.GET.q|default:'' }}">
+                                    <button type="button" id="clear-search-btn" class="search-clear-btn" hidden
+                                            aria-label="Clear search">
+                                        ✕
+                                    </button>
+                                </div>
+
+                                <button type="button"
+                                        class="upload-ai-btn-external"
+                                        data-auth-required="1"
+                                        id="upload-btn"
+                                        title="Upload photo for AI match"
+                                        data-ai-url="{% url 'ai_upload_form' %}"
+                                        onclick="openAiPanel(this)">
+                                    ✦
                                 </button>
                             </div>
+                            <div class="checkbox-row w-100 toggles-row">
+                                <label class="mini-check compact-check toggle-large" id="strict-toggle-label">
+                                    <input type="checkbox" id="strict-check"
+                                           {% if request.GET.strict %}checked{% endif %}>
+                                    <span>Strict Match</span>
+                                </label>
 
-                            <button type="button"
-                                    class="upload-ai-btn-external"
-                                    data-auth-required="1"
-                                    id="upload-btn"
-                                    title="Upload photo for AI match"
-                                    data-ai-url="{% url 'ai_upload_form' %}"
-                                    onclick="openAiPanel(this)">
-                                ✦
-                            </button>
-                        </div>
-
-                        <div class="checkbox-row w-100 toggles-row">
-                            <label class="mini-check compact-check toggle-large">
-                                <input type="checkbox" id="strict-check" {% if request.GET.strict %}checked{% endif %}>
-                                <span>Strict Match</span>
-                            </label>
-                            <label class="mini-check compact-check toggle-large">
-                                <input type="checkbox" id="auto-show-check" {% if request.GET.auto_show %}checked{% endif %}>
-                                <span>Instant Best Match</span>
-                            </label>
-                        </div>
-
-                        <div class="filters-row w-100">
-                            <select class="mini-select large-input w-100" id="category-select">
-                                <option value="">All categories</option>
-                                {% for c in categories %}
-                                    <option value="{{ c }}" {% if request.GET.category == c %}selected{% endif %}>{{ c }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-
-                        <div class="counter-row selected-header-row">
-                            <div class="ingredients-meta oob-meta">
-                                <span class="meta-label">Selected</span>
-                                <span class="count" id="selected-count-badge">{{ selected_count|default:0 }}</span>
+                                <label class="mini-check compact-check toggle-large" id="auto-show-toggle-label">
+                                    <input type="checkbox" id="auto-show-check"
+                                           {% if request.GET.auto_show %}checked{% endif %}>
+                                    <span>Instant Best Match</span>
+                                </label>
                             </div>
-                            <span class="loading" id="ing-loading" hidden>...</span>
-                            <button class="btn btn-secondary btn-small btn-clear-all" type="button" id="clear-selected">Clear All</button>
-                        </div>
-                    </div>
 
-                    <div id="ingredients-panel" class="box box-scroll panel-seamless"
-                         hx-get="{% url 'partials_ingredients_panel' %}"
-                         hx-trigger="load, ft:filtersChanged from:body"
-                         hx-include="#filters-form"
-                         hx-swap="innerHTML">
-                        {% include "partials/ingredients_panel.html" %}
+                            <div class="filters-row w-100">
+                                <select class="mini-select large-input w-100" id="category-select">
+                                    <option value="">All categories</option>
+                                    {% for c in categories %}
+                                        <option value="{{ c }}"
+                                                {% if request.GET.category == c %}selected{% endif %}>{{ c }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="counter-row selected-header-row">
+                                <div class="ingredients-meta oob-meta">
+                                    <span class="meta-label">Selected</span>
+                                    <span class="count" id="selected-count-badge">{{ selected_count|default:0 }}</span>
+                                </div>
+                                <span class="loading" id="ing-loading" hidden>...</span>
+                                <button class="btn btn-secondary btn-small btn-clear-all" type="button"
+                                        id="clear-selected">Clear All
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="ingredients-panel" class="box box-scroll panel-seamless"
+                             hx-get="{% url 'partials_ingredients_panel' %}"
+                             hx-trigger="load, ft:filtersChanged from:body"
+                             hx-include="#filters-form"
+                             hx-swap="innerHTML">
+                            {% include "partials/ingredients_panel.html" %}
+                        </div>
+
                     </div>
                 </div>
 
@@ -110,7 +121,8 @@
                     </div>
 
                     <label class="taste-toggle">
-                        <input type="checkbox" id="use-tastes" name="use_tastes" form="filters-form" data-auth-required="1" {% if request.GET.use_tastes %}checked{% endif %}>
+                        <input type="checkbox" id="use-tastes" name="use_tastes" form="filters-form"
+                               data-auth-required="1" {% if request.GET.use_tastes %}checked{% endif %}>
                         <span>Use profile tastes</span>
                     </label>
                     <div class="home-muted small" id="recipes-meta"></div>
