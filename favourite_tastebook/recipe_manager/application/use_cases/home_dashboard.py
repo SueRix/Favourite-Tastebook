@@ -50,14 +50,14 @@ class DashboardUseCase:
                 SavedRecipe.objects.filter(user=user).values_list('recipe_id', flat=True)
             )
 
-        # Detect AI mode from filters
-        is_ai_mode = False
-        if hasattr(filters, "getlist"):
-            is_ai_mode = bool(filters.getlist("ai_selected"))
-        elif "ai_selected" in filters:
-            is_ai_mode = bool(filters.get("ai_selected"))
+        is_ai_mode = filters.get("ai_mode_active") == "1"
 
-        # Force auto_show to True if in AI mode
+        if not is_ai_mode:
+            if hasattr(filters, "getlist"):
+                is_ai_mode = bool(filters.getlist("ai_selected"))
+            elif "ai_selected" in filters:
+                is_ai_mode = bool(filters.get("ai_selected"))
+
         effective_auto_show = auto_show or is_ai_mode
 
         featured, tier_1, tier_2 = FeaturedRecipePresenter.select(
