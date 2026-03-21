@@ -1,7 +1,7 @@
 <span id="search-mode-indicator" hx-swap-oob="true" class="mode-indicator">
     {% if request.GET.strict %}
         🎯 Strict Match
-    {% elif is_ai_mode %}
+    {% elif is_ai_mode or request.GET.ai_mode_active == '1' %}
         ✦ AI Smart Search
     {% else %}
         🔍 Flexible Match
@@ -19,8 +19,12 @@
     <div class="rf-more-section {% if is_ai_mode %}ai-reveal-slow{% else %}result-reveal-fast{% endif %}">
         {% if tier_1_recipes or featured and featured.relevance_tier == 1 %}
             <div class="rf-more-divider">
-                {% if is_ai_mode and not request.GET.strict %}
-                    AI Magic Matches ✦
+                {% if is_ai_mode or request.GET.ai_mode_active == '1' %}
+                    {% if not request.GET.strict %}
+                        AI Magic Matches ✦
+                    {% else %}
+                        Top Matches ✨
+                    {% endif %}
                 {% else %}
                     Top Matches ✨
                 {% endif %}
@@ -47,7 +51,11 @@
 
         {% if tier_2_recipes or featured and featured.relevance_tier == 2 %}
             <div class="rf-more-divider rf-more-divider-spaced">
-                {% if is_ai_mode %}More Delicious Options 🍽️{% else %}Inspirational Ideas 💡{% endif %}
+                {% if is_ai_mode or request.GET.ai_mode_active == '1' %}
+                    More Delicious Options 🍽️
+                {% else %}
+                    Inspirational Ideas 💡
+                {% endif %}
             </div>
             <div class="rf-more-grid">
                 {% if featured and featured.relevance_tier == 2 and not request.GET.recipe %}
@@ -162,7 +170,7 @@
     {% elif tier_1_recipes or tier_2_recipes or featured %}
         <div class="placeholder-card placeholder-card-dashed {% if is_ai_mode %}ai-reveal-slow delay-200{% else %}result-reveal-fast{% endif %}">
             {% if is_ai_mode and not tier_1_recipes and featured.relevance_tier != 1 %}
-                <span class="ai-fail-title">Sorry, our database can't find for your ingredient good recipe 😕</span>
+                <span class="ai-fail-title">Sorry, our database can't find for your ingredients good recipe 😕</span>
                 But you can also use <b>More Delicious Options</b> recipes above for inspiration!
             {% else %}
                 Select a recipe from the list above to view details. Or enable "Instant Best Match" which will show you

@@ -257,6 +257,22 @@
 
         chk.addEventListener("change", () => {
             hidden.value = chk.checked ? "1" : "";
+
+            const indicator = document.getElementById('search-mode-indicator');
+
+            const aiFlag = document.getElementById('ai-mode-flag');
+            const isAiModeActive = aiFlag && aiFlag.value === "1";
+
+            if (indicator) {
+                if (chk.checked) {
+                    indicator.innerHTML = '🎯 Strict Match';
+                } else if (isAiModeActive) {
+                    indicator.innerHTML = '✦ AI Smart Search';
+                } else {
+                    indicator.innerHTML = '🔍 Flexible Match';
+                }
+            }
+
             emitFiltersChanged();
         });
     }
@@ -338,16 +354,18 @@
         standardView.style.display = 'none';
         aiContainer.style.display = 'flex';
 
-        // Add class to hide specific toggles via CSS
         const wrapper = document.getElementById('main-ingredients-wrapper');
         if (wrapper) wrapper.classList.add('in-ai-mode');
 
-        // Reset strict match to ensure default AI Smart Search is active
         const strictCheck = document.getElementById('strict-check');
         const strictHidden = document.getElementById('strict-hidden');
-        if (strictCheck && strictCheck.checked) {
-            strictCheck.checked = false;
-            if (strictHidden) strictHidden.value = '';
+        if (strictCheck) {
+            strictCheck.dataset.savedState = strictCheck.checked ? "true" : "false";
+
+            if (strictCheck.checked) {
+                strictCheck.checked = false;
+                if (strictHidden) strictHidden.value = '';
+            }
         }
 
         const indicator = document.getElementById('search-mode-indicator');
@@ -355,14 +373,9 @@
             indicator.innerHTML = '✦ AI Smart Search';
         }
 
-        const form = document.getElementById("filters-form");
-        if (form && !document.getElementById("ai-mode-flag")) {
-            const flag = document.createElement("input");
-            flag.type = "hidden";
-            flag.name = "ai_mode_active";
-            flag.value = "1";
-            flag.id = "ai-mode-flag";
-            form.appendChild(flag);
+        const aiFlag = document.getElementById("ai-mode-flag");
+        if (aiFlag) {
+            aiFlag.value = "1";
         }
 
         htmx.ajax('GET', url, {target: '#ai-panel-container', swap: 'innerHTML'});
@@ -408,23 +421,32 @@
 
         const standardPanel = document.getElementById('main-ingredients-wrapper');
         if (standardPanel && standardView) {
-            standardView.appendChild(standardPanel);
-            // Remove AI mode class to restore standard toggles
-            standardPanel.classList.remove('in-ai-mode');
+             standardView.appendChild(standardPanel);
+             standardPanel.classList.remove('in-ai-mode');
         }
 
         aiContainer.innerHTML = '';
         aiContainer.style.display = 'none';
         standardView.style.display = 'flex';
 
-        const indicator = document.getElementById('search-mode-indicator');
         const strictCheck = document.getElementById('strict-check');
+        const strictHidden = document.getElementById('strict-hidden');
+        if (strictCheck && strictCheck.dataset.savedState !== undefined) {
+            const shouldBeChecked = strictCheck.dataset.savedState === "true";
+            strictCheck.checked = shouldBeChecked;
+            if (strictHidden) strictHidden.value = shouldBeChecked ? "1" : "";
+            delete strictCheck.dataset.savedState;
+        }
+
+        const indicator = document.getElementById('search-mode-indicator');
         if (indicator && strictCheck) {
             indicator.innerHTML = strictCheck.checked ? '🎯 Strict Match' : '🔍 Flexible Match';
         }
 
         const aiFlag = document.getElementById("ai-mode-flag");
-        if (aiFlag) aiFlag.remove();
+        if (aiFlag) {
+            aiFlag.value = "";
+        }
 
         const aiInputs = document.querySelectorAll('.ai-injected-input');
         if (aiInputs.length > 0) {

@@ -50,13 +50,7 @@ class DashboardUseCase:
                 SavedRecipe.objects.filter(user=user).values_list('recipe_id', flat=True)
             )
 
-        is_ai_mode = filters.get("ai_mode_active") == "1"
-
-        if not is_ai_mode:
-            if hasattr(filters, "getlist"):
-                is_ai_mode = bool(filters.getlist("ai_selected"))
-            elif "ai_selected" in filters:
-                is_ai_mode = bool(filters.get("ai_selected"))
+        is_ai_mode = IngredientSelector.is_ai_mode(filters)
 
         effective_auto_show = auto_show or is_ai_mode
 

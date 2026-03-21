@@ -55,6 +55,21 @@ class IngredientSelector:
         return Ingredient.objects.filter(query).distinct().order_by("name")
 
     @classmethod
+    def is_ai_mode(cls, filters):
+        ai_val = filters.get("ai_mode_active")
+
+        if isinstance(ai_val, list):
+            ai_val = ai_val[0] if ai_val else ""
+
+        if str(ai_val) == "1":
+            return True
+
+        if hasattr(filters, "getlist"):
+            return bool(filters.getlist("ai_selected"))
+
+        return bool(filters.get("ai_selected", False))
+
+    @classmethod
     def search_by_name(cls, query, category=None):
         qs = Ingredient.objects.all()
         if category:
