@@ -386,7 +386,6 @@
         const advancedViewTarget = document.getElementById('ai-advanced-view');
         const toggleBtn = document.getElementById('ai-toggle-ingredients-btn');
 
-        // ID wrapper'а стандартного списка ингредиентов (см. шаг 3)
         const standardPanel = document.getElementById('main-ingredients-wrapper');
         const standardParent = document.getElementById('standard-search-view');
 
@@ -414,20 +413,24 @@
         }
     }
 
-    // UPDATE EXISITNG closeAiPanel function
     function closeAiPanel() {
         const standardView = document.getElementById('standard-search-view');
         const aiContainer = document.getElementById('ai-panel-container');
-
         const standardPanel = document.getElementById('main-ingredients-wrapper');
+
         if (standardPanel && standardView) {
              standardView.appendChild(standardPanel);
              standardPanel.classList.remove('in-ai-mode');
         }
 
-        aiContainer.innerHTML = '';
-        aiContainer.style.display = 'none';
-        standardView.style.display = 'flex';
+        if (aiContainer) {
+            aiContainer.innerHTML = '';
+            aiContainer.style.display = 'none';
+        }
+
+        if (standardView) {
+            standardView.style.display = 'flex';
+        }
 
         const strictCheck = document.getElementById('strict-check');
         const strictHidden = document.getElementById('strict-hidden');
@@ -446,11 +449,6 @@
         const aiFlag = document.getElementById("ai-mode-flag");
         if (aiFlag) {
             aiFlag.value = "";
-        }
-
-        const aiInputs = document.querySelectorAll('.ai-injected-input');
-        if (aiInputs.length > 0) {
-            aiInputs.forEach(inp => inp.remove());
         }
 
         setTimeout(() => {

@@ -21,27 +21,11 @@ class IngredientSelector:
 
     @classmethod
     def list_selected(cls, filters: dict):
-        form_qs = filters.get("ingredient")
+        ingredients_qs = filters.get("ingredient")
+        ingredient_ids = list(ingredients_qs.values_list("id", flat=True)) if ingredients_qs else []
 
-        # Extract manual IDs
-        if hasattr(form_qs, "query"):
-            ingredient_ids = list(form_qs.values_list("id", flat=True))
-        elif hasattr(filters, "getlist"):
-            ingredient_ids = filters.getlist("ingredient")
-        else:
-            raw_val = filters.get("ingredient", [])
-            ingredient_ids = raw_val if isinstance(raw_val, list) else [raw_val]
-
-        # Extract AI names
-        if hasattr(filters, "getlist"):
-            ai_names = filters.getlist("ai_selected")
-        else:
-            raw_ai = filters.get("ai_selected", [])
-            ai_names = raw_ai if isinstance(raw_ai, list) else [raw_ai]
-
-        # Clean empty values
-        ingredient_ids = [i for i in ingredient_ids if i]
-        ai_names = [n for n in ai_names if n]
+        # 2. Метод clean() формы уже отдает нам чистый list строк
+        ai_names = filters.get("ai_selected") or []
 
         if not ingredient_ids and not ai_names:
             return Ingredient.objects.none()
@@ -55,19 +39,12 @@ class IngredientSelector:
         return Ingredient.objects.filter(query).distinct().order_by("name")
 
     @classmethod
-    def is_ai_mode(cls, filters):
-        ai_val = filters.get("ai_mode_active")
-
-        if isinstance(ai_val, list):
-            ai_val = ai_val[0] if ai_val else ""
-
-        if str(ai_val) == "1":
+    def is_ai_mode(cls, filters: dict) -> bool:
+        """Determines if the AI search mode is active based on form cleaned_data."""
+        if filters.get("ai_mode_active") == "1":
             return True
 
-        if hasattr(filters, "getlist"):
-            return bool(filters.getlist("ai_selected"))
-
-        return bool(filters.get("ai_selected", False))
+        return bool(filters.get("ai_selected"))
 
     @classmethod
     def search_by_name(cls, query, category=None):

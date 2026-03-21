@@ -11,20 +11,16 @@ class AITaskOrchestratorUseCase:
         result = CeleryAIAnalyzerAdapter.get_task_result(task_id)
 
         if result['status'] == 'ongoing':
-            return {
-                'status': 'ongoing',
-                'context': {'task_id': task_id}
-            }
+            return {'status': 'ongoing', 'context': {'task_id': task_id}}
 
         if result['status'] == 'success':
             return {
                 'status': 'success',
-                'context': {
-                    'matched_ingredients': result['data'].get('matched_ingredients', [])
-                }
+                'context': {'matched_ingredients': result['data'].get('matched_ingredients', [])}
             }
 
         return {
             'status': 'error',
-            'context': {'error_message': 'AI analysis failed. Please try again.'}
+            'context': {
+                'error_message': 'AI service is currently busy or limits exceeded. Please try again in a minute.'}
         }

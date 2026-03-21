@@ -1,7 +1,7 @@
 <span id="search-mode-indicator" hx-swap-oob="true" class="mode-indicator">
     {% if request.GET.strict %}
         🎯 Strict Match
-    {% elif is_ai_mode or request.GET.ai_mode_active == '1' %}
+    {% elif is_ai_mode %}
         ✦ AI Smart Search
     {% else %}
         🔍 Flexible Match
@@ -19,16 +19,13 @@
     <div class="rf-more-section {% if is_ai_mode %}ai-reveal-slow{% else %}result-reveal-fast{% endif %}">
         {% if tier_1_recipes or featured and featured.relevance_tier == 1 %}
             <div class="rf-more-divider">
-                {% if is_ai_mode or request.GET.ai_mode_active == '1' %}
-                    {% if not request.GET.strict %}
-                        AI Magic Matches ✦
-                    {% else %}
-                        Top Matches ✨
-                    {% endif %}
+                {% if is_ai_mode and not request.GET.strict %}
+                    AI Magic Matches ✦
                 {% else %}
                     Top Matches ✨
                 {% endif %}
             </div>
+
             <div class="rf-more-grid">
                 {% if featured and featured.relevance_tier == 1 and not request.GET.recipe and request.GET.auto_show != '1' and not is_ai_mode %}
                     <button type="button" class="more-recipe-card"
@@ -51,12 +48,13 @@
 
         {% if tier_2_recipes or featured and featured.relevance_tier == 2 %}
             <div class="rf-more-divider rf-more-divider-spaced">
-                {% if is_ai_mode or request.GET.ai_mode_active == '1' %}
+                {% if is_ai_mode and not request.GET.strict %}
                     More Delicious Options 🍽️
                 {% else %}
                     Inspirational Ideas 💡
                 {% endif %}
             </div>
+
             <div class="rf-more-grid">
                 {% if featured and featured.relevance_tier == 2 and not request.GET.recipe %}
                     {% if request.GET.auto_show != '1' or is_ai_mode %}
@@ -85,9 +83,12 @@
              id="featured-recipe-view">
 
             <div class="rf-head-row">
-                <div class="rf-head-title-wrap">
-                    <div class="rf-title-large">{{ featured.title|default:"Recipe" }}</div>
+                <div class="rf-head-title-wrap"
+                     style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: nowrap; width: 100%;">
+                    <div class="rf-title-large" style="margin: 0;">{{ featured.title|default:"Recipe" }}</div>
+
                     <button type="button" class="btn-fav {% if featured.is_saved %}active{% endif %}"
+                            style="flex-shrink: 0;"
                             data-id="{{ featured.id }}"
                             data-is-saved="{% if featured.is_saved %}true{% else %}false{% endif %}"
                             onclick="toggleFavorite(this)">
@@ -176,6 +177,12 @@
                 Select a recipe from the list above to view details. Or enable "Instant Best Match" which will show you
                 the best recipe automatically.
             {% endif %}
+        </div>
+
+    {% else %}
+        <div class="placeholder-card placeholder-card-dashed result-reveal-fast">
+            <div class="empty-board-title" style="margin-bottom: 8px;">No recipes match your criteria 😕</div>
+            <div class="empty-board-desc">Try removing some ingredients or switching to <b>Flexible Match</b>.</div>
         </div>
     {% endif %}
 
