@@ -13,9 +13,9 @@
 </head>
 
 <body
-  data-authenticated="{% if request.user.is_authenticated %}1{% else %}0{% endif %}"
-  data-login-url="{% url 'login' %}"
-  data-register-url="{% url 'register' %}"
+        data-authenticated="{% if request.user.is_authenticated %}1{% else %}0{% endif %}"
+        data-login-url="{% url 'login' %}"
+        data-register-url="{% url 'register' %}"
 >
 <div class="layout">
     {% block sidebar %}
@@ -23,6 +23,13 @@
     {% endblock %}
 
     <main class="content">
+    <button id="sidebarOpenBtn" class="sidebar-action-btn sidebar-open-btn" aria-label="Open sidebar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
         {% if messages %}
             <div class="alerts-stack">
                 {% for message in messages %}
@@ -36,9 +43,9 @@
             <div class="js-messages" style="display:none;">
                 {% for message in messages %}
                     <div
-                      class="js-message"
-                      data-level="{{ message.tags }}"
-                      data-text="{{ message|escapejs }}"
+                            class="js-message"
+                            data-level="{{ message.tags }}"
+                            data-text="{{ message|escapejs }}"
                     ></div>
                 {% endfor %}
             </div>

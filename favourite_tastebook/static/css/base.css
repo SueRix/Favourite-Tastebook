@@ -27,8 +27,8 @@ body {
 
 .layout {
     display: flex;
-    min-height: 100vh;
-    align-items: flex-start;
+    height: 100vh;
+    align-items: stretch;
 }
 
 .sidebar {
@@ -101,8 +101,13 @@ body {
 
 .content {
     flex: 1;
-    padding: 32px 48px;
-}
+    padding: 12px 16px; /* Tight padding to edges */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    min-width: 0; /* Prevent flex children from expanding past parent */
+    overflow: hidden;
+}.sidebar-open-btn
 
 /* ===== UI primitives ===== */
 
@@ -637,4 +642,97 @@ body {
 .sidebar-user-initial {
     font-weight: 700;
     color: var(--text-main);
+}
+
+/* Sidebar sizing and transition */
+.sidebar {
+    width: 250px; /* Increased to fit the logo and button */
+    background: #000;
+    border-right: 1px solid var(--border-subtle);
+    padding: 24px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                border-width 0.3s ease;
+}
+
+.layout.sidebar-closed .sidebar {
+    width: 0;
+    padding-left: 0;
+    padding-right: 0;
+    border-right-width: 0;
+}
+
+/* Hide content instantly to prevent layout breaks during animation */
+.layout.sidebar-closed .sidebar > * {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.1s ease;
+}
+
+.sidebar > * {
+    transition: opacity 0.3s ease 0.15s;
+}
+
+/* Sidebar Top Bar layout */
+.sidebar-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 12px;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 18px; /* Slightly reduced */
+    color: var(--accent);
+    line-height: 1.2;
+    word-break: break-word; /* Allows wrap if needed */
+}
+
+/* Base button styles to make them visible */
+.sidebar-action-btn {
+    background: rgba(255, 255, 255, 0.05); /* Added visible background */
+    border: 1px solid var(--border-subtle);
+    color: var(--text-main); /* Bright color for icon */
+    border-radius: 8px;
+    padding: 6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.15s ease;
+    flex-shrink: 0;
+    width: 34px; /* Fixed size */
+    height: 34px;
+}
+
+.sidebar-action-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(255, 214, 10, 0.1);
+}
+
+.sidebar-open-btn {
+    display: none;
+    margin-bottom: 12px;
+    align-self: flex-start; /* Ensures button does not stretch horizontally */
+}
+
+.layout.sidebar-closed .sidebar-open-btn {
+    display: inline-flex;
+}
+html, body {
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Handle scrolling strictly inside components */
 }
