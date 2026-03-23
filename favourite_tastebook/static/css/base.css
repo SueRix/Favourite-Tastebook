@@ -55,7 +55,7 @@ body {
 }
 
 .nav-section {
-    margin-top: 16px;
+    margin-top: 0; /* Reduced from 16px to 0 to shrink the gap */
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -85,7 +85,8 @@ body {
     margin-top: auto;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+    padding-bottom: 46px;
 }
 
 .sidebar-tip {
@@ -302,16 +303,29 @@ body {
 /* logout */
 
 .logout-form {
-    margin-top: -4px;
+    margin-top: 0;
+    width: 100%;
 }
 
 .logout-btn {
-    background: none;
-    border: none;
-    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px 14px;
+    background: rgba(255, 77, 79, 0.08);
+    border: 1px solid rgba(255, 77, 79, 0.2);
+    border-radius: 12px;
+    color: var(--danger);
+    font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
-    font: inherit;
-    color: var(--accent);
+    transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 77, 79, 0.15);
+    border-color: rgba(255, 77, 79, 0.4);
 }
 
 .logout-btn-small {
@@ -722,12 +736,13 @@ body {
 
 .sidebar-open-btn {
     display: none;
-    margin-bottom: 12px;
-    align-self: flex-start; /* Ensures button does not stretch horizontally */
 }
 
-.layout.sidebar-closed .sidebar-open-btn {
-    display: inline-flex;
+#sidebarCloseBtn {
+    position: absolute;
+    right: 18px;
+    bottom: 24px;
+    z-index: 100;
 }
 html, body {
     height: 100vh;
@@ -735,4 +750,28 @@ html, body {
     margin: 0;
     padding: 0;
     overflow: hidden; /* Handle scrolling strictly inside components */
+}
+
+.content {
+    flex: 1;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    min-width: 0;
+    overflow: hidden;
+    position: relative; /* Anchor for absolute positioning */
+}
+
+.sidebar-open-btn {
+    display: none;
+    position: absolute;
+    left: 4px;
+    top: 95%;
+    z-index: 100;
+    bottom: 24px; /* Fixes distance from the bottom */
+}
+
+.layout.sidebar-closed .sidebar-open-btn {
+    display: inline-flex;
 }
