@@ -51,7 +51,7 @@
                 {% if is_ai_mode and not request.GET.strict %}
                     More Delicious Options 🍽️
                 {% else %}
-                    Inspirational Ideas 💡
+                    Mentioning ingredients in recipes 💡
                 {% endif %}
             </div>
 
@@ -172,7 +172,7 @@
         <div class="placeholder-card placeholder-card-dashed {% if is_ai_mode %}ai-reveal-slow delay-200{% else %}result-reveal-fast{% endif %}">
             {% if is_ai_mode and not tier_1_recipes and featured.relevance_tier != 1 %}
                 <span class="ai-fail-title">Sorry, our database can't find for your ingredients good recipe 😕</span>
-                But you can also use <b>More Delicious Options</b> recipes above for inspiration!
+                But you can also use <b>Mentioning ingredients in recipes</b> recipes above for inspiration!
             {% else %}
                 Select a recipe from the list above to view details. Or enable "Instant Best Match" which will show you
                 the best recipe automatically.

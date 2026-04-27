@@ -7,7 +7,7 @@ class MainTastebookView(SearchParamsMixin, TemplateView):
     template_name = "main/recipe_manager.html"
 
     def get_context_data(self, **kwargs):
-        # Retrieve dashboard data using the SearchParamsMixin filters
+        # retrieve dashboard data using the SearchParamsMixin filters
         ctx = super().get_context_data(**kwargs)
         ctx.update(DashboardUseCase.build_home(self.filters))
         return ctx
