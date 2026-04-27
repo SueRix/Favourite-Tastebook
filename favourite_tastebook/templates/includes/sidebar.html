@@ -1,13 +1,19 @@
 {# templates/includes/sidebar.html #}
 <aside class="sidebar">
-    <div>
+    <div class="sidebar-top-bar">
         <div class="logo">
             <a href="{% url 'home' %}" class="logo-link" aria-label="Go to Home">
                 Favourite Tastebook
             </a>
         </div>
+        <button id="sidebarCloseBtn" class="sidebar-action-btn" aria-label="Close sidebar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+    </div>
 
-        <nav class="nav-section">
+    <nav class="nav-section">
             <a href="{% url 'home' %}"
                class="nav-link {% if request.resolver_match.url_name == 'home' %}nav-link--active{% endif %}">
                 <span class="nav-text">Home</span>
@@ -59,7 +65,6 @@
                 {% endif %}
             </a>
         </nav>
-    </div>
 
     <div class="sidebar-footer">
         {% if user.is_authenticated %}

@@ -1,14 +1,16 @@
 from .models import Ingredient
-import json
 import base64
 from django import forms
-from django.core.exceptions import ValidationError
 
 
 class RecipeSearchForm(forms.Form):
     q = forms.CharField(required=False, strip=True)
     category = forms.CharField(required=False)
-    strict = forms.BooleanField(required=False)
+
+    strict = forms.CharField(required=False)
+
+    auto_show = forms.CharField(required=False)
+    ai_mode_active = forms.CharField(required=False)
 
     recipe = forms.IntegerField(required=False)
 
@@ -16,6 +18,7 @@ class RecipeSearchForm(forms.Form):
         queryset=Ingredient._default_manager,
         required=False,
     )
+
     def clean(self):
         cleaned_data = super().clean()
         if self.data and 'ai_selected' in self.data:

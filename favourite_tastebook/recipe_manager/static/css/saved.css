@@ -454,3 +454,58 @@ summary.active .toggle-icon {
         text-align: center;
     }
 }
+
+/* Ensure the main container fills the available height from .content */
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* Keep header fixed at the top */
+.saved-header {
+    flex-shrink: 0;
+    margin-bottom: 20px;
+}
+
+/* Make the grid take remaining space and handle scrolling */
+.saved-grid {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding-right: 8px;
+    padding-bottom: 24px;
+
+    /* Optional: custom scrollbar styling to match the app */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) rgba(0, 0, 0, 0.25);
+}
+
+.saved-grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+.saved-grid::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 999px;
+}
+
+.saved-grid::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+}
+
+.saved-grid::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 214, 10, 0.45);
+}
+
+/* Ensure empty state box is visible and centered if needed */
+.empty-state-box {
+    margin-top: 40px;
+    text-align: center;
+}

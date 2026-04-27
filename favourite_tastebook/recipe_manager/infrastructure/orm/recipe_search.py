@@ -6,11 +6,7 @@ from recipe_manager.infrastructure.selectors.ingredients import IngredientSelect
 class RecipeSearchORM:
     @classmethod
     def find_recipes(cls, filters: dict):
-        is_ai_mode = False
-        if hasattr(filters, "getlist"):
-            is_ai_mode = bool(filters.getlist("ai_selected"))
-        elif "ai_selected" in filters:
-            is_ai_mode = bool(filters.get("ai_selected"))
+        is_ai_mode = IngredientSelector.is_ai_mode(filters)
 
         selected_ingredients_qs = IngredientSelector.list_selected(filters)
         selected_ids = list(selected_ingredients_qs.values_list("id", flat=True))
@@ -35,11 +31,13 @@ class RecipeSearchORM:
 
         qs = RecipeScoringService.annotate_base_metrics(qs, selected_ids)
 
-        if is_ai_mode:
-            qs = RecipeScoringService.apply_ai_scoring(qs)
-            qs = qs.exclude(relevance_tier=3)
-        elif filters.get("strict", False):
+        is_strict_mode = filters.get("strict") == "1"
+
+        if is_strict_mode:
             qs = RecipeScoringService.apply_strict_scoring(qs)
+            qs = qs.exclude(relevance_tier=3)
+        elif is_ai_mode:
+            qs = RecipeScoringService.apply_ai_scoring(qs)
             qs = qs.exclude(relevance_tier=3)
         else:
             qs = RecipeScoringService.apply_normal_scoring(qs)

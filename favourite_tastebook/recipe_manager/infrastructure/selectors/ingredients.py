@@ -21,13 +21,11 @@ class IngredientSelector:
 
     @classmethod
     def list_selected(cls, filters: dict):
-        form_qs = filters.get("ingredient", Ingredient.objects.none())
-        if hasattr(form_qs, "query"):
-            ingredient_ids = list(form_qs.values_list("id", flat=True))
-        else:
-            ingredient_ids = filters.getlist("ingredient") if hasattr(filters, "getlist") else []
+        ingredients_qs = filters.get("ingredient")
+        ingredient_ids = list(ingredients_qs.values_list("id", flat=True)) if ingredients_qs else []
 
-        ai_names = filters.getlist("ai_selected") if hasattr(filters, "getlist") else filters.get("ai_selected", [])
+        # 2. Метод clean() формы уже отдает нам чистый list строк
+        ai_names = filters.get("ai_selected") or []
 
         if not ingredient_ids and not ai_names:
             return Ingredient.objects.none()
@@ -39,6 +37,14 @@ class IngredientSelector:
             query |= Q(name__in=ai_names)
 
         return Ingredient.objects.filter(query).distinct().order_by("name")
+
+    @classmethod
+    def is_ai_mode(cls, filters: dict) -> bool:
+        """Determines if the AI search mode is active based on form cleaned_data."""
+        if filters.get("ai_mode_active") == "1":
+            return True
+
+        return bool(filters.get("ai_selected"))
 
     @classmethod
     def search_by_name(cls, query, category=None):

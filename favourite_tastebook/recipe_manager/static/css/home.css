@@ -1309,3 +1309,68 @@ select#category-select::-webkit-scrollbar-thumb:active,
 .delay-200 {
     animation-delay: 0.2s;
 }
+
+.pill-plus {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding-bottom: 2px;
+    transform: translateZ(0);
+    -webkit-font-smoothing: antialiased;
+}
+
+.ai-toggle-row {
+    display: flex;
+    justify-content: center;
+    margin: 10px 16px;
+}
+
+.ai-btn-toggle {
+    font-size: 0.9rem;
+    padding: 6px 16px;
+    border-radius: 20px;
+    background-color: transparent;
+    border: 1px solid #444;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.ai-btn-toggle:hover {
+    background-color: #333;
+}
+
+.in-ai-mode #auto-show-toggle-label {
+    display: none !important;
+}
+
+.ai-advanced-box-fixed {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    overflow: hidden;
+    margin-top: 10px;
+    min-height: 300px;
+}
+
+.in-ai-mode {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    overflow: hidden;
+}
+
+.in-ai-mode .tools-header {
+    flex-shrink: 0;
+    padding: 0 5px 10px 5px;
+}
+
+.in-ai-mode #ingredients-panel {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    /* Если у панели есть свои border/background, можно их скрыть:
+    border: none;
+    background: transparent;
+    box-shadow: none; */
+}
