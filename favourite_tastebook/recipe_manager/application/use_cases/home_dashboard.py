@@ -1,13 +1,14 @@
+from recipe_manager.domain.services.taste_vector_engine import TasteVectorModel
 from recipe_manager.infrastructure.selectors.ingredients import IngredientSelector
 from recipe_manager.infrastructure.orm.recipe_search import RecipeSearchORM
 from recipe_manager.infrastructure.presentation.featured_recipe import FeaturedRecipePresenter
-from recipe_manager.models import SavedRecipe
+from recipe_manager.models import SavedRecipe, UserTastePreference
 
 
 class DashboardUseCase:
 
     @classmethod
-    def build_home(cls, filters):
+    def build_home(cls, filters, user=None):
         selected = IngredientSelector.list_selected(filters)
         selected_ids = list(selected.values_list("id", flat=True))
 
@@ -17,7 +18,7 @@ class DashboardUseCase:
             "selected_ingredients": selected,
             "selected_ids": selected_ids,
             "selected_count": len(selected_ids),
-            "recipes": RecipeSearchORM.find_recipes(filters),
+            "recipes": RecipeSearchORM.find_recipes(filters, user=user),
         }
 
     @classmethod
@@ -38,11 +39,55 @@ class DashboardUseCase:
         return cls._build_ingredients_context(qs, filters)
 
     @classmethod
+    def build_tastes_profile(cls, user):
+        """
+        builds context for the user tastes profile page.
+        """
+        from recipe_manager.models import Ingredient, UserTastePreference
+
+        ingredients = Ingredient.objects.all().order_by("category", "name")
+
+        user_prefs = UserTastePreference.objects.filter(
+            user=user,
+            is_explicit=True
+        ).values_list('ingredient_id', 'score')
+
+        prefs_dict = {ing_id: score for ing_id, score in user_prefs}
+
+        return {
+            "ingredients": ingredients,
+            "user_tastes": prefs_dict,
+        }
+
+    @classmethod
     def build_recipes_partial(cls, filters, user, auto_show=False):
         selected = IngredientSelector.list_selected(filters)
         selected_ids = list(selected.values_list("id", flat=True))
 
-        recipes = RecipeSearchORM.find_recipes(filters)
+        recipes = RecipeSearchORM.find_recipes(filters, user=user)
+
+        use_tastes = filters.get("use_tastes") == "1"
+
+        if user.is_authenticated and use_tastes and recipes:
+            user_prefs = UserTastePreference.objects.filter(user=user).exclude(score=-2)
+            user_weights = {pref.ingredient_id: pref.score for pref in user_prefs}
+
+            if user_weights:
+                recipes_data = []
+                for recipe in recipes:
+                    base_score = getattr(recipe, 'score', 0)
+                    ing_ids = [ri.ingredient_id for ri in recipe.ingredients.all()]
+
+                    recipes_data.append({
+                        'recipe_obj': recipe,
+                        'ingredient_ids': ing_ids,
+                        'base_score': base_score
+                    })
+
+                ranked_data = TasteVectorModel.rank_by_tastes(recipes_data, user_weights)
+
+                recipes = [item['recipe_obj'] for item in ranked_data]
+
         saved_recipe_ids = set()
 
         if user.is_authenticated:
