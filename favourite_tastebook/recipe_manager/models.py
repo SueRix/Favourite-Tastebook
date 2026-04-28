@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.db import models
 
-from .domain.enums import Units, Importance
+from .domain.enums import Units, Importance, TasteLevels
+
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=100, unique=True, db_index=True)
@@ -75,6 +76,7 @@ class SavedRecipe(models.Model):
         related_name='saved_by_users'
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    is_favorite = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('user', 'recipe')
@@ -82,3 +84,27 @@ class SavedRecipe(models.Model):
 
     def __str__(self):
         return f"{self.user} saved {self.recipe}"
+
+class UserTastePreference(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='taste_preferences'
+    )
+    ingredient = models.ForeignKey(
+        Ingredient,
+        on_delete=models.CASCADE,
+        related_name='favored_by_users'
+    )
+    score = models.SmallIntegerField(
+        choices=TasteLevels,
+        default=TasteLevels.NEUTRAL
+    )
+    is_explicit = models.BooleanField(default=True)
+
+    class Meta:
+        unique_together = ("user", "ingredient")
+        verbose_name = "User Taste Preference"
+
+    def __str__(self):
+        return f"{self.user.username} - {self.ingredient.name}: {self.score}"
