@@ -1,0 +1,67 @@
+{% extends "layout/base.html" %}
+{% load static %}
+
+{% block title %}My Tastes • Tastebook{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tastes.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container tastes-container">
+        <div class="home-card-head tools-header">
+            <div class="rf-title-large">Manage Your Tastes</div>
+            <p class="home-muted">Rate ingredients to improve your AI recommendations.</p>
+        </div>
+
+        <div class="tastes-layout-grid">
+
+            <div class="tastes-col-rated" id="rated-tastes-panel">
+                <div style="padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <h3 class="rf-section-title no-margin">Rated Ingredients</h3>
+                </div>
+                <div class="tastes-scroll-area box-scroll"
+                     id="rated-tastes-container"
+                     hx-get="{% url 'partials_rated_tastes' %}"
+                     hx-trigger="tastesUpdated from:body">
+                    {% include "partials/tastes_rated_panel.html" %}
+                </div>
+            </div>
+
+            <div class="tastes-col-search" id="search-tastes-panel">
+
+                <div class="tastes-controls-row">
+                    <div class="search-wrapper w-100">
+                        <span class="search-icon">🔍</span>
+                        <input type="text"
+                               id="taste-search-input"
+                               class="search-input large-input w-100"
+                               placeholder="Find ingredient...">
+                    </div>
+
+                    <div class="filters-row w-100">
+                        <select class="mini-select large-input w-100" id="taste-category-select">
+                            <option value="">All categories</option>
+                            {% for c in categories %}
+                                <option value="{{ c }}">{{ c }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="tastes-scroll-area box-scroll"
+                     id="unrated-tastes-container"
+                     hx-get="{% url 'partials_search_tastes' %}"
+                     hx-trigger="tastesUpdated from:body">
+                    {% include "partials/tastes_search_panel.html" %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/tastes.js' %}"></script>
+{% endblock %}

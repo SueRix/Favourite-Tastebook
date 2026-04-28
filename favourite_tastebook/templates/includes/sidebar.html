@@ -34,7 +34,7 @@
                 {% endif %}
             </a>
 
-            <a href="{% url 'tastes' %}"
+            <a href="{% url 'tastes_profile' %}"
                data-auth-required="1"
                class="nav-link {% if request.resolver_match.url_name == 'tastes' %}nav-link--active{% endif %}">
                 <span class="nav-text">Taste Preferences</span>

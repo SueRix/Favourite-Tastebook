@@ -1,0 +1,32 @@
+<div class="tastes-grid" style="grid-template-columns: 1fr;">
+    {% for ing in ingredients %}
+        {% if ing.current_score != 0 %}
+            <div class="taste-row">
+                <span class="taste-name">{{ ing.name }}</span>
+                <form class="taste-radios"
+                      hx-post="{% url 'api_ingredient_update' %}"
+                      hx-trigger="change"
+                      hx-swap="none"
+                      hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                    <input type="hidden" name="ingredient_id" value="{{ ing.id }}">
+
+                    <label class="t-radio hate"><input type="radio" name="score" value="-2"
+                                                       {% if ing.current_score == -2 %}checked{% endif %}><span
+                            class="t-mark">🤮</span></label>
+                    <label class="t-radio dislike"><input type="radio" name="score" value="-1"
+                                                          {% if ing.current_score == -1 %}checked{% endif %}><span
+                            class="t-mark">👎</span></label>
+                    <label class="t-radio neutral"><input type="radio" name="score" value="0"
+                                                          {% if ing.current_score == 0 %}checked{% endif %}><span
+                            class="t-mark">😐</span></label>
+                    <label class="t-radio like"><input type="radio" name="score" value="1"
+                                                       {% if ing.current_score == 1 %}checked{% endif %}><span
+                            class="t-mark">👍</span></label>
+                    <label class="t-radio love"><input type="radio" name="score" value="2"
+                                                       {% if ing.current_score == 2 %}checked{% endif %}><span
+                            class="t-mark">❤️</span></label>
+                </form>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
