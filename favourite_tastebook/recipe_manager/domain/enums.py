@@ -38,3 +38,14 @@ SCORE_AI_DENSITY_BONUS = 2
 AI_TIER_1_MIN_SCORE = 0
 AI_TIER_1_MIN_MATCHES = 2
 AI_TIER_2_MIN_MATCHES = 1
+
+
+class TasteLevels(models.IntegerChoices):
+    HATE = -2, "Hate"
+    DISLIKE = -1, "Do not like"
+    NEUTRAL = 0, "Indifferent"
+    LIKE = 1, "Like"
+    LOVE = 2, "Love"
+
+#const tabu filter
+TASTE_HATE_LEVEL = -2
