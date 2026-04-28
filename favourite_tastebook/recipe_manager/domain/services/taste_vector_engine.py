@@ -42,4 +42,7 @@ class TasteVectorModel:
             recipe['total_final_score'] = recipe.get('base_score', 0) + (cosine_sim * 5)
 
         # sort by total final score in descending order
-        return sorted(recipes_data, key=lambda x: x['total_final_score'], reverse=True)
+        return sorted(
+            recipes_data,
+            key=lambda x: (x.get('tier', 3), -x['total_final_score'])
+        )

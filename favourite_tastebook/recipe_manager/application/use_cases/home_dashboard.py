@@ -64,43 +64,38 @@ class DashboardUseCase:
         selected = IngredientSelector.list_selected(filters)
         selected_ids = list(selected.values_list("id", flat=True))
 
-        recipes = RecipeSearchORM.find_recipes(filters, user=user)
+        recipes_qs = RecipeSearchORM.find_recipes(filters, user=user)
 
-        use_tastes = filters.get("use_tastes") == "1"
+        use_tastes = filters.get("use_tastes") in ["on", "1", "true", True]
 
-        if user.is_authenticated and use_tastes and recipes:
+        recipes_list = list(recipes_qs)
+
+        if user.is_authenticated and use_tastes and recipes_list:
             user_prefs = UserTastePreference.objects.filter(user=user).exclude(score=-2)
             user_weights = {pref.ingredient_id: pref.score for pref in user_prefs}
 
             if user_weights:
                 recipes_data = []
-                for recipe in recipes:
-                    base_score = getattr(recipe, 'score', 0)
-                    ing_ids = [ri.ingredient_id for ri in recipe.ingredients.all()]
-
+                for recipe in recipes_list:
                     recipes_data.append({
                         'recipe_obj': recipe,
-                        'ingredient_ids': ing_ids,
-                        'base_score': base_score
+                        'ingredient_ids': [ri.ingredient_id for ri in recipe.ingredients.all()],
+                        'base_score': getattr(recipe, 'score', 0),
+                        'tier': getattr(recipe, 'relevance_tier', 3)
                     })
 
                 ranked_data = TasteVectorModel.rank_by_tastes(recipes_data, user_weights)
-
-                recipes = [item['recipe_obj'] for item in ranked_data]
+                recipes_list = [item['recipe_obj'] for item in ranked_data]
 
         saved_recipe_ids = set()
-
         if user.is_authenticated:
-            saved_recipe_ids = set(
-                SavedRecipe.objects.filter(user=user).values_list('recipe_id', flat=True)
-            )
+            saved_recipe_ids = set(SavedRecipe.objects.filter(user=user).values_list('recipe_id', flat=True))
 
         is_ai_mode = IngredientSelector.is_ai_mode(filters)
-
         effective_auto_show = auto_show or is_ai_mode
 
         featured, tier_1, tier_2 = FeaturedRecipePresenter.select(
-            recipes,
+            recipes_list,
             recipe_id=filters.get("recipe"),
             selected_ids=selected_ids,
             saved_ids=saved_recipe_ids,
