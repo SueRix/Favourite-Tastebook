@@ -1,6 +1,8 @@
 from django.http import JsonResponse
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView
+
 from recipe_manager.application.use_cases.taste_management import TasteManagementUseCase
 
 class RecipeLikeApiView(LoginRequiredMixin, View):
@@ -25,4 +27,24 @@ class IngredientTasteUpdateApiView(LoginRequiredMixin, View):
             int(ingredient_id),
             int(score)
         )
-        return JsonResponse({"status": "success"})
+        response = JsonResponse({"status": "success"})
+        response["HX-Trigger"] = "tastesUpdated"  # fire event to client
+        return response
+
+class RatedTastesPartialView(LoginRequiredMixin, TemplateView):
+    template_name = "partials/tastes_rated_panel.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # get fresh data for the rated column
+        context.update(TasteManagementUseCase.build_tastes_profile(self.request.user))
+        return context
+
+class SearchTastesPartialView(LoginRequiredMixin, TemplateView):
+    template_name = "partials/tastes_search_panel.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # get fresh data for the search/unrated column
+        context.update(TasteManagementUseCase.build_tastes_profile(self.request.user))
+        return context

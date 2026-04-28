@@ -1,4 +1,5 @@
-from recipe_manager.models import Recipe, UserTastePreference, SavedRecipe
+from recipe_manager.infrastructure.selectors import IngredientSelector
+from recipe_manager.models import Recipe, UserTastePreference, SavedRecipe, Ingredient
 from recipe_manager.domain.enums import TasteLevels
 
 
@@ -77,24 +78,19 @@ class TasteManagementUseCase:
 
     @classmethod
     def build_tastes_profile(cls, user):
-        """
-        builds context for the user tastes profile page.
-        """
-        from recipe_manager.models import Ingredient, UserTastePreference
+        ingredients = list(Ingredient.objects.all().order_by("category", "name"))
 
-        # fetch all ingredients ordered by category and name
-        ingredients = Ingredient.objects.all().order_by("category", "name")
-
-        # fetch explicit user preferences to highlight selected buttons in ui
         user_prefs = UserTastePreference.objects.filter(
             user=user,
             is_explicit=True
         ).values_list('ingredient_id', 'score')
 
-        # create a dictionary for fast template lookups {ingredient_id: score}
         prefs_dict = {ing_id: score for ing_id, score in user_prefs}
+
+        for ing in ingredients:
+            ing.current_score = prefs_dict.get(ing.id, 0)
 
         return {
             "ingredients": ingredients,
-            "user_tastes": prefs_dict,
+            "categories": IngredientSelector.list_categories(),
         }

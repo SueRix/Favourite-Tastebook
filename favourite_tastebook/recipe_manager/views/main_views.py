@@ -15,7 +15,7 @@ class MainTastebookView(SearchParamsMixin, TemplateView):
         return ctx
 
 class TastesView(LoginRequiredMixin, TemplateView):
-    template_name = "profile/tastes_stub.html"
+    template_name = "main/taste_preferences.html"
 
     def get_context_data(self, **kwargs):
         # populate the tastes page with user specific data
