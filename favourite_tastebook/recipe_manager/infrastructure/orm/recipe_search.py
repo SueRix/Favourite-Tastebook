@@ -1,11 +1,13 @@
 from django.db.models import Prefetch
-from recipe_manager.models import Recipe, RecipeIngredient
+
+from recipe_manager.domain.enums import TASTE_HATE_LEVEL
+from recipe_manager.models import Recipe, RecipeIngredient, UserTastePreference
 from recipe_manager.infrastructure.orm.scoring import RecipeScoringService
 from recipe_manager.infrastructure.selectors.ingredients import IngredientSelector
 
 class RecipeSearchORM:
     @classmethod
-    def find_recipes(cls, filters: dict):
+    def find_recipes(cls, filters: dict, user=None):
         is_ai_mode = IngredientSelector.is_ai_mode(filters)
 
         selected_ingredients_qs = IngredientSelector.list_selected(filters)
@@ -28,6 +30,16 @@ class RecipeSearchORM:
                 )
             )
         )
+
+        #hard filter for user's hated ingredient in recipes.
+        if user and user.is_authenticated:
+            hated_ids = UserTastePreference.objects.filter(
+                user=user,
+                score=TASTE_HATE_LEVEL
+            ).values_list('ingredient_id', flat=True)
+
+            if hated_ids.exists():
+                qs = qs.exclude(ingredients__ingredient_id__in=hated_ids)
 
         qs = RecipeScoringService.annotate_base_metrics(qs, selected_ids)
 

@@ -19,17 +19,19 @@ class FeaturedRecipePresenter:
 
     @classmethod
     def select(cls, recipes, recipe_id=None, selected_ids=None, saved_ids=None, auto_show=False):
-        if not recipes.exists():
+        recipes_list = list(recipes)
+
+        if not recipes_list:
             return None, [], []
 
         featured = None
         is_detailed_view_needed = False
 
         if recipe_id:
-            featured = recipes.filter(id=recipe_id).first()
+            featured = next((r for r in recipes_list if str(r.id) == str(recipe_id)), None)
             is_detailed_view_needed = True
         else:
-            first_recipe = recipes.first()
+            first_recipe = recipes_list[0]
             if getattr(first_recipe, 'relevance_tier', 3) == 1:
                 featured = first_recipe
                 if auto_show:
@@ -75,7 +77,7 @@ class FeaturedRecipePresenter:
                 featured.missing_count = getattr(featured, 'missing_required', 0) + getattr(featured,
                                                                                             'missing_secondary', 0)
 
-        more = recipes.exclude(id=featured.id) if featured else recipes
+        more = [r for r in recipes_list if r.id != featured.id] if featured else recipes_list
 
         tier_1 = [r for r in more if getattr(r, 'relevance_tier', 3) == 1]
         tier_2 = [r for r in more if getattr(r, 'relevance_tier', 3) == 2]
