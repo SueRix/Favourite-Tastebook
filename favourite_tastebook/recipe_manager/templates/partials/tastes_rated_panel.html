@@ -1,32 +1,34 @@
-<div class="tastes-grid" style="grid-template-columns: 1fr;">
-    {% for ing in ingredients %}
-        {% if ing.current_score != 0 %}
-            <div class="taste-row">
-                <span class="taste-name">{{ ing.name }}</span>
-                <form class="taste-radios"
-                      hx-post="{% url 'api_ingredient_update' %}"
-                      hx-trigger="change"
-                      hx-swap="none"
-                      hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-                    <input type="hidden" name="ingredient_id" value="{{ ing.id }}">
-
-                    <label class="t-radio hate"><input type="radio" name="score" value="-2"
-                                                       {% if ing.current_score == -2 %}checked{% endif %}><span
-                            class="t-mark">🤮</span></label>
-                    <label class="t-radio dislike"><input type="radio" name="score" value="-1"
-                                                          {% if ing.current_score == -1 %}checked{% endif %}><span
-                            class="t-mark">👎</span></label>
-                    <label class="t-radio neutral"><input type="radio" name="score" value="0"
-                                                          {% if ing.current_score == 0 %}checked{% endif %}><span
-                            class="t-mark">😐</span></label>
-                    <label class="t-radio like"><input type="radio" name="score" value="1"
-                                                       {% if ing.current_score == 1 %}checked{% endif %}><span
-                            class="t-mark">👍</span></label>
-                    <label class="t-radio love"><input type="radio" name="score" value="2"
-                                                       {% if ing.current_score == 2 %}checked{% endif %}><span
-                            class="t-mark">❤️</span></label>
-                </form>
-            </div>
-        {% endif %}
-    {% endfor %}
-</div>
+{% if has_rated_tastes %}
+    <div class="tastes-grid" style="grid-template-columns: 1fr;">
+        {% for ing in ingredients %}
+            {% if ing.current_score != 0 %}
+                <div class="taste-row">
+                    <span class="taste-name">{{ ing.name }}</span>
+                    <form class="taste-radios"
+                          hx-post="{% url 'api_ingredient_update' %}"
+                          hx-trigger="change"
+                          hx-swap="none"
+                          hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                        <input type="hidden" name="ingredient_id" value="{{ ing.id }}">
+                        
+                        <label class="t-radio hate"><input type="radio" name="score" value="-2" {% if ing.current_score == -2 %}checked{% endif %}><span class="t-mark">🤮</span></label>
+                        <label class="t-radio dislike"><input type="radio" name="score" value="-1" {% if ing.current_score == -1 %}checked{% endif %}><span class="t-mark">👎</span></label>
+                        <label class="t-radio neutral"><input type="radio" name="score" value="0" {% if ing.current_score == 0 %}checked{% endif %}><span class="t-mark">=</span></label>
+                        <label class="t-radio like"><input type="radio" name="score" value="1" {% if ing.current_score == 1 %}checked{% endif %}><span class="t-mark">👍</span></label>
+                        <label class="t-radio love"><input type="radio" name="score" value="2" {% if ing.current_score == 2 %}checked{% endif %}><span class="t-mark">❤️</span></label>
+                    </form>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% else %}
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%; padding: 40px 20px;">
+        <div style="font-size: 48px; margin-bottom: 16px; opacity: 0.3;">🍽️</div>
+        <div style="color: var(--text-main); font-size: 16px; font-weight: 600; margin-bottom: 8px;">
+            Nothing rated yet
+        </div>
+        <div style="color: var(--text-muted); font-size: 13px; max-width: 250px; line-height: 1.5;">
+            You haven't rated any ingredients. Please select the ones you like or dislike from the list.
+        </div>
+    </div>
+{% endif %}

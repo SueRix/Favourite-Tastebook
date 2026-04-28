@@ -11,9 +11,24 @@
 {% block content %}
     <div class="container tastes-container">
         <div class="home-card-head tools-header">
-            <div class="rf-title-large">Manage Your Tastes</div>
-            <p class="home-muted">Rate ingredients to improve your AI recommendations.</p>
+        <div class="rf-title-large" style="display: flex; align-items: center;">
+            Manage Your Tastes
+
+            <div class="taste-info-wrap">
+                <div class="taste-info-icon">?</div>
+                <div class="taste-info-popup">
+                    <div style="margin-bottom: 8px; font-weight: 600;">Rating Scale:</div>
+                    <div>🤮 <b>(-2)</b>: Exclude completely from recipes.</div>
+                    <div>👎 <b>(-1)</b>: Dislike, show less often.</div>
+                    <div>= <b>(0)</b>: Neutral, no preference.</div>
+                    <div>👍 <b>(+1)</b>: Like, prefer to see.</div>
+                    <div>❤️ <b>(+2)</b>: Love, highly prioritize.</div>
+                </div>
+            </div>
+
         </div>
+        <p class="home-muted">Rate ingredients to improve your AI recommendations.</p>
+    </div>
 
         <div class="tastes-layout-grid">
 

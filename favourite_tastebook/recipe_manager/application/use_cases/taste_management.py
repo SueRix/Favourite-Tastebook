@@ -90,7 +90,11 @@ class TasteManagementUseCase:
         for ing in ingredients:
             ing.current_score = prefs_dict.get(ing.id, 0)
 
+        # check if there is at least one preference that is not neutral (0)
+        has_rated = any(score != 0 for score in prefs_dict.values())
+
         return {
             "ingredients": ingredients,
             "categories": IngredientSelector.list_categories(),
+            "has_rated_tastes": has_rated,
         }
