@@ -24,7 +24,10 @@ urlpatterns = [
     path('ai/process/', ai_views.AIProcessView.as_view(), name='ai_process_image'),
     path('ai/status/<str:task_id>/', ai_views.AIStatusView.as_view(), name='ai_task_status'),
     path('tastes/', main_views.TastesView.as_view(), name='tastes_profile'),
-    path('api/tastes/recipe/<int:recipe_id>/like/', taste_api_views.RecipeLikeApiView.as_view(), name='api_recipe_like'),
-    path('api/tastes/ingredient/update/', taste_api_views.IngredientTasteUpdateApiView.as_view(), name='api_ingredient_update'),
+    path('api/tastes/recipe/<int:recipe_id>/like/', taste_api_views.RecipeLikeApiView.as_view(),
+         name='api_recipe_like'),
+    path('api/tastes/ingredient/update/', taste_api_views.IngredientTasteUpdateApiView.as_view(),
+         name='api_ingredient_update'),
+    path('partials/tastes/rated/', taste_api_views.RatedTastesPartialView.as_view(), name='partials_rated_tastes'),
+    path('partials/tastes/search/', taste_api_views.SearchTastesPartialView.as_view(), name='partials_search_tastes'),
 ]
-
