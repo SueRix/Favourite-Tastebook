@@ -16,168 +16,228 @@
     </div>
 {% else %}
 
-    <div class="rf-more-section {% if is_ai_mode %}ai-reveal-slow{% else %}result-reveal-fast{% endif %}">
-        {% if tier_1_recipes or featured and featured.relevance_tier == 1 %}
-            <div class="rf-more-divider">
-                {% if is_ai_mode and not request.GET.strict %}
-                    AI Magic Matches ✦
-                {% else %}
-                    Top Matches ✨
-                {% endif %}
-            </div>
-
-            <div class="rf-more-grid">
-                {% if featured and featured.relevance_tier == 1 and not request.GET.recipe and request.GET.auto_show != '1' and not is_ai_mode %}
-                    <button type="button" class="more-recipe-card"
-                            hx-get="{% url 'partials_recipes' %}?recipe={{ featured.id }}" hx-target="#recipes-panel"
-                            hx-include="#filters-form">
-                        <span class="title">{{ featured.title|default:"Recipe" }} (Best Match)</span>
-                        <span class="action">Open ↗</span>
-                    </button>
-                {% endif %}
-                {% for r in tier_1_recipes %}
-                    <button type="button" class="more-recipe-card"
-                            hx-get="{% url 'partials_recipes' %}?recipe={{ r.id }}" hx-target="#recipes-panel"
-                            hx-include="#filters-form">
-                        <span class="title">{{ r.title|default:"Recipe" }}</span>
-                        <span class="action">Open ↗</span>
-                    </button>
-                {% endfor %}
-            </div>
-        {% endif %}
-
-        {% if tier_2_recipes or featured and featured.relevance_tier == 2 %}
-            <div class="rf-more-divider rf-more-divider-spaced">
-                {% if is_ai_mode and not request.GET.strict %}
-                    More Delicious Options 🍽️
-                {% else %}
-                    Mentioning ingredients in recipes 💡
-                {% endif %}
-            </div>
-
-            <div class="rf-more-grid">
-                {% if featured and featured.relevance_tier == 2 and not request.GET.recipe %}
-                    {% if request.GET.auto_show != '1' or is_ai_mode %}
-                        <button type="button" class="more-recipe-card"
-                                hx-get="{% url 'partials_recipes' %}?recipe={{ featured.id }}"
-                                hx-target="#recipes-panel" hx-include="#filters-form">
-                            <span class="title">{{ featured.title|default:"Recipe" }} (Best Match)</span>
-                            <span class="action">Open ↗</span>
-                        </button>
-                    {% endif %}
-                {% endif %}
-                {% for r in tier_2_recipes %}
-                    <button type="button" class="more-recipe-card"
-                            hx-get="{% url 'partials_recipes' %}?recipe={{ r.id }}" hx-target="#recipes-panel"
-                            hx-include="#filters-form">
-                        <span class="title">{{ r.title|default:"Recipe" }}</span>
-                        <span class="action">Open ↗</span>
-                    </button>
-                {% endfor %}
-            </div>
-        {% endif %}
-    </div>
-
     {% if featured and request.GET.auto_show == '1' and not is_ai_mode or featured and is_ai_mode and featured.relevance_tier == 1 or featured and request.GET.recipe %}
-        <div class="rf-feature-v2 {% if is_ai_mode %}ai-reveal-slow delay-200{% else %}result-reveal-fast{% endif %}"
-             id="featured-recipe-view">
+        <div class="fs-modal-overlay {% if is_ai_mode %}ai-reveal-slow delay-200{% else %}result-reveal-fast{% endif %}">
+            <div class="fs-modal-container">
 
-            <div class="rf-head-row">
-                <div class="rf-head-title-wrap"
-                     style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: nowrap; width: 100%;">
-                    <div class="rf-title-large" style="margin: 0;">{{ featured.title|default:"Recipe" }}</div>
+                <div class="fs-modal-left box-scroll">
+                    <div class="rf-section-title" style="margin-bottom: 20px;">Other Options</div>
 
-                    <button type="button" class="btn-fav {% if featured.is_saved %}active{% endif %}"
-                            style="flex-shrink: 0;"
-                            data-id="{{ featured.id }}"
-                            data-is-saved="{% if featured.is_saved %}true{% else %}false{% endif %}"
-                            onclick="toggleFavorite(this)">
-                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                        </svg>
-                    </button>
-                </div>
-                <div class="rf-meta-badge">
-                    <span class="icon">⏱</span>
-                    <span>{% if featured.cook_time %}{{ featured.cook_time }} min{% else %}—{% endif %}</span>
-                </div>
-            </div>
+                    {% if tier_1_recipes or featured and featured.relevance_tier == 1 %}
+                        <details class="taste-accordion" open>
+                            <summary>
+                                <span>{% if is_ai_mode and not request.GET.strict %}AI Magic Matches ✦{% else %}Top
+                                    Matches ✨{% endif %}</span>
+                                <span class="icon">▼</span>
+                            </summary>
+                            <div class="taste-accordion-body">
+                                <div class="rf-more-grid modal-grid-one">
+                                    {% for r in tier_1_recipes %}
+                                        <button type="button" class="more-recipe-card"
+                                                hx-get="{% url 'partials_recipes' %}?recipe={{ r.id }}"
+                                                hx-target="#recipes-panel"
+                                                hx-include="#filters-form">
+                                            <span class="title">{{ r.title|default:"Recipe" }}</span>
+                                            <span class="action">Open ↗</span>
+                                        </button>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </details>
+                    {% endif %}
 
-            <div class="rf-top-row">
-                <div class="rf-hero-image">
-                    {% if featured.poster_url %}
-                        <img src="{{ featured.poster_url }}" alt="{{ featured.title }}" loading="lazy">
-                    {% else %}
-                        <div class="photo-ph-large"><span>No photo available</span></div>
+                    {% if tier_2_recipes or featured and featured.relevance_tier == 2 %}
+                        <details class="taste-accordion">
+                            <summary>
+                                <span>{% if is_ai_mode and not request.GET.strict %}More Delicious Options 🍽️{% else %}
+                                    Mentioning ingredients 💡{% endif %}</span>
+                                <span class="icon">▼</span>
+                            </summary>
+                            <div class="taste-accordion-body">
+                                <div class="rf-more-grid modal-grid-one">
+                                    {% for r in tier_2_recipes %}
+                                        <button type="button" class="more-recipe-card"
+                                                hx-get="{% url 'partials_recipes' %}?recipe={{ r.id }}"
+                                                hx-target="#recipes-panel"
+                                                hx-include="#filters-form">
+                                            <span class="title">{{ r.title|default:"Recipe" }}</span>
+                                            <span class="action">Open ↗</span>
+                                        </button>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </details>
                     {% endif %}
                 </div>
 
-                <div class="rf-panel-box">
-                    <div class="rf-panel-head centered-mode">
-                        <div class="rf-section-title no-margin">Ingredients</div>
-                        <div class="rf-cuisine-center">
-                            <span class="c-label">Cuisine:</span>
-                            <span class="c-value">{{ featured.cuisine_label }}</span>
-                        </div>
-                        <div class="rf-match-stats">
-                            <span class="good">Match: {{ featured.matched_count }}</span>
-                            <span class="bad">Miss: {{ featured.missing_count }}</span>
-                        </div>
-                    </div>
+                <div class="fs-modal-right box-scroll">
+                    <button type="button" class="fs-close-btn"
+                            onclick="let cb = document.getElementById('auto-show-check'); if(cb && cb.checked) { cb.checked = false; document.getElementById('auto-show-hidden').value = ''; }"
+                            hx-get="{% url 'partials_recipes' %}"
+                            hx-target="#recipes-panel"
+                            hx-include="#filters-form"
+                            title="Close">✕
+                    </button>
 
-                    <div class="rf-ing-list-v2">
-                        {% if featured.ingredient_groups %}
-                            {% for grp in featured.ingredient_groups %}
-                                {% if grp.items %}
-                                    <div class="rf-group-label">{{ grp.title }}</div>
-                                    <div class="rf-chips-wrap">
-                                        {% for it in grp.items %}
-                                            <div class="ing-pill {% if it.is_selected %}have{% else %}miss{% endif %}">
-                                                <span class="name">{{ it.name }}</span>
-                                                {% if it.amount %}
-                                                    <span class="amount">{{ it.amount }}{{ it.unit }}</span>
-                                                {% endif %}
-                                            </div>
-                                        {% endfor %}
-                                    </div>
+                    <div class="rf-feature-v2" id="featured-recipe-view">
+                        <div class="rf-head-row" style="padding-right: 56px;">
+                            <div class="rf-title-large" style="margin: 0;">{{ featured.title|default:"Recipe" }}</div>
+
+                            <div style="display: flex; align-items: center; gap: 16px; flex-shrink: 0;">
+                                <button type="button" class="btn-fav {% if featured.is_saved %}active{% endif %}"
+                                        style="margin-left: 0;"
+                                        data-id="{{ featured.id }}"
+                                        data-is-saved="{% if featured.is_saved %}true{% else %}false{% endif %}"
+                                        onclick="toggleFavorite(this)">
+                                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                </button>
+
+                                <div class="rf-meta-badge">
+                                    <span class="icon">⏱</span>
+                                    <span>{% if featured.cook_time %}{{ featured.cook_time }} min{% else %}
+                                        —{% endif %}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rf-top-row">
+                            <div class="rf-hero-image">
+                                {% if featured.poster_url %}
+                                    <img src="{{ featured.poster_url }}" alt="{{ featured.title }}" loading="lazy">
+                                {% else %}
+                                    <div class="photo-ph-large"><span>No photo available</span></div>
                                 {% endif %}
-                            {% endfor %}
-                        {% else %}
-                            <div class="placeholder-text">No ingredients data.</div>
-                        {% endif %}
+                            </div>
+
+                            <div class="rf-panel-box">
+                                <div class="rf-panel-head centered-mode">
+                                    <div class="rf-section-title no-margin">Ingredients</div>
+                                    <div class="rf-cuisine-center">
+                                        <span class="c-label">Cuisine:</span>
+                                        <span class="c-value">{{ featured.cuisine_label }}</span>
+                                    </div>
+                                    <div class="rf-match-stats">
+                                        <span class="good">Match: {{ featured.matched_count }}</span>
+                                        <span class="bad">Miss: {{ featured.missing_count }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="rf-ing-list-v2">
+                                    {% if featured.ingredient_groups %}
+                                        {% for grp in featured.ingredient_groups %}
+                                            {% if grp.items %}
+                                                <div class="rf-group-label">{{ grp.title }}</div>
+                                                <div class="rf-chips-wrap">
+                                                    {% for it in grp.items %}
+                                                        <div class="ing-pill {% if it.is_selected %}have{% else %}miss{% endif %}">
+                                                            <span class="name">{{ it.name }}</span>
+                                                            {% if it.amount %}
+                                                                <span class="amount">{{ it.amount }}{{ it.unit }}</span>
+                                                            {% endif %}
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="placeholder-text">No ingredients data.</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rf-layout-stack">
+                            <div class="rf-instructions-full">
+                                <div class="rf-section-title">Instructions</div>
+                                <div class="rf-howto-body-v2">
+                                    {% if featured.steps %}
+                                        <ol class="rf-steps-list">
+                                            {% for step in featured.steps %}
+                                                <li>{{ step }}</li>
+                                            {% endfor %}
+                                        </ol>
+                                    {% else %}
+                                        <div class="placeholder-text">No cooking steps available.</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="rf-layout-stack">
-                <div class="rf-instructions-full">
-                    <div class="rf-section-title">Instructions</div>
-                    <div class="rf-howto-body-v2">
-                        {% if featured.steps %}
-                            <ol class="rf-steps-list">
-                                {% for step in featured.steps %}
-                                    <li>{{ step }}</li>
-                                {% endfor %}
-                            </ol>
-                        {% else %}
-                            <div class="placeholder-text">No cooking steps available.</div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-
         </div>
 
     {% elif tier_1_recipes or tier_2_recipes or featured %}
-        <div class="placeholder-card placeholder-card-dashed {% if is_ai_mode %}ai-reveal-slow delay-200{% else %}result-reveal-fast{% endif %}">
-            {% if is_ai_mode and not tier_1_recipes and featured.relevance_tier != 1 %}
-                <span class="ai-fail-title">Sorry, our database can't find for your ingredients good recipe 😕</span>
-                But you can also use <b>Mentioning ingredients in recipes</b> recipes above for inspiration!
-            {% else %}
-                Select a recipe from the list above to view details. Or enable "Instant Best Match" which will show you
-                the best recipe automatically.
+        <div class="rf-more-section {% if is_ai_mode %}ai-reveal-slow{% else %}result-reveal-fast{% endif %}">
+
+            {% if tier_1_recipes or featured and featured.relevance_tier == 1 %}
+                <details class="taste-accordion" open>
+                    <summary>
+                        <span>{% if is_ai_mode and not request.GET.strict %}AI Magic Matches ✦{% else %}Top Matches
+                            ✨{% endif %}</span>
+                        <span class="icon">▼</span>
+                    </summary>
+                    <div class="taste-accordion-body">
+                        <div class="rf-more-grid">
+                            {% if featured and featured.relevance_tier == 1 and not request.GET.recipe and request.GET.auto_show != '1' and not is_ai_mode %}
+                                <button type="button" class="more-recipe-card"
+                                        hx-get="{% url 'partials_recipes' %}?recipe={{ featured.id }}"
+                                        hx-target="#recipes-panel"
+                                        hx-include="#filters-form">
+                                    <span class="title">{{ featured.title|default:"Recipe" }} (Best Match)</span>
+                                    <span class="action">Open ↗</span>
+                                </button>
+                            {% endif %}
+                            {% for r in tier_1_recipes %}
+                                <button type="button" class="more-recipe-card"
+                                        hx-get="{% url 'partials_recipes' %}?recipe={{ r.id }}"
+                                        hx-target="#recipes-panel"
+                                        hx-include="#filters-form">
+                                    <span class="title">{{ r.title|default:"Recipe" }}</span>
+                                    <span class="action">Open ↗</span>
+                                </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </details>
+            {% endif %}
+
+            {% if tier_2_recipes or featured and featured.relevance_tier == 2 %}
+                <details class="taste-accordion">
+                    <summary>
+                        <span>{% if is_ai_mode and not request.GET.strict %}More Delicious Options 🍽️{% else %}
+                            Mentioning ingredients in recipes 💡{% endif %}</span>
+                        <span class="icon">▼</span>
+                    </summary>
+                    <div class="taste-accordion-body">
+                        <div class="rf-more-grid">
+                            {% if featured and featured.relevance_tier == 2 and not request.GET.recipe %}
+                                {% if request.GET.auto_show != '1' or is_ai_mode %}
+                                    <button type="button" class="more-recipe-card"
+                                            hx-get="{% url 'partials_recipes' %}?recipe={{ featured.id }}"
+                                            hx-target="#recipes-panel" hx-include="#filters-form">
+                                        <span class="title">{{ featured.title|default:"Recipe" }} (Best Match)</span>
+                                        <span class="action">Open ↗</span>
+                                    </button>
+                                {% endif %}
+                            {% endif %}
+                            {% for r in tier_2_recipes %}
+                                <button type="button" class="more-recipe-card"
+                                        hx-get="{% url 'partials_recipes' %}?recipe={{ r.id }}"
+                                        hx-target="#recipes-panel"
+                                        hx-include="#filters-form">
+                                    <span class="title">{{ r.title|default:"Recipe" }}</span>
+                                    <span class="action">Open ↗</span>
+                                </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </details>
             {% endif %}
         </div>
+
 
     {% else %}
         <div class="placeholder-card placeholder-card-dashed result-reveal-fast">
