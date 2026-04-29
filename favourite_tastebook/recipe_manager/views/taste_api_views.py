@@ -53,8 +53,9 @@ class SearchTastesPartialView(LoginRequiredMixin, TemplateView):
 class ToggleGlobalTasteApiView(LoginRequiredMixin, View):
     @staticmethod
     def post(request, *args, **kwargs):
-        raw_val = request.POST.get('disable_taste', 'false')
-        is_disabled = str(raw_val).lower() == 'true'
+        raw_val = request.POST.get('disable_taste')
+        #defence from unexpected do not investigated UI by me
+        is_disabled = str(raw_val).lower() in ['true', 'on', '1']
 
         request.session['disable_taste_logic'] = is_disabled
         request.session.modified = True
