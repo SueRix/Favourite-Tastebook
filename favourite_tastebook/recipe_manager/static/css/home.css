@@ -1489,3 +1489,79 @@ select#category-select::-webkit-scrollbar-thumb:active,
 .modal-grid-one {
     grid-template-columns: 1fr;
 }
+/* keyframes for unauthorized shake animation */
+@keyframes unauthorizedShake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-4px) rotate(-1deg); }
+    40% { transform: translateX(4px) rotate(1deg); }
+    60% { transform: translateX(-2px); }
+    80% { transform: translateX(2px); }
+    100% { transform: translateX(0); }
+}
+
+/* class to apply when user is not logged in */
+.unauthorized-shake {
+    animation: unauthorizedShake 0.4s ease-in-out;
+    border-color: rgba(255, 0, 0, 0.4) !important;
+}
+
+/* ==========================================================================
+   AI LOCKED BUTTON & TOOLTIP
+   ========================================================================== */
+.upload-ai-btn-locked {
+    position: relative;
+}
+
+.ai-locked-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.ai-star-bg {
+    font-size: 36px;
+    opacity: 0.4;
+    color: #000;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ai-lock-fg {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    color: #000;
+}
+
+.upload-ai-btn-locked::after {
+    content: "Please, login.";
+    position: absolute;
+    right: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%);
+
+    background: rgba(16, 16, 16, 0.92);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+
+    padding: 6px 10px;
+    font-size: 12px;
+    color: var(--text-main);
+    white-space: nowrap;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.14s ease;
+    z-index: 100;
+}
+
+.upload-ai-btn-locked:hover::after {
+    opacity: 1;
+}

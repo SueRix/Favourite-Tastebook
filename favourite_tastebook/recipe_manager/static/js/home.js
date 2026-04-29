@@ -346,40 +346,50 @@
        AI Analyzer Logic
     ========================= */
 
-    function openAiPanel(btnElement) {
+    function openAiPanel(event, btnElement) {
+        // check if user is logged in via data attribute
+        const isAuthenticated = btnElement.getAttribute('data-authenticated') === 'true';
+
+        if (!isAuthenticated) {
+            // stop htmx and prevent panel from clearing
+            event.stopImmediatePropagation();
+            event.preventDefault();
+
+            // trigger shake animation
+            btnElement.classList.add('unauthorized-shake');
+            btnElement.addEventListener('animationend', () => {
+                btnElement.classList.remove('unauthorized-shake');
+            }, {once: true});
+
+            return;
+        }
+
+        // standard logic for authorized users
         const standardView = document.getElementById('standard-search-view');
         const aiContainer = document.getElementById('ai-panel-container');
         const url = btnElement.getAttribute('data-ai-url');
 
-        standardView.style.display = 'none';
-        aiContainer.style.display = 'flex';
+        if (standardView) standardView.style.display = 'none';
+        if (aiContainer) aiContainer.style.display = 'flex';
 
         const wrapper = document.getElementById('main-ingredients-wrapper');
         if (wrapper) wrapper.classList.add('in-ai-mode');
-
-        const strictCheck = document.getElementById('strict-check');
-        const strictHidden = document.getElementById('strict-hidden');
-        if (strictCheck) {
-            strictCheck.dataset.savedState = strictCheck.checked ? "true" : "false";
-
-            if (strictCheck.checked) {
-                strictCheck.checked = false;
-                if (strictHidden) strictHidden.value = '';
-            }
-        }
 
         const indicator = document.getElementById('search-mode-indicator');
         if (indicator) {
             indicator.innerHTML = '✦ AI Smart Search';
         }
 
+        // flag that we are in ai mode
         const aiFlag = document.getElementById("ai-mode-flag");
         if (aiFlag) {
             aiFlag.value = "1";
         }
+
         const dismissFlag = document.getElementById("dismiss-ai-modal");
         if (dismissFlag) dismissFlag.value = "";
 
+        // load ai panel via htmx
         htmx.ajax('GET', url, {target: '#ai-panel-container', swap: 'innerHTML'});
     }
 
