@@ -85,8 +85,8 @@ body {
     margin-top: auto;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding-bottom: 46px;
+    gap: 12px;
+    padding-bottom: 0;
 }
 
 .sidebar-tip {
@@ -739,10 +739,7 @@ body {
 }
 
 #sidebarCloseBtn {
-    position: absolute;
-    right: 18px;
-    bottom: 24px;
-    z-index: 100;
+    position: static;
 }
 html, body {
     height: 100vh;
@@ -774,4 +771,17 @@ html, body {
 
 .layout.sidebar-closed .sidebar-open-btn {
     display: inline-flex;
+}
+
+.footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.footer-actions > form,
+.footer-actions > a.btn {
+    flex: 1;
+    margin: 0;
 }
