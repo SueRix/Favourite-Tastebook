@@ -25,6 +25,9 @@ class RecipesPartialView(SearchParamsMixin, TemplateView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         auto_show = self.request.GET.get('auto_show') == '1'
+        is_disabled = self.request.session.get('disable_taste_logic', False)
+        self.filters['use_tastes'] = not is_disabled
+
         new_context = DashboardUseCase.build_recipes_partial(
             self.filters,
             self.request.user,
