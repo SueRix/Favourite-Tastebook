@@ -48,3 +48,18 @@ class SearchTastesPartialView(LoginRequiredMixin, TemplateView):
         # get fresh data for the search/unrated column
         context.update(TasteManagementUseCase.build_tastes_profile(self.request.user))
         return context
+
+
+class ToggleGlobalTasteApiView(LoginRequiredMixin, View):
+    @staticmethod
+    def post(request, *args, **kwargs):
+        raw_val = request.POST.get('disable_taste', 'false')
+        is_disabled = str(raw_val).lower() == 'true'
+
+        request.session['disable_taste_logic'] = is_disabled
+        request.session.modified = True
+
+        return JsonResponse({
+            "status": "success",
+            "use_taste_logic": is_disabled
+        })
