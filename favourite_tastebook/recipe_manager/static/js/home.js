@@ -373,10 +373,12 @@
             indicator.innerHTML = '✦ AI Smart Search';
         }
 
-        const aiFlag = document.getElementById("ai-mode-flag");
+        const aiFlag = documentcloseAiPanel.getElementById("ai-mode-flag");
         if (aiFlag) {
             aiFlag.value = "1";
         }
+        const dismissFlag = document.getElementById("dismiss-ai-modal");
+        if (dismissFlag) dismissFlag.value = "";
 
         htmx.ajax('GET', url, {target: '#ai-panel-container', swap: 'innerHTML'});
     }
@@ -419,8 +421,8 @@
         const standardPanel = document.getElementById('main-ingredients-wrapper');
 
         if (standardPanel && standardView) {
-             standardView.appendChild(standardPanel);
-             standardPanel.classList.remove('in-ai-mode');
+            standardView.appendChild(standardPanel);
+            standardPanel.classList.remove('in-ai-mode');
         }
 
         if (aiContainer) {
@@ -450,6 +452,9 @@
         if (aiFlag) {
             aiFlag.value = "";
         }
+
+        const dismissFlag = document.getElementById("dismiss-ai-modal");
+        if (dismissFlag) dismissFlag.value = "";
 
         setTimeout(() => {
             document.body.dispatchEvent(new Event("ft:filtersChanged", {bubbles: true}));

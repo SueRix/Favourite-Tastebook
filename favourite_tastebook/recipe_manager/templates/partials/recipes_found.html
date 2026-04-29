@@ -16,7 +16,7 @@
     </div>
 {% else %}
 
-    {% if featured and request.GET.auto_show == '1' and not is_ai_mode or featured and is_ai_mode and featured.relevance_tier == 1 or featured and request.GET.recipe %}
+    {% if featured and request.GET.auto_show == '1' and not is_ai_mode or featured and is_ai_mode and featured.relevance_tier == 1 and request.GET.dismiss_ai_modal != '1' or featured and request.GET.recipe %}
         <div class="fs-modal-overlay {% if is_ai_mode %}ai-reveal-slow delay-200{% else %}result-reveal-fast{% endif %}">
             <div class="fs-modal-container">
 
@@ -72,7 +72,7 @@
 
                 <div class="fs-modal-right box-scroll">
                     <button type="button" class="fs-close-btn"
-                            onclick="let cb = document.getElementById('auto-show-check'); if(cb && cb.checked) { cb.checked = false; document.getElementById('auto-show-hidden').value = ''; }"
+                            onclick="let cb = document.getElementById('auto-show-check'); if(cb && cb.checked) { cb.checked = false; document.getElementById('auto-show-hidden').value = ''; } let dismiss = document.getElementById('dismiss-ai-modal'); if(dismiss) dismiss.value = '1';"
                             hx-get="{% url 'partials_recipes' %}"
                             hx-target="#recipes-panel"
                             hx-include="#filters-form"
