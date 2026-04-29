@@ -10,6 +10,8 @@ class RecipeSearchORM:
     def find_recipes(cls, filters: dict, user=None):
         is_ai_mode = IngredientSelector.is_ai_mode(filters)
 
+        use_tastes = filters.get("use_tastes", True)
+
         selected_ingredients_qs = IngredientSelector.list_selected(filters)
         selected_ids = list(selected_ingredients_qs.values_list("id", flat=True))
 
@@ -32,7 +34,7 @@ class RecipeSearchORM:
         )
 
         #hard filter for user's hated ingredient in recipes.
-        if user and user.is_authenticated:
+        if user and user.is_authenticated and use_tastes:
             hated_ids = UserTastePreference.objects.filter(
                 user=user,
                 score=TASTE_HATE_LEVEL

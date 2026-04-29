@@ -9,9 +9,13 @@ class MainTastebookView(SearchParamsMixin, TemplateView):
     template_name = "main/recipe_manager.html"
 
     def get_context_data(self, **kwargs):
-        # retrieve dashboard data using the SearchParamsMixin filters
         ctx = super().get_context_data(**kwargs)
+
+        is_disabled = self.request.session.get('disable_taste_logic', False)
         ctx['disable_taste_logic'] = self.request.session.get('disable_taste_logic', False)
+
+        self.filters['use_tastes'] = not is_disabled
+
         ctx.update(DashboardUseCase.build_home(self.filters, user=self.request.user))
         return ctx
 
