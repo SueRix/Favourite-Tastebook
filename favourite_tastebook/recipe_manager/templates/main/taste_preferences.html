@@ -9,29 +9,46 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container tastes-container">
-        <div class="home-card-head tools-header">
-        <div class="rf-title-large" style="display: flex; align-items: center;">
-            Manage Your Tastes
+    <div class="tastes-container">
 
-            <div class="taste-info-wrap">
-                <div class="taste-info-icon">?</div>
-                <div class="taste-info-popup">
-                    <div style="margin-bottom: 8px; font-weight: 600;">Rating Scale:</div>
-                    <div>🤮 <b>(-2)</b>: Exclude completely from recipes.</div>
-                    <div>👎 <b>(-1)</b>: Dislike, show less often.</div>
-                    <div>= <b>(0)</b>: Neutral, no preference.</div>
-                    <div>👍 <b>(+1)</b>: Like, prefer to see.</div>
-                    <div>❤️ <b>(+2)</b>: Love, highly prioritize.</div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 4px;">
+
+            <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+                <div class="rf-title-large" style="display: flex; align-items: center; margin: 0;">
+                    Manage Your Tastes
+                    <div class="taste-info-wrap">
+                        <div class="taste-info-icon">?</div>
+                        <div class="taste-info-popup">
+                            <div style="margin-bottom: 8px; font-weight: 600;">Rating Scale:</div>
+                            <div>🤮 <b>(-2)</b>: Exclude completely from recipes.</div>
+                            <div>👎 <b>(-1)</b>: Dislike, show less often.</div>
+                            <div>= <b>(0)</b>: Neutral, no preference.</div>
+                            <div>👍 <b>(+1)</b>: Like, prefer to see.</div>
+                            <div>❤️ <b>(+2)</b>: Love, highly prioritize.</div>
+                        </div>
+                    </div>
                 </div>
+
+                <span class="home-muted" style="font-size: 13px; margin: 0; opacity: 0.7;">
+                Rate ingredients to improve your AI recommendations.
+            </span>
             </div>
 
+            <label class="global-taste-toggle-wrap" for="global-taste-toggle" style="margin: 0; flex-shrink: 0;">
+                <input type="checkbox"
+                       id="global-taste-toggle"
+                       name="disable_taste"
+                       value="true"
+                       hx-post="{% url 'api_toggle_global_tastes' %}"
+                       hx-trigger="change"
+                       hx-swap="none"
+                       hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                       {% if disable_taste_logic %}checked{% endif %}>
+                <span>Force disable taste logic</span>
+            </label>
         </div>
-        <p class="home-muted">Rate ingredients to improve your AI recommendations.</p>
-    </div>
 
         <div class="tastes-layout-grid">
-
             <div class="tastes-col-rated" id="rated-tastes-panel">
                 <div style="padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.08);">
                     <h3 class="rf-section-title no-margin">Rated Ingredients</h3>

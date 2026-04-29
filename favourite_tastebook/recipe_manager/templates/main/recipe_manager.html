@@ -120,12 +120,6 @@
                             {% if request.GET.strict %}точный{% else %}общий{% endif %}
                         </span>
                     </div>
-
-                    <label class="taste-toggle">
-                        <input type="checkbox" id="use-tastes" name="use_tastes" form="filters-form"
-                               data-auth-required="1" {% if request.GET.use_tastes %}checked{% endif %}>
-                        <span>Use profile tastes</span>
-                    </label>
                     <div class="home-muted small" id="recipes-meta"></div>
                 </div>
 
