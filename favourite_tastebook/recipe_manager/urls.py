@@ -2,7 +2,6 @@ from django.urls import path
 
 from .views.main_views import (
     MainTastebookView,
-    TastesView,
 )
 from .views.recipe_manager_views import (
     IngredientsPartialView,
@@ -30,4 +29,6 @@ urlpatterns = [
          name='api_ingredient_update'),
     path('partials/tastes/rated/', taste_api_views.RatedTastesPartialView.as_view(), name='partials_rated_tastes'),
     path('partials/tastes/search/', taste_api_views.SearchTastesPartialView.as_view(), name='partials_search_tastes'),
+    path('api/tastes/toggle-global/', taste_api_views.ToggleGlobalTasteApiView.as_view(),
+         name='api_toggle_global_tastes'),
 ]
