@@ -373,7 +373,7 @@
             indicator.innerHTML = '✦ AI Smart Search';
         }
 
-        const aiFlag = documentcloseAiPanel.getElementById("ai-mode-flag");
+        const aiFlag = document.getElementById("ai-mode-flag");
         if (aiFlag) {
             aiFlag.value = "1";
         }
