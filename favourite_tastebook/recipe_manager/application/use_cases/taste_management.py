@@ -1,5 +1,5 @@
 from recipe_manager.models import Recipe, SavedRecipe
-from recipe_manager.domain.enums import TasteLevels
+from recipe_manager.domain.enums import TasteLevels, Importance
 from recipe_manager.models import Ingredient, Cuisine, UserTastePreference, UserCuisinePreference
 from recipe_manager.infrastructure.selectors.ingredients import IngredientSelector
 
@@ -9,7 +9,7 @@ class TasteManagementUseCase:
     """
 
     @classmethod
-    def apply_recipe_like(cls, user, recipe_id: int):
+    def apply_recipe_like(cls, user, recipe_id: int, only_required: bool = True):
         # 1. handle the saved recipe state (mark as favorite)
         saved_recipe, _ = SavedRecipe.objects.get_or_create(
             user=user,
@@ -29,7 +29,15 @@ class TasteManagementUseCase:
         except Recipe.DoesNotExist:
             return
 
-        ingredient_ids = [ri.ingredient_id for ri in recipe.ingredients.all()]
+        # filter ingredients by importance if only_required is true
+        if only_required:
+            ingredient_ids = [
+                ri.ingredient_id
+                for ri in recipe.ingredients.all()
+                if ri.importance == Importance.REQUIRED
+            ]
+        else:
+            ingredient_ids = [ri.ingredient_id for ri in recipe.ingredients.all()]
 
         # 3. protect explicit manual user choices from being overwritten
         explicit_ids = set(UserTastePreference.objects.filter(
