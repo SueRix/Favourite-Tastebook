@@ -35,6 +35,8 @@ class RecipeSearchORM:
             )
         )
 
+        qs = RecipeScoringService.annotate_base_metrics(qs, selected_ids)
+
         # hard filter for user's hated ingredient in recipes.
         if user and user.is_authenticated and use_tastes:
             hated_ids = UserTastePreference.objects.filter(
@@ -45,15 +47,14 @@ class RecipeSearchORM:
             if hated_ids.exists():
                 qs = qs.exclude(ingredients__ingredient_id__in=hated_ids)
 
-        qs = RecipeScoringService.annotate_base_metrics(qs, selected_ids)
 
-        hated_cui_ids = UserCuisinePreference.objects.filter(
-            user=user,
-            score=TASTE_HATE_LEVEL
-        ).values_list('cuisine_id', flat=True)
+            hated_cui_ids = UserCuisinePreference.objects.filter(
+                user=user,
+                score=TASTE_HATE_LEVEL
+            ).values_list('cuisine_id', flat=True)
 
-        if hated_cui_ids.exists():
-            qs = qs.exclude(cuisine_id__in=hated_cui_ids)
+            if hated_cui_ids.exists():
+                qs = qs.exclude(cuisine_id__in=hated_cui_ids)
 
         is_strict_mode = filters.get("strict") == "1"
 

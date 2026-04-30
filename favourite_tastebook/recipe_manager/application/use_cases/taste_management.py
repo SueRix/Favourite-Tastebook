@@ -1,8 +1,7 @@
-from recipe_manager.infrastructure.selectors import IngredientSelector
-from recipe_manager.models import Recipe, UserTastePreference, SavedRecipe, Ingredient
+from recipe_manager.models import Recipe, SavedRecipe
 from recipe_manager.domain.enums import TasteLevels
-from recipe_manager.models import Ingredient, Cuisine, UserCuisinePreference
-
+from recipe_manager.models import Ingredient, Cuisine, UserTastePreference, UserCuisinePreference
+from recipe_manager.infrastructure.selectors.ingredients import IngredientSelector
 
 class TasteManagementUseCase:
     """
@@ -79,35 +78,34 @@ class TasteManagementUseCase:
 
     @classmethod
     def build_tastes_profile(cls, user):
-        ingredients = list(Ingredient.objects.all().order_by("category", "name"))
 
+
+        ingredients = list(Ingredient.objects.all().order_by("category", "name"))
         user_prefs = UserTastePreference.objects.filter(
             user=user,
             is_explicit=True
         ).values_list('ingredient_id', 'score')
-
         prefs_dict = {ing_id: score for ing_id, score in user_prefs}
-
-        for ing in ingredients:
-            ing.current_score = prefs_dict.get(ing.id, 0)
-
-        # check if there is at least one preference that is not neutral (0)
-        has_rated = any(score != 0 for score in prefs_dict.values())
 
         cuisines = list(Cuisine.objects.all().order_by("name"))
         cuisine_prefs = UserCuisinePreference.objects.filter(
             user=user
         ).values_list('cuisine_id', 'score')
+        cuisine_prefs_dict = {c_id: score for c_id, score in cuisine_prefs}
 
-        cui_prefs_dict = {c_id: score for c_id, score in cuisine_prefs}
+        for ing in ingredients:
+            ing.current_score = prefs_dict.get(ing.id, 0)
+
         for cui in cuisines:
-            cui.current_score = cui_prefs_dict.get(cui.id, 0)
+            cui.current_score = cuisine_prefs_dict.get(cui.id, 0)
 
         return {
             "ingredients": ingredients,
             "categories": IngredientSelector.list_categories(),
             "cuisines": cuisines,
-            "has_rated_tastes": has_rated,
+            "cuisine_tastes": cuisine_prefs_dict,
+            "has_rated_ingredients": any(score != 0 for score in prefs_dict.values()),
+            "has_rated_cuisines": any(score != 0 for score in cuisine_prefs_dict.values()),
         }
 
     @classmethod
