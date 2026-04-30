@@ -108,3 +108,26 @@ class UserTastePreference(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.ingredient.name}: {self.score}"
+
+class UserCuisinePreference(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='cuisine_preferences'
+    )
+    cuisine = models.ForeignKey(
+        Cuisine,
+        on_delete=models.CASCADE,
+        related_name='favored_by_users'
+    )
+    score = models.SmallIntegerField(
+        choices=TasteLevels,
+        default=TasteLevels.NEUTRAL
+    )
+
+    class Meta:
+        unique_together = ("user", "cuisine")
+        verbose_name = "User Cuisine Preference"
+
+    def __str__(self):
+        return f"{self.user.username} - {self.cuisine.name}: {self.score}"
