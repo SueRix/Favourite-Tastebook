@@ -10,7 +10,7 @@ class TasteManagementUseCase:
 
     @classmethod
     def _get_required_ingredient_ids(cls, recipe_id: int) -> list[int]:
-        """Вспомогательный метод для получения ID обязательных ингредиентов рецепта."""
+        """ВHelper method for getting IDs of required ingredients of a recipe."""
         try:
             recipe = Recipe.objects.prefetch_related('ingredients').get(id=recipe_id)
             return [

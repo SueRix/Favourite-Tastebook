@@ -541,14 +541,12 @@
     btn.style.pointerEvents = "none";
 
     try {
-        // 1. ВЗАИМОИСКЛЮЧЕНИЕ: Если мы включаем кнопку, проверяем, не активна ли противоположная
         if (!isActive) {
             const oppositeAction = actionType === 'like' ? 'dislike' : 'like';
             const container = btn.closest('.taste-btn-group') || btn.parentElement;
             const oppositeBtn = container.querySelector(`[data-action-type="${oppositeAction}"]`);
 
             if (oppositeBtn && oppositeBtn.dataset.isActive === "true") {
-                // Отправляем DELETE запрос для противоположного действия, чтобы очистить БД
                 const oppRes = await fetch(`/home/api/tastes/recipe/${recipeId}/${oppositeAction}/`, {
                     method: "DELETE",
                     headers: {
@@ -564,7 +562,6 @@
             }
         }
 
-        // 2. ОСНОВНОЕ ДЕЙСТВИЕ: Выполняем POST или DELETE для нажатой кнопки
         const method = isActive ? "DELETE" : "POST";
         const url = `/home/api/tastes/recipe/${recipeId}/${actionType}/`;
 
