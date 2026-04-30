@@ -98,3 +98,13 @@ class TasteManagementUseCase:
             "categories": IngredientSelector.list_categories(),
             "has_rated_tastes": has_rated,
         }
+
+    @classmethod
+    def update_cuisine_taste(cls, user, cuisine_id: int, score: int):
+        from recipe_manager.models import UserCuisinePreference
+
+        UserCuisinePreference.objects.update_or_create(
+            user=user,
+            cuisine_id=cuisine_id,
+            defaults={'score': score}
+        )
