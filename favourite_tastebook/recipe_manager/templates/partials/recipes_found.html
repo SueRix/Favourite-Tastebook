@@ -86,6 +86,36 @@
                             <div style="display: flex; align-items: center; gap: 16px; flex-shrink: 0;">
 
                                 {% if request.user.is_authenticated %}
+                                    <!-- Like Button (Thumbs Up) -->
+                                    <button type="button"
+                                            class="btn-like btn-up {% if featured.is_liked %}active{% endif %}"
+                                            data-id="{{ featured.id }}"
+                                            data-action-type="like"
+                                            data-is-active="{% if featured.is_liked %}true{% else %}false{% endif %}"
+                                            onclick="toggleTasteAction(this)"
+                                            title="I like this taste">
+                                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                            <!-- Thumbs up path -->
+                                            <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                                        </svg>
+                                    </button>
+
+                                    <!-- Dislike Button (Thumbs Down) -->
+                                    <button type="button"
+                                            class="btn-like btn-down {% if featured.is_disliked %}active{% endif %}"
+                                            style="margin-left: 0;"
+                                            data-id="{{ featured.id }}"
+                                            data-action-type="dislike"
+                                            data-is-active="{% if featured.is_disliked %}true{% else %}false{% endif %}"
+                                            onclick="toggleTasteAction(this)"
+                                            title="I dislike this taste">
+                                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                            <!-- Thumbs down path -->
+                                            <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path>
+                                        </svg>
+                                    </button>
+
+                                    <!-- Existing Bookmark Button -->
                                     <button type="button" class="btn-fav {% if featured.is_saved %}active{% endif %}"
                                             style="margin-left: 0;"
                                             data-id="{{ featured.id }}"

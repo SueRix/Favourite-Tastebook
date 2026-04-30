@@ -9,6 +9,19 @@ class TasteManagementUseCase:
     """
 
     @classmethod
+    def _get_required_ingredient_ids(cls, recipe_id: int) -> list[int]:
+        """Вспомогательный метод для получения ID обязательных ингредиентов рецепта."""
+        try:
+            recipe = Recipe.objects.prefetch_related('ingredients').get(id=recipe_id)
+            return [
+                ri.ingredient_id
+                for ri in recipe.ingredients.all()
+                if ri.importance == Importance.REQUIRED
+            ]
+        except Recipe.DoesNotExist:
+            return []
+
+    @classmethod
     def apply_recipe_like(cls, user, recipe_id: int, only_required: bool = True):
         # 1. handle the saved recipe state (mark as favorite)
         saved_recipe, _ = SavedRecipe.objects.get_or_create(
@@ -63,13 +76,58 @@ class TasteManagementUseCase:
                 pref.save()
 
     @classmethod
+    def apply_recipe_dislike(cls, user, recipe_id: int):
+        try:
+            recipe = Recipe.objects.prefetch_related('ingredients').get(id=recipe_id)
+        except Recipe.DoesNotExist:
+            return
+
+        ingredient_ids = [
+            ri.ingredient_id
+            for ri in recipe.ingredients.all()
+            if ri.importance == Importance.REQUIRED
+        ]
+
+        explicit_ids = set(UserTastePreference.objects.filter(
+            user=user,
+            ingredient_id__in=ingredient_ids,
+            is_explicit=True
+        ).values_list('ingredient_id', flat=True))
+
+        for ing_id in ingredient_ids:
+            if ing_id in explicit_ids:
+                continue
+
+            UserTastePreference.objects.update_or_create(
+                user=user,
+                ingredient_id=ing_id,
+                defaults={'score': TasteLevels.DISLIKE, 'is_explicit': False}
+            )
+
+    @classmethod
     def remove_recipe_like(cls, user, recipe_id: int):
-        """
-        optional: logic if user un-likes a recipe.
-        simply toggles the favorite flag.
-        reversing implicit ingredient weights is too complex and usually not needed.
-        """
         SavedRecipe.objects.filter(user=user, recipe_id=recipe_id).update(is_favorite=False)
+        ingredient_ids = cls._get_required_ingredient_ids(recipe_id)
+
+        if ingredient_ids:
+            UserTastePreference.objects.filter(
+                user=user,
+                ingredient_id__in=ingredient_ids,
+                is_explicit=False,
+                score=TasteLevels.LIKE
+            ).delete()
+
+    @classmethod
+    def remove_recipe_dislike(cls, user, recipe_id: int):
+        ingredient_ids = cls._get_required_ingredient_ids(recipe_id)
+
+        if ingredient_ids:
+            UserTastePreference.objects.filter(
+                user=user,
+                ingredient_id__in=ingredient_ids,
+                is_explicit=False,
+                score=TasteLevels.DISLIKE
+            ).delete()
 
     @classmethod
     def update_ingredient_taste(cls, user, ingredient_id: int, score: int):

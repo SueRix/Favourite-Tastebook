@@ -533,12 +533,79 @@
         document.body.dispatchEvent(new Event("ft:filtersChanged", {bubbles: true}));
     }
 
+    async function toggleTasteAction(btn) {
+    const recipeId = btn.dataset.id;
+    const actionType = btn.dataset.actionType; // "like" или "dislike"
+    const isActive = btn.dataset.isActive === "true";
+
+    btn.style.pointerEvents = "none";
+
+    try {
+        // 1. ВЗАИМОИСКЛЮЧЕНИЕ: Если мы включаем кнопку, проверяем, не активна ли противоположная
+        if (!isActive) {
+            const oppositeAction = actionType === 'like' ? 'dislike' : 'like';
+            const container = btn.closest('.taste-btn-group') || btn.parentElement;
+            const oppositeBtn = container.querySelector(`[data-action-type="${oppositeAction}"]`);
+
+            if (oppositeBtn && oppositeBtn.dataset.isActive === "true") {
+                // Отправляем DELETE запрос для противоположного действия, чтобы очистить БД
+                const oppRes = await fetch(`/home/api/tastes/recipe/${recipeId}/${oppositeAction}/`, {
+                    method: "DELETE",
+                    headers: {
+                        "X-CSRFToken": getCookie("csrftoken"),
+                        "X-Requested-With": "XMLHttpRequest",
+                    },
+                });
+
+                if (oppRes.ok) {
+                    oppositeBtn.dataset.isActive = "false";
+                    oppositeBtn.classList.remove("active");
+                }
+            }
+        }
+
+        // 2. ОСНОВНОЕ ДЕЙСТВИЕ: Выполняем POST или DELETE для нажатой кнопки
+        const method = isActive ? "DELETE" : "POST";
+        const url = `/home/api/tastes/recipe/${recipeId}/${actionType}/`;
+
+        const response = await fetch(url, {
+            method: method,
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+            },
+        });
+
+        if (response.ok) {
+            const newState = !isActive;
+            btn.dataset.isActive = String(newState);
+
+            if (newState) {
+                btn.classList.add("active");
+            } else {
+                btn.classList.remove("active");
+            }
+
+            btn.classList.add("animating");
+            setTimeout(() => btn.classList.remove("animating"), 300);
+        } else {
+            console.error(`Taste ${actionType} error:`, response.status);
+        }
+    } catch (err) {
+        console.error("Network error:", err);
+    } finally {
+        btn.style.pointerEvents = "auto";
+    }
+}
+
     window.openAiPanel = openAiPanel;
     window.closeAiPanel = closeAiPanel;
     window.previewAiImage = previewAiImage;
     window.applyAiResults = applyAiResults;
     window.toggleAiIngredient = toggleAiIngredient;
     window.toggleAdvancedIngredients = toggleAdvancedIngredients;
+    window.toggleTasteAction = toggleTasteAction;
 
     /* =========================
        Initialization

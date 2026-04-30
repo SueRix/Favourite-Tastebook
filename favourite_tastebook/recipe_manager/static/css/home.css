@@ -1565,3 +1565,75 @@ select#category-select::-webkit-scrollbar-thumb:active,
 .upload-ai-btn-locked:hover::after {
     opacity: 1;
 }
+
+/* ==========================================================================
+   TASTE LIKE BUTTON
+   ========================================================================== */
+.btn-like {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.6);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.btn-like svg {
+    width: 20px;
+    height: 20px;
+    fill: transparent;
+    stroke: currentColor;
+    stroke-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.btn-like:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.btn-like.active {
+    border-color: #ef4444; /* red color for heart */
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+.btn-like.active svg {
+    fill: #ef4444;
+    stroke: #ef4444;
+}
+
+.btn-like.animating {
+    animation: pop 0.3s ease;
+}
+
+.btn-like.btn-up.active {
+    border-color: #4ade80;
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.1);
+    box-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
+}
+.btn-like.btn-up.active svg {
+    fill: rgba(74, 222, 128, 0.2);
+    stroke: #4ade80;
+}
+
+/* Thumbs Down Active (Red) */
+.btn-like.btn-down.active {
+    border-color: #f87171;
+    color: #f87171;
+    background: rgba(248, 113, 113, 0.1);
+    box-shadow: 0 0 10px rgba(248, 113, 113, 0.3);
+}
+.btn-like.btn-down.active svg {
+    fill: rgba(248, 113, 113, 0.2);
+    stroke: #f87171;
+}
