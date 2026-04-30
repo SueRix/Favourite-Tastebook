@@ -23,11 +23,11 @@
                 <div class="fs-modal-left box-scroll">
                     <div class="rf-section-title" style="margin-bottom: 20px;">Other Options</div>
 
-                    {% if tier_1_recipes or featured and featured.relevance_tier == 1 %}
+                    {% if tier_1_recipes %}
                         <details class="taste-accordion" open>
                             <summary>
-                                <span>{% if is_ai_mode and not request.GET.strict %}AI Magic Matches ✦{% else %}Top
-                                    Matches ✨{% endif %}</span>
+                <span>{% if is_ai_mode and not request.GET.strict %}AI Magic Matches ✦{% else %}Top
+                    Matches ✨{% endif %}</span>
                                 <span class="icon">▼</span>
                             </summary>
                             <div class="taste-accordion-body">
@@ -46,11 +46,11 @@
                         </details>
                     {% endif %}
 
-                    {% if tier_2_recipes or featured and featured.relevance_tier == 2 %}
+                    {% if tier_2_recipes %}
                         <details class="taste-accordion">
                             <summary>
-                                <span>{% if is_ai_mode and not request.GET.strict %}More Delicious Options 🍽️{% else %}
-                                    Mentioning ingredients 💡{% endif %}</span>
+                <span>{% if is_ai_mode and not request.GET.strict %}More Delicious Options 🍽️{% else %}
+                    Mentioning ingredients 💡{% endif %}</span>
                                 <span class="icon">▼</span>
                             </summary>
                             <div class="taste-accordion-body">
