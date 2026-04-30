@@ -1,6 +1,7 @@
 from recipe_manager.infrastructure.selectors import IngredientSelector
 from recipe_manager.models import Recipe, UserTastePreference, SavedRecipe, Ingredient
 from recipe_manager.domain.enums import TasteLevels
+from recipe_manager.models import Ingredient, Cuisine, UserCuisinePreference
 
 
 class TasteManagementUseCase:
@@ -93,9 +94,19 @@ class TasteManagementUseCase:
         # check if there is at least one preference that is not neutral (0)
         has_rated = any(score != 0 for score in prefs_dict.values())
 
+        cuisines = list(Cuisine.objects.all().order_by("name"))
+        cuisine_prefs = UserCuisinePreference.objects.filter(
+            user=user
+        ).values_list('cuisine_id', 'score')
+
+        cui_prefs_dict = {c_id: score for c_id, score in cuisine_prefs}
+        for cui in cuisines:
+            cui.current_score = cui_prefs_dict.get(cui.id, 0)
+
         return {
             "ingredients": ingredients,
             "categories": IngredientSelector.list_categories(),
+            "cuisines": cuisines,
             "has_rated_tastes": has_rated,
         }
 
