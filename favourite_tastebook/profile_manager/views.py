@@ -5,17 +5,6 @@ from .models import Profile
 from .forms import UserUpdateForm, ProfileForm
 
 
-class ProfileDetailView(LoginRequiredMixin, TemplateView):
-    template_name = "profile/detail.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # fallback get_or_create in case user was created without signal trigger
-        profile, _ = Profile.objects.get_or_create(user=self.request.user)
-        context['profile'] = profile
-        return context
-
-
 class ProfileUpdateView(LoginRequiredMixin, View):
     template_name = "profile/edit.html"
 

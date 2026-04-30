@@ -14,10 +14,11 @@
             <span class="nav-text">Home</span>
         </a>
 
-        <a href="{% url 'profile_detail' %}"
+        <!-- fix: changed profile_detail to profile_edit for url and active state check -->
+        <a href="{% url 'profile_edit' %}"
            data-auth-required="1"
-           class="nav-link {% if request.resolver_match.url_name == 'profile_detail' %}nav-link--active{% endif %}">
-            <span class="nav-text">My Hub</span>
+           class="nav-link {% if request.resolver_match.url_name == 'profile_edit' %}nav-link--active{% endif %}">
+            <span class="nav-text">Account & Security</span>
 
             {% if not user.is_authenticated %}
                 <button type="button"
@@ -43,7 +44,6 @@
                 </button>
             {% endif %}
         </a>
-
 
         <a href="{% url 'saved_recipes' %}"
            data-auth-required="1"

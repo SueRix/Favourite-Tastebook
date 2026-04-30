@@ -1,388 +1,128 @@
 {% extends "layout/base.html" %}
 {% load static %}
 
-{% block title %}Edit Profile
-    <script>
-      (function () {
-        const fileInput = document.querySelector('input[type="file"][name$="avatar"]');
-        const img = document.getElementById('avatarPreviewImg');
-        const ph = document.getElementById('avatarPreviewPlaceholder');
-
-        const dlg = document.getElementById('avatarPreviewDialog');
-        const dlgImg = document.getElementById('avatarPreviewDialogImg');
-        const openBtn = document.getElementById('openAvatarPreview');
-        const closeBtn = document.getElementById('closeAvatarPreview');
-
-        function setImgSrc(src) {
-          if (img) img.src = src;
-          if (dlgImg) dlgImg.src = src;
-        }
-
-        function showImgMode(hasImage) {
-          if (!img || !ph) return;
-          img.style.display = hasImage ? 'block' : 'none';
-          ph.style.display = hasImage ? 'none' : 'grid';
-        }
-
-        // init: if template rendered an <img>, keep; else placeholder
-        if (img && img.getAttribute('src')) {
-          showImgMode(true);
-          setImgSrc(img.getAttribute('src'));
-        } else {
-          showImgMode(false);
-        }
-
-        if (fileInput) {
-          fileInput.addEventListener('change', function () {
-            const f = fileInput.files && fileInput.files[0];
-            if (!f) return;
-
-            // Basic guard: image only
-            if (!f.type || !f.type.startsWith('image/')) return;
-
-            const reader = new FileReader();
-            reader.onload = function (e) {
-              const src = e.target.result;
-              if (img) {
-                showImgMode(true);
-                setImgSrc(src);
-              } else if (dlgImg) {
-                setImgSrc(src);
-              }
-            };
-            reader.readAsDataURL(f);
-          });
-        }
-
-        if (openBtn && dlg && dlgImg) {
-          openBtn.addEventListener('click', function () {
-            // prefer current preview image; else do nothing
-            const src = (img && img.getAttribute('src')) ? img.getAttribute('src') : '';
-            if (src) {
-              dlgImg.src = src;
-              if (typeof dlg.showModal === 'function') dlg.showModal();
-            }
-          });
-        }
-
-        if (closeBtn && dlg) {
-          closeBtn.addEventListener('click', function () {
-            dlg.close();
-          });
-        }
-
-        if (dlg) {
-          dlg.addEventListener('click', function (e) {
-            const rect = dlg.getBoundingClientRect();
-            const inDialog = (
-              e.clientX >= rect.left && e.clientX <= rect.right &&
-              e.clientY >= rect.top && e.clientY <= rect.bottom
-            );
-            if (!inDialog) dlg.close();
-          });
-        }
-      })();
-    </script>
-
-{% endblock %}
+{% block title %}Account & Security{% endblock %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'profile/css/profile.css' %}">
-
-    <script>
-      (function () {
-        const fileInput = document.querySelector('input[type="file"][name$="avatar"]');
-        const img = document.getElementById('avatarPreviewImg');
-        const ph = document.getElementById('avatarPreviewPlaceholder');
-
-        const dlg = document.getElementById('avatarPreviewDialog');
-        const dlgImg = document.getElementById('avatarPreviewDialogImg');
-        const openBtn = document.getElementById('openAvatarPreview');
-        const closeBtn = document.getElementById('closeAvatarPreview');
-
-        function setImgSrc(src) {
-          if (img) img.src = src;
-          if (dlgImg) dlgImg.src = src;
-        }
-
-        function showImgMode(hasImage) {
-          if (!img || !ph) return;
-          img.style.display = hasImage ? 'block' : 'none';
-          ph.style.display = hasImage ? 'none' : 'grid';
-        }
-
-        // init: if template rendered an <img>, keep; else placeholder
-        if (img && img.getAttribute('src')) {
-          showImgMode(true);
-          setImgSrc(img.getAttribute('src'));
-        } else {
-          showImgMode(false);
-        }
-
-        if (fileInput) {
-          fileInput.addEventListener('change', function () {
-            const f = fileInput.files && fileInput.files[0];
-            if (!f) return;
-
-            // Basic guard: image only
-            if (!f.type || !f.type.startsWith('image/')) return;
-
-            const reader = new FileReader();
-            reader.onload = function (e) {
-              const src = e.target.result;
-              if (img) {
-                showImgMode(true);
-                setImgSrc(src);
-              } else if (dlgImg) {
-                setImgSrc(src);
-              }
-            };
-            reader.readAsDataURL(f);
-          });
-        }
-
-        if (openBtn && dlg && dlgImg) {
-          openBtn.addEventListener('click', function () {
-            // prefer current preview image; else do nothing
-            const src = (img && img.getAttribute('src')) ? img.getAttribute('src') : '';
-            if (src) {
-              dlgImg.src = src;
-              if (typeof dlg.showModal === 'function') dlg.showModal();
-            }
-          });
-        }
-
-        if (closeBtn && dlg) {
-          closeBtn.addEventListener('click', function () {
-            dlg.close();
-          });
-        }
-
-        if (dlg) {
-          dlg.addEventListener('click', function (e) {
-            const rect = dlg.getBoundingClientRect();
-            const inDialog = (
-              e.clientX >= rect.left && e.clientX <= rect.right &&
-              e.clientY >= rect.top && e.clientY <= rect.bottom
-            );
-            if (!inDialog) dlg.close();
-          });
-        }
-      })();
-    </script>
-
 {% endblock %}
 
 {% block content %}
-    <h1 class="page-title">Account Settings</h1>
-    <p class="page-subtitle">
-        Update your personal details and kitchen preferences.
-    </p>
+    <div class="settings-wrapper">
+        <h1 class="page-title">Account & Security</h1>
+        <p class="page-subtitle">
+            manage your profile picture and account security.
+        </p>
 
-    {% if saved %}
-        <div class="alert alert-success">
-            Changes saved successfully.
-        </div>
-    {% endif %}
+        {% if saved %}
+            <div class="alert alert-success">
+                changes saved successfully.
+            </div>
+        {% endif %}
 
-    {% if errors %}
-        <div class="alert alert-error">
-            Please check the fields below.
-        </div>
-    {% endif %}
+        {% if errors %}
+            <div class="alert alert-error">
+                an error occurred. please check your file and try again.
+            </div>
+        {% endif %}
 
-    <form method="post" enctype="multipart/form-data" novalidate>
-        {% csrf_token %}
+        <div class="card settings-container">
+            <!-- avatar section -->
+            <div class="settings-section">
+                <div class="section-heading">Avatar</div>
 
-        <div class="card">
-            <div class="card-title">Profile & Preferences</div>
-
-            <div class="edit-layout">
-                <div class="edit-avatar">
-                    <div class="edit-avatar-title">Avatar</div>
+                <form method="post" enctype="multipart/form-data" novalidate class="avatar-form-horizontal">
+                    {% csrf_token %}
 
                     <div class="avatar-preview-shell">
-                        <div class="avatar-preview avatar-preview--large">
-                        {% if profile_form.instance.avatar %}
-                            <img id="avatarPreviewImg" src="{{ profile_form.instance.avatar.url }}" alt="Current avatar">
-                        {% else %}
-                            <div id="avatarPreviewPlaceholder" class="avatar-placeholder">
-                                {{ request.user.username|first|upper }}
-                            </div>
-                        {% endif %}
-                    
-                    <div class="avatar-actions">
-                        <button type="button" class="btn btn-secondary btn-small" id="openAvatarPreview">Preview</button>
-                    </div>
-
-                    <dialog class="avatar-dialog" id="avatarPreviewDialog">
-                        <div class="avatar-dialog-card">
-                            <div class="avatar-dialog-head">
-                                <div class="avatar-dialog-title">Avatar preview</div>
-                                <button type="button" class="avatar-dialog-close" id="closeAvatarPreview" aria-label="Close">×</button>
-                            </div>
-                            <div class="avatar-dialog-body">
-                                <div class="avatar-dialog-preview">
-                                    <img id="avatarPreviewDialogImg" alt="Avatar preview">
+                        <div class="avatar-preview avatar-preview--medium">
+                            {% if profile_form.instance.avatar %}
+                                <img id="liveAvatarImg" src="{{ profile_form.instance.avatar.url }}" alt="current avatar">
+                            {% else %}
+                                <div id="liveAvatarPlaceholder" class="avatar-placeholder">
+                                    {{ request.user.username|first|upper }}
                                 </div>
-                                <div class="avatar-dialog-hint">
-                                    This is a preview of the selected image before saving.
-                                </div>
-                            </div>
+                            {% endif %}
                         </div>
-                    </dialog>
-</div>
                     </div>
 
-                    <div class="avatar-upload-block">
-                        <div class="field-label">Update Image</div>
+                    <div class="avatar-controls">
                         <div class="field-input avatar-input-wrapper">
                             {{ profile_form.avatar }}
                         </div>
-                        <div class="field-help">
-                            Recommended: square image, at least 256×256px.
-                        </div>
-                    </div>
+                        <div class="field-help">recommended: square image, at least 256×256px.</div>
 
-                    {% if profile_form.instance.avatar %}
-                        <div class="checkbox-row">
-                            {{ profile_form.remove_avatar }}
-                            <label for="{{ profile_form.remove_avatar.id_for_label }}">
-                                {{ profile_form.remove_avatar.label }}
-                            </label>
-                        </div>
-                    {% endif %}
-                </div>
-
-                <div class="edit-fields">
-                    <div class="edit-section-title">Login Data</div>
-                    {% for field in user_form %}
-                        {% if field.name != "email" %}
-                        <div class="field">
-                            <label class="field-label" for="{{ field.id_for_label }}">
-                                {{ field.label }}
-                            </label>
-                            <div class="field-input">
-                                {{ field }}
-                            </div>
-                            {% if field.errors %}
-                                <div class="field-errors">{{ field.errors|striptags }}</div>
-                            {% endif %}
-                        </div>
-                    {% endif %}
-                    {% endfor %}
-
-                    <div class="edit-section-title">Kitchen Preferences</div>
-                    {% for field in profile_form %}
-                        {% if field.name != 'avatar' and field.name != 'remove_avatar' %}
-                            <div class="field">
-                                <label class="field-label" for="{{ field.id_for_label }}">
-                                    {{ field.label }}
+                        {% if profile_form.instance.avatar %}
+                            <div class="checkbox-row mt-2">
+                                {{ profile_form.remove_avatar }}
+                                <label for="{{ profile_form.remove_avatar.id_for_label }}">
+                                    {{ profile_form.remove_avatar.label }}
                                 </label>
-                                <div class="field-input">
-                                    {{ field }}
-                                </div>
-                                {% if field.help_text %}
-                                    <div class="field-help">{{ field.help_text }}</div>
-                                {% endif %}
-                                {% if field.errors %}
-                                    <div class="field-errors">{{ field.errors|striptags }}</div>
-                                {% endif %}
                             </div>
                         {% endif %}
-                    {% endfor %}
+
+                        <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+
+            <hr class="settings-divider">
+
+            <!-- security section -->
+            <div class="settings-section">
+                <div class="section-heading">Security Settings</div>
+
+                <div class="security-item">
+                    <div class="security-info">
+                        <div class="security-title">password</div>
+                        <div class="security-desc">update your password to keep your account secure.</div>
+                    </div>
+                    <a href="{% url 'password_change' %}" class="btn btn-secondary">Change</a>
+                </div>
+
+                <div class="security-item danger-zone">
+                    <div class="security-info">
+                        <div class="security-title">delete account</div>
+                        <div class="security-desc">permanently delete your account and all data.</div>
+                    </div>
+                    <a href="{% url 'account_delete' %}" class="btn btn-danger">Delete</a>
                 </div>
             </div>
         </div>
+    </div>
+{% endblock %}
 
-        <div class="form-actions">
-            <button type="submit" class="btn">Save Changes</button>
-            <a href="{% url 'profile_detail' %}" class="btn btn-secondary">
-                Cancel
-            </a>
-        </div>
-    </form>
+{% block extra_js %}
+<script>
+  // inline script for instant avatar update
+  (function () {
+    const fileInput = document.querySelector('input[type="file"][name$="avatar"]');
+    const img = document.getElementById('liveAvatarImg');
+    const ph = document.getElementById('liveAvatarPlaceholder');
 
-    <script>
-      (function () {
-        const fileInput = document.querySelector('input[type="file"][name$="avatar"]');
-        const img = document.getElementById('avatarPreviewImg');
-        const ph = document.getElementById('avatarPreviewPlaceholder');
+    if (fileInput) {
+      fileInput.addEventListener('change', function () {
+        const f = fileInput.files && fileInput.files[0];
+        if (!f || !f.type.startsWith('image/')) return;
 
-        const dlg = document.getElementById('avatarPreviewDialog');
-        const dlgImg = document.getElementById('avatarPreviewDialogImg');
-        const openBtn = document.getElementById('openAvatarPreview');
-        const closeBtn = document.getElementById('closeAvatarPreview');
-
-        function setImgSrc(src) {
-          if (img) img.src = src;
-          if (dlgImg) dlgImg.src = src;
-        }
-
-        function showImgMode(hasImage) {
-          if (!img || !ph) return;
-          img.style.display = hasImage ? 'block' : 'none';
-          ph.style.display = hasImage ? 'none' : 'grid';
-        }
-
-        // init: if template rendered an <img>, keep; else placeholder
-        if (img && img.getAttribute('src')) {
-          showImgMode(true);
-          setImgSrc(img.getAttribute('src'));
-        } else {
-          showImgMode(false);
-        }
-
-        if (fileInput) {
-          fileInput.addEventListener('change', function () {
-            const f = fileInput.files && fileInput.files[0];
-            if (!f) return;
-
-            // Basic guard: image only
-            if (!f.type || !f.type.startsWith('image/')) return;
-
-            const reader = new FileReader();
-            reader.onload = function (e) {
-              const src = e.target.result;
-              if (img) {
-                showImgMode(true);
-                setImgSrc(src);
-              } else if (dlgImg) {
-                setImgSrc(src);
-              }
-            };
-            reader.readAsDataURL(f);
-          });
-        }
-
-        if (openBtn && dlg && dlgImg) {
-          openBtn.addEventListener('click', function () {
-            // prefer current preview image; else do nothing
-            const src = (img && img.getAttribute('src')) ? img.getAttribute('src') : '';
-            if (src) {
-              dlgImg.src = src;
-              if (typeof dlg.showModal === 'function') dlg.showModal();
-            }
-          });
-        }
-
-        if (closeBtn && dlg) {
-          closeBtn.addEventListener('click', function () {
-            dlg.close();
-          });
-        }
-
-        if (dlg) {
-          dlg.addEventListener('click', function (e) {
-            const rect = dlg.getBoundingClientRect();
-            const inDialog = (
-              e.clientX >= rect.left && e.clientX <= rect.right &&
-              e.clientY >= rect.top && e.clientY <= rect.bottom
-            );
-            if (!inDialog) dlg.close();
-          });
-        }
-      })();
-    </script>
-
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          if (img) {
+            img.src = e.target.result;
+            img.style.display = 'block';
+            if (ph) ph.style.display = 'none';
+          } else if (ph) {
+            const newImg = document.createElement('img');
+            newImg.id = 'liveAvatarImg';
+            newImg.src = e.target.result;
+            newImg.alt = 'new avatar';
+            ph.parentNode.insertBefore(newImg, ph);
+            ph.style.display = 'none';
+          }
+        };
+        reader.readAsDataURL(f);
+      });
+    }
+  })();
+</script>
 {% endblock %}

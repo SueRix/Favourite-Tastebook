@@ -1,0 +1,36 @@
+{% extends "layout/base.html" %}
+{% load static %}
+
+{% block title %}Delete Account{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'profile/css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1 class="page-title" style="color: #ff4d4d;">Delete Account</h1>
+    <p class="page-subtitle">
+        warning: this is a permanent action.
+    </p>
+
+    <div class="card security-card" style="margin-top: 0;">
+        <div class="security-section" style="border: none; flex-direction: column; align-items: flex-start; gap: 16px;">
+            <div class="security-info" style="max-width: 100%;">
+                <div class="security-title">Are you absolutely sure?</div>
+                <div class="security-desc">
+                    deleting your account will remove all your data, settings, and profile information from our servers.
+                    you will not be able to recover this information later.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- post request is required by django DeleteView to confirm deletion -->
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-actions" style="margin-top: 24px;">
+            <button type="submit" class="btn btn-danger">Yes, Delete My Account</button>
+            <a href="{% url 'profile_edit' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+{% endblock %}
