@@ -1,25 +1,50 @@
 {% regroup ingredients by category as category_list %}
 
-{% for category in category_list %}
-    <div class="taste-category-group" data-category="{{ category.grouper|lower }}">
-        <div class="taste-category-title">{{ category.grouper|default:"Other" }}</div>
+<div class="tab-content target-ingredients active">
+    {% for category in category_list %}
+        <div class="taste-category-group" data-category="{{ category.grouper|lower }}">
+            <div class="taste-category-title">{{ category.grouper|default:"Other" }}</div>
+            <div class="tastes-grid">
+                {% for ing in category.list %}
+                    {% if ing.current_score == 0 %}
+                        <div class="taste-row" data-name="{{ ing.name|lower }}">
+                            <span class="taste-name">{{ ing.name }}</span>
+                            <form class="taste-radios"
+                                  hx-post="{% url 'api_ingredient_update' %}"
+                                  hx-trigger="change"
+                                  hx-swap="none"
+                                  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                                <input type="hidden" name="ingredient_id" value="{{ ing.id }}">
+                                <label class="t-radio hate"><input type="radio" name="score" value="-2"><span class="t-mark">🤮</span></label>
+                                <label class="t-radio dislike"><input type="radio" name="score" value="-1"><span class="t-mark">👎</span></label>
+                                <label class="t-radio neutral"><input type="radio" name="score" value="0" checked><span class="t-mark">=</span></label>
+                                <label class="t-radio like"><input type="radio" name="score" value="1"><span class="t-mark">👍</span></label>
+                                <label class="t-radio love"><input type="radio" name="score" value="2"><span class="t-mark">❤️</span></label>
+                            </form>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
 
+<div class="tab-content target-cuisines">
+    <div class="taste-category-group" data-category="all">
+        <div class="taste-category-title">All Cuisines</div>
         <div class="tastes-grid">
-            {% for ing in category.list %}
-                {% if ing.current_score == 0 %}
-                    <div class="taste-row" data-name="{{ ing.name|lower }}">
-                        <span class="taste-name">{{ ing.name }}</span>
+            {% for cui in cuisines %}
+                {% if cui.current_score == 0 %}
+                    <div class="taste-row" data-name="{{ cui.name|lower }}">
+                        <span class="taste-name">{{ cui.name }}</span>
                         <form class="taste-radios"
-                              hx-post="{% url 'api_ingredient_update' %}"
+                              hx-post="{% url 'api_cuisine_taste_update' %}"
                               hx-trigger="change"
                               hx-swap="none"
                               hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-                            <input type="hidden" name="ingredient_id" value="{{ ing.id }}">
-
-                            <label class="t-radio hate"><input type="radio" name="score" value="-2"><span
-                                    class="t-mark">🤮</span></label>
-                            <label class="t-radio dislike"><input type="radio" name="score" value="-1"><span
-                                    class="t-mark">👎</span></label>
+                            <input type="hidden" name="cuisine_id" value="{{ cui.id }}">
+                            <label class="t-radio hate"><input type="radio" name="score" value="-2"><span class="t-mark">🤮</span></label>
+                            <label class="t-radio dislike"><input type="radio" name="score" value="-1"><span class="t-mark">👎</span></label>
                             <label class="t-radio neutral"><input type="radio" name="score" value="0" checked><span class="t-mark">=</span></label>
                             <label class="t-radio like"><input type="radio" name="score" value="1"><span class="t-mark">👍</span></label>
                             <label class="t-radio love"><input type="radio" name="score" value="2"><span class="t-mark">❤️</span></label>
@@ -29,4 +54,4 @@
             {% endfor %}
         </div>
     </div>
-{% endfor %}
+</div>

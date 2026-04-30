@@ -11,9 +11,8 @@
 {% block content %}
     <div class="tastes-container">
 
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 4px;">
-
-            <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+        <div class="tastes-header-row">
+            <div class="tastes-header-left">
                 <div class="rf-title-large" style="display: flex; align-items: center; margin: 0;">
                     Manage Your Tastes
                     <div class="taste-info-wrap">
@@ -30,8 +29,13 @@
                 </div>
 
                 <span class="home-muted" style="font-size: 13px; margin: 0; opacity: 0.7;">
-                Rate ingredients to improve your AI recommendations.
-            </span>
+                    Rate items to improve your AI recommendations.
+                </span>
+
+                <div class="taste-tabs">
+                    <button class="taste-tab active" data-target="ingredients">Ingredients</button>
+                    <button class="taste-tab" data-target="cuisines">Cuisines</button>
+                </div>
             </div>
 
             <label class="global-taste-toggle-wrap" for="global-taste-toggle" style="margin: 0; flex-shrink: 0;">
@@ -51,7 +55,7 @@
         <div class="tastes-layout-grid">
             <div class="tastes-col-rated" id="rated-tastes-panel">
                 <div style="padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.08);">
-                    <h3 class="rf-section-title no-margin">Rated Ingredients</h3>
+                    <h3 class="rf-section-title no-margin">Rated Tastes</h3>
                 </div>
                 <div class="tastes-scroll-area box-scroll"
                      id="rated-tastes-container"
@@ -69,7 +73,7 @@
                         <input type="text"
                                id="taste-search-input"
                                class="search-input large-input w-100"
-                               placeholder="Find ingredient...">
+                               placeholder="Find ingredient or cuisine...">
                     </div>
 
                     <div class="filters-row w-100">

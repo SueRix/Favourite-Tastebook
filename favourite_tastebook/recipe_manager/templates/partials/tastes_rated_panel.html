@@ -1,34 +1,63 @@
-{% if has_rated_tastes %}
-    <div class="tastes-grid" style="grid-template-columns: 1fr;">
-        {% for ing in ingredients %}
-            {% if ing.current_score != 0 %}
-                <div class="taste-row">
-                    <span class="taste-name">{{ ing.name }}</span>
-                    <form class="taste-radios"
-                          hx-post="{% url 'api_ingredient_update' %}"
-                          hx-trigger="change"
-                          hx-swap="none"
-                          hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-                        <input type="hidden" name="ingredient_id" value="{{ ing.id }}">
-                        
-                        <label class="t-radio hate"><input type="radio" name="score" value="-2" {% if ing.current_score == -2 %}checked{% endif %}><span class="t-mark">🤮</span></label>
-                        <label class="t-radio dislike"><input type="radio" name="score" value="-1" {% if ing.current_score == -1 %}checked{% endif %}><span class="t-mark">👎</span></label>
-                        <label class="t-radio neutral"><input type="radio" name="score" value="0" {% if ing.current_score == 0 %}checked{% endif %}><span class="t-mark">=</span></label>
-                        <label class="t-radio like"><input type="radio" name="score" value="1" {% if ing.current_score == 1 %}checked{% endif %}><span class="t-mark">👍</span></label>
-                        <label class="t-radio love"><input type="radio" name="score" value="2" {% if ing.current_score == 2 %}checked{% endif %}><span class="t-mark">❤️</span></label>
-                    </form>
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
-{% else %}
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%; padding: 40px 20px;">
-        <div style="font-size: 48px; margin-bottom: 16px; opacity: 0.3;">🍽️</div>
-        <div style="color: var(--text-main); font-size: 16px; font-weight: 600; margin-bottom: 8px;">
-            Nothing rated yet
+<div class="tab-content target-ingredients active">
+    {% if has_rated_ingredients %}
+        <div class="rated-tastes-grid">
+            {% for ing in ingredients %}
+                {% if ing.current_score != 0 %}
+                    <div class="taste-row">
+                        <span class="taste-name">{{ ing.name }}</span>
+                        <form class="taste-radios"
+                              hx-post="{% url 'api_ingredient_update' %}"
+                              hx-trigger="change"
+                              hx-swap="none"
+                              hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                            <input type="hidden" name="ingredient_id" value="{{ ing.id }}">
+                            <label class="t-radio hate"><input type="radio" name="score" value="-2" {% if ing.current_score == -2 %}checked{% endif %}><span class="t-mark">🤮</span></label>
+                            <label class="t-radio dislike"><input type="radio" name="score" value="-1" {% if ing.current_score == -1 %}checked{% endif %}><span class="t-mark">👎</span></label>
+                            <label class="t-radio neutral"><input type="radio" name="score" value="0" {% if ing.current_score == 0 %}checked{% endif %}><span class="t-mark">=</span></label>
+                            <label class="t-radio like"><input type="radio" name="score" value="1" {% if ing.current_score == 1 %}checked{% endif %}><span class="t-mark">👍</span></label>
+                            <label class="t-radio love"><input type="radio" name="score" value="2" {% if ing.current_score == 2 %}checked{% endif %}><span class="t-mark">❤️</span></label>
+                        </form>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
-        <div style="color: var(--text-muted); font-size: 13px; max-width: 250px; line-height: 1.5;">
-            You haven't rated any ingredients. Please select the ones you like or dislike from the list.
+    {% else %}
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px;">
+            <div style="font-size: 40px; margin-bottom: 12px; opacity: 0.3;">🍅</div>
+            <div style="color: var(--text-main); font-size: 15px; font-weight: 600; margin-bottom: 6px;">No ingredients rated</div>
+            <div style="color: var(--text-muted); font-size: 13px; line-height: 1.5;">Rate ingredients from the list to see them here.</div>
         </div>
-    </div>
-{% endif %}
+    {% endif %}
+</div>
+
+<div class="tab-content target-cuisines">
+    {% if has_rated_cuisines %}
+        <div class="rated-tastes-grid">
+            {% for cui in cuisines %}
+                {% if cui.current_score != 0 %}
+                    <div class="taste-row">
+                        <span class="taste-name">{{ cui.name }}</span>
+                        <form class="taste-radios"
+                              hx-post="{% url 'api_cuisine_taste_update' %}"
+                              hx-trigger="change"
+                              hx-swap="none"
+                              hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                            <input type="hidden" name="cuisine_id" value="{{ cui.id }}">
+                            <label class="t-radio hate"><input type="radio" name="score" value="-2" {% if cui.current_score == -2 %}checked{% endif %}><span class="t-mark">🤮</span></label>
+                            <label class="t-radio dislike"><input type="radio" name="score" value="-1" {% if cui.current_score == -1 %}checked{% endif %}><span class="t-mark">👎</span></label>
+                            <label class="t-radio neutral"><input type="radio" name="score" value="0" {% if cui.current_score == 0 %}checked{% endif %}><span class="t-mark">=</span></label>
+                            <label class="t-radio like"><input type="radio" name="score" value="1" {% if cui.current_score == 1 %}checked{% endif %}><span class="t-mark">👍</span></label>
+                            <label class="t-radio love"><input type="radio" name="score" value="2" {% if cui.current_score == 2 %}checked{% endif %}><span class="t-mark">❤️</span></label>
+                        </form>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px;">
+            <div style="font-size: 40px; margin-bottom: 12px; opacity: 0.3;">🌎</div>
+            <div style="color: var(--text-main); font-size: 15px; font-weight: 600; margin-bottom: 6px;">No cuisines rated</div>
+            <div style="color: var(--text-muted); font-size: 13px; line-height: 1.5;">Rate cuisines from the list to see them here.</div>
+        </div>
+    {% endif %}
+</div>
