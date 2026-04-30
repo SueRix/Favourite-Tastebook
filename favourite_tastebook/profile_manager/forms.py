@@ -1,3 +1,4 @@
+# profile_manager/forms.py
 from django import forms
 from django.contrib.auth.models import User
 from profile_manager.models import Profile
@@ -12,8 +13,6 @@ class UserUpdateForm(forms.ModelForm):
             "last_name": forms.TextInput(attrs={"placeholder": "Last Name"}),
         }
 
-
-
 class ProfileForm(forms.ModelForm):
     remove_avatar = forms.BooleanField(
         required=False,
@@ -23,10 +22,9 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['avatar', 'country']
+        fields = ['avatar']
         widgets = {
             "avatar": forms.FileInput(),
-            "country": forms.Select(attrs={'class': 'form-select'}),
         }
 
     def save(self, commit=True):

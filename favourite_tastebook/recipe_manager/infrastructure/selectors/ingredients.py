@@ -24,7 +24,6 @@ class IngredientSelector:
         ingredients_qs = filters.get("ingredient")
         ingredient_ids = list(ingredients_qs.values_list("id", flat=True)) if ingredients_qs else []
 
-        # 2. Метод clean() формы уже отдает нам чистый list строк
         ai_names = filters.get("ai_selected") or []
 
         if not ingredient_ids and not ai_names:
