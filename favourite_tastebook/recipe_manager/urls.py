@@ -11,6 +11,7 @@ from .views.recipe_saver_views import (
     SavedRecipeListView, SavedRecipeActionView,
 )
 from .views import image_ai_analyzer_view as ai_views, main_views, taste_api_views
+from .views.taste_api_views import CuisineTasteUpdateApiView
 
 urlpatterns = [
     path("", MainTastebookView.as_view(), name="home"),
@@ -31,4 +32,5 @@ urlpatterns = [
     path('partials/tastes/search/', taste_api_views.SearchTastesPartialView.as_view(), name='partials_search_tastes'),
     path('api/tastes/toggle-global/', taste_api_views.ToggleGlobalTasteApiView.as_view(),
          name='api_toggle_global_tastes'),
+path('api/taste/cuisine/update/', CuisineTasteUpdateApiView.as_view(), name='api_cuisine_taste_update'),
 ]

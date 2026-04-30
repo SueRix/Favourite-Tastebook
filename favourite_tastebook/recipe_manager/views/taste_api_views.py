@@ -64,3 +64,24 @@ class ToggleGlobalTasteApiView(LoginRequiredMixin, View):
             "status": "success",
             "use_taste_logic": is_disabled
         })
+
+
+class CuisineTasteUpdateApiView(LoginRequiredMixin, View):
+
+    @staticmethod
+    def post(request, *args, **kwargs):
+        cuisine_id = request.POST.get('cuisine_id')
+        score = request.POST.get('score')
+
+        if not cuisine_id or score is None:
+            return JsonResponse({"status": "error", "message": "missing data"}, status=400)
+
+        TasteManagementUseCase.update_cuisine_taste(
+            request.user,
+            int(cuisine_id),
+            int(score)
+        )
+
+        response = JsonResponse({"status": "success"})
+        response["HX-Trigger"] = "tastesUpdated"
+        return response

@@ -2,7 +2,11 @@ from recipe_manager.domain.services.taste_vector_engine import TasteVectorModel
 from recipe_manager.infrastructure.selectors.ingredients import IngredientSelector
 from recipe_manager.infrastructure.orm.recipe_search import RecipeSearchORM
 from recipe_manager.infrastructure.presentation.featured_recipe import FeaturedRecipePresenter
-from recipe_manager.models import SavedRecipe, UserTastePreference
+from recipe_manager.models import SavedRecipe
+from recipe_manager.models import (
+    Ingredient, Cuisine,
+    UserTastePreference, UserCuisinePreference
+)
 
 
 class DashboardUseCase:
@@ -43,20 +47,27 @@ class DashboardUseCase:
         """
         builds context for the user tastes profile page.
         """
-        from recipe_manager.models import Ingredient, UserTastePreference
 
+        # get ingredients and their tastes
         ingredients = Ingredient.objects.all().order_by("category", "name")
-
         user_prefs = UserTastePreference.objects.filter(
             user=user,
             is_explicit=True
         ).values_list('ingredient_id', 'score')
-
         prefs_dict = {ing_id: score for ing_id, score in user_prefs}
+
+        # get cuisines and their tastes
+        cuisines = Cuisine.objects.all().order_by("name")
+        cuisine_prefs = UserCuisinePreference.objects.filter(
+            user=user
+        ).values_list('cuisine_id', 'score')
+        cuisine_prefs_dict = {c_id: score for c_id, score in cuisine_prefs}
 
         return {
             "ingredients": ingredients,
             "user_tastes": prefs_dict,
+            "cuisines": cuisines,
+            "cuisine_tastes": cuisine_prefs_dict,
         }
 
     @classmethod
@@ -71,21 +82,29 @@ class DashboardUseCase:
         recipes_list = list(recipes_qs)
 
         if user.is_authenticated and use_tastes and recipes_list:
-            user_prefs = UserTastePreference.objects.filter(user=user).exclude(score=-2)
-            user_weights = {pref.ingredient_id: pref.score for pref in user_prefs}
+            from recipe_manager.models import UserCuisinePreference  # make sure it is imported
 
-            if user_weights:
+            user_prefs = UserTastePreference.objects.filter(user=user).exclude(score=-2)
+            cuisine_prefs = UserCuisinePreference.objects.filter(user=user).exclude(score=-2)
+
+            if user_prefs.exists() or cuisine_prefs.exists():
                 recipes_data = []
                 for recipe in recipes_list:
                     recipes_data.append({
                         'recipe_obj': recipe,
                         'ingredient_ids': [ri.ingredient_id for ri in recipe.ingredients.all()],
+                        'cuisine_id': getattr(recipe, 'cuisine_id', None),
                         'base_score': getattr(recipe, 'score', 0),
                         'tier': getattr(recipe, 'relevance_tier', 3)
                     })
 
-                ranked_data = TasteVectorModel.rank_by_tastes(recipes_data, user_weights)
-                recipes_list = [item['recipe_obj'] for item in ranked_data]
+                # build the final combined weights dict with prefixes
+                combined_weights = {f"i_{pref.ingredient_id}": pref.score for pref in user_prefs}
+                combined_weights.update({f"c_{pref.cuisine_id}": pref.score for pref in cuisine_prefs})
+
+                if combined_weights:
+                    ranked_data = TasteVectorModel.rank_by_tastes(recipes_data, combined_weights)
+                    recipes_list = [item['recipe_obj'] for item in ranked_data]
 
         saved_recipe_ids = set()
         if user.is_authenticated:
