@@ -458,6 +458,13 @@
             indicator.innerHTML = strictCheck.checked ? '🎯 Strict Match' : '🔍 Flexible Match';
         }
 
+        const filtersForm = document.getElementById("filters-form");
+        if (filtersForm) {
+            filtersForm.querySelectorAll('input[name="ai_selected"]').forEach(function (el) {
+                el.remove();
+            });
+        }
+
         const aiFlag = document.getElementById("ai-mode-flag");
         if (aiFlag) {
             aiFlag.value = "";

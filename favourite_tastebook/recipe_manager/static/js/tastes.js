@@ -56,8 +56,9 @@
         const query = searchInput.value.toLowerCase();
         const selectedCategory = categorySelect.value.toLowerCase();
 
-        const rows = document.querySelectorAll('.tab-content.active .taste-row');
-        const groups = document.querySelectorAll('.tab-content.active .taste-category-group');
+        const searchScope = document.getElementById('unrated-tastes-container') || document;
+        const rows = searchScope.querySelectorAll('.tab-content.active .taste-row');
+        const groups = searchScope.querySelectorAll('.tab-content.active .taste-category-group');
 
         rows.forEach(row => {
             const name = row.getAttribute('data-name') || '';

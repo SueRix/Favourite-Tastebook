@@ -79,32 +79,37 @@ class DashboardUseCase:
 
         use_tastes = filters.get("use_tastes") in ["on", "1", "true", True]
 
-        recipes_list = list(recipes_qs)
+        # keep as queryset; only evaluate to list when taste ranking is needed
+        recipes = recipes_qs
 
-        if user.is_authenticated and use_tastes and recipes_list:
-            from recipe_manager.models import UserCuisinePreference  # make sure it is imported
-
+        if user.is_authenticated and use_tastes:
             user_prefs = UserTastePreference.objects.filter(user=user).exclude(score=-2)
             cuisine_prefs = UserCuisinePreference.objects.filter(user=user).exclude(score=-2)
 
             if user_prefs.exists() or cuisine_prefs.exists():
-                recipes_data = []
-                for recipe in recipes_list:
-                    recipes_data.append({
+                # evaluate once; prefetch_related('ingredients') is already in recipes_qs
+                recipes_list = list(recipes_qs)
+
+                recipes_data = [
+                    {
                         'recipe_obj': recipe,
                         'ingredient_ids': [ri.ingredient_id for ri in recipe.ingredients.all()],
                         'cuisine_id': getattr(recipe, 'cuisine_id', None),
                         'base_score': getattr(recipe, 'score', 0),
                         'tier': getattr(recipe, 'relevance_tier', 3)
-                    })
+                    }
+                    for recipe in recipes_list
+                ]
 
-                # build the final combined weights dict with prefixes
+                # build combined taste weights with prefixes
                 combined_weights = {f"i_{pref.ingredient_id}": pref.score for pref in user_prefs}
                 combined_weights.update({f"c_{pref.cuisine_id}": pref.score for pref in cuisine_prefs})
 
                 if combined_weights:
                     ranked_data = TasteVectorModel.rank_by_tastes(recipes_data, combined_weights)
-                    recipes_list = [item['recipe_obj'] for item in ranked_data]
+                    recipes = [item['recipe_obj'] for item in ranked_data]
+                else:
+                    recipes = recipes_list
 
         saved_recipe_ids = set()
         if user.is_authenticated:
@@ -114,7 +119,7 @@ class DashboardUseCase:
         effective_auto_show = auto_show or is_ai_mode
 
         featured, tier_1, tier_2 = FeaturedRecipePresenter.select(
-            recipes_list,
+            recipes,
             recipe_id=filters.get("recipe"),
             selected_ids=selected_ids,
             saved_ids=saved_recipe_ids,
