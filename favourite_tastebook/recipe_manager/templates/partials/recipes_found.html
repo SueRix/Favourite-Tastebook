@@ -131,7 +131,7 @@
 
                                 <div class="rf-meta-badge">
                                     <span class="icon">⏱</span>
-                                    <span>{% if featured.cook_time %}{{ featured.cook_time }} min{% else %}
+                                    <span>{% if featured.cook_time %}{{ featured.cook_time|floatformat:"0" }} min{% else %}
                                         —{% endif %}</span>
                                 </div>
                             </div>
@@ -154,8 +154,8 @@
                                         <span class="c-value">{{ featured.cuisine_label }}</span>
                                     </div>
                                     <div class="rf-match-stats">
-                                        <span class="good">Match: {{ featured.matched_count }}</span>
-                                        <span class="bad">Miss: {{ featured.missing_count }}</span>
+                                        <span class="good">Match: {{ featured.matched_count|floatformat:"0" }}</span>
+                                        <span class="bad">Miss: {{ featured.missing_count|floatformat:"0" }}</span>
                                     </div>
                                 </div>
 
@@ -169,7 +169,7 @@
                                                         <div class="ing-pill {% if it.is_selected %}have{% else %}miss{% endif %}">
                                                             <span class="name">{{ it.name }}</span>
                                                             {% if it.amount %}
-                                                                <span class="amount">{{ it.amount }}{{ it.unit }}</span>
+                                                                <span class="amount">{{ it.amount|floatformat:"0" }}{{ it.unit }}</span>
                                                             {% endif %}
                                                         </div>
                                                     {% endfor %}
