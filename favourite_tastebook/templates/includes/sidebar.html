@@ -1,30 +1,71 @@
 {# templates/includes/sidebar.html #}
 <aside class="sidebar">
+    {# Decorative overlays #}
+    <div class="sidebar-accent-bar" aria-hidden="true"></div>
+    <div class="sidebar-grain" aria-hidden="true"></div>
+
     <div class="sidebar-top-bar">
         <div class="logo">
             <a href="{% url 'home' %}" class="logo-link" aria-label="Go to Home">
-                Favourite Tastebook
+                <span class="logo-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
+                        <path d="M7 2v20"/>
+                        <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>
+                    </svg>
+                </span>
+                <span class="logo-text">
+                    Favourite
+                    <em>Tastebook</em>
+                </span>
             </a>
         </div>
     </div>
 
+    <div class="sidebar-clock" aria-label="Current time">
+        <span class="sidebar-clock-time" id="sidebarClock">--:--:--</span>
+        <span class="sidebar-clock-date" id="sidebarDate">···</span>
+    </div>
+
+    <div class="nav-section-label" aria-hidden="true">Navigation</div>
+
     <nav class="nav-section">
         <a href="{% url 'home' %}"
            class="nav-link {% if request.resolver_match.url_name == 'home' %}nav-link--active{% endif %}">
-            <span class="nav-text">Home</span>
+            <span class="nav-link-inner">
+                <span class="nav-icon" aria-hidden="true">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                </span>
+                <span class="nav-text">Recipe Builder</span>
+            </span>
         </a>
 
         <a href="{% url 'recipes_database' %}"
            class="nav-link {% if request.resolver_match.url_name == 'recipes_database' %}nav-link--active{% endif %}">
-            <span class="nav-text">Recipes Database</span>
+            <span class="nav-link-inner">
+                <span class="nav-icon" aria-hidden="true">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+                    </svg>
+                </span>
+                <span class="nav-text">Recipes Database</span>
+            </span>
         </a>
 
-        <!-- fix: changed profile_detail to profile_edit for url and active state check -->
         <a href="{% url 'profile_edit' %}"
            data-auth-required="1"
            class="nav-link {% if request.resolver_match.url_name == 'profile_edit' %}nav-link--active{% endif %}">
-            <span class="nav-text">Account & Security</span>
-
+            <span class="nav-link-inner">
+                <span class="nav-icon" aria-hidden="true">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </span>
+                <span class="nav-text">Account & Security</span>
+            </span>
             {% if not user.is_authenticated %}
                 <button type="button"
                         class="nav-lock-btn"
@@ -38,8 +79,14 @@
         <a href="{% url 'tastes_profile' %}"
            data-auth-required="1"
            class="nav-link {% if request.resolver_match.url_name == 'tastes' %}nav-link--active{% endif %}">
-            <span class="nav-text">Taste Preferences</span>
-
+            <span class="nav-link-inner">
+                <span class="nav-icon" aria-hidden="true">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                </span>
+                <span class="nav-text">Taste Preferences</span>
+            </span>
             {% if not user.is_authenticated %}
                 <button type="button"
                         class="nav-lock-btn"
@@ -53,8 +100,14 @@
         <a href="{% url 'saved_recipes' %}"
            data-auth-required="1"
            class="nav-link {% if request.resolver_match.url_name == 'saved_recipes' %}nav-link--active{% endif %}">
-            <span class="nav-text">Saved Recipes</span>
-
+            <span class="nav-link-inner">
+                <span class="nav-icon" aria-hidden="true">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
+                    </svg>
+                </span>
+                <span class="nav-text">Saved Recipes</span>
+            </span>
             {% if not user.is_authenticated %}
                 <button type="button"
                         class="nav-lock-btn"
@@ -75,6 +128,7 @@
                     {% else %}
                         <span class="sidebar-user-initial">{{ user.get_username|first|upper }}</span>
                     {% endif %}
+                    <span class="sidebar-user-status" aria-label="Online"></span>
                 </div>
 
                 <div class="sidebar-user-meta">
@@ -90,7 +144,14 @@
             <div class="footer-actions">
                 <form method="post" action="{% url 'logout' %}" class="logout-form">
                     {% csrf_token %}
-                    <button type="submit" class="logout-btn logout-btn-small">Logout</button>
+                    <button type="submit" class="logout-btn logout-btn-small">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px;flex-shrink:0">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <polyline points="16 17 21 12 16 7"/>
+                            <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
+                        Logout
+                    </button>
                 </form>
                 <button id="sidebarCloseBtn" class="sidebar-action-btn" aria-label="Close sidebar">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -101,7 +162,7 @@
             </div>
         {% else %}
             <p class="sidebar-tip">
-                You are not logged in. Please log in to use all the app’s features.
+                You are not logged in. Please log in to use all the app's features.
             </p>
 
             <div class="footer-actions">
@@ -116,3 +177,20 @@
         {% endif %}
     </div>
 </aside>
+
+<script>
+(function () {
+    var DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    function pad(n) { return n < 10 ? '0' + n : n; }
+    function tick() {
+        var d = new Date();
+        var elT = document.getElementById('sidebarClock');
+        var elD = document.getElementById('sidebarDate');
+        if (elT) elT.textContent = pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+        if (elD) elD.textContent = DAYS[d.getDay()] + ', ' + MONTHS[d.getMonth()] + ' ' + d.getDate();
+    }
+    tick();
+    setInterval(tick, 1000);
+})();
+</script>
