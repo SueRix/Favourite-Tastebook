@@ -14,6 +14,11 @@
             <span class="nav-text">Home</span>
         </a>
 
+        <a href="{% url 'recipes_database' %}"
+           class="nav-link {% if request.resolver_match.url_name == 'recipes_database' %}nav-link--active{% endif %}">
+            <span class="nav-text">Recipes Database</span>
+        </a>
+
         <!-- fix: changed profile_detail to profile_edit for url and active state check -->
         <a href="{% url 'profile_edit' %}"
            data-auth-required="1"
