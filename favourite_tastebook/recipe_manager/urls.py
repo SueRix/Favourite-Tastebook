@@ -5,7 +5,12 @@ from .views.main_views import (
 )
 from .views.recipe_manager_views import (
     IngredientsPartialView,
-    RecipesPartialView
+    RecipesPartialView,
+)
+from .views.recipe_database_search_views import (
+    RecipesDatabaseView,
+    RecipesDatabaseSearchPartialView,
+    RecipesDatabaseCardPartialView,
 )
 from .views.recipe_saver_views import (
     SavedRecipeListView, SavedRecipeActionView,
@@ -35,4 +40,16 @@ urlpatterns = [
     path('api/tastes/toggle-global/', taste_api_views.ToggleGlobalTasteApiView.as_view(),
          name='api_toggle_global_tastes'),
     path('api/taste/cuisine/update/', CuisineTasteUpdateApiView.as_view(), name='api_cuisine_taste_update'),
+
+    path("database/", RecipesDatabaseView.as_view(), name="recipes_database"),
+    path(
+        "partials/database/search/",
+        RecipesDatabaseSearchPartialView.as_view(),
+        name="partials_recipes_database_search",
+    ),
+    path(
+        "partials/database/card/<int:recipe_id>/",
+        RecipesDatabaseCardPartialView.as_view(),
+        name="partials_recipes_database_card",
+    ),
 ]
