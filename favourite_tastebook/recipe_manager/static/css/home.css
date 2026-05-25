@@ -1423,34 +1423,44 @@ select#category-select::-webkit-scrollbar-thumb:active,
 .fs-modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(5, 5, 5, 0.95);
+    background: rgba(0, 0, 0, 0.62);
     z-index: 9999;
     display: flex;
-    backdrop-filter: blur(8px);
-    padding: 2vh 2vw;
+    align-items: flex-start;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    padding: 3vh 2vw;
     box-sizing: border-box;
+    overflow-y: auto;
+    cursor: pointer;
 }
 
 .fs-modal-container {
     display: flex;
     width: 100%;
     max-width: 1400px;
-    margin: 0 auto;
+    margin: auto;
     background: #0a0a0a;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.7);
     position: relative;
+    max-height: 94vh;
+    flex-shrink: 0;
+    cursor: default;
 }
 
 /* sidebar with accordions */
 .fs-modal-left {
     width: 350px;
+    min-width: 350px;
     border-right: 1px solid rgba(255, 255, 255, 0.08);
     background: rgba(255, 255, 255, 0.02);
     padding: 20px;
     overflow-y: auto;
+    max-height: 94vh;
 }
 
 /* right side with recipe detail */
@@ -1459,6 +1469,7 @@ select#category-select::-webkit-scrollbar-thumb:active,
     padding: 32px;
     overflow-y: auto;
     position: relative;
+    max-height: 94vh;
 }
 
 /* pure htmx close button */
