@@ -6,6 +6,14 @@ from recipe_manager.domain.parsers.recipe_steps import RecipeStepsParser
 class FeaturedRecipePresenter:
 
     @staticmethod
+    def _attach_thermometer_vars(recipe):
+        score = max(0, getattr(recipe, "score", 0) or 0)
+        max_score = getattr(recipe, "max_score", 0) or 0
+        ratio = min(score / max_score, 1.0) if max_score > 0 else 0
+        recipe.therm_fill_percent = round(ratio * 100)
+        recipe.therm_fill_hue = round(ratio * 120)
+
+    @staticmethod
     def _get_poster_url(recipe):
         if recipe.image_url:
             return recipe.image_url.url
@@ -81,5 +89,10 @@ class FeaturedRecipePresenter:
 
         tier_1 = [r for r in more if getattr(r, 'relevance_tier', 3) == 1]
         tier_2 = [r for r in more if getattr(r, 'relevance_tier', 3) == 2]
+
+        if featured:
+            cls._attach_thermometer_vars(featured)
+        for recipe in tier_1 + tier_2:
+            cls._attach_thermometer_vars(recipe)
 
         return featured, tier_1, tier_2

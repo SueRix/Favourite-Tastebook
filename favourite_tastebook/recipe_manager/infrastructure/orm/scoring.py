@@ -35,6 +35,7 @@ class RecipeScoringService:
             qs.annotate(
                 required_total=cls.count_total(req),
                 secondary_total=cls.count_total(sec),
+                optional_total=cls.count_total(opt),
                 required_matched=cls.count_matched(req, selected_ids),
                 secondary_matched=cls.count_matched(sec, selected_ids),
                 optional_matched=cls.count_matched(opt, selected_ids),
@@ -43,6 +44,12 @@ class RecipeScoringService:
                 total_matches=F("required_matched") + F("secondary_matched") + F("optional_matched"),
                 missing_required=F("required_total") - F("required_matched"),
                 missing_secondary=F("secondary_total") - F("secondary_matched"),
+                max_score=ExpressionWrapper(
+                    F("required_total") * Value(SCORE_REQUIRED_MATCH)
+                    + F("secondary_total") * Value(SCORE_SECONDARY_MATCH)
+                    + F("optional_total") * Value(SCORE_OPTIONAL_MATCH),
+                    output_field=IntegerField(),
+                ),
             )
         )
 

@@ -834,9 +834,14 @@ main {
     font-size: 13px;
     cursor: pointer;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
     transition: 0.2s;
     text-align: left;
+}
+
+.more-recipe-card .title {
+    flex: 1;
 }
 
 .more-recipe-card:hover {
@@ -847,6 +852,59 @@ main {
 .more-recipe-card .action {
     color: var(--text-muted);
     font-size: 11px;
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   MATCH THERMOMETER — vertical fill indicator on recipe result cards
+   Used in: recipes_found.html (Tier 1 / Tier 2 / featured recipe cards)
+   ========================================================================== */
+
+/* WHAT: Fixed-size column reserved for the thermometer on each recipe card.
+   WHERE: recipes_found.html — first child inside .more-recipe-card buttons.
+   WHY: Keeps title and action aligned while giving every card the same indicator slot. */
+.match-thermometer {
+    flex-shrink: 0;
+    width: 8px;
+    height: 28px;
+}
+
+/* WHAT: Neutral hollow track that holds the rising fill bar.
+   WHERE: recipes_found.html — direct child of .match-thermometer on all tiers.
+   WHY: Provides contrast so partial (Tier 1) and full (Tier 2) fills are easy to read. */
+.match-thermometer__track {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* WHAT: Shared bottom-anchored fill bar inside the track.
+   WHERE: recipes_found.html — .match-thermometer__fill inside every track.
+   WHY: Common base for both the scored (Tier 1) and static (Tier 2) fill variants. */
+.match-thermometer__fill {
+    width: 100%;
+}
+
+/* WHAT: Tier 1 / featured fill — height and hue driven by score CSS variables.
+   WHERE: recipes_found.html — Top Matches loops and tier-1 featured cards/modal header.
+   WHY: Continuous red→green color and proportional height map score relative to the recipe's own max possible score. */
+.match-thermometer__fill--scored {
+    height: clamp(0%, var(--fill-percent), 100%);
+    background: hsl(var(--fill-hue, 0), 70%, 50%);
+}
+
+/* WHAT: Tier 2 muted fill — same score-driven height/hue with reduced saturation.
+   WHERE: recipes_found.html — Mentioning/Secondary loops and tier-2 featured cards/modal header.
+   WHY: Secondary-tier results still reflect score but stay visually subordinate to Tier 1. */
+.match-thermometer__fill--secondary {
+    height: clamp(0%, var(--fill-percent), 100%);
+    background: hsl(var(--fill-hue, 0), 25%, 45%);
+    opacity: 0.75;
 }
 
 /* ==========================================================================
