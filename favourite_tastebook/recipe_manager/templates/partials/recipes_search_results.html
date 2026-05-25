@@ -44,7 +44,7 @@
                             <span class="rdb-card-cuisine">{{ r.cuisine.name }}</span>
                             <span class="rdb-card-sep">•</span>
                         {% endif %}
-                        <span class="rdb-card-time">⏱ {{ r.cook_time }} min</span>
+                        <span class="rdb-card-time">⏱ {{ r.cook_time|floatformat:"0" }} min</span>
                     </div>
 
                     {% if r.description %}
