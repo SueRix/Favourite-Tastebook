@@ -9,9 +9,26 @@
 </span>
 
 {% if not selected_count %}
-    <div class="placeholder-card placeholder-card-center result-reveal-fast">
-        <div class="empty-board-title">Your recipe board is empty. 🍽️</div>
-        <div class="empty-board-desc">Select ingredients or click <span class="accent-star">✦</span> to scan photo.
+    <div class="placeholder-card placeholder-card-center empty-board result-reveal-fast">
+        <div class="empty-board__stage" aria-hidden="true">
+            <span class="empty-board__glow"></span>
+            <span class="empty-board__plate">🍽️</span>
+            <span class="empty-board__spark empty-board__spark--1">✦</span>
+            <span class="empty-board__spark empty-board__spark--2">✦</span>
+            <span class="empty-board__spark empty-board__spark--3">✦</span>
+        </div>
+        <div class="empty-board-title">Your recipe board is empty</div>
+        <div class="empty-board-desc">Pick what's in your kitchen — or let AI peek at a photo.</div>
+        <div class="empty-board__hints" role="note">
+            <span class="empty-board__hint">
+                <span class="empty-board__hint-glyph" aria-hidden="true">＋</span>
+                <span>Select ingredients</span>
+            </span>
+            <span class="empty-board__hint-sep" aria-hidden="true">·</span>
+            <span class="empty-board__hint">
+                <span class="empty-board__hint-glyph accent-star" aria-hidden="true">✦</span>
+                <span>Scan a photo</span>
+            </span>
         </div>
     </div>
 {% else %}
