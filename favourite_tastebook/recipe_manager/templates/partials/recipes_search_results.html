@@ -1,0 +1,59 @@
+{% if keyword|length < 2 %}
+    <div class="rdb-hint">
+        <span class="rdb-hint-icon" aria-hidden="true">✦</span>
+        Type at least 2 characters to start searching.
+    </div>
+
+{% elif not recipes %}
+    <div class="rdb-empty">
+        <div class="rdb-empty-title">No recipes match "{{ keyword }}"</div>
+        <div class="rdb-empty-desc">Try a shorter or different keyword.</div>
+    </div>
+
+{% else %}
+    <div class="rdb-summary">
+        Found
+        <strong>{{ recipes|length }}</strong>
+        recipe{{ recipes|length|pluralize }} for
+        <span class="rdb-summary-keyword">"{{ keyword }}"</span>
+    </div>
+
+    <div class="rdb-grid">
+        {% for r in recipes %}
+            <article class="rdb-card"
+                     role="button"
+                     tabindex="0"
+                     aria-label="Open {{ r.title }}"
+                     hx-get="{% url 'partials_recipes_database_card' recipe_id=r.id %}"
+                     hx-target="#rdb-modal-slot"
+                     hx-swap="innerHTML"
+                     hx-trigger="click, keyup[key=='Enter']">
+                <div class="rdb-card-thumb">
+                    {% if r.image_url %}
+                        <img src="{{ r.image_url.url }}" alt="{{ r.title }}" loading="lazy">
+                    {% else %}
+                        <div class="rdb-card-thumb-placeholder">No photo</div>
+                    {% endif %}
+                </div>
+
+                <div class="rdb-card-body">
+                    <h3 class="rdb-card-title">{{ r.title }}</h3>
+
+                    <div class="rdb-card-meta">
+                        {% if r.cuisine %}
+                            <span class="rdb-card-cuisine">{{ r.cuisine.name }}</span>
+                            <span class="rdb-card-sep">•</span>
+                        {% endif %}
+                        <span class="rdb-card-time">⏱ {{ r.cook_time|floatformat:"0" }} min</span>
+                    </div>
+
+                    {% if r.description %}
+                        <p class="rdb-card-desc">{{ r.description|truncatechars:160 }}</p>
+                    {% endif %}
+
+                    <span class="rdb-card-open">Open ↗</span>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+{% endif %}

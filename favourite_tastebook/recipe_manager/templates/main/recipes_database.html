@@ -1,0 +1,52 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block title %}Recipes Database • Favourite Tastebook{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/recipes_database.css' %}">
+{% endblock %}
+
+{% block content %}
+    <section class="rdb-page">
+        <header class="rdb-header">
+            <h1 class="rdb-title">Recipes Database</h1>
+            <p class="rdb-subtitle">
+                Search the entire collection by title or description.
+            </p>
+        </header>
+
+        <div class="rdb-search-bar">
+            <span class="rdb-search-icon" aria-hidden="true">🔍</span>
+            <input
+                type="text"
+                name="keyword"
+                id="rdb-search-input"
+                class="rdb-search-input"
+                placeholder="Type a keyword (e.g. pasta, chicken, soup)..."
+                autocomplete="off"
+                aria-label="Search recipes"
+                hx-get="{% url 'partials_recipes_database_search' %}"
+                hx-trigger="keyup changed delay:300ms, search"
+                hx-target="#rdb-results"
+                hx-swap="innerHTML"
+                hx-indicator="#rdb-loading"
+            >
+            <span id="rdb-loading" class="rdb-loading htmx-indicator" aria-hidden="true">…</span>
+        </div>
+
+        <div id="rdb-results" class="rdb-results" aria-live="polite">
+            <div class="rdb-hint">
+                <span class="rdb-hint-icon" aria-hidden="true">✦</span>
+                Start typing to explore the collection. Minimum 2 characters.
+            </div>
+        </div>
+    </section>
+
+    <div id="rdb-modal-slot"></div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/recipes_database.js' %}"></script>
+{% endblock %}

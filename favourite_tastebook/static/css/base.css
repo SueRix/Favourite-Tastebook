@@ -85,8 +85,8 @@ body {
     margin-top: auto;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding-bottom: 46px;
+    gap: 12px;
+    padding-bottom: 0;
 }
 
 .sidebar-tip {
@@ -739,10 +739,7 @@ body {
 }
 
 #sidebarCloseBtn {
-    position: absolute;
-    right: 18px;
-    bottom: 24px;
-    z-index: 100;
+    position: static;
 }
 html, body {
     height: 100vh;
@@ -774,4 +771,234 @@ html, body {
 
 .layout.sidebar-closed .sidebar-open-btn {
     display: inline-flex;
+}
+
+.footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.footer-actions > form,
+.footer-actions > a.btn {
+    flex: 1;
+    margin: 0;
+}
+
+
+/* =====================================================
+   SIDEBAR ENHANCEMENTS
+   ===================================================== */
+
+/* ── Animated shimmer line at the very top of the sidebar ── */
+.sidebar-accent-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        var(--accent) 40%,
+        rgba(255, 214, 10, 0.4) 60%,
+        transparent 100%);
+    background-size: 200% 100%;
+    animation: accentSweep 3.5s ease-in-out infinite;
+    z-index: 2;
+}
+
+@keyframes accentSweep {
+    0%   { background-position: 200% 0; opacity: 0.5; }
+    50%  { background-position: -50%  0; opacity: 1;   }
+    100% { background-position: 200% 0; opacity: 0.5; }
+}
+
+/* ── Subtle grain texture over the sidebar ── */
+.sidebar-grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px;
+}
+
+/* ── Logo rework ── */
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 6px rgba(255, 214, 10, 0.45));
+}
+
+.logo-text {
+    line-height: 1.25;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.logo-text em {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+/* ── Live clock widget ── */
+.sidebar-clock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-subtle);
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle corner accent on clock */
+.sidebar-clock::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.4;
+}
+
+.sidebar-clock-time {
+    font-size: 21px;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+    font-family: 'Courier New', 'Consolas', monospace;
+    text-shadow: 0 0 14px rgba(255, 214, 10, 0.18);
+}
+
+.sidebar-clock-date {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* ── Section label above nav links ── */
+.nav-section-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    opacity: 0.45;
+    padding: 0 14px;
+    margin-bottom: -14px;
+}
+
+/* ── Nav link: icon + text grouped on the left, lock on right ── */
+.nav-link-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+}
+
+/* Keep justify-content: space-between but inner group stays left */
+
+.nav-icon {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    color: inherit;
+    transition: transform 0.2s ease, color 0.15s ease;
+}
+
+.nav-link:hover .nav-icon {
+    transform: scale(1.2) rotate(-4deg);
+}
+
+.nav-link--active .nav-icon {
+    color: var(--accent);
+}
+
+/* Active left-bar glow indicator */
+.nav-link--active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 18%;
+    bottom: 18%;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: var(--accent);
+    box-shadow: 0 0 10px rgba(255, 214, 10, 0.7), 0 0 24px rgba(255, 214, 10, 0.25);
+}
+
+/* ── User avatar: relative for status dot + pulse ring ── */
+.sidebar-user-avatar {
+    position: relative;
+    animation: avatarRingPulse 4s ease-in-out infinite;
+}
+
+@keyframes avatarRingPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 214, 10, 0); }
+    50%       { box-shadow: 0 0 0 4px rgba(255, 214, 10, 0.15); }
+}
+
+/* ── Online status dot ── */
+.sidebar-user-status {
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+    width: 10px;
+    height: 10px;
+    background: #4ade80;
+    border-radius: 50%;
+    border: 2px solid #000;
+    animation: statusGlow 2.4s ease-in-out infinite;
+}
+
+@keyframes statusGlow {
+    0%, 100% { box-shadow: 0 0 3px rgba(74, 222, 128, 0.4); }
+    50%       { box-shadow: 0 0 9px rgba(74, 222, 128, 0.85); }
+}
+
+/* ── Sidebar vertical dotted separator ── */
+.sidebar .nav-section {
+    position: relative;
+}
+
+.sidebar .nav-section::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: repeating-linear-gradient(
+        to bottom,
+        var(--border-subtle) 0px,
+        var(--border-subtle) 3px,
+        transparent 3px,
+        transparent 9px
+    );
+    opacity: 0.5;
+    pointer-events: none;
 }

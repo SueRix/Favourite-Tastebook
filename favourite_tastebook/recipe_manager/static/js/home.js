@@ -346,38 +346,50 @@
        AI Analyzer Logic
     ========================= */
 
-    function openAiPanel(btnElement) {
+    function openAiPanel(event, btnElement) {
+        // check if user is logged in via data attribute
+        const isAuthenticated = btnElement.getAttribute('data-authenticated') === 'true';
+
+        if (!isAuthenticated) {
+            // stop htmx and prevent panel from clearing
+            event.stopImmediatePropagation();
+            event.preventDefault();
+
+            // trigger shake animation
+            btnElement.classList.add('unauthorized-shake');
+            btnElement.addEventListener('animationend', () => {
+                btnElement.classList.remove('unauthorized-shake');
+            }, {once: true});
+
+            return;
+        }
+
+        // standard logic for authorized users
         const standardView = document.getElementById('standard-search-view');
         const aiContainer = document.getElementById('ai-panel-container');
         const url = btnElement.getAttribute('data-ai-url');
 
-        standardView.style.display = 'none';
-        aiContainer.style.display = 'flex';
+        if (standardView) standardView.style.display = 'none';
+        if (aiContainer) aiContainer.style.display = 'flex';
 
         const wrapper = document.getElementById('main-ingredients-wrapper');
         if (wrapper) wrapper.classList.add('in-ai-mode');
-
-        const strictCheck = document.getElementById('strict-check');
-        const strictHidden = document.getElementById('strict-hidden');
-        if (strictCheck) {
-            strictCheck.dataset.savedState = strictCheck.checked ? "true" : "false";
-
-            if (strictCheck.checked) {
-                strictCheck.checked = false;
-                if (strictHidden) strictHidden.value = '';
-            }
-        }
 
         const indicator = document.getElementById('search-mode-indicator');
         if (indicator) {
             indicator.innerHTML = '✦ AI Smart Search';
         }
 
+        // flag that we are in ai mode
         const aiFlag = document.getElementById("ai-mode-flag");
         if (aiFlag) {
             aiFlag.value = "1";
         }
 
+        const dismissFlag = document.getElementById("dismiss-ai-modal");
+        if (dismissFlag) dismissFlag.value = "";
+
+        // load ai panel via htmx
         htmx.ajax('GET', url, {target: '#ai-panel-container', swap: 'innerHTML'});
     }
 
@@ -419,8 +431,8 @@
         const standardPanel = document.getElementById('main-ingredients-wrapper');
 
         if (standardPanel && standardView) {
-             standardView.appendChild(standardPanel);
-             standardPanel.classList.remove('in-ai-mode');
+            standardView.appendChild(standardPanel);
+            standardPanel.classList.remove('in-ai-mode');
         }
 
         if (aiContainer) {
@@ -446,10 +458,20 @@
             indicator.innerHTML = strictCheck.checked ? '🎯 Strict Match' : '🔍 Flexible Match';
         }
 
+        const filtersForm = document.getElementById("filters-form");
+        if (filtersForm) {
+            filtersForm.querySelectorAll('input[name="ai_selected"]').forEach(function (el) {
+                el.remove();
+            });
+        }
+
         const aiFlag = document.getElementById("ai-mode-flag");
         if (aiFlag) {
             aiFlag.value = "";
         }
+
+        const dismissFlag = document.getElementById("dismiss-ai-modal");
+        if (dismissFlag) dismissFlag.value = "";
 
         setTimeout(() => {
             document.body.dispatchEvent(new Event("ft:filtersChanged", {bubbles: true}));
@@ -518,12 +540,76 @@
         document.body.dispatchEvent(new Event("ft:filtersChanged", {bubbles: true}));
     }
 
+    async function toggleTasteAction(btn) {
+    const recipeId = btn.dataset.id;
+    const actionType = btn.dataset.actionType; // "like" или "dislike"
+    const isActive = btn.dataset.isActive === "true";
+
+    btn.style.pointerEvents = "none";
+
+    try {
+        if (!isActive) {
+            const oppositeAction = actionType === 'like' ? 'dislike' : 'like';
+            const container = btn.closest('.taste-btn-group') || btn.parentElement;
+            const oppositeBtn = container.querySelector(`[data-action-type="${oppositeAction}"]`);
+
+            if (oppositeBtn && oppositeBtn.dataset.isActive === "true") {
+                const oppRes = await fetch(`/home/api/tastes/recipe/${recipeId}/${oppositeAction}/`, {
+                    method: "DELETE",
+                    headers: {
+                        "X-CSRFToken": getCookie("csrftoken"),
+                        "X-Requested-With": "XMLHttpRequest",
+                    },
+                });
+
+                if (oppRes.ok) {
+                    oppositeBtn.dataset.isActive = "false";
+                    oppositeBtn.classList.remove("active");
+                }
+            }
+        }
+
+        const method = isActive ? "DELETE" : "POST";
+        const url = `/home/api/tastes/recipe/${recipeId}/${actionType}/`;
+
+        const response = await fetch(url, {
+            method: method,
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+            },
+        });
+
+        if (response.ok) {
+            const newState = !isActive;
+            btn.dataset.isActive = String(newState);
+
+            if (newState) {
+                btn.classList.add("active");
+            } else {
+                btn.classList.remove("active");
+            }
+
+            btn.classList.add("animating");
+            setTimeout(() => btn.classList.remove("animating"), 300);
+        } else {
+            console.error(`Taste ${actionType} error:`, response.status);
+        }
+    } catch (err) {
+        console.error("Network error:", err);
+    } finally {
+        btn.style.pointerEvents = "auto";
+    }
+}
+
     window.openAiPanel = openAiPanel;
     window.closeAiPanel = closeAiPanel;
     window.previewAiImage = previewAiImage;
     window.applyAiResults = applyAiResults;
     window.toggleAiIngredient = toggleAiIngredient;
     window.toggleAdvancedIngredients = toggleAdvancedIngredients;
+    window.toggleTasteAction = toggleTasteAction;
 
     /* =========================
        Initialization

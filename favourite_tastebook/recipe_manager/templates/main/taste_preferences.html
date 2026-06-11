@@ -1,0 +1,103 @@
+{% extends "layout/base.html" %}
+{% load static %}
+
+{% block title %}My Tastes • Tastebook{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tastes.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="tastes-container">
+
+        <div class="tastes-header-row">
+            <div class="tastes-header-left">
+                <div class="rf-title-large" style="display: flex; align-items: center; margin: 0;">
+                    Manage Your Tastes
+                    <div class="taste-info-wrap">
+                        <div class="taste-info-icon">?</div>
+                        <div class="taste-info-popup">
+                            <div style="margin-bottom: 8px; font-weight: 600;">Rating Scale:</div>
+                            <div>🤮 <b>(-2)</b>: Exclude completely from recipes.</div>
+                            <div>👎 <b>(-1)</b>: Dislike, show less often.</div>
+                            <div>= <b>(0)</b>: Neutral, no preference.</div>
+                            <div>👍 <b>(+1)</b>: Like, prefer to see.</div>
+                            <div>❤️ <b>(+2)</b>: Love, highly prioritize.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <span class="home-muted" style="font-size: 13px; margin: 0; opacity: 0.7;">
+                    Rate items to improve your AI recommendations.
+                </span>
+
+                <div class="taste-tabs">
+                    <button class="taste-tab active" data-target="ingredients">Ingredients</button>
+                    <button class="taste-tab" data-target="cuisines">Cuisines</button>
+                </div>
+            </div>
+
+            <label class="global-taste-toggle-wrap" for="global-taste-toggle" style="margin: 0; flex-shrink: 0;">
+                <input type="checkbox"
+                       id="global-taste-toggle"
+                       name="disable_taste"
+                       value="true"
+                       hx-post="{% url 'api_toggle_global_tastes' %}"
+                       hx-trigger="change"
+                       hx-swap="none"
+                       hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                       {% if disable_taste_logic %}checked{% endif %}>
+                <span>Force disable taste logic</span>
+            </label>
+        </div>
+
+        <div class="tastes-layout-grid">
+            <div class="tastes-col-rated" id="rated-tastes-panel">
+                <div style="padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <h3 class="rf-section-title no-margin">Rated Tastes</h3>
+                </div>
+                <div class="tastes-scroll-area box-scroll"
+                     id="rated-tastes-container"
+                     hx-get="{% url 'partials_rated_tastes' %}"
+                     hx-trigger="tastesUpdated from:body">
+                    {% include "partials/tastes_rated_panel.html" %}
+                </div>
+            </div>
+
+            <div class="tastes-col-search" id="search-tastes-panel">
+
+                <div class="tastes-controls-row">
+                    <div class="search-wrapper w-100">
+                        <span class="search-icon">🔍</span>
+                        <input type="text"
+                               id="taste-search-input"
+                               class="search-input large-input w-100"
+                               placeholder="Find ingredient or cuisine...">
+                    </div>
+
+                    <div class="filters-row w-100">
+                        <select class="mini-select large-input w-100" id="taste-category-select">
+                            <option value="">All categories</option>
+                            {% for c in categories %}
+                                <option value="{{ c }}">{{ c }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="tastes-scroll-area box-scroll"
+                     id="unrated-tastes-container"
+                     hx-get="{% url 'partials_search_tastes' %}"
+                     hx-trigger="tastesUpdated from:body">
+                    {% include "partials/tastes_search_panel.html" %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/tastes.js' %}"></script>
+{% endblock %}

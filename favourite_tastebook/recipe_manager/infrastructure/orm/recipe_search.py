@@ -1,12 +1,18 @@
 from django.db.models import Prefetch
-from recipe_manager.models import Recipe, RecipeIngredient
+
+from recipe_manager.domain.enums import TASTE_HATE_LEVEL
+from recipe_manager.models import Recipe, RecipeIngredient, UserTastePreference
 from recipe_manager.infrastructure.orm.scoring import RecipeScoringService
 from recipe_manager.infrastructure.selectors.ingredients import IngredientSelector
+from recipe_manager.models import UserCuisinePreference
+
 
 class RecipeSearchORM:
     @classmethod
-    def find_recipes(cls, filters: dict):
+    def find_recipes(cls, filters: dict, user=None):
         is_ai_mode = IngredientSelector.is_ai_mode(filters)
+
+        use_tastes = filters.get("use_tastes", True)
 
         selected_ingredients_qs = IngredientSelector.list_selected(filters)
         selected_ids = list(selected_ingredients_qs.values_list("id", flat=True))
@@ -30,6 +36,25 @@ class RecipeSearchORM:
         )
 
         qs = RecipeScoringService.annotate_base_metrics(qs, selected_ids)
+
+        # hard filter for user's hated ingredient in recipes.
+        if user and user.is_authenticated and use_tastes:
+            hated_ids = UserTastePreference.objects.filter(
+                user=user,
+                score=TASTE_HATE_LEVEL
+            ).values_list('ingredient_id', flat=True)
+
+            if hated_ids.exists():
+                qs = qs.exclude(ingredients__ingredient_id__in=hated_ids)
+
+
+            hated_cui_ids = UserCuisinePreference.objects.filter(
+                user=user,
+                score=TASTE_HATE_LEVEL
+            ).values_list('cuisine_id', flat=True)
+
+            if hated_cui_ids.exists():
+                qs = qs.exclude(cuisine_id__in=hated_cui_ids)
 
         is_strict_mode = filters.get("strict") == "1"
 

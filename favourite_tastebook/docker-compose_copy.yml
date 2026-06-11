@@ -24,8 +24,7 @@ services:
     container_name: tastebook_web
     command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - ./media:/app/media
-      - ./static:/app/static
+      - .:/app
     ports:
       - "8000:8000"
     env_file:
@@ -39,7 +38,7 @@ services:
     container_name: tastebook_celery
     command: celery -A favourite_tastebook worker -l INFO
     volumes:
-      - ./media:/app/media
+      - .:/app
     environment:
       - GEMINI_API_KEY=${GEMINI_API_KEY}
     env_file:

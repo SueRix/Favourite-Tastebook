@@ -172,6 +172,173 @@ main {
 }
 
 /* ==========================================================================
+   EMPTY RECIPE BOARD (hero placeholder)
+   Black & yellow themed empty state with animated plate + sparkles.
+   ========================================================================== */
+.empty-board {
+    position: relative;
+    overflow: hidden;
+    padding: 40px 28px 32px;
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(255, 214, 10, 0.18);
+    background:
+        radial-gradient(120% 80% at 50% -10%, rgba(255, 214, 10, 0.10), transparent 60%),
+        linear-gradient(180deg, #0c0c0c 0%, #060606 100%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 14px 40px -24px rgba(255, 214, 10, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    isolation: isolate;
+}
+
+.empty-board::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(rgba(255, 214, 10, 0.08) 1px, transparent 1px);
+    background-size: 22px 22px;
+    background-position: 0 0;
+    opacity: 0.35;
+    mask-image: radial-gradient(120% 80% at 50% 0%, black, transparent 70%);
+    -webkit-mask-image: radial-gradient(120% 80% at 50% 0%, black, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.empty-board__stage {
+    position: relative;
+    width: 104px;
+    height: 104px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 2px;
+}
+
+.empty-board__glow {
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%,
+        rgba(255, 214, 10, 0.32),
+        rgba(255, 214, 10, 0) 62%);
+    filter: blur(6px);
+    z-index: -1;
+    animation: empty-board-pulse 3.6s ease-in-out infinite;
+}
+
+.empty-board__plate {
+    font-size: 60px;
+    line-height: 1;
+    filter: drop-shadow(0 8px 16px rgba(255, 214, 10, 0.25));
+    animation: empty-board-float 4.5s ease-in-out infinite;
+}
+
+.empty-board__spark {
+    position: absolute;
+    color: var(--accent, #ffd60a);
+    line-height: 1;
+    text-shadow: 0 0 10px rgba(255, 214, 10, 0.7);
+    animation: empty-board-twinkle 2.6s ease-in-out infinite;
+}
+
+.empty-board__spark--1 {
+    top: 6px;
+    right: 8px;
+    font-size: 14px;
+    animation-delay: 0s;
+}
+
+.empty-board__spark--2 {
+    bottom: 10px;
+    left: 0;
+    font-size: 18px;
+    animation-delay: 0.7s;
+}
+
+.empty-board__spark--3 {
+    top: 22px;
+    left: 14px;
+    font-size: 11px;
+    animation-delay: 1.3s;
+}
+
+.empty-board .empty-board-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--text-main, #f5f5f5);
+    letter-spacing: -0.005em;
+}
+
+.empty-board .empty-board-desc {
+    font-size: 13px;
+    color: var(--text-muted, #9a9a9a);
+    line-height: 1.55;
+    max-width: 340px;
+    margin: 0 auto;
+}
+
+.empty-board__hints {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    color: rgba(245, 245, 245, 0.55);
+    font-size: 12px;
+    letter-spacing: 0.02em;
+}
+
+.empty-board__hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(245, 245, 245, 0.6);
+    font-weight: 400;
+    line-height: 1;
+}
+
+.empty-board__hint-glyph {
+    color: var(--accent, #ffd60a);
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1;
+}
+
+.empty-board__hint-sep {
+    color: rgba(245, 245, 245, 0.22);
+    font-size: 12px;
+    line-height: 1;
+}
+
+@keyframes empty-board-float {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50%      { transform: translateY(-6px) rotate(2deg); }
+}
+
+@keyframes empty-board-pulse {
+    0%, 100% { opacity: 0.55; transform: scale(0.94); }
+    50%      { opacity: 0.95; transform: scale(1.06); }
+}
+
+@keyframes empty-board-twinkle {
+    0%, 100% { opacity: 0.25; transform: scale(0.85) rotate(0deg); }
+    50%      { opacity: 1;    transform: scale(1.15) rotate(45deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .empty-board__plate,
+    .empty-board__glow,
+    .empty-board__spark {
+        animation: none !important;
+    }
+}
+
+/* ==========================================================================
    TOOLS, CONTROLS & FILTERS
    ========================================================================== */
 .tools-header {
@@ -791,10 +958,10 @@ main {
    MORE RECIPES FOOTER
    ========================================================================== */
 .rf-more-section {
-    max-height: 280px;
-    overflow-y: auto;
+    flex: 1;
+    max-height: none;
+    overflow-y: visible;
     padding-right: 8px;
-    flex-shrink: 0;
     margin-top: 0;
     margin-bottom: 24px;
 }
@@ -834,9 +1001,14 @@ main {
     font-size: 13px;
     cursor: pointer;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
     transition: 0.2s;
     text-align: left;
+}
+
+.more-recipe-card .title {
+    flex: 1;
 }
 
 .more-recipe-card:hover {
@@ -847,6 +1019,59 @@ main {
 .more-recipe-card .action {
     color: var(--text-muted);
     font-size: 11px;
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   MATCH THERMOMETER — vertical fill indicator on recipe result cards
+   Used in: recipes_found.html (Tier 1 / Tier 2 / featured recipe cards)
+   ========================================================================== */
+
+/* WHAT: Fixed-size column reserved for the thermometer on each recipe card.
+   WHERE: recipes_found.html — first child inside .more-recipe-card buttons.
+   WHY: Keeps title and action aligned while giving every card the same indicator slot. */
+.match-thermometer {
+    flex-shrink: 0;
+    width: 8px;
+    height: 28px;
+}
+
+/* WHAT: Neutral hollow track that holds the rising fill bar.
+   WHERE: recipes_found.html — direct child of .match-thermometer on all tiers.
+   WHY: Provides contrast so partial (Tier 1) and full (Tier 2) fills are easy to read. */
+.match-thermometer__track {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* WHAT: Shared bottom-anchored fill bar inside the track.
+   WHERE: recipes_found.html — .match-thermometer__fill inside every track.
+   WHY: Common base for both the scored (Tier 1) and static (Tier 2) fill variants. */
+.match-thermometer__fill {
+    width: 100%;
+}
+
+/* WHAT: Tier 1 / featured fill — height and hue driven by score CSS variables.
+   WHERE: recipes_found.html — Top Matches loops and tier-1 featured cards/modal header.
+   WHY: Continuous red→green color and proportional height map score relative to the recipe's own max possible score. */
+.match-thermometer__fill--scored {
+    height: clamp(0%, var(--fill-percent), 100%);
+    background: hsl(var(--fill-hue, 0), 70%, 50%);
+}
+
+/* WHAT: Tier 2 muted fill — same score-driven height/hue with reduced saturation.
+   WHERE: recipes_found.html — Mentioning/Secondary loops and tier-2 featured cards/modal header.
+   WHY: Secondary-tier results still reflect score but stay visually subordinate to Tier 1. */
+.match-thermometer__fill--secondary {
+    height: clamp(0%, var(--fill-percent), 100%);
+    background: hsl(var(--fill-hue, 0), 25%, 45%);
+    opacity: 0.75;
 }
 
 /* ==========================================================================
@@ -1369,8 +1594,282 @@ select#category-select::-webkit-scrollbar-thumb:active,
 .in-ai-mode #ingredients-panel {
     flex: 1 1 auto;
     overflow-y: auto;
-    /* Если у панели есть свои border/background, можно их скрыть:
+}
+
+/* ==========================================================================
+   native html accordions
+   ========================================================================== */
+.taste-accordion {
+    margin-bottom: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    overflow: hidden;
+}
+
+.taste-accordion summary {
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none; /* removes default arrow */
+    user-select: none;
+}
+
+.taste-accordion summary::-webkit-details-marker {
+    display: none; /* removes default arrow in safari/chrome */
+}
+
+.taste-accordion summary .icon {
+    transition: transform 0.3s ease;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* rotate chevron when open */
+.taste-accordion[open] summary .icon {
+    transform: rotate(180deg);
+}
+
+.taste-accordion-body {
+    padding: 0 16px 16px 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: 4px;
+    padding-top: 16px;
+}
+
+/* ==========================================================================
+   full-screen split-view modal
+   ========================================================================== */
+.fs-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.62);
+    z-index: 9999;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    padding: 3vh 2vw;
+    box-sizing: border-box;
+    overflow-y: auto;
+    cursor: pointer;
+}
+
+.fs-modal-container {
+    display: flex;
+    width: 100%;
+    max-width: 1400px;
+    margin: auto;
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.7);
+    position: relative;
+    max-height: 94vh;
+    flex-shrink: 0;
+    cursor: default;
+}
+
+/* sidebar with accordions */
+.fs-modal-left {
+    width: 350px;
+    min-width: 350px;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 94vh;
+}
+
+/* right side with recipe detail */
+.fs-modal-right {
+    flex: 1;
+    padding: 32px;
+    overflow-y: auto;
+    position: relative;
+    max-height: 94vh;
+}
+
+/* pure htmx close button */
+.fs-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    background: rgba(255, 255, 255, 0.1);
     border: none;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: 0.2s;
+    z-index: 10;
+}
+
+.fs-close-btn:hover {
+    background: rgba(255, 214, 10, 0.2);
+    color: #ffd60a;
+}
+
+/* forces single column for buttons inside modal */
+.modal-grid-one {
+    grid-template-columns: 1fr;
+}
+/* keyframes for unauthorized shake animation */
+@keyframes unauthorizedShake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-4px) rotate(-1deg); }
+    40% { transform: translateX(4px) rotate(1deg); }
+    60% { transform: translateX(-2px); }
+    80% { transform: translateX(2px); }
+    100% { transform: translateX(0); }
+}
+
+/* class to apply when user is not logged in */
+.unauthorized-shake {
+    animation: unauthorizedShake 0.4s ease-in-out;
+    border-color: rgba(255, 0, 0, 0.4) !important;
+}
+
+/* ==========================================================================
+   AI LOCKED BUTTON & TOOLTIP
+   ========================================================================== */
+.upload-ai-btn-locked {
+    position: relative;
+}
+
+.ai-locked-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.ai-star-bg {
+    font-size: 36px;
+    opacity: 0.4;
+    color: #000;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ai-lock-fg {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    color: #000;
+}
+
+.upload-ai-btn-locked::after {
+    content: "Please, login.";
+    position: absolute;
+    right: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%);
+
+    background: rgba(16, 16, 16, 0.92);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+
+    padding: 6px 10px;
+    font-size: 12px;
+    color: var(--text-main);
+    white-space: nowrap;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.14s ease;
+    z-index: 100;
+}
+
+.upload-ai-btn-locked:hover::after {
+    opacity: 1;
+}
+
+/* ==========================================================================
+   TASTE LIKE BUTTON
+   ========================================================================== */
+.btn-like {
     background: transparent;
-    box-shadow: none; */
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.6);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.btn-like svg {
+    width: 20px;
+    height: 20px;
+    fill: transparent;
+    stroke: currentColor;
+    stroke-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.btn-like:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.btn-like.active {
+    border-color: #ef4444; /* red color for heart */
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+.btn-like.active svg {
+    fill: #ef4444;
+    stroke: #ef4444;
+}
+
+.btn-like.animating {
+    animation: pop 0.3s ease;
+}
+
+.btn-like.btn-up.active {
+    border-color: #4ade80;
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.1);
+    box-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
+}
+.btn-like.btn-up.active svg {
+    fill: rgba(74, 222, 128, 0.2);
+    stroke: #4ade80;
+}
+
+/* Thumbs Down Active (Red) */
+.btn-like.btn-down.active {
+    border-color: #f87171;
+    color: #f87171;
+    background: rgba(248, 113, 113, 0.1);
+    box-shadow: 0 0 10px rgba(248, 113, 113, 0.3);
+}
+.btn-like.btn-down.active svg {
+    fill: rgba(248, 113, 113, 0.2);
+    stroke: #f87171;
 }

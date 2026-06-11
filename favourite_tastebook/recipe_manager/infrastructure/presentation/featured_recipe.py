@@ -6,6 +6,14 @@ from recipe_manager.domain.parsers.recipe_steps import RecipeStepsParser
 class FeaturedRecipePresenter:
 
     @staticmethod
+    def _attach_thermometer_vars(recipe):
+        score = max(0, getattr(recipe, "score", 0) or 0)
+        max_score = getattr(recipe, "max_score", 0) or 0
+        ratio = min(score / max_score, 1.0) if max_score > 0 else 0
+        recipe.therm_fill_percent = round(ratio * 100)
+        recipe.therm_fill_hue = round(ratio * 120)
+
+    @staticmethod
     def _get_poster_url(recipe):
         if recipe.image_url:
             return recipe.image_url.url
@@ -19,17 +27,19 @@ class FeaturedRecipePresenter:
 
     @classmethod
     def select(cls, recipes, recipe_id=None, selected_ids=None, saved_ids=None, auto_show=False):
-        if not recipes.exists():
+        recipes_list = list(recipes)
+
+        if not recipes_list:
             return None, [], []
 
         featured = None
         is_detailed_view_needed = False
 
         if recipe_id:
-            featured = recipes.filter(id=recipe_id).first()
+            featured = next((r for r in recipes_list if str(r.id) == str(recipe_id)), None)
             is_detailed_view_needed = True
         else:
-            first_recipe = recipes.first()
+            first_recipe = recipes_list[0]
             if getattr(first_recipe, 'relevance_tier', 3) == 1:
                 featured = first_recipe
                 if auto_show:
@@ -75,9 +85,14 @@ class FeaturedRecipePresenter:
                 featured.missing_count = getattr(featured, 'missing_required', 0) + getattr(featured,
                                                                                             'missing_secondary', 0)
 
-        more = recipes.exclude(id=featured.id) if featured else recipes
+        more = [r for r in recipes_list if r.id != featured.id] if featured else recipes_list
 
         tier_1 = [r for r in more if getattr(r, 'relevance_tier', 3) == 1]
         tier_2 = [r for r in more if getattr(r, 'relevance_tier', 3) == 2]
+
+        if featured:
+            cls._attach_thermometer_vars(featured)
+        for recipe in tier_1 + tier_2:
+            cls._attach_thermometer_vars(recipe)
 
         return featured, tier_1, tier_2
