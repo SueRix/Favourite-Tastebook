@@ -140,5 +140,3 @@ For deployment instructions, follow Django's official guide on deploying to prod
 3. Commit your changes (`git commit -m 'Add new feature'`).
 4. Push to the branch (`git push origin feature-branch`).
 5. Open a pull request.
-
-```
