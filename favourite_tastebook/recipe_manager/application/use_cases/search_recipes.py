@@ -2,13 +2,19 @@ from recipe_manager.models import Recipe, SavedRecipe
 from recipe_manager.infrastructure.selectors import RecipeSelector
 from recipe_manager.infrastructure.presentation.featured_recipe import FeaturedRecipePresenter
 from recipe_manager.infrastructure.orm.keyword_selection_strategy import KeywordSelectionStrategy
-from recipe_manager.infrastructure.vector_search.vector_selection_strategy import VectorSelectionStrategy
+from recipe_manager.infrastructure.vector_search.vector_selection_strategy import (
+    INGREDIENT_QUERY_TEMPLATE,
+    VectorSelectionStrategy,
+)
 
 # Client-facing mode -> concrete selection strategy.
-# Both branches are fully independent engines; neither knows about the other.
+# The branches are fully independent engines; neither knows about the other.
+# "vector" and "ingredient" share one engine and differ only in how the query
+# is phrased for the embedding, since there is a single recipe index behind it.
 SELECTION_STRATEGIES = {
     "keyword": KeywordSelectionStrategy(),
     "vector": VectorSelectionStrategy(),
+    "ingredient": VectorSelectionStrategy(query_template=INGREDIENT_QUERY_TEMPLATE),
 }
 DEFAULT_SELECTION_MODE = "keyword"
 

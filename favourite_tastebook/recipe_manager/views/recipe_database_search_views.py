@@ -4,8 +4,16 @@ from django.views.generic import TemplateView
 
 from recipe_manager.application.use_cases.search_recipes import SearchRecipesUseCase
 from recipe_manager.domain.exceptions import VectorSearchException
+from recipe_manager.infrastructure.presentation.vector_match import VectorMatchPresenter
 
 logger = logging.getLogger(__name__)
+
+# Badge shown above semantic result sets. Presentation only: the keyword mode
+# is deliberately absent, it has no similarity to label.
+MODE_LABELS = {
+    "vector": "Semantic",
+    "ingredient": "Ingredient",
+}
 
 
 class RecipesDatabaseView(TemplateView):
@@ -36,13 +44,18 @@ class RecipesDatabaseSearchPartialView(TemplateView):
         mode = self.request.GET.get("mode", "keyword")
         ctx["keyword"] = keyword
         ctx["mode"] = mode
+        ctx["mode_label"] = MODE_LABELS.get(mode)
         ctx["search_error"] = None
 
         try:
-            ctx["recipes"] = SearchRecipesUseCase.execute(
-                keyword,
-                mode=mode,
-                user=self.request.user,
+            # The presenter is a no-op for engines that carry no similarity,
+            # so the keyword path is unaffected.
+            ctx["recipes"] = VectorMatchPresenter.attach(
+                SearchRecipesUseCase.execute(
+                    keyword,
+                    mode=mode,
+                    user=self.request.user,
+                )
             )
         except VectorSearchException as exc:
             # HTMX swaps whatever comes back straight into #rdb-results, so an
