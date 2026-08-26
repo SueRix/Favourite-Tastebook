@@ -8,6 +8,12 @@ from .services import (
 
 from .selectors import SelectorException, EmptyQueryValueError
 
+from .vector_search import (
+    VectorSearchException,
+    VectorBackendUnavailableError,
+    VectorBackendResponseError,
+)
+
 __all__ = [
     # Base
     "RecipeManagerException",
@@ -20,5 +26,10 @@ __all__ = [
     # Selectors
     "SelectorException",
     "EmptyQueryValueError",
+
+    # Vector search
+    "VectorSearchException",
+    "VectorBackendUnavailableError",
+    "VectorBackendResponseError",
 
 ]

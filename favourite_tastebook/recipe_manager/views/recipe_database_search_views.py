@@ -28,8 +28,14 @@ class RecipesDatabaseSearchPartialView(TemplateView):
         """
         ctx = super().get_context_data(**kwargs)
         keyword = self.request.GET.get("keyword", "")
+        mode = self.request.GET.get("mode", "keyword")
         ctx["keyword"] = keyword
-        ctx["recipes"] = SearchRecipesUseCase.execute(keyword)
+        ctx["mode"] = mode
+        ctx["recipes"] = SearchRecipesUseCase.execute(
+            keyword,
+            mode=mode,
+            user=self.request.user,
+        )
         return ctx
 
 

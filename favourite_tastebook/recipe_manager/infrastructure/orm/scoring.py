@@ -13,8 +13,69 @@ from recipe_manager.domain.enums import (
     AI_TIER_1_MIN_MATCHES,
     AI_TIER_2_MIN_MATCHES,
 )
+from recipe_manager.domain.exceptions.selectors import EmptyQueryValueError
+from recipe_manager.domain.exceptions.services import (
+    EmptyIngredientsError,
+    InvalidWeightConfigurationError,
+)
 
 class RecipeScoringService:
+    DEFAULT_WEIGHTS = {
+        "required_match": SCORE_REQUIRED_MATCH,
+        "secondary_match": SCORE_SECONDARY_MATCH,
+        "optional_match": SCORE_OPTIONAL_MATCH,
+        "missing_required_match": SCORE_MISSING_REQUIRED_PENALTY,
+        "missing_secondary_match": SCORE_MISSING_SECONDARY_PENALTY,
+    }
+
+    @staticmethod
+    def validate_selected_ids(selected_ids):
+        """
+        What: Guards the raw ingredient-id list before it reaches the ORM.
+        Why: A None/non-list/empty-valued input silently produced a bogus queryset
+             before; callers now get a clear domain error instead.
+        """
+        if selected_ids is None or not isinstance(selected_ids, (list, tuple, set)):
+            raise EmptyQueryValueError("selected_ids must be a list of ingredient ids.")
+        if any(not sid for sid in selected_ids):
+            raise EmptyQueryValueError("selected_ids must not contain empty values.")
+        if not selected_ids:
+            raise EmptyIngredientsError("At least one ingredient id is required.")
+
+    @classmethod
+    def _resolve_weights(cls, weights):
+        if not weights:
+            return dict(cls.DEFAULT_WEIGHTS)
+
+        unknown = set(weights) - set(cls.DEFAULT_WEIGHTS)
+        if unknown:
+            raise InvalidWeightConfigurationError(f"Unknown weight keys: {sorted(unknown)}")
+
+        merged = dict(cls.DEFAULT_WEIGHTS)
+        merged.update(weights)
+        return merged
+
+    @classmethod
+    def annotate_recipe_scores(cls, qs, selected_ids, weights=None):
+        """
+        What: Validated, configurable-weight scoring pass over a recipe queryset.
+        Where: Used directly (tests, ad-hoc scoring) when the caller already has raw
+               selected_ids rather than going through RecipeSearchORM.find_recipes.
+        """
+        cls.validate_selected_ids(selected_ids)
+        resolved = cls._resolve_weights(weights)
+
+        qs = cls.annotate_base_metrics(qs, selected_ids)
+        return qs.annotate(
+            score=cls._build_score_expression(
+                w_req=resolved["required_match"],
+                w_sec=resolved["secondary_match"],
+                w_opt=resolved["optional_match"],
+                w_miss_req=resolved["missing_required_match"],
+                w_miss_sec=resolved["missing_secondary_match"],
+            )
+        )
+
     @staticmethod
     def count_total(importance):
         q = Q(ingredients__importance=importance)
