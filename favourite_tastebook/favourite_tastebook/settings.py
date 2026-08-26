@@ -145,6 +145,19 @@ N8N_WEBHOOK_AUTH_TOKEN = config('N8N_WEBHOOK_AUTH_TOKEN', default='')
 N8N_WEBHOOK_TIMEOUT = config('N8N_WEBHOOK_TIMEOUT', default=5, cast=float)
 VECTOR_SEARCH_TOP_K = config('VECTOR_SEARCH_TOP_K', default=20, cast=int)
 
+# Calibration window for the match thermometer. Cosine similarity between
+# related texts sits in a narrow band, so raw scores would pin every card to
+# the middle of the scale. Mapping the useful band onto the full bar keeps the
+# difference visible while staying comparable across searches (unlike
+# normalising inside a single result set).
+VECTOR_SCORE_FLOOR = config('VECTOR_SCORE_FLOOR', default=0.45, cast=float)
+VECTOR_SCORE_CEILING = config('VECTOR_SCORE_CEILING', default=0.71, cast=float)
+
+# Exponent applied to the calibrated ratio. A straight line through the window
+# above would rate 0.48 at 12%; the curve pulls the weak tail down so the
+# anchors are 0.45 -> 0%, 0.48 -> 5%, 0.71 -> 100%. Set to 1.0 for pure linear.
+VECTOR_SCORE_CURVE = config('VECTOR_SCORE_CURVE', default=1.4, cast=float)
+
 CELERY_BROKER_URL = 'redis://redis:6379/0'
 CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
