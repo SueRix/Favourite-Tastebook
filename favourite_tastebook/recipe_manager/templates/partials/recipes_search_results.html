@@ -8,7 +8,9 @@
 {% elif keyword|length < 2 %}
     <div class="rdb-hint">
         <span class="rdb-hint-icon" aria-hidden="true">✦</span>
-        {% if mode == "vector" %}
+        {% if mode == "ingredient" %}
+            Name an ingredient, then press Enter.
+        {% elif mode_label %}
             Describe a dish in a couple of words, then press Enter.
         {% else %}
             Type at least 2 characters to start searching.
@@ -17,9 +19,9 @@
 
 {% elif not recipes %}
     <div class="rdb-empty">
-        {% if mode == "vector" %}
+        {% if mode_label %}
             <div class="rdb-empty-title">Nothing similar to "{{ keyword }}"</div>
-            <div class="rdb-empty-desc">Try describing the dish differently, or switch to Keyword mode.</div>
+            <div class="rdb-empty-desc">Try different wording, or switch to Keyword mode.</div>
         {% else %}
             <div class="rdb-empty-title">No recipes match "{{ keyword }}"</div>
             <div class="rdb-empty-desc">Try a shorter or different keyword.</div>
@@ -28,8 +30,8 @@
 
 {% else %}
     <div class="rdb-summary">
-        {% if mode == "vector" %}
-            <span class="rdb-summary-badge">Semantic</span>
+        {% if mode_label %}
+            <span class="rdb-summary-badge">{{ mode_label }}</span>
             <strong>{{ recipes|length }}</strong>
             match{{ recipes|length|pluralize:"es" }} for
         {% else %}
@@ -59,7 +61,23 @@
                 </div>
 
                 <div class="rdb-card-body">
-                    <h3 class="rdb-card-title">{{ r.title }}</h3>
+                    <div class="rdb-card-title-row">
+                        <h3 class="rdb-card-title">{{ r.title }}</h3>
+
+                        {# WHAT: Similarity thermometer. WHERE: semantic result cards only. WHY: Reuses the ingredient-scoring indicator so both engines speak one visual language; height and hue come from the calibrated Pinecone score. #}
+                        {% if r.show_match_meter %}
+                            <div class="rdb-card-match"
+                                 title="Similarity {{ r.vector_score_label }} → {{ r.match_percent }}% match">
+                                <span class="match-thermometer" aria-hidden="true">
+                                    <span class="match-thermometer__track">
+                                        <span class="match-thermometer__fill match-thermometer__fill--scored"
+                                              style="--fill-percent: {{ r.match_percent }}%; --fill-hue: {{ r.therm_fill_hue }};"></span>
+                                    </span>
+                                </span>
+                                <span class="rdb-card-match-label">{{ r.match_percent }}%</span>
+                            </div>
+                        {% endif %}
+                    </div>
 
                     <div class="rdb-card-meta">
                         {% if r.cuisine %}

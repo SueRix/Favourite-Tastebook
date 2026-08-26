@@ -387,6 +387,34 @@
     padding: 14px 16px 16px;
 }
 
+.rdb-card-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* WHAT: Similarity indicator column on a semantic result card.
+   WHERE: recipes_search_results.html — next to the title, vector modes only.
+   WHY: Mirrors the ingredient-scoring thermometer from the home page so one
+        visual language covers both engines; keyword results simply omit it. */
+.rdb-card-match {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    cursor: help;
+}
+
+.rdb-card-match-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+}
+
 .rdb-card-title {
     margin: 0;
     font-size: 15px;
@@ -397,6 +425,7 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    min-width: 0;
 }
 
 .rdb-card-meta {

@@ -164,6 +164,10 @@
             placeholder: "Describe a dish (e.g. creamy tomato soup), then press Enter...",
             note: "Meaning-based search. Press Enter or the magnifier to run it.",
         },
+        ingredient: {
+            placeholder: "Name an ingredient (e.g. smoked paprika), then press Enter...",
+            note: "Recipes built around one ingredient. Press Enter to run it.",
+        },
     };
 
     function modeInput() {
@@ -181,7 +185,7 @@
      */
     function rdbIsKeywordMode() {
         const hidden = modeInput();
-        return !hidden || hidden.value !== "vector";
+        return !hidden || hidden.value === DEFAULT_MODE;
     }
 
     /**
