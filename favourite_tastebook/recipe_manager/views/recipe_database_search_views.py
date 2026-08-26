@@ -1,6 +1,11 @@
+import logging
+
 from django.views.generic import TemplateView
 
 from recipe_manager.application.use_cases.search_recipes import SearchRecipesUseCase
+from recipe_manager.domain.exceptions import VectorSearchException
+
+logger = logging.getLogger(__name__)
 
 
 class RecipesDatabaseView(TemplateView):
@@ -22,7 +27,7 @@ class RecipesDatabaseSearchPartialView(TemplateView):
 
     def get_context_data(self, **kwargs):
         """
-        What: Builds the template context with the cleaned keyword and matching recipes queryset.
+        What: Builds the template context with the cleaned keyword, the selection mode and the matching recipes.
         Where: Invoked by Django's TemplateView during HTMX GET handling.
         Why: Delegates all business logic to the use case so the view stays a thin presenter.
         """
@@ -31,11 +36,26 @@ class RecipesDatabaseSearchPartialView(TemplateView):
         mode = self.request.GET.get("mode", "keyword")
         ctx["keyword"] = keyword
         ctx["mode"] = mode
-        ctx["recipes"] = SearchRecipesUseCase.execute(
-            keyword,
-            mode=mode,
-            user=self.request.user,
-        )
+        ctx["search_error"] = None
+
+        try:
+            ctx["recipes"] = SearchRecipesUseCase.execute(
+                keyword,
+                mode=mode,
+                user=self.request.user,
+            )
+        except VectorSearchException as exc:
+            # HTMX swaps whatever comes back straight into #rdb-results, so an
+            # unhandled 500 would render Django's error page inside the results
+            # area. Degrade to an empty result set plus a readable message.
+            # Catching the base class keeps future subclasses covered.
+            logger.warning("Vector search failed: %s", exc)
+            ctx["recipes"] = []
+            # The instance message carries transport details (webhook URL,
+            # HTTP body); show the class-level, user-facing text instead and
+            # keep the diagnostics in the logs.
+            ctx["search_error"] = type(exc).message
+
         return ctx
 
 
