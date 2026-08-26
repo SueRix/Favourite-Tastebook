@@ -136,6 +136,15 @@ MAX_BIO_LEN = 1000
 MAX_AVATAR_MB = 5
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+# --- Vector search (Pinecone via n8n webhook) ---
+# Django never talks to Pinecone directly: it POSTs the keyword to a self-hosted
+# n8n webhook, which embeds the query and runs the Pinecone similarity search.
+N8N_PINECONE_WEBHOOK_URL = config('N8N_PINECONE_WEBHOOK_URL', default='')
+N8N_WEBHOOK_AUTH_TOKEN = config('N8N_WEBHOOK_AUTH_TOKEN', default='')
+N8N_WEBHOOK_TIMEOUT = config('N8N_WEBHOOK_TIMEOUT', default=5, cast=float)
+VECTOR_SEARCH_TOP_K = config('VECTOR_SEARCH_TOP_K', default=20, cast=int)
+
 CELERY_BROKER_URL = 'redis://redis:6379/0'
 CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
