@@ -2,10 +2,10 @@ from django.test import TestCase
 
 from recipe_manager.domain.enums import Importance
 from recipe_manager.models import Cuisine, Ingredient, Recipe, RecipeIngredient
-from recipe_manager.services.recipe_selection_service import annotate_recipe_scores
+from recipe_manager.infrastructure.orm.scoring import RecipeScoringService
 
 
-class RecipeSelectionServiceTests(TestCase):
+class RecipeScoringServiceTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.cuisine = Cuisine.objects.create(name="__ut_cuisine_selection__")
@@ -25,7 +25,7 @@ class RecipeSelectionServiceTests(TestCase):
         RecipeIngredient.objects.create(recipe=cls.r2, ingredient=cls.i_c, amount=1, importance=Importance.SECONDARY)
 
     def _annotated_qs(self, selected_ids, weights=None):
-        return annotate_recipe_scores(
+        return RecipeScoringService.annotate_recipe_scores(
             qs=Recipe.objects.all(),
             selected_ids=selected_ids,
             weights=weights,
@@ -82,3 +82,17 @@ class RecipeSelectionServiceTests(TestCase):
             .order_by("-score")
         )
         self.assertEqual(qs.first().id, self.r2.id)
+
+    def test_annotate_base_metrics_does_not_add_score(self):
+        # annotate_base_metrics is the counter-only pass reused by every scoring mode;
+        # the score column is added later by apply_*_scoring / annotate_recipe_scores.
+        qs = RecipeScoringService.annotate_base_metrics(
+            Recipe.objects.filter(id=self.r1.id), [self.i_a.id]
+        )
+        self.assertNotIn("score", qs.query.annotations)
+        self.assertIn("required_matched", qs.query.annotations)
+
+    def test_max_score_reflects_full_ingredient_set(self):
+        # max_score is the ceiling used by the UI percentage bar: 2 required + 1 optional.
+        r1 = self._annotated_qs(selected_ids=[self.i_a.id]).get(id=self.r1.id)
+        self.assertEqual(r1.max_score, 2 * 10 + 1 * 1)
