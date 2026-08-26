@@ -2,6 +2,7 @@ from django.test import TestCase
 
 from recipe_manager.models import Cuisine, Recipe
 from recipe_manager.infrastructure.vector_search.vector_selection_strategy import (
+    INGREDIENT_QUERY_TEMPLATE,
     VectorSelectionStrategy,
 )
 
@@ -72,3 +73,29 @@ class VectorSelectionStrategyTests(TestCase):
         fake = FakeN8nClient([(self.r1.id, 1.0)])
         VectorSelectionStrategy(client=fake, top_k=5).select("  borscht  ")
         self.assertEqual(fake.calls, [("borscht", 5)])
+
+    def test_scores_are_annotated_onto_the_queryset(self):
+        # The presentation layer draws the thermometer from this annotation;
+        # dropping it here would mean a second round-trip just to render a bar.
+        qs = self._strategy([(self.r2.id, 0.81), (self.r1.id, 0.42)]).select("borscht")
+        self.assertEqual(
+            [round(r.vector_score, 2) for r in qs],
+            [0.81, 0.42],
+        )
+
+    def test_ingredient_template_reframes_the_query_sent_to_the_backend(self):
+        fake = FakeN8nClient([(self.r1.id, 0.7)])
+        strategy = VectorSelectionStrategy(
+            client=fake, top_k=20, query_template=INGREDIENT_QUERY_TEMPLATE,
+        )
+
+        strategy.select("  smoked paprika  ")
+
+        self.assertEqual(fake.calls, [("recipes made with smoked paprika", 20)])
+
+    def test_default_template_sends_the_keyword_verbatim(self):
+        fake = FakeN8nClient([(self.r1.id, 0.7)])
+
+        VectorSelectionStrategy(client=fake, top_k=20).select("borscht")
+
+        self.assertEqual(fake.calls, [("borscht", 20)])

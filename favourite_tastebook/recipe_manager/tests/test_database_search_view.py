@@ -1,6 +1,6 @@
 from unittest.mock import patch
 
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from recipe_manager.application.use_cases.search_recipes import SELECTION_STRATEGIES
@@ -26,6 +26,7 @@ class FakeN8nClient:
         return self._matches
 
 
+@override_settings(VECTOR_SCORE_FLOOR=0.45, VECTOR_SCORE_CEILING=0.71, VECTOR_SCORE_CURVE=1.4)
 class RecipesDatabaseSearchPartialViewTests(TestCase):
     """
     Covers the wiring the UI depends on: the `mode` query param must reach the
@@ -46,6 +47,14 @@ class RecipesDatabaseSearchPartialViewTests(TestCase):
         """Swaps the client on the module-level vector strategy for the duration of a test."""
         fake = FakeN8nClient(**kwargs)
         patcher = patch.object(SELECTION_STRATEGIES["vector"], "client", fake)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+        return fake
+
+    def _ingredient_client(self, **kwargs):
+        """Same, for the ingredient-flavoured instance of the vector strategy."""
+        fake = FakeN8nClient(**kwargs)
+        patcher = patch.object(SELECTION_STRATEGIES["ingredient"], "client", fake)
         patcher.start()
         self.addCleanup(patcher.stop)
         return fake
@@ -115,3 +124,54 @@ class RecipesDatabaseSearchPartialViewTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "rdb-error")
+
+    def test_vector_mode_renders_the_match_thermometer(self):
+        # ((0.6428 - 0.45) / 0.26) ** 1.4 -> 66%
+        self._vector_client(matches=[(self.r1.id, 0.6428)])
+
+        response = self._get(keyword="creamy tomato soup", mode="vector")
+
+        self.assertContains(response, "match-thermometer__fill--scored")
+        self.assertContains(response, "--fill-percent: 66%")
+        self.assertContains(response, "Similarity 0.64 → 66% match")
+
+    def test_keyword_mode_renders_no_thermometer(self):
+        # ILIKE matching is binary: there is no scale to show.
+        response = self._get(keyword="__ut_view_r1__", mode="keyword")
+
+        self.assertNotContains(response, "match-thermometer")
+
+    def test_ingredient_mode_reframes_the_query_for_the_embedding(self):
+        fake = self._ingredient_client(matches=[(self.r1.id, 0.7)])
+
+        self._get(keyword="smoked paprika", mode="ingredient")
+
+        self.assertEqual(
+            fake.calls,
+            [("recipes made with smoked paprika", SELECTION_STRATEGIES["ingredient"].top_k)],
+        )
+
+    def test_ingredient_mode_shows_its_own_badge(self):
+        self._ingredient_client(matches=[(self.r1.id, 0.7)])
+
+        response = self._get(keyword="smoked paprika", mode="ingredient")
+
+        self.assertContains(response, "Ingredient")
+        self.assertNotContains(response, ">Semantic<")
+
+    def test_ingredient_mode_short_keyword_never_hits_the_backend(self):
+        fake = self._ingredient_client(matches=[(self.r1.id, 0.7)])
+
+        self._get(keyword="a", mode="ingredient")
+
+        self.assertEqual(fake.calls, [])
+
+    def test_template_comments_never_leak_into_the_markup(self):
+        # Django's {# #} is single-line only: a multi-line one is not parsed as a
+        # comment and renders as visible text on every card.
+        self._vector_client(matches=[(self.r1.id, 0.7)])
+
+        response = self._get(keyword="creamy tomato soup", mode="vector")
+
+        self.assertNotContains(response, "{#")
+        self.assertNotContains(response, "WHAT:")
