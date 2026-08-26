@@ -22,6 +22,9 @@ services:
   web:
     build: .
     container_name: tastebook_web
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
     command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./media:/app/media
@@ -42,6 +45,8 @@ services:
       - ./media:/app/media
     environment:
       - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - DB_HOST=db
+      - DB_PORT=5432
     env_file:
       - .env
     depends_on:
@@ -49,5 +54,22 @@ services:
       - redis
       - web
 
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    container_name: tastebook_n8n
+    ports:
+      - "5678:5678"
+    environment:
+      - GENERIC_TIMEZONE=Europe/Warsaw
+      - TZ=Europe/Warsaw
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+    volumes:
+      - n8n_data:/home/node/.n8n
+    env_file:
+      - .env
+    depends_on:
+      - db
+
 volumes:
   postgres_data:
+  n8n_data:
