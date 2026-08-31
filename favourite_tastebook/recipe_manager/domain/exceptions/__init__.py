@@ -14,6 +14,15 @@ from .vector_search import (
     VectorBackendResponseError,
 )
 
+from .agent_chat import (
+    AgentChatException,
+    AgentChatNotConfiguredError,
+    AgentChatMessageError,
+    AgentChatRateLimitedError,
+    AgentChatUnavailableError,
+    AgentChatResponseError,
+)
+
 from .generated_recipe import (
     GeneratedRecipeException,
     GeneratedRecipeAlreadySavedError,
@@ -53,6 +62,14 @@ __all__ = [
     "AgentAuthError",
     "AgentContextError",
     "AgentPayloadError",
+
+    # Agent chat
+    "AgentChatException",
+    "AgentChatNotConfiguredError",
+    "AgentChatMessageError",
+    "AgentChatRateLimitedError",
+    "AgentChatUnavailableError",
+    "AgentChatResponseError",
 
     # Generated recipes
     "GeneratedRecipeException",
