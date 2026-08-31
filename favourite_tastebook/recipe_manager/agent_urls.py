@@ -25,6 +25,7 @@ Composing a dish the database does not have is the agent's main job, and it uses
 two more endpoints for that:
 
     POST tools/ingredient-catalog/ {}                      -> {ingredients, units, importance}
+    POST tools/propose-recipe/    {the composed recipe}    -> the checked draft, unsaved
     POST tools/save-generated-recipe/ {title, cook_time_minutes, steps[], ingredients[]}
                                                            -> the stored recipe
 
@@ -36,6 +37,7 @@ from django.urls import path
 
 from recipe_manager.views.agent_tool_views import (
     AgentIngredientCatalogView,
+    AgentProposeRecipeView,
     AgentRecipeDetailView,
     AgentRecipesByIngredientsView,
     AgentSaveGeneratedRecipeView,
@@ -54,6 +56,11 @@ urlpatterns = [
         "tools/ingredient-catalog/",
         AgentIngredientCatalogView.as_view(),
         name="agent_tool_ingredient_catalog",
+    ),
+    path(
+        "tools/propose-recipe/",
+        AgentProposeRecipeView.as_view(),
+        name="agent_tool_propose_recipe",
     ),
     path(
         "tools/save-generated-recipe/",

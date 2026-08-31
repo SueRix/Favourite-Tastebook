@@ -16,6 +16,10 @@ from .views.agent_chat_views import (
     AgentChatResetView,
     AgentChatView,
 )
+from .views.recipe_studio_views import (
+    RecipeStudioSaveView,
+    RecipeStudioView,
+)
 from .views.recipe_saver_views import (
     SavedRecipeListView, SavedRecipeActionView,
 )
@@ -29,6 +33,8 @@ urlpatterns = [
     # token nor the signed context ever reaches the page.
     path("chat/", AgentChatView.as_view(), name="agent_chat"),
     path("chat/reset/", AgentChatResetView.as_view(), name="agent_chat_reset"),
+    path("studio/", RecipeStudioView.as_view(), name="recipe_studio"),
+    path("studio/save/", RecipeStudioSaveView.as_view(), name="recipe_studio_save"),
 
     path("partials/ingredients/", IngredientsPartialView.as_view(), name="partials_ingredients_panel"),
     path("partials/recipes/", RecipesPartialView.as_view(), name="partials_recipes"),

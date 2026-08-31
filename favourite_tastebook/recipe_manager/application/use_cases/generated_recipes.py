@@ -20,15 +20,25 @@ MAX_COOK_TIME = 1440
 
 class SaveGeneratedRecipeUseCase:
     """
-    What: Turns a recipe the agent invented into rows the app owns.
-    Where: Called by AgentToolsUseCase.save_generated_recipe.
+    What: Turns a recipe the agent composed into rows the app owns — and, one
+          step earlier, tells the caller whether it could be turned into rows
+          at all.
+    Where: `validate` backs the `propose_recipe` tool and the studio preview;
+           `execute` backs both save paths (the agent's tool and the button on
+           the studio page).
     Why: This is the only place where text produced by a language model becomes
          persistent data, so it is also the only place where that text can be
-         checked. Two guarantees are enforced here and nowhere else: every
-         ingredient is one we already know, and none of them is on the user's
-         never_use list. The system prompt asks for both; a prompt is advice,
-         and this is the check that actually holds.
+         checked. Two guarantees live here and nowhere else: every ingredient is
+         one we already know, and none of them is on the user's never_use list.
+         The system prompt asks for both; a prompt is advice, and this is the
+         check that actually holds.
+
+    `validate` and `execute` run the same checks in the same order on purpose.
+    The studio page shows a draft the user may edit before keeping it, so a draft
+    that validated must not become a save that fails on something different.
     """
+
+    # ---------------------------------------------------------------- checks
 
     @classmethod
     def _resolve_ingredients(cls, lines: list[dict]) -> list[tuple]:
@@ -56,17 +66,67 @@ class SaveGeneratedRecipeUseCase:
         if taboo:
             raise TabooIngredientError(sorted(taboo))
 
+    @staticmethod
+    def _deduplicate(resolved: list[tuple]) -> list[tuple]:
+        # A model listing the same ingredient twice would break the unique
+        # constraint mid-transaction; keep the first line it gave.
+        seen = set()
+        unique = []
+        for ingredient, line in resolved:
+            if ingredient.id in seen:
+                continue
+            seen.add(ingredient.id)
+            unique.append((ingredient, line))
+        return unique
+
+    @classmethod
+    def _checked_lines(cls, user, ingredient_lines: list[dict]) -> list[tuple]:
+        resolved = cls._resolve_ingredients(ingredient_lines)
+        cls._reject_taboo(user, [ingredient for ingredient, _ in resolved])
+        return cls._deduplicate(resolved)
+
+    # ------------------------------------------------------------ operations
+
+    @classmethod
+    def validate(cls, user, *, title: str, cook_time: int, steps: list[str],
+                 ingredient_lines: list[dict], cuisine: str = "") -> dict:
+        """
+        Runs every check and returns the recipe in the form it WOULD be stored
+        in, without storing it. Nothing is written, so the agent can propose
+        freely and the person decides afterwards.
+
+        The shape is deliberately flat rather than grouped by importance: this
+        one is going into an editor, where every line needs its own row.
+        """
+        checked = cls._checked_lines(user, ingredient_lines)
+
+        return {
+            "title": title,
+            "cuisine": cuisine,
+            "cook_time_minutes": min(max(int(cook_time), MIN_COOK_TIME), MAX_COOK_TIME),
+            "steps": steps,
+            "ingredients": [
+                {
+                    "name": ingredient.name,
+                    # Decimal is not JSON-serialisable, and a person reads "2"
+                    # more easily than "2.00".
+                    "amount": float(line["amount"]),
+                    "unit": line.get("unit") or Units.GRAM,
+                    "importance": line.get("importance") or Importance.REQUIRED,
+                }
+                for ingredient, line in checked
+            ],
+        }
+
     @classmethod
     def execute(cls, user, *, title: str, cook_time: int, steps: list[str],
                 ingredient_lines: list[dict], cuisine: str = "",
                 session_id: str = "") -> GeneratedRecipe:
         """
         `ingredient_lines` are dicts of {name, amount, unit, importance}, already
-        type-checked by AgentInput. Returns the stored recipe.
+        type-checked by GeneratedRecipeInput. Returns the stored recipe.
         """
-        resolved = cls._resolve_ingredients(ingredient_lines)
-        cls._reject_taboo(user, [ingredient for ingredient, _ in resolved])
-
+        checked = cls._checked_lines(user, ingredient_lines)
         cook_time = min(max(int(cook_time), MIN_COOK_TIME), MAX_COOK_TIME)
 
         try:
@@ -87,23 +147,10 @@ class SaveGeneratedRecipeUseCase:
                         unit=line.get("unit") or Units.GRAM,
                         importance=line.get("importance") or Importance.REQUIRED,
                     )
-                    # A model listing the same ingredient twice would break the
-                    # unique constraint mid-transaction; keep the first line.
-                    for ingredient, line in cls._deduplicate(resolved)
+                    for ingredient, line in checked
                 )
         except IntegrityError as exc:
             # (user, title) is the only other unique constraint in play.
             raise GeneratedRecipeAlreadySavedError() from exc
 
         return recipe
-
-    @staticmethod
-    def _deduplicate(resolved: list[tuple]) -> list[tuple]:
-        seen = set()
-        unique = []
-        for ingredient, line in resolved:
-            if ingredient.id in seen:
-                continue
-            seen.add(ingredient.id)
-            unique.append((ingredient, line))
-        return unique

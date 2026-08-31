@@ -22,12 +22,18 @@ class BaseAgentToolView(View):
     the way the rest of the project keeps it.
     """
 
-    #: Callable(payload: dict, user) -> dict, set by each subclass.
+    #: Callable(payload, user=..., session_id=...) -> dict, set by each subclass.
+    #: Every tool takes the same three arguments even when it ignores the last
+    #: two, so this base class never has to know which is which.
     tool = None
 
     @agent_tool
     def post(self, request, *args, **kwargs):
-        result = type(self).tool(request.agent_payload, user=request.agent_user)
+        result = type(self).tool(
+            request.agent_payload,
+            user=request.agent_user,
+            session_id=request.agent_session_id,
+        )
         return JsonResponse(result)
 
 
@@ -59,6 +65,11 @@ class AgentSaveRecipeView(BaseAgentToolView):
 class AgentIngredientCatalogView(BaseAgentToolView):
     """Tool `ingredient_catalog` — the ingredient vocabulary a composed recipe may use."""
     tool = AgentToolsUseCase.ingredient_catalog
+
+
+class AgentProposeRecipeView(BaseAgentToolView):
+    """Tool `propose_recipe` — offers a composed dish for the person to edit and keep."""
+    tool = AgentToolsUseCase.propose_recipe
 
 
 class AgentSaveGeneratedRecipeView(BaseAgentToolView):

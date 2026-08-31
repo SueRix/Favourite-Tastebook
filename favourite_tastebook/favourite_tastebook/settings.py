@@ -192,6 +192,11 @@ AGENT_CHAT_MAX_MESSAGE = config('AGENT_CHAT_MAX_MESSAGE', default=500, cast=int)
 AGENT_CHAT_RATE_PER_MINUTE = config('AGENT_CHAT_RATE_PER_MINUTE', default=6, cast=int)
 AGENT_CHAT_RATE_PER_DAY = config('AGENT_CHAT_RATE_PER_DAY', default=100, cast=int)
 
+# How long a proposed-but-unsaved recipe waits for the person to decide. It only
+# has to outlive the moment between the agent answering and the page rendering
+# the draft, so a short life is a feature rather than a limitation.
+AGENT_DRAFT_TTL = config('AGENT_DRAFT_TTL', default=3600, cast=int)
+
 # Rate counters must be shared by every worker and must survive a reload, which
 # the default in-process cache gives neither. Redis is already up for Celery;
 # database 1 keeps the counters clear of the task queue on database 0.

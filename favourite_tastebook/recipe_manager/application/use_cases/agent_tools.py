@@ -3,7 +3,7 @@ from django.conf import settings
 from recipe_manager.application.use_cases.generated_recipes import SaveGeneratedRecipeUseCase
 from recipe_manager.application.use_cases.saved_recipes_dashboard import SavedRecipesUseCase
 from recipe_manager.application.use_cases.search_recipes import SearchRecipesUseCase
-from recipe_manager.domain.enums import Importance, TasteLevels, TASTE_HATE_LEVEL, Units
+from recipe_manager.domain.enums import Importance, TasteLevels, TASTE_HATE_LEVEL
 from recipe_manager.domain.exceptions import (
     GeneratedRecipeAlreadySavedError,
     TabooIngredientError,
@@ -14,6 +14,12 @@ from recipe_manager.domain.exceptions.saved_recipe import (
     RecipeNotFoundError,
 )
 from recipe_manager.domain.parsers.agent_input import AgentInput
+from recipe_manager.domain.parsers.generated_recipe_input import (
+    ALLOWED_IMPORTANCE,
+    ALLOWED_UNITS,
+    GeneratedRecipeInput,
+)
+from recipe_manager.infrastructure.agent import AgentDraftStore
 from recipe_manager.infrastructure.presentation.agent_payload import (
     AgentGeneratedRecipePresenter,
     AgentRecipePresenter,
@@ -35,15 +41,6 @@ DEFAULT_SEARCH_MODE = "semantic"
 # into a wall of nouns the model averages away.
 MAX_TASTE_ITEMS = 40
 
-# The agent composes dishes from its own knowledge, but the parts have to be ones
-# we know: only then can a saved recipe be checked against the taboo list and
-# still take part in the taste mechanics. These are the vocabularies it may use.
-ALLOWED_UNITS = {value: value for value in Units.values}
-ALLOWED_IMPORTANCE = {value: value for value in Importance.values}
-
-# A dish nobody can cook in a day is a hallucinated number, not a slow roast.
-MAX_GENERATED_COOK_TIME = 1440
-DEFAULT_GENERATED_COOK_TIME = 30
 
 
 class AgentToolsUseCase:
@@ -93,7 +90,7 @@ class AgentToolsUseCase:
     # ------------------------------------------------------------------ tools
 
     @classmethod
-    def search_recipes(cls, payload: dict, user=None) -> dict:
+    def search_recipes(cls, payload: dict, user=None, session_id=None) -> dict:
         """
         Tool `search_recipes`: free-text recipe lookup.
         Body: {"query": str, "mode": "semantic|ingredient|keyword", "limit": int}
@@ -115,7 +112,7 @@ class AgentToolsUseCase:
         }
 
     @classmethod
-    def recipes_by_ingredients(cls, payload: dict, user=None) -> dict:
+    def recipes_by_ingredients(cls, payload: dict, user=None, session_id=None) -> dict:
         """
         Tool `recipes_by_ingredients`: what can I cook from what I have.
         Body: {"ingredients": [str, ...], "limit": int}
@@ -165,7 +162,7 @@ class AgentToolsUseCase:
         }
 
     @classmethod
-    def recipe_detail(cls, payload: dict, user=None) -> dict:
+    def recipe_detail(cls, payload: dict, user=None, session_id=None) -> dict:
         """
         Tool `recipe_detail`: full ingredient list and steps for one recipe id.
         Body: {"recipe_id": int}
@@ -182,7 +179,7 @@ class AgentToolsUseCase:
         return {"ok": True, "recipe": AgentRecipePresenter.detail(recipe, is_saved=is_saved)}
 
     @classmethod
-    def user_tastes(cls, payload: dict, user=None) -> dict:
+    def user_tastes(cls, payload: dict, user=None, session_id=None) -> dict:
         """
         Tool `user_tastes`: the taste profile the agent must respect.
         Body: {} — the user comes from the signed context, never from the body.
@@ -238,7 +235,7 @@ class AgentToolsUseCase:
         }
 
     @classmethod
-    def save_recipe(cls, payload: dict, user=None) -> dict:
+    def save_recipe(cls, payload: dict, user=None, session_id=None) -> dict:
         """
         Tool `save_recipe`: the only write the agent can perform.
         Body: {"recipe_id": int}
@@ -264,7 +261,7 @@ class AgentToolsUseCase:
     # -------------------------------------------------- generated recipes
 
     @classmethod
-    def ingredient_catalog(cls, payload: dict, user=None) -> dict:
+    def ingredient_catalog(cls, payload: dict, user=None, session_id=None) -> dict:
         """
         Tool `ingredient_catalog`: the vocabulary a composed recipe may use.
         Body: {} — the catalogue is the same for everyone.
@@ -277,50 +274,13 @@ class AgentToolsUseCase:
         }
 
     @classmethod
-    def _ingredient_line(cls, line: dict) -> dict:
-        """One {name, amount, unit, importance} entry of a composed recipe."""
-        return {
-            # Ingredient.name is stored lowercase, so match on the same form.
-            "name": AgentInput.text(line, "name", max_length=100).lower(),
-            "amount": AgentInput.amount(line, "amount"),
-            "unit": AgentInput.choice(line, "unit", ALLOWED_UNITS, Units.GRAM),
-            "importance": AgentInput.choice(
-                line, "importance", ALLOWED_IMPORTANCE, Importance.REQUIRED
-            ),
-        }
-
-    @classmethod
-    def save_generated_recipe(cls, payload: dict, user=None) -> dict:
+    def _draft_failure(cls, exc) -> dict:
         """
-        Tool `save_generated_recipe`: keeps a dish the agent composed itself.
-        Body: {"title", "cuisine", "cook_time_minutes", "steps": [...],
-               "ingredients": [{"name", "amount", "unit", "importance"}, ...]}
+        Turns the two repairable refusals into data the agent can act on.
+        Shared by propose and save so a draft that was refused once is refused
+        the same way twice, with the same wording.
         """
-        title = AgentInput.text(payload, "title", max_length=255)
-        cuisine = AgentInput.text(payload, "cuisine", required=False, max_length=100)
-        cook_time = AgentInput.integer(
-            payload,
-            "cook_time_minutes",
-            default=DEFAULT_GENERATED_COOK_TIME,
-            minimum=1,
-            maximum=MAX_GENERATED_COOK_TIME,
-        )
-        steps = AgentInput.paragraph_list(payload, "steps")
-        lines = [cls._ingredient_line(line) for line in AgentInput.object_list(payload, "ingredients")]
-
-        if not cls._is_authenticated(user):
-            return cls._failure("auth_required", "Only a signed-in user can save recipes.")
-
-        try:
-            recipe = SaveGeneratedRecipeUseCase.execute(
-                user,
-                title=title,
-                cuisine=cuisine,
-                cook_time=cook_time,
-                steps=steps,
-                ingredient_lines=lines,
-            )
-        except UnknownIngredientsError as exc:
+        if isinstance(exc, UnknownIngredientsError):
             # The one failure the agent can actually repair, so it gets the names
             # back and an instruction concrete enough to act on without guessing.
             return {
@@ -330,17 +290,61 @@ class AgentToolsUseCase:
                 "unknown": exc.names,
                 "hint": "Call ingredient_catalog and rewrite the recipe using only names from it.",
             }
-        except TabooIngredientError as exc:
-            return {
-                "ok": False,
-                "error": "taboo_ingredient",
-                "detail": str(exc),
-                "ingredients": exc.names,
-                "hint": "Compose a different dish without these ingredients.",
-            }
+        return {
+            "ok": False,
+            "error": "taboo_ingredient",
+            "detail": str(exc),
+            "ingredients": exc.names,
+            "hint": "Compose a different dish without these ingredients.",
+        }
+
+    @classmethod
+    def propose_recipe(cls, payload: dict, user=None, session_id=None) -> dict:
+        """
+        Tool `propose_recipe`: offers a composed dish WITHOUT saving it.
+        Body: same shape as save_generated_recipe.
+
+        The checked draft is left in the draft store under the conversation id,
+        where the chat view picks it up and hands it to the studio page for the
+        person to edit. Deciding to keep a recipe is theirs, not the model's.
+        """
+        fields = GeneratedRecipeInput.parse(payload)
+
+        if not cls._is_authenticated(user):
+            return cls._failure("auth_required", "Only a signed-in user can build recipes.")
+
+        try:
+            draft = SaveGeneratedRecipeUseCase.validate(user, **fields)
+        except (UnknownIngredientsError, TabooIngredientError) as exc:
+            return cls._draft_failure(exc)
+
+        AgentDraftStore.put(session_id, draft)
+
+        # The agent gets the normalised draft back so it describes what the
+        # person is actually looking at, not the wording it had in mind.
+        return {"ok": True, "proposed": True, "recipe": draft}
+
+    @classmethod
+    def save_generated_recipe(cls, payload: dict, user=None, session_id=None) -> dict:
+        """
+        Tool `save_generated_recipe`: keeps a dish the agent composed itself.
+        Body: {"title", "cuisine", "cook_time_minutes", "steps": [...],
+               "ingredients": [{"name", "amount", "unit", "importance"}, ...]}
+        """
+        fields = GeneratedRecipeInput.parse(payload)
+
+        if not cls._is_authenticated(user):
+            return cls._failure("auth_required", "Only a signed-in user can save recipes.")
+
+        try:
+            recipe = SaveGeneratedRecipeUseCase.execute(
+                user, session_id=session_id or "", **fields
+            )
+        except (UnknownIngredientsError, TabooIngredientError) as exc:
+            return cls._draft_failure(exc)
         except GeneratedRecipeAlreadySavedError:
             # Idempotent: the end state is the one the user asked for.
-            return {"ok": True, "saved": True, "already_saved": True, "title": title}
+            return {"ok": True, "saved": True, "already_saved": True, "title": fields["title"]}
 
         return {
             "ok": True,

@@ -123,3 +123,32 @@ class AgentGeneratedRecipePresenter:
                 for label, importance in IMPORTANCE_GROUPS
             },
         }
+
+    @classmethod
+    def editable(cls, generated) -> dict:
+        """
+        The same flat shape SaveGeneratedRecipeUseCase.validate returns, built
+        from a stored recipe instead of a proposal.
+
+        The studio page speaks exactly one recipe shape — a fresh draft from the
+        agent and an old creation loaded back from the database arrive in the
+        editor identical, so the editor needs no idea where a recipe came from.
+        """
+        lines = list(generated.ingredients.select_related("ingredient"))
+
+        return {
+            "id": generated.id,
+            "title": generated.title,
+            "cuisine": generated.cuisine,
+            "cook_time_minutes": generated.cook_time,
+            "steps": generated.steps[:MAX_STEPS],
+            "ingredients": [
+                {
+                    "name": line.ingredient.name,
+                    "amount": float(line.amount),
+                    "unit": line.unit,
+                    "importance": line.importance,
+                }
+                for line in lines
+            ],
+        }
