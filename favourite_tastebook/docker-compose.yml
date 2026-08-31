@@ -27,6 +27,9 @@ services:
       - DB_PORT=5432
     command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
+      # Dev: live source mount, so code changes apply without rebuilding the
+      # image. runserver reloads on its own; drop this line for a prod-style run.
+      - .:/app
       - ./media:/app/media
       - ./static:/app/static
     ports:
@@ -42,6 +45,9 @@ services:
     container_name: tastebook_celery
     command: celery -A favourite_tastebook worker -l INFO
     volumes:
+      # Dev: same live mount as web. Celery has no autoreload, so restart it
+      # after changing task code: docker compose restart celery
+      - .:/app
       - ./media:/app/media
     environment:
       - GEMINI_API_KEY=${GEMINI_API_KEY}
