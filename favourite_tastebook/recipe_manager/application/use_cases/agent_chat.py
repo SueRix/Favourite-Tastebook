@@ -5,6 +5,7 @@ from recipe_manager.infrastructure.agent import (
     AgentChatRateLimiter,
     AgentChatSession,
     AgentContextToken,
+    AgentDraftStore,
     N8nAgentChatClient,
 )
 
@@ -26,7 +27,11 @@ class AgentChatUseCase:
 
     @classmethod
     def send(cls, user, session, message: str, client=None) -> dict:
-        """Returns {"reply": str, "chat_id": str}. Raises AgentChatException on failure."""
+        """
+        Returns {"reply": str, "chat_id": str, "draft": dict | None}, where the
+        draft is present only when the agent proposed a recipe on this turn.
+        Raises AgentChatException on failure.
+        """
         text = (message or "").strip()
         if not text:
             raise AgentChatMessageError()
@@ -40,10 +45,16 @@ class AgentChatUseCase:
         chat_id = AgentChatSession.current(session)
         context = AgentContextToken.issue(user.id, chat_id)
 
+        # Drop anything left from an earlier turn first, so whatever is in the
+        # store afterwards can only have been proposed for THIS message.
+        AgentDraftStore.clear(chat_id)
+
         client = client or N8nAgentChatClient()
         reply = client.ask(message=text, context=context, sid=chat_id)
 
-        return {"reply": reply, "chat_id": chat_id}
+        # The agent may have called propose_recipe while it was thinking; that
+        # call landed on a different request and left its draft here.
+        return {"reply": reply, "chat_id": chat_id, "draft": AgentDraftStore.take(chat_id)}
 
     @classmethod
     def reset(cls, session) -> str:
@@ -51,4 +62,5 @@ class AgentChatUseCase:
         Starts a new conversation. Only the id changes: the old history stays in
         n8n, unaddressed, and falls out of its memory window on its own.
         """
+        AgentDraftStore.clear(AgentChatSession.current(session))
         return AgentChatSession.reset(session)
