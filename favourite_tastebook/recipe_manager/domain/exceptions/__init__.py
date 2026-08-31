@@ -14,6 +14,21 @@ from .vector_search import (
     VectorBackendResponseError,
 )
 
+from .generated_recipe import (
+    GeneratedRecipeException,
+    GeneratedRecipeAlreadySavedError,
+    UnknownIngredientsError,
+    TabooIngredientError,
+)
+
+from .agent import (
+    AgentToolException,
+    AgentNotConfiguredError,
+    AgentAuthError,
+    AgentContextError,
+    AgentPayloadError,
+)
+
 __all__ = [
     # Base
     "RecipeManagerException",
@@ -32,4 +47,16 @@ __all__ = [
     "VectorBackendUnavailableError",
     "VectorBackendResponseError",
 
+    # Agent tool API
+    "AgentToolException",
+    "AgentNotConfiguredError",
+    "AgentAuthError",
+    "AgentContextError",
+    "AgentPayloadError",
+
+    # Generated recipes
+    "GeneratedRecipeException",
+    "GeneratedRecipeAlreadySavedError",
+    "UnknownIngredientsError",
+    "TabooIngredientError",
 ]
