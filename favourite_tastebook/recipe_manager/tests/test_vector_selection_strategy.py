@@ -43,7 +43,7 @@ class VectorSelectionStrategyTests(TestCase):
         fake = FakeN8nClient([(self.r1.id, 1.0)])
         qs = VectorSelectionStrategy(client=fake, top_k=20).select("a")
         self.assertEqual(list(qs), [])
-        self.assertEqual(fake.calls, [])  # min-length rule runs before any network call
+        self.assertEqual(fake.calls, [])  # min-length rule runs before any network calhhkl
 
     def test_whitespace_only_keyword_short_circuits(self):
         # "   " strips to "" -> shorter than min length -> no backend call.
