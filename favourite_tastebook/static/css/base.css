@@ -108,7 +108,7 @@ body {
     height: 100vh;
     min-width: 0; /* Prevent flex children from expanding past parent */
     overflow: hidden;
-}.sidebar-open-btn
+}
 
 /* ===== UI primitives ===== */
 

@@ -1,0 +1,144 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block title %}Recipe Studio • Favourite Tastebook{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/recipe_studio.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="studio"
+         data-chat-url="{% url 'agent_chat' %}"
+         data-reset-url="{% url 'agent_chat_reset' %}"
+         data-save-url="{% url 'recipe_studio_save' %}"
+         data-csrf="{{ csrf_token }}">
+
+    {# ------------------------------------------------------------ left pane #}
+    <div class="studio-pane studio-pane--chat">
+        <header class="studio-head">
+            <div>
+                <h1 class="studio-title">Recipe Studio</h1>
+                <p class="studio-sub">Describe what you feel like eating. The assistant invents a dish around your taste profile.</p>
+            </div>
+            <button type="button" class="studio-ghost-btn" id="studio-reset" title="Start a new conversation">
+                New chat
+            </button>
+        </header>
+
+        <div class="chat-log" id="chat-log" aria-live="polite">
+            <div class="chat-hint" id="chat-hint">
+                <p class="chat-hint-title">Ask for anything</p>
+                <div class="chat-suggestions">
+                    <button type="button" class="chat-suggestion">Something warm for a cold evening</button>
+                    <button type="button" class="chat-suggestion">A quick dinner from chicken and rice</button>
+                    <button type="button" class="chat-suggestion">Invent a soup I would like</button>
+                </div>
+            </div>
+        </div>
+
+        <form class="chat-form" id="chat-form">
+            <textarea id="chat-input"
+                      class="chat-input"
+                      rows="1"
+                      maxlength="500"
+                      placeholder="What should I cook?"
+                      autocomplete="off"></textarea>
+            <button type="submit" class="chat-send" id="chat-send" aria-label="Send">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </form>
+    </div>
+
+    {# ----------------------------------------------------------- right pane #}
+    <div class="studio-pane studio-pane--draft">
+        <header class="studio-head">
+            <div>
+                <h2 class="studio-title studio-title--sm">Draft</h2>
+                <p class="studio-sub" id="draft-status">Nothing yet</p>
+            </div>
+            <div class="studio-head-actions">
+                <button type="button" class="studio-ghost-btn" id="creations-toggle">
+                    My creations <span class="creations-count" id="creations-count">{{ my_recipes|length }}</span>
+                </button>
+                <button type="button" class="btn btn-small" id="draft-save" disabled>Save</button>
+            </div>
+        </header>
+
+        <div class="draft-empty" id="draft-empty">
+            <div class="draft-empty-mark" aria-hidden="true">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12.5 3.5 15 9l5.5 2.5L15 14l-2.5 5.5L10 14l-5.5-2.5L10 9z"/>
+                </svg>
+            </div>
+            <p>When the assistant proposes a dish it appears under the chat — move it here to edit it.</p>
+            <p class="draft-empty-note">You can rewrite every part of it before saving — the assistant is a first draft, not the last word.</p>
+        </div>
+
+        <form class="draft-editor" id="draft-editor" hidden>
+            <div class="draft-row draft-row--title">
+                <label class="draft-label" for="draft-title">Title</label>
+                <input type="text" id="draft-title" class="draft-input draft-input--title" maxlength="255">
+            </div>
+
+            <div class="draft-row draft-row--meta">
+                <div>
+                    <label class="draft-label" for="draft-cuisine">Cuisine</label>
+                    <input type="text" id="draft-cuisine" class="draft-input" maxlength="100" placeholder="—">
+                </div>
+                <div>
+                    <label class="draft-label" for="draft-time">Minutes</label>
+                    <input type="number" id="draft-time" class="draft-input" min="1" max="1440" step="1">
+                </div>
+            </div>
+
+            <div class="draft-section">
+                <div class="draft-section-head">
+                    <h3 class="draft-section-title">Ingredients</h3>
+                    <button type="button" class="studio-ghost-btn studio-ghost-btn--tiny" id="add-ingredient">+ Add</button>
+                </div>
+                <div class="ingredient-list" id="ingredient-list"></div>
+                <p class="draft-note">Only ingredients the app knows can be saved. Start typing to pick one.</p>
+            </div>
+
+            <div class="draft-section">
+                <div class="draft-section-head">
+                    <h3 class="draft-section-title">Steps</h3>
+                    <button type="button" class="studio-ghost-btn studio-ghost-btn--tiny" id="add-step">+ Add</button>
+                </div>
+                <ol class="step-list" id="step-list"></ol>
+            </div>
+        </form>
+
+        <aside class="creations" id="creations" hidden>
+            <div class="creations-head">
+                <h3 class="draft-section-title">My creations</h3>
+                <button type="button" class="studio-ghost-btn studio-ghost-btn--tiny" id="creations-close">Close</button>
+            </div>
+            <ul class="creations-list" id="creations-list"></ul>
+            <p class="draft-note creations-empty" id="creations-empty">Nothing saved yet.</p>
+        </aside>
+    </div>
+
+    {% comment %}
+        Vocabularies the editor may use. Shipping them with the page keeps an
+        edited row from naming something the save would refuse.
+    {% endcomment %}
+    <datalist id="ingredient-options">
+        {% for category, names in ingredient_catalog.items %}
+            {% for name in names %}
+                <option value="{{ name }}" label="{{ category }}"></option>
+            {% endfor %}
+        {% endfor %}
+    </datalist>
+
+    {{ units|json_script:"units-data" }}
+    {{ importance_levels|json_script:"importance-data" }}
+    {{ my_recipes|json_script:"creations-data" }}
+</section>
+
+<script src="{% static 'js/recipe_studio.js' %}"></script>
+{% endblock %}
