@@ -131,3 +131,74 @@ class UserCuisinePreference(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.cuisine.name}: {self.score}"
+
+class GeneratedRecipe(models.Model):
+    """
+    What: A dish the cooking agent composed out of the model's own knowledge and
+          the user decided to keep.
+    Where: Written by SaveGeneratedRecipeUseCase, called from the agent tool API.
+    Why: These recipes are not part of the curated catalogue — nobody reviewed
+         them, they have no photo and they are absent from the vector index. Put
+         in the Recipe table they would quietly mix invented dishes into the
+         database page, the home feed and every search. So they live in their own
+         table, owned by the user who asked for them, while their ingredients
+         still point at the shared Ingredient catalogue: that is what keeps taste
+         preferences and the never_use rule enforceable on them.
+    """
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="generated_recipes",
+    )
+    title = models.CharField(max_length=255)
+    # Free text on purpose: a generated dish must not extend the curated Cuisine
+    # list, which drives the cuisine preference panel.
+    cuisine = models.CharField(max_length=100, blank=True)
+    cook_time = models.PositiveIntegerField(help_text="Time in minutes")
+    steps = models.JSONField(default=list)
+    # Which conversation produced it — useful when a user asks "what did you
+    # suggest me yesterday", and for tracing a bad recipe back to its dialogue.
+    session_id = models.CharField(max_length=64, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        # Per user, not global: two people may well keep their own "Chicken Soup".
+        unique_together = ("user", "title")
+        ordering = ["-created_at"]
+        verbose_name = "Generated Recipe"
+
+    def __str__(self):
+        return f"{self.title} (generated for {self.user})"
+
+
+class GeneratedRecipeIngredient(models.Model):
+    """
+    Mirrors RecipeIngredient, but for generated recipes. The FK to Ingredient is
+    deliberate: the agent may only compose a dish out of the existing catalogue,
+    so every line here is a known ingredient and can be checked against the
+    user's taboo list before the recipe is stored.
+    """
+
+    generated_recipe = models.ForeignKey(
+        GeneratedRecipe,
+        on_delete=models.CASCADE,
+        related_name="ingredients",
+    )
+    ingredient = models.ForeignKey(
+        Ingredient,
+        on_delete=models.PROTECT,
+        related_name="used_in_generated_recipes",
+    )
+
+    amount = models.DecimalField(max_digits=6, decimal_places=2)
+    unit = models.CharField(max_length=10, choices=Units, default=Units.GRAM)
+    importance = models.CharField(
+        max_length=12,
+        choices=Importance,
+        default=Importance.REQUIRED,
+    )
+
+    class Meta:
+        unique_together = ("generated_recipe", "ingredient")
+        verbose_name = "Ingredient using in generated recipe"

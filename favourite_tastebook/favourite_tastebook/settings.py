@@ -158,6 +158,21 @@ VECTOR_SCORE_CEILING = config('VECTOR_SCORE_CEILING', default=0.71, cast=float)
 # anchors are 0.45 -> 0%, 0.48 -> 5%, 0.71 -> 100%. Set to 1.0 for pure linear.
 VECTOR_SCORE_CURVE = config('VECTOR_SCORE_CURVE', default=1.4, cast=float)
 
+# --- n8n cooking agent: tool API ---
+# Shared secret the n8n workflow presents on every tool call. Empty means the
+# tool API refuses to serve at all (fail closed) rather than accepting anyone.
+AGENT_SERVICE_TOKEN = config('AGENT_SERVICE_TOKEN', default='')
+
+# Lifetime of the signed {user, session} context the chat view hands to n8n.
+# It only needs to outlive one conversation, so keep it short: it is the window
+# in which a leaked token could be replayed against the tool API.
+AGENT_CONTEXT_MAX_AGE = config('AGENT_CONTEXT_MAX_AGE', default=3600, cast=int)
+
+# How many recipes one tool call returns by default, and the ceiling the agent
+# cannot argue past. Every row is prompt tokens on the next model turn.
+AGENT_TOOL_MAX_RESULTS = config('AGENT_TOOL_MAX_RESULTS', default=5, cast=int)
+AGENT_TOOL_RESULT_CEILING = config('AGENT_TOOL_RESULT_CEILING', default=10, cast=int)
+
 CELERY_BROKER_URL = 'redis://redis:6379/0'
 CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
