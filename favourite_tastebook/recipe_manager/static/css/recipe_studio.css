@@ -700,6 +700,19 @@
 
 /* ---------- assistant settings ---------- */
 
+/* The settings heading follows the same rule as the rows below it: the text
+   runs to the controls beside it rather than to a cap measured in characters.
+   Scoped to this heading — the chat one keeps its narrower measure, and the two
+   are never on screen together. */
+#studio-head-settings {
+    flex: 1;
+    min-width: 0;
+}
+
+#studio-head-settings .studio-sub {
+    max-width: none;
+}
+
 /* The gear. Square rather than a pill, so it reads as one control among the
    ghost buttons instead of a fourth thing to read. */
 .studio-icon-btn {
@@ -781,17 +794,39 @@
     min-width: 0;
 }
 
+/* The copy claims every pixel the switch does not.
+ *
+ * Without this it is a plain flex item sized to its content, so a paragraph
+ * that could run to the switch stops wherever the words happen to break and
+ * leaves the row half empty. `flex: 1` makes the gap below the only thing
+ * between the two, and min-width: 0 above is what lets a long word wrap inside
+ * it rather than push the switch off the edge.
+ *
+ * Not applied to the stacked row: there the switch sits underneath, the copy is
+ * already full width by `align-items: stretch`, and growing along the main axis
+ * would mean growing in height. */
+.setting-row:not(.setting-row--stacked) .setting-copy {
+    flex: 1;
+}
+
 .setting-title {
     font-size: 13px;
     font-weight: 600;
     color: var(--text-main);
 }
 
+/* No max-width here on purpose. It used to be capped at 46ch, and `ch` is a
+   fraction of the font size: the measure moved with the browser's zoom and with
+   any change to the size below, so the text stopped at a different place on
+   every machine. The row's own width and the gap to the switch are the limit
+   instead, and both are fixed in px. */
 .setting-note {
-    font-size: 11.5px;
+    font-size: 12px;
     line-height: 1.5;
     color: var(--text-muted);
-    max-width: 46ch;
+    /* Evens out the ragged edge on the long paragraphs in this panel; ignored
+       by browsers that do not know it, which lose nothing. */
+    text-wrap: pretty;
 }
 
 .setting-note em {
