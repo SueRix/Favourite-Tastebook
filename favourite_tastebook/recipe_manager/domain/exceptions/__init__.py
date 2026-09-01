@@ -26,6 +26,7 @@ from .agent_chat import (
 from .generated_recipe import (
     GeneratedRecipeException,
     GeneratedRecipeAlreadySavedError,
+    GeneratedRecipeNotFoundError,
     UnknownIngredientsError,
     TabooIngredientError,
 )
@@ -74,6 +75,7 @@ __all__ = [
     # Generated recipes
     "GeneratedRecipeException",
     "GeneratedRecipeAlreadySavedError",
+    "GeneratedRecipeNotFoundError",
     "UnknownIngredientsError",
     "TabooIngredientError",
 ]

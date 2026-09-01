@@ -3,6 +3,7 @@ from django.db import IntegrityError, transaction
 from recipe_manager.domain.enums import Importance, TASTE_HATE_LEVEL, Units
 from recipe_manager.domain.exceptions import (
     GeneratedRecipeAlreadySavedError,
+    GeneratedRecipeNotFoundError,
     TabooIngredientError,
     UnknownIngredientsError,
 )
@@ -154,3 +155,31 @@ class SaveGeneratedRecipeUseCase:
             raise GeneratedRecipeAlreadySavedError() from exc
 
         return recipe
+
+
+class DeleteGeneratedRecipeUseCase:
+    """
+    What: Removes one of the user's own creations.
+    Where: Called by the studio page; there is no agent tool for it on purpose.
+    Why: Saving is something the agent may do for you — it is additive, and a
+         recipe too many costs nothing. Deleting is not: it is the one operation
+         no misread instruction should be able to perform, so it stays a button
+         a person presses.
+
+    Ownership is part of the query rather than a check after it. A creation that
+    belongs to somebody else must be indistinguishable from one that never
+    existed, or the endpoint becomes a way to probe for ids.
+    """
+
+    @classmethod
+    def execute(cls, user, recipe_id: int) -> str:
+        """Returns the title of the deleted recipe, for the message the user reads."""
+        recipe = GeneratedRecipe.objects.filter(user=user, id=recipe_id).first()
+        if recipe is None:
+            raise GeneratedRecipeNotFoundError(recipe_id)
+
+        title = recipe.title
+        # The ingredient lines cascade with it; the Ingredient rows they point at
+        # are shared catalogue data and stay.
+        recipe.delete()
+        return title

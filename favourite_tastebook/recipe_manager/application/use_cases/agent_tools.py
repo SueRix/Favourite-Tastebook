@@ -346,6 +346,12 @@ class AgentToolsUseCase:
             # Idempotent: the end state is the one the user asked for.
             return {"ok": True, "saved": True, "already_saved": True, "title": fields["title"]}
 
+        # The page has no way of knowing this happened — the save was a side
+        # effect of a tool call on another request. Leave the new creation where
+        # the chat view will find it, so the list on screen catches up with the
+        # database in the same turn instead of at the next reload.
+        AgentDraftStore.put_saved(session_id, AgentGeneratedRecipePresenter.editable(recipe))
+
         return {
             "ok": True,
             "saved": True,

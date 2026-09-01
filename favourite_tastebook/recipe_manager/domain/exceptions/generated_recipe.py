@@ -40,3 +40,19 @@ class TabooIngredientError(GeneratedRecipeException):
         super().__init__(
             message or f"The user never uses: {', '.join(self.names)}."
         )
+
+
+class GeneratedRecipeNotFoundError(GeneratedRecipeException):
+    """
+    Raised when a creation cannot be deleted because it is not there — either it
+    never existed or it belongs to somebody else.
+
+    The two cases are deliberately one exception. Answering "not yours" would
+    confirm that the id exists, and a person deleting their own list has no use
+    for that distinction anyway.
+    """
+    message = "This recipe is not in your creations."
+
+    def __init__(self, recipe_id=None, message: str | None = None):
+        self.recipe_id = recipe_id
+        super().__init__(message or self.message)

@@ -28,8 +28,10 @@ class AgentChatUseCase:
     @classmethod
     def send(cls, user, session, message: str, client=None) -> dict:
         """
-        Returns {"reply": str, "chat_id": str, "draft": dict | None}, where the
-        draft is present only when the agent proposed a recipe on this turn.
+        Returns {"reply", "chat_id", "draft", "saved"}. The draft is present
+        only when the agent proposed a recipe on this turn; `saved` only when it
+        stored one itself, which the page needs in order to show the creation
+        without a reload.
         Raises AgentChatException on failure.
         """
         text = (message or "").strip()
@@ -52,9 +54,15 @@ class AgentChatUseCase:
         client = client or N8nAgentChatClient()
         reply = client.ask(message=text, context=context, sid=chat_id)
 
-        # The agent may have called propose_recipe while it was thinking; that
-        # call landed on a different request and left its draft here.
-        return {"reply": reply, "chat_id": chat_id, "draft": AgentDraftStore.take(chat_id)}
+        # The agent may have called propose_recipe or save_generated_recipe while
+        # it was thinking; those calls landed on different requests and left what
+        # they produced here.
+        return {
+            "reply": reply,
+            "chat_id": chat_id,
+            "draft": AgentDraftStore.take(chat_id),
+            "saved": AgentDraftStore.take_saved(chat_id),
+        }
 
     @classmethod
     def reset(cls, session) -> str:

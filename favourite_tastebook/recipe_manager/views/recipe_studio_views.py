@@ -6,10 +6,14 @@ from django.http import JsonResponse
 from django.views import View
 from django.views.generic import TemplateView
 
-from recipe_manager.application.use_cases.generated_recipes import SaveGeneratedRecipeUseCase
+from recipe_manager.application.use_cases.generated_recipes import (
+    DeleteGeneratedRecipeUseCase,
+    SaveGeneratedRecipeUseCase,
+)
 from recipe_manager.domain.exceptions import (
     AgentPayloadError,
     GeneratedRecipeAlreadySavedError,
+    GeneratedRecipeNotFoundError,
     TabooIngredientError,
     UnknownIngredientsError,
 )
@@ -39,6 +43,20 @@ class RecipeStudioView(LoginRequiredMixin, TemplateView):
 
     template_name = "main/recipe_studio.html"
 
+    @staticmethod
+    def creations(user) -> list[dict]:
+        """
+        The user's creations in the shape the editor speaks.
+
+        Both the first render and every later refresh go through here, so the
+        list the page starts with and the list it fetches after a save can never
+        drift into two different shapes.
+        """
+        return [
+            AgentGeneratedRecipePresenter.editable(recipe)
+            for recipe in GeneratedRecipeSelector.list_for_user(user)
+        ]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # The catalogue goes into the page so an edited row can only ever name an
@@ -50,10 +68,7 @@ class RecipeStudioView(LoginRequiredMixin, TemplateView):
         context["chat_id"] = AgentChatSession.current(self.request.session)
         # Past creations travel in the same shape as a fresh draft, so opening
         # one puts it straight into the editor with no special case.
-        context["my_recipes"] = [
-            AgentGeneratedRecipePresenter.editable(recipe)
-            for recipe in GeneratedRecipeSelector.list_for_user(self.request.user)
-        ]
+        context["my_recipes"] = self.creations(self.request.user)
         return context
 
 
@@ -102,3 +117,38 @@ class RecipeStudioSaveView(JsonLoginRequiredMixin, View):
             return JsonResponse({"error": "already_saved", "detail": exc.message}, status=409)
 
         return JsonResponse({"status": "success", "recipe_id": recipe.id, "title": recipe.title})
+
+
+class RecipeStudioCreationsView(JsonLoginRequiredMixin, View):
+    """
+    GET /home/studio/creations/ — the user's creations as they stand right now.
+
+    The page ships the list once with the HTML, and that copy goes stale the
+    moment anything is written: the agent may save a dish from inside a chat
+    turn, and a second tab may add or drop one. Rather than teaching the browser
+    to patch its copy for each of those, every write is followed by a re-read of
+    the truth. One indexed query per event is cheaper than a class of bugs where
+    the list on screen and the database disagree.
+    """
+
+    def get(self, request, *args, **kwargs):
+        return JsonResponse({"recipes": RecipeStudioView.creations(request.user)})
+
+
+class RecipeStudioCreationDeleteView(JsonLoginRequiredMixin, View):
+    """
+    DELETE /home/studio/creations/<id>/ — drop one creation.
+
+    Ownership is enforced inside the use case, which looks the recipe up BY
+    owner: somebody else's id answers 404, exactly as an id that never existed
+    would, so this endpoint tells a caller nothing about recipes that are not
+    theirs.
+    """
+
+    def delete(self, request, recipe_id, *args, **kwargs):
+        try:
+            title = DeleteGeneratedRecipeUseCase.execute(request.user, recipe_id)
+        except GeneratedRecipeNotFoundError as exc:
+            return JsonResponse({"error": "not_found", "detail": exc.message}, status=404)
+
+        return JsonResponse({"status": "success", "recipe_id": recipe_id, "title": title})

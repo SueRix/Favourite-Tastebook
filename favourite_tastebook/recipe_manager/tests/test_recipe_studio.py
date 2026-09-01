@@ -323,3 +323,188 @@ class RecipeStudioSaveTests(TestCase):
         self.assertEqual(response.status_code, 401)
         self.assertEqual(json.loads(response.content)["error"], "auth_required")
         self.assertFalse(GeneratedRecipe.objects.exists())
+
+
+@override_settings(CACHES=LOCAL_CACHE)
+class AgentSaveReachesThePageTests(TestCase):
+    """
+    A dish the agent stores itself has to appear without a reload.
+
+    The save happens on a tool call the browser never sees, so the only way the
+    page can learn about it is the same join the proposal uses: the tool leaves
+    the stored recipe under the conversation id, the chat turn picks it up.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = get_user_model().objects.create_user(username="__ut_studio_ann__", password="x")
+        cls.chicken = Ingredient.objects.create(name="__ut_ann_chicken__", category="__ut_ann_cat__")
+        cls.rice = Ingredient.objects.create(name="__ut_ann_rice__", category="__ut_ann_cat__")
+
+    def setUp(self):
+        cache.clear()
+
+    def test_the_tool_leaves_the_saved_recipe_for_the_chat_view(self):
+        AgentToolsUseCase.save_generated_recipe(
+            draft_payload(self.chicken.name, self.rice.name), user=self.user, session_id="sid-1"
+        )
+
+        announced = AgentDraftStore.take_saved("sid-1")
+        self.assertEqual(announced["title"], "Studio Pilaf")
+        # The editable shape, so opening it in the editor needs no special case.
+        self.assertEqual(announced["ingredients"][0]["name"], self.chicken.name)
+        self.assertIsNotNone(announced["id"])
+
+    def test_a_save_is_not_a_proposal(self):
+        # The two slots must not bleed into each other: a stored dish printed as
+        # a proposal would offer to save it a second time.
+        AgentToolsUseCase.save_generated_recipe(
+            draft_payload(self.chicken.name, self.rice.name), user=self.user, session_id="sid-1"
+        )
+
+        self.assertIsNone(AgentDraftStore.take("sid-1"))
+
+    def test_a_refused_save_announces_nothing(self):
+        AgentToolsUseCase.save_generated_recipe(
+            draft_payload(self.chicken.name, "__ut_ann_yuzu__"), user=self.user, session_id="sid-1"
+        )
+
+        self.assertIsNone(AgentDraftStore.take_saved("sid-1"))
+
+    def test_the_chat_turn_carries_it(self):
+        recipe = {"id": 7, "title": "Saved By The Agent"}
+
+        class _Client:
+            def ask(self, message, context, sid):
+                AgentDraftStore.put_saved(sid, recipe)
+                return "Kept it for you."
+
+        result = AgentChatUseCase.send(self.user, self.client.session, "save it", client=_Client())
+
+        self.assertEqual(result["saved"], recipe)
+        self.assertIsNone(result["draft"])
+
+    def test_a_quiet_turn_carries_nothing(self):
+        class _Client:
+            def ask(self, message, context, sid):
+                return "Just talking."
+
+        result = AgentChatUseCase.send(self.user, self.client.session, "hello", client=_Client())
+
+        self.assertIsNone(result["saved"])
+
+
+@override_settings(CACHES=LOCAL_CACHE)
+class RecipeStudioCreationsEndpointTests(TestCase):
+    """The list the page re-reads after every write."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = get_user_model().objects.create_user(username="__ut_studio_list__", password="secret123")
+        cls.other = get_user_model().objects.create_user(username="__ut_studio_list2__", password="x")
+        cls.chicken = Ingredient.objects.create(name="__ut_list_chicken__", category="__ut_list_cat__")
+
+    def setUp(self):
+        cache.clear()
+        self.url = reverse("recipe_studio_creations")
+
+    def test_it_answers_with_the_editable_shape(self):
+        recipe = GeneratedRecipe.objects.create(
+            user=self.user, title="Listed One", cook_time=15, steps=["Do it."]
+        )
+        recipe.ingredients.create(ingredient=self.chicken, amount=1, unit="pcs")
+        self.client.login(username="__ut_studio_list__", password="secret123")
+
+        response = self.client.get(self.url)
+        recipes = json.loads(response.content)["recipes"]
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(recipes[0]["title"], "Listed One")
+        self.assertEqual(recipes[0]["ingredients"][0]["name"], self.chicken.name)
+
+    def test_a_save_is_visible_on_the_next_read(self):
+        # The whole point of the endpoint: no reload, no stale copy on screen.
+        self.client.login(username="__ut_studio_list__", password="secret123")
+        self.assertEqual(json.loads(self.client.get(self.url).content)["recipes"], [])
+
+        GeneratedRecipe.objects.create(user=self.user, title="Fresh", cook_time=5, steps=["x"])
+
+        self.assertEqual(len(json.loads(self.client.get(self.url).content)["recipes"]), 1)
+
+    def test_it_shows_no_recipes_belonging_to_anybody_else(self):
+        GeneratedRecipe.objects.create(user=self.other, title="Theirs", cook_time=10, steps=["x"])
+        self.client.login(username="__ut_studio_list__", password="secret123")
+
+        self.assertEqual(json.loads(self.client.get(self.url).content)["recipes"], [])
+
+    def test_guest_gets_json_401(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(json.loads(response.content)["error"], "auth_required")
+
+
+@override_settings(CACHES=LOCAL_CACHE)
+class RecipeStudioDeleteTests(TestCase):
+    """Dropping a creation - the one write the agent may not perform."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = get_user_model().objects.create_user(username="__ut_studio_del__", password="secret123")
+        cls.other = get_user_model().objects.create_user(username="__ut_studio_del2__", password="x")
+        cls.chicken = Ingredient.objects.create(name="__ut_del_chicken__", category="__ut_del_cat__")
+
+    def setUp(self):
+        cache.clear()
+
+    def _url(self, recipe_id):
+        return reverse("recipe_studio_creation_delete", args=[recipe_id])
+
+    def _creation(self, user, title="Delete Me"):
+        recipe = GeneratedRecipe.objects.create(user=user, title=title, cook_time=10, steps=["x"])
+        recipe.ingredients.create(ingredient=self.chicken, amount=1, unit="pcs")
+        return recipe
+
+    def test_the_owner_can_delete_it(self):
+        recipe = self._creation(self.user)
+        self.client.login(username="__ut_studio_del__", password="secret123")
+
+        response = self.client.delete(self._url(recipe.id))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.content)["title"], "Delete Me")
+        self.assertFalse(GeneratedRecipe.objects.filter(id=recipe.id).exists())
+
+    def test_the_ingredient_lines_go_with_it_and_the_catalogue_stays(self):
+        recipe = self._creation(self.user)
+        self.client.login(username="__ut_studio_del__", password="secret123")
+
+        self.client.delete(self._url(recipe.id))
+
+        self.assertFalse(recipe.ingredients.exists())
+        # Ingredient rows are shared catalogue data, not a recipe's to take away.
+        self.assertTrue(Ingredient.objects.filter(id=self.chicken.id).exists())
+
+    def test_a_recipe_owned_by_another_user_is_a_404_and_survives(self):
+        recipe = self._creation(self.other, title="Theirs")
+        self.client.login(username="__ut_studio_del__", password="secret123")
+
+        response = self.client.delete(self._url(recipe.id))
+
+        # Indistinguishable from an id that never existed: the endpoint is not a
+        # way to find out which ids are real.
+        self.assertEqual(response.status_code, 404)
+        self.assertTrue(GeneratedRecipe.objects.filter(id=recipe.id).exists())
+
+    def test_an_unknown_id_is_a_404(self):
+        self.client.login(username="__ut_studio_del__", password="secret123")
+
+        self.assertEqual(self.client.delete(self._url(9999999)).status_code, 404)
+
+    def test_guest_gets_json_401(self):
+        recipe = self._creation(self.user)
+
+        response = self.client.delete(self._url(recipe.id))
+
+        self.assertEqual(response.status_code, 401)
+        self.assertTrue(GeneratedRecipe.objects.filter(id=recipe.id).exists())
