@@ -327,6 +327,171 @@ class RecipeStudioSaveTests(TestCase):
 
 
 @override_settings(CACHES=LOCAL_CACHE)
+class RecipeStudioPreviewTests(TestCase):
+    """Looking at the draft as a recipe card, without keeping it."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = get_user_model().objects.create_user(username="__ut_studio_prev__", password="secret123")
+        cls.chicken = Ingredient.objects.create(name="__ut_prev_chicken__", category="__ut_prev_cat__")
+        cls.rice = Ingredient.objects.create(name="__ut_prev_rice__", category="__ut_prev_cat__")
+
+    def setUp(self):
+        cache.clear()
+        self.url = reverse("recipe_studio_preview")
+
+    def _post(self, payload):
+        return self.client.post(self.url, data=json.dumps(payload), content_type="application/json")
+
+    def _login(self):
+        self.client.login(username="__ut_studio_prev__", password="secret123")
+
+    def test_it_renders_the_card_every_other_page_renders(self):
+        # The point of the endpoint: one template for the catalogue card and the
+        # draft card, so the preview cannot drift away from the real thing.
+        self._login()
+        response = self._post(draft_payload(self.chicken.name, self.rice.name))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "partials/recipe_database_card_modal.html")
+        self.assertContains(response, "Studio Pilaf")
+        self.assertContains(response, self.chicken.name)
+        self.assertContains(response, "Fry the chicken.")
+
+    def test_previewing_stores_nothing(self):
+        self._login()
+        self._post(draft_payload(self.chicken.name, self.rice.name))
+
+        self.assertFalse(GeneratedRecipe.objects.exists())
+
+    def test_the_card_carries_no_controls_that_need_a_recipe_id(self):
+        # Like, dislike and save all address a recipe by id, and a draft has
+        # none. The buttons would act on whatever id they were given.
+        self._login()
+        response = self._post(draft_payload(self.chicken.name, self.rice.name))
+
+        self.assertNotContains(response, "toggleTasteAction")
+        self.assertNotContains(response, "toggleFavorite")
+
+    def test_a_half_written_draft_can_still_be_looked_at(self):
+        # Nothing is being created, so the checks that refuse a save do not
+        # apply: no title, no steps and no ingredients is a legitimate draft.
+        self._login()
+        response = self._post({"title": "", "steps": [], "ingredients": []})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No ingredients data.")
+
+    def test_an_ingredient_the_catalogue_does_not_know_is_shown_not_refused(self):
+        # The editor already says so on the row, and the save says so again.
+        self._login()
+        response = self._post(draft_payload(self.chicken.name, "__ut_prev_yuzu__"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "__ut_prev_yuzu__")
+
+    def test_the_picture_lands_where_a_catalogue_photo_would(self):
+        self._login()
+        payload = draft_payload(
+            self.chicken.name, self.rice.name, image_url="https://example.test/dish.jpg"
+        )
+
+        response = self._post(payload)
+
+        self.assertContains(response, "https://example.test/dish.jpg")
+        self.assertNotContains(response, "No photo available")
+
+    def test_without_a_picture_the_card_says_so(self):
+        self._login()
+        response = self._post(draft_payload(self.chicken.name, self.rice.name))
+
+        self.assertContains(response, "No photo available")
+
+    def test_something_that_is_not_a_link_is_refused_with_a_readable_reason(self):
+        # It ends up in an <img src>; "example.com/x.jpg" renders as a broken
+        # image, and javascript: has no business being there at all.
+        self._login()
+        response = self._post(
+            draft_payload(self.chicken.name, self.rice.name, image_url="javascript:alert(1)")
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("image_url", json.loads(response.content)["detail"])
+
+    def test_malformed_body_is_a_400(self):
+        self._login()
+        response = self.client.post(self.url, data="not json", content_type="application/json")
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_guest_gets_json_401(self):
+        response = self._post(draft_payload(self.chicken.name, self.rice.name))
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(json.loads(response.content)["error"], "auth_required")
+
+
+@override_settings(CACHES=LOCAL_CACHE)
+class GeneratedRecipeImageTests(TestCase):
+    """The picture a generated dish will eventually get."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = get_user_model().objects.create_user(username="__ut_studio_img__", password="secret123")
+        cls.chicken = Ingredient.objects.create(name="__ut_img_chicken__", category="__ut_img_cat__")
+        cls.rice = Ingredient.objects.create(name="__ut_img_rice__", category="__ut_img_cat__")
+
+    def setUp(self):
+        cache.clear()
+
+    def _login(self):
+        self.client.login(username="__ut_studio_img__", password="secret123")
+
+    def test_a_saved_draft_keeps_its_link(self):
+        self._login()
+        payload = draft_payload(
+            self.chicken.name, self.rice.name, image_url="https://example.test/pilaf.jpg"
+        )
+
+        self.client.post(
+            reverse("recipe_studio_save"), data=json.dumps(payload), content_type="application/json"
+        )
+
+        recipe = GeneratedRecipe.objects.get(user=self.user)
+        self.assertEqual(recipe.image_url, "https://example.test/pilaf.jpg")
+
+    def test_no_link_is_the_normal_answer(self):
+        # Until an image model fills it in, every recipe saved here has none —
+        # and that must not be an error.
+        self._login()
+
+        response = self.client.post(
+            reverse("recipe_studio_save"),
+            data=json.dumps(draft_payload(self.chicken.name, self.rice.name)),
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(GeneratedRecipe.objects.get(user=self.user).image_url, "")
+
+    def test_a_stored_creation_comes_back_to_the_editor_with_it(self):
+        self._login()
+        recipe = GeneratedRecipe.objects.create(
+            user=self.user,
+            title="Photographed",
+            cook_time=20,
+            steps=["Do it."],
+            image_url="https://example.test/one.jpg",
+        )
+        recipe.ingredients.create(ingredient=self.chicken, amount=1, unit="pcs")
+
+        response = self.client.get(reverse("recipe_studio_creations"))
+
+        recipes = json.loads(response.content)["recipes"]
+        self.assertEqual(recipes[0]["image_url"], "https://example.test/one.jpg")
+
+
+@override_settings(CACHES=LOCAL_CACHE)
 class AgentSaveReachesThePageTests(TestCase):
     """
     A dish the agent stores itself has to appear without a reload.

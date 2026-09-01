@@ -3,6 +3,7 @@ import logging
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
 
@@ -25,6 +26,7 @@ from recipe_manager.domain.parsers.generated_recipe_input import (
 )
 from recipe_manager.infrastructure.agent import AgentChatSession
 from recipe_manager.infrastructure.presentation.agent_payload import AgentGeneratedRecipePresenter
+from recipe_manager.infrastructure.presentation.draft_preview import DraftPreviewPresenter
 from recipe_manager.infrastructure.selectors import GeneratedRecipeSelector, IngredientSelector
 from recipe_manager.views.agent_chat_views import JsonLoginRequiredMixin
 
@@ -122,6 +124,48 @@ class RecipeStudioSaveView(JsonLoginRequiredMixin, View):
             return JsonResponse({"error": "already_saved", "detail": exc.message}, status=409)
 
         return JsonResponse({"status": "success", "recipe_id": recipe.id, "title": recipe.title})
+
+
+class RecipeStudioPreviewView(JsonLoginRequiredMixin, View):
+    """
+    POST /home/studio/preview/ — the draft on screen as a finished recipe card.
+
+    The body is the same draft the save endpoint takes, and the answer is the
+    same HTML fragment the database page gets when a search result is opened:
+    one template, one set of styles, one card. The alternative was a preview
+    built in the browser out of the editor's fields, which is a second
+    implementation of the card that looks right on the day it is written and
+    drifts from the real one afterwards.
+
+    Nothing is written and nothing is looked up. A draft may still be missing
+    its title, may name an ingredient the catalogue does not have, and is
+    allowed to: the checks that refuse a recipe belong to the save, and running
+    them here would turn "let me see it" into a second place that says no.
+    """
+
+    def post(self, request, *args, **kwargs):
+        try:
+            payload = json.loads(request.body.decode("utf-8"))
+        except (ValueError, UnicodeDecodeError):
+            return JsonResponse({"error": "bad_request", "detail": "Malformed recipe."}, status=400)
+
+        if not isinstance(payload, dict):
+            return JsonResponse({"error": "bad_request", "detail": "Malformed recipe."}, status=400)
+
+        try:
+            fields = GeneratedRecipeInput.preview(payload)
+        except AgentPayloadError as exc:
+            return JsonResponse({"error": "invalid", "detail": str(exc)}, status=400)
+
+        featured = DraftPreviewPresenter.build(
+            title=fields["title"],
+            cuisine=fields["cuisine"],
+            cook_time=fields["cook_time"],
+            steps=fields["steps"],
+            ingredient_lines=fields["ingredient_lines"],
+            image_url=fields["image_url"],
+        )
+        return render(request, "partials/recipe_database_card_modal.html", {"featured": featured})
 
 
 class RecipeStudioCreationsView(JsonLoginRequiredMixin, View):

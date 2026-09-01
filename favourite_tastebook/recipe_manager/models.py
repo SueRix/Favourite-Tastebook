@@ -157,6 +157,12 @@ class GeneratedRecipe(models.Model):
     cuisine = models.CharField(max_length=100, blank=True)
     cook_time = models.PositiveIntegerField(help_text="Time in minutes")
     steps = models.JSONField(default=list)
+    # A link, not an upload: nobody photographed this dish, and the picture it
+    # will eventually get is one an image model generates and hosts elsewhere.
+    # Until that exists the field is simply empty, and every reader treats an
+    # empty one as "no photo" — the same state a catalogue recipe without an
+    # image is in.
+    image_url = models.URLField(max_length=500, blank=True)
     # Which conversation produced it — useful when a user asks "what did you
     # suggest me yesterday", and for tracing a bad recipe back to its dialogue.
     session_id = models.CharField(max_length=64, blank=True)

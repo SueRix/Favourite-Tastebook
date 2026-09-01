@@ -141,6 +141,9 @@ class AgentGeneratedRecipePresenter:
             "title": generated.title,
             "cuisine": generated.cuisine,
             "cook_time_minutes": generated.cook_time,
+            # Empty until an image model fills it in; the editor and the preview
+            # both read an empty one as "no photo".
+            "image_url": generated.image_url,
             "steps": generated.steps[:MAX_STEPS],
             "ingredients": [
                 {

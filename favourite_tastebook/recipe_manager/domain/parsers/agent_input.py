@@ -15,6 +15,12 @@ MAX_STEP_LENGTH = 600
 # Mirrors RecipeIngredient.amount: DecimalField(max_digits=6, decimal_places=2).
 MIN_AMOUNT = Decimal("0.01")
 MAX_AMOUNT = Decimal("9999.99")
+# Mirrors GeneratedRecipe.image_url: URLField(max_length=500).
+MAX_URL_LENGTH = 500
+# The only two schemes worth accepting. The value ends up in an <img src>, so
+# anything else is either useless (mailto:, ftp:) or an attempt (javascript:,
+# data:), and none of them is what a picture of a dish looks like.
+ALLOWED_URL_SCHEMES = ("http://", "https://")
 
 
 class AgentInput:
@@ -44,6 +50,33 @@ class AgentInput:
         # Truncate rather than reject: a chatty model padding the query with a
         # whole sentence should still get results, not an error it cannot fix.
         return cleaned[:max_length]
+
+    @staticmethod
+    def url(payload: dict, key: str, max_length: int = MAX_URL_LENGTH) -> str:
+        """
+        An optional link to a picture. Empty is the normal answer, and stays
+        empty — a recipe without a photo is a recipe, not an error.
+
+        Unlike text(), a value that IS given is rejected rather than truncated
+        when it is not a link: half a URL renders as a broken image, and the
+        person who typed it deserves to hear that now rather than to find it in
+        the card afterwards.
+        """
+        value = payload.get(key, "")
+        if value is None:
+            value = ""
+        if not isinstance(value, str):
+            raise AgentPayloadError(f"'{key}' must be a string.")
+
+        cleaned = value.strip()
+        if not cleaned:
+            return ""
+
+        if not cleaned.lower().startswith(ALLOWED_URL_SCHEMES):
+            raise AgentPayloadError(f"'{key}' must be an http:// or https:// link.")
+        if len(cleaned) > max_length:
+            raise AgentPayloadError(f"'{key}' must be at most {max_length} characters.")
+        return cleaned
 
     @staticmethod
     def integer(payload: dict, key: str, default: int, minimum: int = 1, maximum: int = None) -> int:
@@ -121,7 +154,8 @@ class AgentInput:
         return normalised
 
     @staticmethod
-    def paragraph_list(payload: dict, key: str, max_items: int = MAX_STEPS,
+    def paragraph_list(payload: dict, key: str, required: bool = True,
+                       max_items: int = MAX_STEPS,
                        max_item_length: int = MAX_STEP_LENGTH) -> list[str]:
         """
         Ordered prose, unlike string_list: cooking steps keep their case, their
@@ -147,12 +181,13 @@ class AgentInput:
             if text:
                 cleaned.append(text)
 
-        if not cleaned:
+        if required and not cleaned:
             raise AgentPayloadError(f"'{key}' must contain at least one step.")
         return cleaned
 
     @staticmethod
-    def object_list(payload: dict, key: str, max_items: int = MAX_LIST_ITEMS) -> list[dict]:
+    def object_list(payload: dict, key: str, required: bool = True,
+                    max_items: int = MAX_LIST_ITEMS) -> list[dict]:
         """A list of JSON objects — used for the ingredient lines of a recipe."""
         value = payload.get(key)
 
@@ -176,7 +211,7 @@ class AgentInput:
                 raise AgentPayloadError(f"'{key}' must contain objects, not plain values.")
             items.append(item)
 
-        if not items:
+        if required and not items:
             raise AgentPayloadError(f"'{key}' must contain at least one entry.")
         return items
 

@@ -20,6 +20,7 @@ from .views.agent_chat_views import (
 from .views.recipe_studio_views import (
     RecipeStudioCreationDeleteView,
     RecipeStudioCreationsView,
+    RecipeStudioPreviewView,
     RecipeStudioSaveView,
     RecipeStudioView,
 )
@@ -39,6 +40,7 @@ urlpatterns = [
     path("chat/settings/", AgentSettingsView.as_view(), name="agent_settings"),
     path("studio/", RecipeStudioView.as_view(), name="recipe_studio"),
     path("studio/save/", RecipeStudioSaveView.as_view(), name="recipe_studio_save"),
+    path("studio/preview/", RecipeStudioPreviewView.as_view(), name="recipe_studio_preview"),
     path("studio/creations/", RecipeStudioCreationsView.as_view(), name="recipe_studio_creations"),
     path(
         "studio/creations/<int:recipe_id>/",

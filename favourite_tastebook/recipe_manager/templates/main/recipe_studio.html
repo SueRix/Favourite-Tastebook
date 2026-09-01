@@ -4,6 +4,12 @@
 {% block title %}Recipe Studio • Favourite Tastebook{% endblock %}
 
 {% block extra_css %}
+    {% comment %}
+    The preview renders the same card the database page renders, so it needs the
+    same stylesheet. home.css is deliberately not pulled in with it: that one is
+    the home page's layout, down to a 1260px minimum body width.
+    {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css/recipe_card.css' %}">
     <link rel="stylesheet" href="{% static 'css/recipe_studio.css' %}">
 {% endblock %}
 
@@ -12,6 +18,7 @@
              data-chat-url="{% url 'agent_chat' %}"
              data-reset-url="{% url 'agent_chat_reset' %}"
              data-save-url="{% url 'recipe_studio_save' %}"
+             data-preview-url="{% url 'recipe_studio_preview' %}"
              data-creations-url="{% url 'recipe_studio_creations' %}"
             {# The id is a placeholder the script swaps for a real one. #}
              data-creation-url="{% url 'recipe_studio_creation_delete' 0 %}"
@@ -183,6 +190,26 @@
                     <p class="studio-sub" id="draft-status">Nothing yet</p>
                 </div>
                 <div class="studio-head-actions">
+                    {% comment %}
+                    The draft as everybody else's recipes look. The editor is a
+                    stack of input boxes, which is the right shape for changing a
+                    recipe and the wrong one for judging it - and this dish ends
+                    up on a card exactly like the ones in the database, so that
+                    card is what the question "is it any good" gets answered on.
+                {% endcomment %}
+                    <button type="button"
+                            class="studio-icon-btn"
+                            id="draft-preview"
+                            hidden
+                            title="Preview as a recipe card"
+                            aria-label="Preview as a recipe card">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M14 3h7v7"></path>
+                            <path d="M10 14 21 3"></path>
+                            <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"></path>
+                        </svg>
+                    </button>
                     <button type="button" class="studio-ghost-btn" id="creations-toggle">
                         My creations <span class="creations-count" id="creations-count">{{ my_recipes|length }}</span>
                     </button>
@@ -237,6 +264,28 @@
                     </div>
                 </div>
 
+                {% comment %}
+                Empty for now, and typed by hand when it is not: the picture a
+                generated dish deserves is one an image model has yet to make
+                for it. The field exists ahead of that because everything else
+                is already in place around it - it is stored with the recipe,
+                and the preview shows it where a catalogue photo would be.
+            {% endcomment %}
+                <div class="draft-row draft-row--image">
+                    <label class="draft-label" for="draft-image">Image URL</label>
+                    <div class="draft-image-field">
+                        <input type="url" id="draft-image" class="draft-input" maxlength="500"
+                               placeholder="https://…">
+                        <button type="button"
+                                class="studio-ghost-btn studio-ghost-btn--tiny"
+                                id="draft-image-generate"
+                                disabled
+                                title="Not wired up yet">✨ Generate
+                        </button>
+                    </div>
+                    <p class="draft-note">Paste a link to a photo. Generating one from the recipe comes later.</p>
+                </div>
+
                 <div class="draft-section">
                     <div class="draft-section-head">
                         <h3 class="draft-section-title">Ingredients</h3>
@@ -285,6 +334,13 @@
         {{ importance_levels|json_script:"importance-data" }}
         {{ my_recipes|json_script:"creations-data" }}
     </section>
+
+    {% comment %}
+    Outside the studio grid, not inside it: an empty div in there would still be
+    a grid item, and the row gap under it would eat 14px off the panes for a
+    modal that is position:fixed anyway.
+{% endcomment %}
+    <div id="studio-preview-slot"></div>
 
     <script src="{% static 'js/recipe_studio.js' %}"></script>
 {% endblock %}

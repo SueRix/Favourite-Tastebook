@@ -90,7 +90,8 @@ class SaveGeneratedRecipeUseCase:
 
     @classmethod
     def validate(cls, user, *, title: str, cook_time: int, steps: list[str],
-                 ingredient_lines: list[dict], cuisine: str = "") -> dict:
+                 ingredient_lines: list[dict], cuisine: str = "",
+                 image_url: str = "") -> dict:
         """
         Runs every check and returns the recipe in the form it WOULD be stored
         in, without storing it. Nothing is written, so the agent can propose
@@ -105,6 +106,7 @@ class SaveGeneratedRecipeUseCase:
             "title": title,
             "cuisine": cuisine,
             "cook_time_minutes": min(max(int(cook_time), MIN_COOK_TIME), MAX_COOK_TIME),
+            "image_url": image_url,
             "steps": steps,
             "ingredients": [
                 {
@@ -122,7 +124,7 @@ class SaveGeneratedRecipeUseCase:
     @classmethod
     def execute(cls, user, *, title: str, cook_time: int, steps: list[str],
                 ingredient_lines: list[dict], cuisine: str = "",
-                session_id: str = "") -> GeneratedRecipe:
+                image_url: str = "", session_id: str = "") -> GeneratedRecipe:
         """
         `ingredient_lines` are dicts of {name, amount, unit, importance}, already
         type-checked by GeneratedRecipeInput. Returns the stored recipe.
@@ -138,6 +140,7 @@ class SaveGeneratedRecipeUseCase:
                     cuisine=cuisine,
                     cook_time=cook_time,
                     steps=steps,
+                    image_url=image_url,
                     session_id=session_id,
                 )
                 GeneratedRecipeIngredient.objects.bulk_create(

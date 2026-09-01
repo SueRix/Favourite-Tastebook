@@ -484,6 +484,41 @@
     gap: 12px;
 }
 
+/* The link and the button that will one day fill it in, on one line: they are
+   two ways to answer the same field, not two fields. */
+.draft-image-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.draft-image-field .draft-input {
+    /* Without the zero minimum the input keeps its full width and pushes the
+       button out of the pane. */
+    flex: 1;
+    min-width: 0;
+}
+
+.draft-image-field .studio-ghost-btn {
+    flex-shrink: 0;
+}
+
+/* Disabled, and honest about it — it stays visible so the field reads as
+   half-built rather than as a plain URL box that will never be anything else. */
+.draft-image-field .studio-ghost-btn[disabled] {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+.draft-image-field .studio-ghost-btn[disabled]:hover {
+    border-color: var(--border-subtle);
+    color: var(--text-muted);
+}
+
+.draft-row--image .draft-note {
+    margin-top: 6px;
+}
+
 .draft-section-head {
     display: flex;
     align-items: center;
@@ -733,6 +768,17 @@
 .studio-icon-btn:hover {
     border-color: var(--accent);
     color: var(--accent);
+}
+
+/* Only ever disabled while a request it started is in flight. */
+.studio-icon-btn[disabled] {
+    opacity: .45;
+    cursor: default;
+}
+
+.studio-icon-btn[disabled]:hover {
+    border-color: var(--border-subtle);
+    color: var(--text-muted);
 }
 
 /* A quarter turn on the way in, so pressing the gear looks like it did

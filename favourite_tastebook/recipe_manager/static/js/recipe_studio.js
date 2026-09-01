@@ -19,6 +19,7 @@
     const CHAT_URL = root.dataset.chatUrl;
     const RESET_URL = root.dataset.resetUrl;
     const SAVE_URL = root.dataset.saveUrl;
+    const PREVIEW_URL = root.dataset.previewUrl;
     const CREATIONS_URL = root.dataset.creationsUrl;
     // Reversed with a placeholder id, since the template cannot know the real one.
     const CREATION_URL = root.dataset.creationUrl;
@@ -48,9 +49,12 @@
         save: document.getElementById("draft-save"),
         remove: document.getElementById("draft-delete"),
         close: document.getElementById("draft-close"),
+        preview: document.getElementById("draft-preview"),
+        previewSlot: document.getElementById("studio-preview-slot"),
         title: document.getElementById("draft-title"),
         cuisine: document.getElementById("draft-cuisine"),
         time: document.getElementById("draft-time"),
+        image: document.getElementById("draft-image"),
         ingredients: document.getElementById("ingredient-list"),
         steps: document.getElementById("step-list"),
         addIngredient: document.getElementById("add-ingredient"),
@@ -508,8 +512,10 @@
         els.remove.hidden = !stored;
         els.save.hidden = stored;
         // Close is about the pane, not about the recipe: it is there whenever
-        // there is something to close, in both of the states above.
+        // there is something to close, in both of the states above. So is the
+        // preview: there is nothing to look at until a draft exists.
         els.close.hidden = !hasDraft;
+        els.preview.hidden = !hasDraft;
     }
 
     /* Whether a new recipe may take the editor without a click.
@@ -533,6 +539,7 @@
         els.title.value = draft.title || "";
         els.cuisine.value = draft.cuisine || "";
         els.time.value = draft.cook_time_minutes || 30;
+        els.image.value = draft.image_url || "";
 
         els.ingredients.replaceChildren();
         (draft.ingredients || []).forEach(function (line) {
@@ -565,6 +572,7 @@
         els.title.value = "";
         els.cuisine.value = "";
         els.time.value = "";
+        els.image.value = "";
         els.ingredients.replaceChildren();
         els.steps.replaceChildren();
 
@@ -607,7 +615,7 @@
         syncDraftActions();
     }
 
-    [els.title, els.cuisine, els.time].forEach(function (field) {
+    [els.title, els.cuisine, els.time, els.image].forEach(function (field) {
         field.addEventListener("input", touched);
     });
 
@@ -645,6 +653,7 @@
             title: els.title.value.trim(),
             cuisine: els.cuisine.value.trim(),
             cook_time_minutes: els.time.value || 30,
+            image_url: els.image.value.trim(),
             steps: steps,
             ingredients: ingredients
         };
@@ -718,6 +727,76 @@
 
         return {ok: true, title: data.title, recipeId: data.recipe_id};
     }
+
+    /* ------------------------------------------------------------- preview */
+
+    /* The draft seen as a recipe rather than as a form.
+
+       The card is rendered by the server, from the same template the database
+       page uses for a stored recipe, and dropped in whole. That makes this the
+       one place in this file where innerHTML is right: the string is our own
+       template's output, not a model's prose, and rebuilding the card here in
+       JavaScript would be a second copy of a layout that has to match the first
+       one forever.
+
+       The draft is sent as it stands, unsaved and unvalidated. Previewing is
+       not a step on the way to saving — it answers "what will this look like",
+       and a half-written recipe has an answer to that too. */
+
+    function closePreview() {
+        els.previewSlot.replaceChildren();
+    }
+
+    /* The card's own ✕ is an inline onclick in the shared partial, which expects
+       this name on the window — the database page defines the same one. */
+    window.closeRecipeDetail = closePreview;
+
+    async function openPreview() {
+        if (!hasDraft) return;
+
+        els.preview.disabled = true;
+
+        let response;
+        let body = "";
+        try {
+            response = await fetch(PREVIEW_URL, {
+                method: "POST",
+                headers: {"X-CSRFToken": CSRF, "Content-Type": "application/json"},
+                body: JSON.stringify(collectDraft())
+            });
+            body = await response.text();
+        } catch (e) {
+            toast("Could not reach the server", "error");
+            return;
+        } finally {
+            els.preview.disabled = false;
+        }
+
+        if (!response.ok) {
+            // A refusal comes back as JSON, a card as HTML.
+            let detail = "Could not build the preview.";
+            try {
+                detail = JSON.parse(body).detail || detail;
+            } catch (e) {
+                // Left as the generic sentence.
+            }
+            toast(detail, response.status === 400 ? "warning" : "error");
+            return;
+        }
+
+        els.previewSlot.innerHTML = body;
+    }
+
+    els.preview.addEventListener("click", openPreview);
+
+    // The two ways out that every modal on this site already has. Both are
+    // no-ops while the slot is empty.
+    els.previewSlot.addEventListener("click", function (event) {
+        if (event.target.id === "rdb-modal-overlay") closePreview();
+    });
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") closePreview();
+    });
 
     /* ----------------------------------------------------------- creations */
 
