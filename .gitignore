@@ -42,3 +42,4 @@ local_settings.py
 
 favourite_tastebook/media/
 
+/docs/agent_prompt.md

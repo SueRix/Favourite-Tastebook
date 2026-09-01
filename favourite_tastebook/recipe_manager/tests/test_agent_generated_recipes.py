@@ -3,6 +3,7 @@ from decimal import Decimal
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
+from recipe_manager.application.use_cases.agent_settings import AgentSettingsUseCase
 from recipe_manager.application.use_cases.agent_tools import AgentToolsUseCase
 from recipe_manager.domain.enums import Importance, TasteLevels, Units
 from recipe_manager.domain.exceptions import AgentPayloadError
@@ -23,6 +24,9 @@ class SaveGeneratedRecipeToolTests(TestCase):
         cls.user = get_user_model().objects.create_user(
             username="__ut_gen_user__", password="x"
         )
+        # Saving on the user's behalf is off by default; these tests are about
+        # what the tool does once it is allowed to run at all.
+        AgentSettingsUseCase.update(cls.user, {"autosave_drafts": True})
         cls.chicken = Ingredient.objects.create(name="__ut_gen_chicken__", category="__ut_gen_cat__")
         cls.rice = Ingredient.objects.create(name="__ut_gen_rice__", category="__ut_gen_cat__")
         cls.bread = Ingredient.objects.create(name="__ut_gen_bread__", category="__ut_gen_cat__")
@@ -104,6 +108,7 @@ class SaveGeneratedRecipeToolTests(TestCase):
 
     def test_another_user_may_keep_the_same_title(self):
         other = get_user_model().objects.create_user(username="__ut_gen_other__", password="x")
+        AgentSettingsUseCase.update(other, {"autosave_drafts": True})
         AgentToolsUseCase.save_generated_recipe(self._payload(), user=self.user)
         result = AgentToolsUseCase.save_generated_recipe(self._payload(), user=other)
 

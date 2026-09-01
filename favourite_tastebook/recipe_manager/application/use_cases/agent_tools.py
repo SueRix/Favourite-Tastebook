@@ -392,11 +392,35 @@ class AgentToolsUseCase:
         Tool `save_generated_recipe`: keeps a dish the agent composed itself.
         Body: {"title", "cuisine", "cook_time_minutes", "steps": [...],
                "ingredients": [{"name", "amount", "unit", "importance"}, ...]}
+
+        Refused outright unless the user has allowed the assistant to put
+        recipes away on its own — see the switch below.
         """
         fields = GeneratedRecipeInput.parse(payload)
 
         if not cls._is_authenticated(user):
             return cls._failure("auth_required", "Only a signed-in user can save recipes.")
+
+        # The switch reads "allow the assistant to save recipes into your drafts
+        # by itself", and this is the half of it that a prompt cannot guarantee.
+        #
+        # The prompt has always said to save only when asked, and the assistant
+        # nonetheless reaches for this tool on its own: the observed result was
+        # a dish already in the collection and a card offering the one thing
+        # left to do with it. Turning that into a refusal costs the person
+        # nothing — the redirect below produces the ordinary proposal card, with
+        # Save on it — and it makes the switch mean what it says in both
+        # positions rather than only in one.
+        if not AgentPreferenceSelector.for_user(user)["autosave_drafts"]:
+            return {
+                "ok": False,
+                "error": "autosave_disabled",
+                "detail": "This user has not allowed you to save recipes on their behalf.",
+                "hint": (
+                    "Call propose_recipe with the same recipe instead. They will see it "
+                    "and keep it themselves with one click. Do not say the dish was saved."
+                ),
+            }
 
         try:
             recipe = SaveGeneratedRecipeUseCase.execute(

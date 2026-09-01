@@ -181,6 +181,16 @@
                     My creations <span class="creations-count" id="creations-count">{{ my_recipes|length }}</span>
                 </button>
                 {% comment %}
+                    The way out of the pane without destroying anything.
+
+                    Until now the only control that emptied the draft was
+                    Delete, so a recipe the assistant put here left the person
+                    choosing between keeping it on screen forever and deleting
+                    it for real. Close is the third answer, and the one they
+                    were looking for.
+                {% endcomment %}
+                <button type="button" class="studio-ghost-btn" id="draft-close" hidden>Close</button>
+                {% comment %}
                     Swapped for each other by the script: a stored recipe has
                     nothing left to save, an unsaved one has nothing to delete.
                 {% endcomment %}

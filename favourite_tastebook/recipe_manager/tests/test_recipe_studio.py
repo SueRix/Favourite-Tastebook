@@ -6,6 +6,7 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from recipe_manager.application.use_cases.agent_chat import AgentChatUseCase
+from recipe_manager.application.use_cases.agent_settings import AgentSettingsUseCase
 from recipe_manager.application.use_cases.agent_tools import AgentToolsUseCase
 from recipe_manager.domain.enums import TasteLevels
 from recipe_manager.infrastructure.agent import AgentDraftStore
@@ -340,6 +341,8 @@ class AgentSaveReachesThePageTests(TestCase):
         cls.user = get_user_model().objects.create_user(username="__ut_studio_ann__", password="x")
         cls.chicken = Ingredient.objects.create(name="__ut_ann_chicken__", category="__ut_ann_cat__")
         cls.rice = Ingredient.objects.create(name="__ut_ann_rice__", category="__ut_ann_cat__")
+        # The agent may only save for a user who allowed it to.
+        AgentSettingsUseCase.update(cls.user, {"autosave_drafts": True})
 
     def setUp(self):
         cache.clear()

@@ -66,18 +66,24 @@ class AgentChatUseCase:
         # it was thinking; those calls landed on different requests and left what
         # they produced here.
         draft = AgentDraftStore.take(chat_id)
+        saved = AgentDraftStore.take_saved(chat_id)
 
         return {
             "reply": reply,
             "chat_id": chat_id,
             "draft": draft,
-            "saved": AgentDraftStore.take_saved(chat_id),
+            "saved": saved,
             "settings": preferences,
-            # Whether the page may put that draft straight into the editor. The
-            # answer is computed here rather than read from the browser's copy of
-            # the settings, so flipping the switch in one tab cannot leave another
+            # Whether the page may put this turn's recipe straight into the
+            # editor. It covers BOTH ways one can arrive: a proposal the person
+            # has yet to keep, and a dish the assistant stored itself. The
+            # second is the one that actually happens most of the time, and
+            # leaving it out was why the switch looked dead.
+            #
+            # Computed here rather than read from the browser's copy of the
+            # settings, so flipping the switch in one tab cannot leave another
             # tab acting on a value that is no longer stored.
-            "autoload_draft": bool(draft) and preferences["autosave_drafts"],
+            "autoload_draft": bool(draft or saved) and preferences["autosave_drafts"],
         }
 
     @classmethod

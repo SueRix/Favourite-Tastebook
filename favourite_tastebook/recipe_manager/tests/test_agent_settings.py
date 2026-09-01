@@ -13,7 +13,13 @@ from recipe_manager.domain.enums import AgentRecipeSource, TasteLevels
 from recipe_manager.domain.exceptions import AgentPayloadError
 from recipe_manager.infrastructure.agent import AgentDraftStore
 from recipe_manager.infrastructure.selectors import AgentPreferenceSelector
-from recipe_manager.models import AgentPreference, Ingredient, Recipe, UserTastePreference
+from recipe_manager.models import (
+    AgentPreference,
+    GeneratedRecipe,
+    Ingredient,
+    Recipe,
+    UserTastePreference,
+)
 
 LOCAL_CACHE = {
     "default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache", "LOCATION": "agent-settings-tests"}
@@ -247,6 +253,71 @@ class RecipeSourceSwitchTests(TestCase):
 
 
 @override_settings(CACHES=LOCAL_CACHE)
+class AutosaveSwitchTests(TestCase):
+    """
+    The switch that decides whether the assistant may put a dish away itself.
+
+    It was reported as doing nothing, and it was doing nothing twice over: the
+    tool saved whatever the model asked it to, and the page only reacted to the
+    other of the two ways a recipe arrives.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = get_user_model().objects.create_user(username="__ut_prefs_autosave__", password="x")
+        cls.chicken = Ingredient.objects.create(name="__ut_auto_chicken__", category="__ut_auto_cat__")
+
+    def setUp(self):
+        # The tools write the proposal and the save into the cache; the real one
+        # is Redis and is shared between runs.
+        cache.clear()
+
+    def _payload(self, title="Autosave Pilaf"):
+        return {
+            "title": title,
+            "cuisine": "uzbek",
+            "cook_time_minutes": 30,
+            "steps": ["Fry it."],
+            "ingredients": [
+                {"name": self.chicken.name, "amount": 400, "unit": "g", "importance": "required"}
+            ],
+        }
+
+    def test_off_by_default_the_agent_may_not_save(self):
+        result = AgentToolsUseCase.save_generated_recipe(self._payload(), user=self.user, session_id="s")
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["error"], "autosave_disabled")
+
+    def test_nothing_is_written_when_it_refuses(self):
+        AgentToolsUseCase.save_generated_recipe(self._payload(), user=self.user, session_id="s")
+
+        self.assertFalse(GeneratedRecipe.objects.filter(user=self.user).exists())
+
+    def test_the_refusal_sends_the_agent_to_propose_instead(self):
+        # A bare refusal is what makes a model retry the same call; the person
+        # would then get nothing at all rather than a card they can act on.
+        result = AgentToolsUseCase.save_generated_recipe(self._payload(), user=self.user, session_id="s")
+
+        self.assertIn("propose_recipe", result["hint"])
+
+    def test_proposing_is_never_blocked_by_it(self):
+        # The switch governs saving, not composing: refusing both would leave
+        # the studio with nothing to show.
+        result = AgentToolsUseCase.propose_recipe(self._payload(), user=self.user, session_id="s")
+
+        self.assertTrue(result["ok"])
+
+    def test_on_lets_the_save_through(self):
+        AgentSettingsUseCase.update(self.user, {"autosave_drafts": True})
+
+        result = AgentToolsUseCase.save_generated_recipe(self._payload(), user=self.user, session_id="s")
+
+        self.assertTrue(result["ok"])
+        self.assertTrue(GeneratedRecipe.objects.filter(user=self.user).exists())
+
+
+@override_settings(CACHES=LOCAL_CACHE)
 class ChatTurnCarriesTheSettingsTests(TestCase):
     """The turn tells the page and the workflow what is switched on."""
 
@@ -258,14 +329,17 @@ class ChatTurnCarriesTheSettingsTests(TestCase):
         cache.clear()
 
     class _Client:
-        def __init__(self, draft=None):
+        def __init__(self, draft=None, saved=None):
             self.draft = draft
+            self.saved = saved
             self.calls = []
 
         def ask(self, message, context, sid, preferences=None):
             self.calls.append(preferences)
             if self.draft is not None:
                 AgentDraftStore.put(sid, self.draft)
+            if self.saved is not None:
+                AgentDraftStore.put_saved(sid, self.saved)
             return "Here you go."
 
     def test_the_workflow_receives_them(self):
@@ -291,6 +365,26 @@ class ChatTurnCarriesTheSettingsTests(TestCase):
         result = AgentChatUseCase.send(self.user, self.client.session, "cook", client=fake)
 
         self.assertTrue(result["autoload_draft"])
+
+    def test_autoload_covers_a_dish_the_agent_saved_itself(self):
+        # This is the path that actually happens: the assistant reaches for
+        # save_generated_recipe far more readily than for propose_recipe, and
+        # leaving it out was why the switch looked dead.
+        AgentSettingsUseCase.update(self.user, {"autosave_drafts": True})
+        fake = self._Client(saved={"id": 7, "title": "Pilaf"})
+
+        result = AgentChatUseCase.send(self.user, self.client.session, "cook", client=fake)
+
+        self.assertIsNone(result["draft"])
+        self.assertIsNotNone(result["saved"])
+        self.assertTrue(result["autoload_draft"])
+
+    def test_a_saved_dish_does_not_autoload_while_the_switch_is_off(self):
+        fake = self._Client(saved={"id": 7, "title": "Pilaf"})
+
+        result = AgentChatUseCase.send(self.user, self.client.session, "cook", client=fake)
+
+        self.assertFalse(result["autoload_draft"])
 
     def test_a_turn_without_a_draft_never_asks_the_page_to_load_one(self):
         AgentSettingsUseCase.update(self.user, {"autosave_drafts": True})

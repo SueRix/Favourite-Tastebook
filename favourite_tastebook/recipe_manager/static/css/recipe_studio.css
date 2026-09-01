@@ -903,6 +903,98 @@
     color: var(--danger);
 }
 
+/* ---------- scrollbars ---------- */
+
+/* Five panes on this page scroll, and every one of them was showing the
+   browser's default bar: a wide grey slab against a near-black panel, brighter
+   than the content beside it. The rest of the app already answers this the same
+   way (see the SCROLLBARS block in home.css and .rdb-results in
+   recipes_database.css); the values are copied from there rather than tuned
+   again, because a scrollbar that differs per page is the one thing a scrollbar
+   must never be.
+
+   Firefox takes the two-property form, WebKit needs the pseudo-elements, and
+   both are listed for the same selectors so the two never drift apart. */
+.chat-log,
+.settings-scroll,
+.draft-editor,
+.creations-list {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) rgba(0, 0, 0, 0.25);
+}
+
+.chat-log::-webkit-scrollbar,
+.settings-scroll::-webkit-scrollbar,
+.draft-editor::-webkit-scrollbar,
+.creations-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-log::-webkit-scrollbar-track,
+.settings-scroll::-webkit-scrollbar-track,
+.draft-editor::-webkit-scrollbar-track,
+.creations-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 999px;
+    /* Stops the track from running under the rounded corner of the pane. */
+    margin: 6px 0;
+}
+
+.chat-log::-webkit-scrollbar-thumb,
+.settings-scroll::-webkit-scrollbar-thumb,
+.draft-editor::-webkit-scrollbar-thumb,
+.creations-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    /* The transparent border plus padding-box clip is what keeps the thumb
+       narrower than its track without a second element. */
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.chat-log::-webkit-scrollbar-thumb:hover,
+.settings-scroll::-webkit-scrollbar-thumb:hover,
+.draft-editor::-webkit-scrollbar-thumb:hover,
+.creations-list::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 214, 10, 0.45);
+}
+
+.chat-log::-webkit-scrollbar-thumb:active,
+.settings-scroll::-webkit-scrollbar-thumb:active,
+.draft-editor::-webkit-scrollbar-thumb:active,
+.creations-list::-webkit-scrollbar-thumb:active {
+    background-color: rgba(255, 214, 10, 0.60);
+}
+
+/* A step box is a textarea the person drags open; it scrolls on its own once
+   they stop, and it is small enough that the 6px bar above would eat the text. */
+.step-text,
+.chat-input {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+}
+
+.step-text::-webkit-scrollbar,
+.chat-input::-webkit-scrollbar {
+    width: 4px;
+}
+
+.step-text::-webkit-scrollbar-track,
+.chat-input::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.step-text::-webkit-scrollbar-thumb,
+.chat-input::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+}
+
+.step-text::-webkit-scrollbar-thumb:hover,
+.chat-input::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 214, 10, 0.4);
+}
+
 /* ---------- narrow screens ---------- */
 
 @media (max-width: 900px) {
@@ -910,6 +1002,24 @@
         grid-template-columns: minmax(0, 1fr);
         grid-template-rows: minmax(240px, 1fr) minmax(240px, 1fr);
         overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 255, 255, 0.2) rgba(0, 0, 0, 0.25);
+    }
+
+    .studio::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .studio::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.25);
+        border-radius: 999px;
+    }
+
+    .studio::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 999px;
+        border: 2px solid transparent;
+        background-clip: padding-box;
     }
 
     .ing-row {

@@ -47,6 +47,7 @@
         status: document.getElementById("draft-status"),
         save: document.getElementById("draft-save"),
         remove: document.getElementById("draft-delete"),
+        close: document.getElementById("draft-close"),
         title: document.getElementById("draft-title"),
         cuisine: document.getElementById("draft-cuisine"),
         time: document.getElementById("draft-time"),
@@ -358,8 +359,14 @@
 
     /* The agent may also save a dish itself, in the middle of a turn. Nothing is
        left to decide then — the card only reports what happened and offers the
-       one thing still useful: opening it to make a variant. */
-    function addSavedNotice(recipe) {
+       one thing still useful: opening it to make a variant.
+
+       This is the card people actually see, because the assistant reaches for
+       save_generated_recipe far more readily than for propose_recipe. It
+       therefore has to honour the autoload switch exactly as a proposal does —
+       when it did not, the switch looked broken, since the path it covered was
+       the rarer of the two. */
+    function addSavedNotice(recipe, autoload) {
         const parts = recipeCard(recipe, "Saved by the assistant");
 
         const open = document.createElement("button");
@@ -373,10 +380,22 @@
 
         parts.actions.append(open, note);
 
-        open.addEventListener("click", function () {
+        function openIt(outcome) {
             openCreation(recipe);
-            parts.settle("Opened in the draft pane.");
+            parts.settle(outcome);
+        }
+
+        open.addEventListener("click", function () {
+            openIt("Opened in the draft pane.");
         });
+
+        if (autoload) {
+            if (draftIsDisposable()) {
+                openIt("Opened in the draft pane.");
+            } else {
+                note.textContent = "Your draft has unsaved changes, so this one stayed here.";
+            }
+        }
 
         return parts.card;
     }
@@ -488,6 +507,9 @@
         const stored = openCreationId !== null && els.save.disabled;
         els.remove.hidden = !stored;
         els.save.hidden = stored;
+        // Close is about the pane, not about the recipe: it is there whenever
+        // there is something to close, in both of the states above.
+        els.close.hidden = !hasDraft;
     }
 
     /* Whether a new recipe may take the editor without a click.
@@ -879,7 +901,7 @@
             // person had already edited there.
             if (data.draft) addProposal(data.draft, data.autoload_draft);
             if (data.saved) {
-                addSavedNotice(data.saved);
+                addSavedNotice(data.saved, data.autoload_draft);
                 refreshCreations();
                 toast("Saved: " + data.saved.title, "success");
             }
@@ -1105,6 +1127,23 @@
         setStatus("Saved to your creations", true);
         syncDraftActions();
         toast("Saved: " + result.title, "success");
+    });
+
+    /* Close empties the pane and destroys nothing.
+     *
+     * What it costs depends on what is in there. A stored creation costs
+     * nothing at all — it is in the database and one click away in the drawer —
+     * so it closes without a word. Unsaved edits exist only on this screen, and
+     * closing is the one action that would lose them, so that case asks first.
+     * The question names the recipe, because by then the title may have been
+     * typed over several times. */
+    els.close.addEventListener("click", function () {
+        const unsaved = !els.save.disabled;
+        if (unsaved) {
+            const name = els.title.value.trim() || "this draft";
+            if (!window.confirm("Close “" + name + "” without saving? The changes are lost.")) return;
+        }
+        clearDraft("Nothing yet");
     });
 
     els.remove.addEventListener("click", function () {
