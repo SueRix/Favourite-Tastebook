@@ -698,6 +698,211 @@
     cursor: default;
 }
 
+/* ---------- assistant settings ---------- */
+
+/* The gear. Square rather than a pill, so it reads as one control among the
+   ghost buttons instead of a fourth thing to read. */
+.studio-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border-subtle);
+    border-radius: 9px;
+    cursor: pointer;
+    transition: border-color .15s ease, color .15s ease, transform .25s ease;
+}
+
+.studio-icon-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* A quarter turn on the way in, so pressing the gear looks like it did
+   something even before the eye reaches the panel underneath. */
+.studio-icon-btn[aria-expanded="true"] {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: rotate(90deg);
+}
+
+/* The panel takes the place of the log AND the composer, so it owns the same
+   space and scrolls the same way: the pane never grows a second scrollbar. */
+.chat-settings {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.setting-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 13px 14px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .02);
+    cursor: pointer;
+    transition: border-color .15s ease;
+}
+
+.setting-row:hover {
+    border-color: rgba(255, 255, 255, .16);
+}
+
+/* The two-ended switch needs the full width of the row, so its control drops
+   under the copy instead of fighting it for the right-hand edge. */
+.setting-row--stacked {
+    flex-direction: column;
+    align-items: stretch;
+    cursor: default;
+}
+
+.setting-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.setting-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.setting-note {
+    font-size: 11.5px;
+    line-height: 1.5;
+    color: var(--text-muted);
+    max-width: 46ch;
+}
+
+.setting-note em {
+    font-style: normal;
+    color: var(--text-main);
+}
+
+/* the switch itself */
+
+.switch {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* The checkbox stays in the layout and keeps its own hit area: it is what a
+   screen reader announces and what the keyboard toggles. Only its paint is
+   handed over to the track below it. */
+.switch input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.switch-track {
+    display: block;
+    width: 38px;
+    height: 21px;
+    border-radius: 999px;
+    background: #1c1c1c;
+    border: 1px solid var(--border-subtle);
+    transition: background .18s ease, border-color .18s ease;
+}
+
+.switch-track::after {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    margin: 2px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    transition: transform .18s ease, background .18s ease;
+}
+
+.switch input:checked ~ .switch-track {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+}
+
+.switch input:checked ~ .switch-track::after {
+    background: var(--accent);
+    transform: translateX(17px);
+}
+
+.switch input:focus-visible ~ .switch-track {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* A switch being written is not a switch that can be pressed again. */
+.switch input:disabled {
+    cursor: progress;
+}
+
+.switch input:disabled ~ .switch-track {
+    opacity: .55;
+}
+
+/* two-ended switch */
+
+.switch-pair {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.switch-end {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: color .18s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Only one end is true at a time, so only one is lit. Without this the pair
+   reads as two labels for one switch rather than as the answer to a question. */
+.switch-end--active {
+    color: var(--accent);
+}
+
+.settings-status {
+    margin: 0;
+    padding: 0 18px 14px;
+    font-size: 11.5px;
+    min-height: 16px;
+    color: var(--text-muted);
+}
+
+.settings-status--error {
+    color: var(--danger);
+}
+
 /* ---------- narrow screens ---------- */
 
 @media (max-width: 900px) {
@@ -715,5 +920,16 @@
        rather than squeezing four selects into one line. */
     .ing-row .ing-importance {
         grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 560px) {
+    .studio-head {
+        flex-wrap: wrap;
+    }
+
+    .setting-row {
+        flex-direction: column;
+        align-items: stretch;
     }
 }

@@ -22,6 +22,7 @@
     const CREATIONS_URL = root.dataset.creationsUrl;
     // Reversed with a placeholder id, since the template cannot know the real one.
     const CREATION_URL = root.dataset.creationUrl;
+    const SETTINGS_URL = root.dataset.settingsUrl;
     const CSRF = root.dataset.csrf;
 
     const els = {
@@ -31,6 +32,15 @@
         input: document.getElementById("chat-input"),
         send: document.getElementById("chat-send"),
         reset: document.getElementById("studio-reset"),
+
+        settings: document.getElementById("chat-settings"),
+        settingsToggle: document.getElementById("studio-settings-toggle"),
+        settingsStatus: document.getElementById("settings-status"),
+        headChat: document.getElementById("studio-head-chat"),
+        headSettings: document.getElementById("studio-head-settings"),
+        sourceInput: document.getElementById("set-recipe-source"),
+        sourceDatabase: document.getElementById("source-label-database"),
+        sourceAi: document.getElementById("source-label-ai"),
 
         empty: document.getElementById("draft-empty"),
         editor: document.getElementById("draft-editor"),
@@ -274,7 +284,9 @@
         };
     }
 
-    function addProposal(draft) {
+    /* `autoload` is the server's answer, not the browser's guess: the setting
+       may have been changed in another tab since this page was rendered. */
+    function addProposal(draft, autoload) {
         const parts = recipeCard(draft, "Proposed recipe");
 
         const keep = document.createElement("button");
@@ -293,10 +305,14 @@
 
         parts.actions.append(keep, manage, note);
 
-        manage.addEventListener("click", function () {
+        function moveToDraft(outcome) {
             renderDraft(draft, "Moved from the chat — edit anything, then save");
-            parts.settle("Moved to the draft — edit it on the right.");
+            parts.settle(outcome);
             toast("The recipe is in the draft pane", "success");
+        }
+
+        manage.addEventListener("click", function () {
+            moveToDraft("Moved to the draft — edit it on the right.");
         });
 
         keep.addEventListener("click", async function () {
@@ -319,6 +335,23 @@
             parts.settle("Saved to your creations.");
             toast("Saved: " + (result.title || draft.title), "success");
         });
+
+        /* The setting that hands the editor over without being asked.
+         *
+         * It is applied last, after both buttons exist, so the card the person
+         * would have clicked is exactly the card that moved itself. And it is
+         * refused whenever the editor holds unsaved work: the whole reason the
+         * proposal normally waits in the log is that taking the pane over would
+         * discard edits nobody agreed to lose, and a switch labelled as a
+         * convenience must not become the one thing that does that. When it
+         * declines, the card says why and stays clickable. */
+        if (autoload) {
+            if (draftIsDisposable()) {
+                moveToDraft("Opened in the draft pane.");
+            } else {
+                note.textContent = "Your draft has unsaved changes, so this one stayed here.";
+            }
+        }
 
         return parts.card;
     }
@@ -455,6 +488,17 @@
         const stored = openCreationId !== null && els.save.disabled;
         els.remove.hidden = !stored;
         els.save.hidden = stored;
+    }
+
+    /* Whether a new recipe may take the editor without a click.
+     *
+     * Two states are safe: an empty pane, and one showing a stored creation with
+     * nothing edited since — that one exists in the database and is one click
+     * away in the creations drawer. Anything else is work only this screen has.
+     */
+    function draftIsDisposable() {
+        if (!hasDraft) return true;
+        return openCreationId !== null && els.save.disabled;
     }
 
     function renderDraft(draft, statusText) {
@@ -833,7 +877,7 @@
             // The recipe is shown in the log rather than pushed into the editor:
             // taking over the right-hand pane unasked would discard whatever the
             // person had already edited there.
-            if (data.draft) addProposal(data.draft);
+            if (data.draft) addProposal(data.draft, data.autoload_draft);
             if (data.saved) {
                 addSavedNotice(data.saved);
                 refreshCreations();
@@ -885,6 +929,151 @@
         addMessage("New conversation started. The assistant has forgotten the previous one.", "agent");
         toast("New conversation started", "info");
     });
+
+    /* ------------------------------------------------------------ settings */
+
+    /* The gear swaps the pane's contents rather than opening something over
+       them. The conversation is not paused while you are in here — it is simply
+       not on screen — so nothing about it is torn down: coming back finds the
+       same log, scrolled where it was, and whatever was half-typed still in the
+       box. */
+    function setSettingsOpen(open) {
+        els.settings.hidden = !open;
+        els.log.hidden = open;
+        els.form.hidden = open;
+        // "New chat" belongs to the conversation, not to this panel.
+        els.reset.hidden = open;
+        els.headChat.hidden = open;
+        els.headSettings.hidden = !open;
+
+        const gear = els.settingsToggle.querySelector(".icon-gear");
+        const chat = els.settingsToggle.querySelector(".icon-chat");
+        if (gear) gear.hidden = open;
+        if (chat) chat.hidden = !open;
+
+        const label = open ? "Back to the conversation" : "Assistant settings";
+        els.settingsToggle.setAttribute("aria-expanded", open ? "true" : "false");
+        els.settingsToggle.setAttribute("aria-label", label);
+        els.settingsToggle.title = label;
+
+        if (open) {
+            settingsNote("");
+        } else {
+            els.input.focus();
+            scrollLog();
+        }
+    }
+
+    let noteTimer = null;
+
+    function settingsNote(text, isError) {
+        window.clearTimeout(noteTimer);
+        els.settingsStatus.textContent = text;
+        els.settingsStatus.classList.toggle("settings-status--error", Boolean(isError));
+        // A confirmation that stays becomes furniture; a failure has to be read.
+        if (text && !isError) {
+            noteTimer = window.setTimeout(function () {
+                els.settingsStatus.textContent = "";
+            }, 2200);
+        }
+    }
+
+    /* Only one of the two ends of the source switch is true, so only one is lit.
+       Both are also clickable, because a label naming a state is a thing people
+       press to get that state. */
+    function syncSourceLabels() {
+        const ai = els.sourceInput.checked;
+        els.sourceDatabase.classList.toggle("switch-end--active", !ai);
+        els.sourceAi.classList.toggle("switch-end--active", ai);
+    }
+
+    function settingValue(input) {
+        // The only non-boolean of the three: it is stored as a word so a third
+        // source can be added later without turning the column inside out.
+        if (input.dataset.setting === "recipe_source") {
+            return input.checked ? "ai" : "database";
+        }
+        return input.checked;
+    }
+
+    /* One switch, one request, carrying only the field that moved.
+     *
+     * The click is applied optimistically and taken back if the write fails.
+     * That order is the honest one: the switch shows what is stored, so it must
+     * not keep showing a value the server never accepted. */
+    async function persistSetting(input) {
+        const field = input.dataset.setting;
+        const body = {};
+        body[field] = settingValue(input);
+
+        input.disabled = true;
+        settingsNote("Saving…");
+
+        let response;
+        let data = {};
+        try {
+            response = await fetch(SETTINGS_URL, {
+                method: "POST",
+                headers: {"X-CSRFToken": CSRF, "Content-Type": "application/json"},
+                body: JSON.stringify(body)
+            });
+            data = await response.json().catch(function () { return {}; });
+        } catch (e) {
+            input.checked = !input.checked;
+            syncSourceLabels();
+            input.disabled = false;
+            settingsNote("Could not reach the server — the setting was not changed.", true);
+            return;
+        }
+
+        input.disabled = false;
+
+        if (!response.ok) {
+            input.checked = !input.checked;
+            syncSourceLabels();
+            settingsNote(data.detail || "The setting was not changed.", true);
+            return;
+        }
+
+        // Rendered from the answer rather than from the click: if the server
+        // stored something else, that is what the switch has to show.
+        if (data.settings) {
+            const stored = data.settings[field];
+            input.checked = field === "recipe_source" ? stored === "ai" : Boolean(stored);
+            syncSourceLabels();
+        }
+
+        settingsNote("Saved");
+    }
+
+    els.settingsToggle.addEventListener("click", function () {
+        setSettingsOpen(els.settings.hidden);
+    });
+
+    // Escape is the way out of anything that covers what you were doing.
+    els.settings.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") setSettingsOpen(false);
+    });
+
+    els.settings.querySelectorAll("input[data-setting]").forEach(function (input) {
+        input.addEventListener("change", function () {
+            if (input.dataset.setting === "recipe_source") syncSourceLabels();
+            persistSetting(input);
+        });
+    });
+
+    [[els.sourceDatabase, false], [els.sourceAi, true]].forEach(function (pair) {
+        pair[0].addEventListener("click", function () {
+            if (els.sourceInput.checked === pair[1] || els.sourceInput.disabled) return;
+            els.sourceInput.checked = pair[1];
+            syncSourceLabels();
+            persistSetting(els.sourceInput);
+        });
+    });
+
+    syncSourceLabels();
+
+    /* ------------------------------------------------------------- draft save */
 
     els.save.addEventListener("click", async function () {
         const draft = collectDraft();

@@ -32,8 +32,10 @@ class FakeChatClient:
         self.error = error
         self.calls = []
 
-    def ask(self, message, context, sid):
-        self.calls.append({"message": message, "context": context, "sid": sid})
+    def ask(self, message, context, sid, preferences=None):
+        self.calls.append(
+            {"message": message, "context": context, "sid": sid, "preferences": preferences}
+        )
         if self.error:
             raise self.error
         return self.reply
@@ -66,7 +68,9 @@ class AgentChatUseCaseTests(TestCase):
         sent = fake.calls[0]
 
         # The payload carries no user field at all; the identity is in the token.
-        self.assertEqual(set(sent), {"message", "context", "sid"})
+        # The settings that travel beside it say how the assistant should behave,
+        # never whose settings they are.
+        self.assertEqual(set(sent), {"message", "context", "sid", "preferences"})
         self.assertEqual(
             AgentContextToken.parse(sent["context"]),
             {"uid": self.user.id, "sid": result["chat_id"]},
@@ -162,10 +166,15 @@ class N8nAgentChatClientTests(TestCase):
         self.assertEqual(reply, "Borscht.")
 
     def test_sends_the_agreed_payload(self):
+        # `settings` is always present, even empty: an n8n expression reading
+        # $json.settings.use_tastes must not fail on a missing key.
         with patch(self.POST_TARGET, return_value=self._response(payload={"reply": "ok"})) as post:
             N8nAgentChatClient().ask("hi", "ctx", "sid")
 
-        self.assertEqual(post.call_args.kwargs["json"], {"message": "hi", "context": "ctx", "sid": "sid"})
+        self.assertEqual(
+            post.call_args.kwargs["json"],
+            {"message": "hi", "context": "ctx", "sid": "sid", "settings": {}},
+        )
 
     @override_settings(N8N_AGENT_WEBHOOK_URL="")
     def test_missing_url_is_a_configuration_error(self):

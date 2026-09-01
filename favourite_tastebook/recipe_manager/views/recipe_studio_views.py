@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.views import View
 from django.views.generic import TemplateView
 
+from recipe_manager.application.use_cases.agent_settings import AgentSettingsUseCase
 from recipe_manager.application.use_cases.generated_recipes import (
     DeleteGeneratedRecipeUseCase,
     SaveGeneratedRecipeUseCase,
@@ -66,6 +67,10 @@ class RecipeStudioView(LoginRequiredMixin, TemplateView):
         context["units"] = sorted(ALLOWED_UNITS)
         context["importance_levels"] = sorted(ALLOWED_IMPORTANCE)
         context["chat_id"] = AgentChatSession.current(self.request.session)
+        # The settings panel behind the gear renders from this rather than
+        # fetching on open: three booleans are cheaper to ship with the page than
+        # a request the person waits for after every click on the gear.
+        context["agent_settings"] = AgentSettingsUseCase.read(self.request.user)
         # Past creations travel in the same shape as a fresh draft, so opening
         # one puts it straight into the editor with no special case.
         context["my_recipes"] = self.creations(self.request.user)

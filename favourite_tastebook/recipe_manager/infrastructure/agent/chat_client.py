@@ -21,8 +21,16 @@ class N8nAgentChatClient:
          timeout serving both badly.
 
     Contract with the workflow:
-        Request  (POST, JSON):  {"message": str, "context": str, "sid": str}
+        Request  (POST, JSON):  {"message": str, "context": str, "sid": str,
+                                 "settings": {...}}
         Response (JSON):        {"reply": str}
+
+    The `settings` key carries the switches the user set in the studio, so the
+    workflow can build the system prompt around them. It is called `preferences`
+    on this side, where `settings` already means Django's. It is advice to the
+    model, not a control: every one of those switches is also enforced by the
+    tool endpoints, which is what makes it hold when the model is talked out
+    of it.
     """
 
     def __init__(self, webhook_url: str = None, auth_token: str = None, timeout: float = None):
@@ -36,12 +44,15 @@ class N8nAgentChatClient:
             headers["Authorization"] = f"Bearer {self.auth_token}"
         return headers
 
-    def ask(self, message: str, context: str, sid: str) -> str:
+    def ask(self, message: str, context: str, sid: str, preferences: dict = None) -> str:
         """Sends one turn of the conversation and returns the agent's reply text."""
         if not self.webhook_url:
             raise AgentChatNotConfiguredError("N8N_AGENT_WEBHOOK_URL is not configured.")
 
-        payload = {"message": message, "context": context, "sid": sid}
+        # Always present, even when empty: a workflow expression reading
+        # {{ $json.settings.use_tastes }} must not fail on a missing key for the
+        # users who have never opened the settings panel.
+        payload = {"message": message, "context": context, "sid": sid, "settings": preferences or {}}
 
         try:
             response = requests.post(

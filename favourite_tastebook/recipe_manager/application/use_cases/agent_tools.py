@@ -3,7 +3,7 @@ from django.conf import settings
 from recipe_manager.application.use_cases.generated_recipes import SaveGeneratedRecipeUseCase
 from recipe_manager.application.use_cases.saved_recipes_dashboard import SavedRecipesUseCase
 from recipe_manager.application.use_cases.search_recipes import SearchRecipesUseCase
-from recipe_manager.domain.enums import Importance, TasteLevels, TASTE_HATE_LEVEL
+from recipe_manager.domain.enums import AgentRecipeSource, Importance, TasteLevels, TASTE_HATE_LEVEL
 from recipe_manager.domain.exceptions import (
     GeneratedRecipeAlreadySavedError,
     TabooIngredientError,
@@ -25,7 +25,11 @@ from recipe_manager.infrastructure.presentation.agent_payload import (
     AgentRecipePresenter,
 )
 from recipe_manager.infrastructure.presentation.vector_match import VectorMatchPresenter
-from recipe_manager.infrastructure.selectors import IngredientSelector, RecipeSelector
+from recipe_manager.infrastructure.selectors import (
+    AgentPreferenceSelector,
+    IngredientSelector,
+    RecipeSelector,
+)
 from recipe_manager.models import Recipe, SavedRecipe, UserCuisinePreference, UserTastePreference
 
 # The agent picks the engine, but only from the modes that already exist behind
@@ -68,6 +72,28 @@ class AgentToolsUseCase:
         return {"ok": False, "error": code, "detail": detail}
 
     @classmethod
+    def _catalogue_is_off(cls, user) -> dict | None:
+        """
+        The refusal the two search tools share when the user has asked for dishes
+        composed by the assistant rather than looked up in our catalogue.
+
+        Returned as data with HTTP 200 for the same reason every other business
+        outcome is: the agent has to read it in order to do the right thing next,
+        which here is composing a dish instead of apologising for a broken tool.
+        The hint says so, because a bare refusal is what makes a model retry the
+        same call.
+        """
+        if AgentPreferenceSelector.for_user(user)["recipe_source"] == AgentRecipeSource.DATABASE:
+            return None
+
+        return {
+            "ok": False,
+            "error": "database_search_disabled",
+            "detail": "This user asked for dishes you compose yourself, not ones looked up in the app catalogue.",
+            "hint": "Do not call the database tools. Compose the dish from your own knowledge and call propose_recipe.",
+        }
+
+    @classmethod
     def _limit(cls, payload: dict) -> int:
         return AgentInput.integer(
             payload,
@@ -95,6 +121,10 @@ class AgentToolsUseCase:
         Tool `search_recipes`: free-text recipe lookup.
         Body: {"query": str, "mode": "semantic|ingredient|keyword", "limit": int}
         """
+        refusal = cls._catalogue_is_off(user)
+        if refusal:
+            return refusal
+
         query = AgentInput.text(payload, "query")
         mode = AgentInput.choice(payload, "mode", SEARCH_MODES, DEFAULT_SEARCH_MODE)
         limit = cls._limit(payload)
@@ -117,6 +147,10 @@ class AgentToolsUseCase:
         Tool `recipes_by_ingredients`: what can I cook from what I have.
         Body: {"ingredients": [str, ...], "limit": int}
         """
+        refusal = cls._catalogue_is_off(user)
+        if refusal:
+            return refusal
+
         ingredients = AgentInput.string_list(payload, "ingredients")
         limit = cls._limit(payload)
 
@@ -179,6 +213,15 @@ class AgentToolsUseCase:
         return {"ok": True, "recipe": AgentRecipePresenter.detail(recipe, is_saved=is_saved)}
 
     @classmethod
+    def _empty_profile(cls, **flags) -> dict:
+        return {
+            "ok": True,
+            "loved": [], "liked": [], "disliked": [], "never_use": [],
+            "liked_cuisines": [], "disliked_cuisines": [],
+            **flags,
+        }
+
+    @classmethod
     def user_tastes(cls, payload: dict, user=None, session_id=None) -> dict:
         """
         Tool `user_tastes`: the taste profile the agent must respect.
@@ -187,12 +230,9 @@ class AgentToolsUseCase:
         if not cls._is_authenticated(user):
             # Not an error: a guest simply has no profile, and the agent should
             # keep helping rather than reporting a failure.
-            return {
-                "ok": True,
-                "authenticated": False,
-                "loved": [], "liked": [], "disliked": [], "never_use": [],
-                "liked_cuisines": [], "disliked_cuisines": [],
-            }
+            return cls._empty_profile(authenticated=False, tastes_enabled=True)
+
+        tastes_enabled = AgentPreferenceSelector.for_user(user)["use_tastes"]
 
         prefs = (
             UserTastePreference.objects
@@ -216,6 +256,27 @@ class AgentToolsUseCase:
             else:
                 buckets["liked"].append(name)
 
+        if not tastes_enabled:
+            # The switch says "do not shape the dish around my profile", and the
+            # likes and dislikes are what shaping means, so they do not travel.
+            #
+            # never_use does. It is not a preference to weigh but a hard
+            # exclusion — the list where an allergy is recorded — and the save
+            # path rejects those ingredients whatever this switch says. Hiding
+            # them here would only make the agent compose a dish that cannot be
+            # kept, and then explain a refusal it was never given the means to
+            # avoid.
+            return cls._empty_profile(
+                authenticated=True,
+                tastes_enabled=False,
+                never_use=buckets["never_use"],
+                note=(
+                    "This user turned taste personalisation off. Do not mention likes or "
+                    "dislikes and do not call anything their favourite. never_use is still "
+                    "binding: it carries their allergies."
+                ),
+            )
+
         cuisine_prefs = (
             UserCuisinePreference.objects
             .filter(user=user)
@@ -229,6 +290,7 @@ class AgentToolsUseCase:
         return {
             "ok": True,
             "authenticated": True,
+            "tastes_enabled": True,
             **buckets,
             "liked_cuisines": liked_cuisines,
             "disliked_cuisines": disliked_cuisines,

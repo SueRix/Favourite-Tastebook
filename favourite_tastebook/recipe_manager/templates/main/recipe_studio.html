@@ -15,18 +15,52 @@
          data-creations-url="{% url 'recipe_studio_creations' %}"
          {# The id is a placeholder the script swaps for a real one. #}
          data-creation-url="{% url 'recipe_studio_creation_delete' 0 %}"
+         data-settings-url="{% url 'agent_settings' %}"
          data-csrf="{{ csrf_token }}">
 
     {# ------------------------------------------------------------ left pane #}
     <div class="studio-pane studio-pane--chat">
         <header class="studio-head">
-            <div>
+            {% comment %}
+                Two headings for one pane. The gear does not open a dialogue on
+                top of the conversation - it replaces it, and the heading has to
+                say which of the two you are looking at.
+            {% endcomment %}
+            <div id="studio-head-chat">
                 <h1 class="studio-title">Recipe Studio</h1>
                 <p class="studio-sub">Describe what you feel like eating. The assistant invents a dish around your taste profile.</p>
             </div>
-            <button type="button" class="studio-ghost-btn" id="studio-reset" title="Start a new conversation">
-                New chat
-            </button>
+            <div id="studio-head-settings" hidden>
+                <h1 class="studio-title">Assistant settings</h1>
+                <p class="studio-sub">How the assistant works for you. Every switch takes effect on your next message.</p>
+            </div>
+
+            <div class="studio-head-actions">
+                <button type="button" class="studio-ghost-btn" id="studio-reset" title="Start a new conversation">
+                    New chat
+                </button>
+                {% comment %}
+                    One button for both directions: the gear goes to the
+                    settings, and from there the same button is the way back. A
+                    separate close control would only be a second thing to find
+                    in a pane this narrow.
+                {% endcomment %}
+                <button type="button"
+                        class="studio-icon-btn"
+                        id="studio-settings-toggle"
+                        aria-controls="chat-settings"
+                        aria-expanded="false"
+                        title="Assistant settings"
+                        aria-label="Assistant settings">
+                    <svg class="icon-gear" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                    <svg class="icon-chat" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden>
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </button>
+            </div>
         </header>
 
         <div class="chat-log" id="chat-log" aria-live="polite">
@@ -54,6 +88,85 @@
                 </svg>
             </button>
         </form>
+
+        {% comment %}
+            The settings live inside the chat pane rather than on a settings page
+            of their own, because that is where their effect is: the answer to
+            "why did it suggest that" sits one click from the suggestion.
+
+            Every switch writes on change - there is no Save button. Three
+            independent answers have nothing to commit together, and a form that
+            must be submitted is a form people leave half-filled.
+        {% endcomment %}
+        <section class="chat-settings" id="chat-settings" hidden aria-label="Assistant settings">
+            <div class="settings-scroll">
+
+                <label class="setting-row" for="set-use-tastes">
+                    <span class="setting-copy">
+                        <span class="setting-title">Use my taste profile</span>
+                        <span class="setting-note">
+                            Dishes get built around what you rated as loved and liked, and steer
+                            clear of what you disliked. Turn it off for suggestions that ignore
+                            your ratings. Ingredients you marked <em>never use</em> stay excluded
+                            either way - that is where allergies live.
+                        </span>
+                    </span>
+                    <span class="switch">
+                        <input type="checkbox" id="set-use-tastes" data-setting="use_tastes"
+                               {% if agent_settings.use_tastes %}checked{% endif %}>
+                        <span class="switch-track" aria-hidden="true"></span>
+                    </span>
+                </label>
+
+                {% comment %}
+                    Not an on/off of one thing but a choice between two, so both
+                    ends are named and the live one is highlighted. Off is the
+                    catalogue, on is the model - stored as a word, not a boolean,
+                    because a third source would otherwise have nowhere to go.
+                {% endcomment %}
+                <div class="setting-row setting-row--stacked">
+                    <span class="setting-copy">
+                        <span class="setting-title">Where dishes come from</span>
+                        <span class="setting-note">
+                            Our database is the catalogue somebody wrote, photographed and
+                            measured; the assistant may look dishes up in it and offer them
+                            beside the ones it invents. <em>AI only</em> takes that away, so
+                            every dish is composed from the assistant's own knowledge - far
+                            larger, and checked by nobody here.
+                        </span>
+                    </span>
+                    <span class="switch-pair">
+                        <span class="switch-end" id="source-label-database">Our database</span>
+                        <label class="switch" for="set-recipe-source">
+                            <input type="checkbox" id="set-recipe-source" data-setting="recipe_source"
+                                   aria-label="Compose every dish with AI instead of searching our database"
+                                   {% if agent_settings.recipe_source == 'ai' %}checked{% endif %}>
+                            <span class="switch-track" aria-hidden="true"></span>
+                        </label>
+                        <span class="switch-end" id="source-label-ai">AI only</span>
+                    </span>
+                </div>
+
+                <label class="setting-row" for="set-autosave-drafts">
+                    <span class="setting-copy">
+                        <span class="setting-title">Put proposed recipes straight into the draft</span>
+                        <span class="setting-note">
+                            A dish the assistant proposes opens in the editor on the right by
+                            itself, with no card to click first. It waits there unsaved, and a
+                            draft you have already edited is never overwritten.
+                        </span>
+                    </span>
+                    <span class="switch">
+                        <input type="checkbox" id="set-autosave-drafts" data-setting="autosave_drafts"
+                               {% if agent_settings.autosave_drafts %}checked{% endif %}>
+                        <span class="switch-track" aria-hidden="true"></span>
+                    </span>
+                </label>
+
+            </div>
+
+            <p class="settings-status" id="settings-status" role="status" aria-live="polite"></p>
+        </section>
     </div>
 
     {# ----------------------------------------------------------- right pane #}

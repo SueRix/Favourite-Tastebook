@@ -1,3 +1,4 @@
+import json
 import logging
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -5,12 +6,14 @@ from django.http import JsonResponse
 from django.views import View
 
 from recipe_manager.application.use_cases.agent_chat import AgentChatUseCase
+from recipe_manager.application.use_cases.agent_settings import AgentSettingsUseCase
 from recipe_manager.domain.exceptions import (
     AgentChatMessageError,
     AgentChatNotConfiguredError,
     AgentChatRateLimitedError,
     AgentChatResponseError,
     AgentChatUnavailableError,
+    AgentPayloadError,
 )
 
 logger = logging.getLogger(__name__)
@@ -75,3 +78,31 @@ class AgentChatResetView(JsonLoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         chat_id = AgentChatUseCase.reset(request.session)
         return JsonResponse({"status": "success", "chat_id": chat_id})
+
+
+class AgentSettingsView(JsonLoginRequiredMixin, View):
+    """
+    GET  /home/chat/settings/ — how the assistant is currently set up.
+    POST /home/chat/settings/ — change one or more of those switches.
+
+    The POST body is a JSON object holding only the switches that moved, so the
+    panel never has to send back values it did not touch. Answers the full,
+    stored settings either way, which is what the page renders from: a switch
+    shows what the server holds, not what the click assumed.
+    """
+
+    def get(self, request, *args, **kwargs):
+        return JsonResponse({"status": "success", "settings": AgentSettingsUseCase.read(request.user)})
+
+    def post(self, request, *args, **kwargs):
+        try:
+            payload = json.loads(request.body.decode("utf-8"))
+        except (ValueError, UnicodeDecodeError):
+            return JsonResponse({"error": "bad_request", "detail": "Malformed settings."}, status=400)
+
+        try:
+            settings_ = AgentSettingsUseCase.update(request.user, payload)
+        except AgentPayloadError as exc:
+            return JsonResponse({"error": "invalid", "detail": str(exc)}, status=400)
+
+        return JsonResponse({"status": "success", "settings": settings_})

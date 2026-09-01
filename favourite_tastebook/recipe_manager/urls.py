@@ -15,6 +15,7 @@ from .views.recipe_database_search_views import (
 from .views.agent_chat_views import (
     AgentChatResetView,
     AgentChatView,
+    AgentSettingsView,
 )
 from .views.recipe_studio_views import (
     RecipeStudioCreationDeleteView,
@@ -31,10 +32,11 @@ from .views.taste_api_views import CuisineTasteUpdateApiView
 urlpatterns = [
     path("", MainTastebookView.as_view(), name="home"),
 
-    # Cooking agent. The browser talks only to these two: neither the service
+    # Cooking agent. The browser talks only to these three: neither the service
     # token nor the signed context ever reaches the page.
     path("chat/", AgentChatView.as_view(), name="agent_chat"),
     path("chat/reset/", AgentChatResetView.as_view(), name="agent_chat_reset"),
+    path("chat/settings/", AgentSettingsView.as_view(), name="agent_settings"),
     path("studio/", RecipeStudioView.as_view(), name="recipe_studio"),
     path("studio/save/", RecipeStudioSaveView.as_view(), name="recipe_studio_save"),
     path("studio/creations/", RecipeStudioCreationsView.as_view(), name="recipe_studio_creations"),

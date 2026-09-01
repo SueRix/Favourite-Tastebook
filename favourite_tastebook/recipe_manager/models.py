@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
 
-from .domain.enums import Units, Importance, TasteLevels
+from .domain.enums import AgentRecipeSource, Units, Importance, TasteLevels
 
 
 class Ingredient(models.Model):
@@ -202,3 +202,55 @@ class GeneratedRecipeIngredient(models.Model):
     class Meta:
         unique_together = ("generated_recipe", "ingredient")
         verbose_name = "Ingredient using in generated recipe"
+
+
+class AgentPreference(models.Model):
+    """
+    What: How one user wants the cooking assistant to behave — the three answers
+          the studio's settings panel collects.
+    Where: Read by the agent chat use case before every turn and by every tool
+           endpoint that one of the answers restricts; written by the settings
+           endpoint behind the gear button in the studio.
+    Why: These are instructions to a language model, and a model can be talked
+         out of an instruction. Storing them as rows lets the enforcement live in
+         our code — the tools simply refuse what the user switched off — while
+         the same values also travel to the prompt so the assistant can explain
+         itself instead of hitting a wall it was never told about.
+
+    A missing row is a valid state and means the defaults below. Nothing is
+    written until somebody actually moves a switch, so opening the studio stays
+    a read.
+    """
+
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="agent_preference",
+    )
+
+    #: Whether the assistant may tailor a dish to the taste profile. Off does NOT
+    #: lift the never_use list: that one is a hard exclusion (it carries the
+    #: allergies), and it stays enforced in SaveGeneratedRecipeUseCase either way.
+    use_tastes = models.BooleanField(default=True)
+
+    #: DATABASE is the default because it is the permissive value: the
+    #: assistant may look a dish up in the catalogue AND compose one, which is
+    #: what it could always do. AI is the restriction — it takes the catalogue
+    #: away, and the two search tools refuse outright while it is set.
+    recipe_source = models.CharField(
+        max_length=16,
+        choices=AgentRecipeSource,
+        default=AgentRecipeSource.DATABASE,
+    )
+
+    #: Whether a proposed dish may drop straight into the draft editor. Off keeps
+    #: the proposal a card in the chat that the person moves across by hand.
+    autosave_drafts = models.BooleanField(default=False)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Assistant Preference"
+
+    def __str__(self):
+        return f"Assistant preferences of {self.user}"

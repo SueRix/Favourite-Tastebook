@@ -29,6 +29,20 @@ two more endpoints for that:
     POST tools/save-generated-recipe/ {title, cook_time_minutes, steps[], ingredients[]}
                                                            -> the stored recipe
 
+Three of these endpoints answer differently depending on what the user set in the
+studio's settings panel (see recipe_manager/models.py, AgentPreference):
+
+    recipe_source = "ai"   search-recipes/ and by-ingredients/ answer
+                           {"ok": false, "error": "database_search_disabled"}
+                           without reaching the search engine at all.
+    use_tastes = False     tastes/ answers with empty loved/liked/disliked. The
+                           never_use list still travels, because it is a hard
+                           exclusion the save path enforces regardless.
+
+The switches also travel to the workflow in the chat payload so the prompt can
+describe them, but that is a courtesy to the model. The refusals above are what
+actually holds, and they hold whatever the model was talked into.
+
 Note that APPEND_SLASH is off project-wide, so the trailing slash is part of
 each URL and the n8n HTTP Request nodes must include it.
 """

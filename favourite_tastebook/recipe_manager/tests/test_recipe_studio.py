@@ -141,7 +141,7 @@ class ChatCarriesTheDraftTests(TestCase):
         def __init__(self, draft=None):
             self.draft = draft
 
-        def ask(self, message, context, sid):
+        def ask(self, message, context, sid, preferences=None):
             if self.draft is not None:
                 AgentDraftStore.put(sid, self.draft)
             return "Here you go."
@@ -375,7 +375,7 @@ class AgentSaveReachesThePageTests(TestCase):
         recipe = {"id": 7, "title": "Saved By The Agent"}
 
         class _Client:
-            def ask(self, message, context, sid):
+            def ask(self, message, context, sid, preferences=None):
                 AgentDraftStore.put_saved(sid, recipe)
                 return "Kept it for you."
 
@@ -386,7 +386,7 @@ class AgentSaveReachesThePageTests(TestCase):
 
     def test_a_quiet_turn_carries_nothing(self):
         class _Client:
-            def ask(self, message, context, sid):
+            def ask(self, message, context, sid, preferences=None):
                 return "Just talking."
 
         result = AgentChatUseCase.send(self.user, self.client.session, "hello", client=_Client())

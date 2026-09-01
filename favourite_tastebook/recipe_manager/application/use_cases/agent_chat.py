@@ -8,6 +8,7 @@ from recipe_manager.infrastructure.agent import (
     AgentDraftStore,
     N8nAgentChatClient,
 )
+from recipe_manager.infrastructure.selectors import AgentPreferenceSelector
 
 
 class AgentChatUseCase:
@@ -28,10 +29,10 @@ class AgentChatUseCase:
     @classmethod
     def send(cls, user, session, message: str, client=None) -> dict:
         """
-        Returns {"reply", "chat_id", "draft", "saved"}. The draft is present
-        only when the agent proposed a recipe on this turn; `saved` only when it
-        stored one itself, which the page needs in order to show the creation
-        without a reload.
+        Returns {"reply", "chat_id", "draft", "saved", "settings",
+        "autoload_draft"}. The draft is present only when the agent proposed a
+        recipe on this turn; `saved` only when it stored one itself, which the
+        page needs in order to show the creation without a reload.
         Raises AgentChatException on failure.
         """
         text = (message or "").strip()
@@ -51,17 +52,32 @@ class AgentChatUseCase:
         # store afterwards can only have been proposed for THIS message.
         AgentDraftStore.clear(chat_id)
 
+        # The same switches the tool endpoints enforce also travel to the prompt.
+        # Enforcement is what actually holds — a model can be talked out of an
+        # instruction — but an agent that knows the rule can say "you asked me to
+        # invent dishes rather than search" instead of walking into a refusal it
+        # has to improvise an explanation for.
+        preferences = AgentPreferenceSelector.for_user(user)
+
         client = client or N8nAgentChatClient()
-        reply = client.ask(message=text, context=context, sid=chat_id)
+        reply = client.ask(message=text, context=context, sid=chat_id, preferences=preferences)
 
         # The agent may have called propose_recipe or save_generated_recipe while
         # it was thinking; those calls landed on different requests and left what
         # they produced here.
+        draft = AgentDraftStore.take(chat_id)
+
         return {
             "reply": reply,
             "chat_id": chat_id,
-            "draft": AgentDraftStore.take(chat_id),
+            "draft": draft,
             "saved": AgentDraftStore.take_saved(chat_id),
+            "settings": preferences,
+            # Whether the page may put that draft straight into the editor. The
+            # answer is computed here rather than read from the browser's copy of
+            # the settings, so flipping the switch in one tab cannot leave another
+            # tab acting on a value that is no longer stored.
+            "autoload_draft": bool(draft) and preferences["autosave_drafts"],
         }
 
     @classmethod
