@@ -12,6 +12,9 @@
          data-chat-url="{% url 'agent_chat' %}"
          data-reset-url="{% url 'agent_chat_reset' %}"
          data-save-url="{% url 'recipe_studio_save' %}"
+         data-creations-url="{% url 'recipe_studio_creations' %}"
+         {# The id is a placeholder the script swaps for a real one. #}
+         data-creation-url="{% url 'recipe_studio_creation_delete' 0 %}"
          data-csrf="{{ csrf_token }}">
 
     {# ------------------------------------------------------------ left pane #}
@@ -74,7 +77,7 @@
                     <path d="M12.5 3.5 15 9l5.5 2.5L15 14l-2.5 5.5L10 14l-5.5-2.5L10 9z"/>
                 </svg>
             </div>
-            <p>When the assistant proposes a dish it appears under the chat — move it here to edit it.</p>
+            <p>When the assistant proposes a dish it appears under the chat, with two choices: save it as it is, or move it here to rework it first.</p>
             <p class="draft-empty-note">You can rewrite every part of it before saving — the assistant is a first draft, not the last word.</p>
         </div>
 

@@ -2,8 +2,9 @@
  *
  * The conversation and the draft are one screen but two independent things: the
  * chat appends messages, the editor owns a recipe object. They meet at exactly
- * one point — a reply may carry a `draft`, which is printed in the log as a
- * proposal card, and only a click on that card moves it into the editor.
+ * one point — a reply may carry a recipe, which is printed in the log as a card,
+ * and only a click on that card decides what happens to it: it goes into the
+ * editor to be reworked, or straight into the creations list as it stands.
  *
  * Everything the server sends is written with textContent, never innerHTML: the
  * replies are text a language model wrote, and a recipe title is text a person
@@ -18,6 +19,9 @@
     const CHAT_URL = root.dataset.chatUrl;
     const RESET_URL = root.dataset.resetUrl;
     const SAVE_URL = root.dataset.saveUrl;
+    const CREATIONS_URL = root.dataset.creationsUrl;
+    // Reversed with a placeholder id, since the template cannot know the real one.
+    const CREATION_URL = root.dataset.creationUrl;
     const CSRF = root.dataset.csrf;
 
     const els = {
@@ -71,6 +75,9 @@
 
     let busy = false;
     let hasDraft = false;
+    // Which stored creation the editor is showing, if any. It is what lets a
+    // deletion elsewhere on the page correct the status line here.
+    let openCreationId = null;
 
     function toast(text, level, actionText, actionHref) {
         if (window.FT && window.FT.toast) {
@@ -105,7 +112,7 @@
         return node;
     }
 
-    /* ------------------------------------------------------- proposal card */
+    /* --------------------------------------------------------- recipe cards */
 
     /* A proposal is not the draft yet.
      *
@@ -113,12 +120,13 @@
      * glosses over the parts a cook actually needs. The structured version of
      * that same dish is printed right under it, ingredients and steps in the
      * shape the editor will take them, so the person can see what the assistant
-     * really built before deciding it is worth the right-hand pane.
+     * really built before deciding what to do with it.
      *
-     * Moving it over is one click, and the card collapses to a line afterwards:
-     * from that moment the recipe lives in the editor, and a second copy of it
-     * still sitting in the log would only invite editing the one that is not
-     * going to be saved.
+     * Two decisions, because there are only two: rework it, or keep it. The card
+     * asks both plainly rather than making "keep it as it is" a trip through an
+     * editor nobody wanted to open. Either way the card collapses to a line
+     * afterwards: from that moment the recipe lives elsewhere, and a second copy
+     * of it still sitting in the log would only invite editing the wrong one.
      */
 
     function formatAmount(value) {
@@ -197,72 +205,137 @@
         return list;
     }
 
-    function addProposal(draft) {
-        if (els.hint) els.hint.remove();
-
+    /* The shared skeleton of every recipe printed in the log. What differs
+       between a proposal and something already stored is only the kicker and the
+       row of buttons, so that is all the callers below supply. */
+    function recipeCard(recipe, kicker) {
         const card = document.createElement("article");
         card.className = "proposal";
 
         const head = document.createElement("header");
         head.className = "proposal-head";
 
-        const kicker = document.createElement("p");
-        kicker.className = "proposal-kicker";
-        kicker.textContent = "Proposed recipe";
+        const kickerNode = document.createElement("p");
+        kickerNode.className = "proposal-kicker";
+        kickerNode.textContent = kicker;
 
         const title = document.createElement("h4");
         title.className = "proposal-title";
-        title.textContent = draft.title || "Untitled dish";
+        title.textContent = recipe.title || "Untitled dish";
 
         const meta = document.createElement("p");
         meta.className = "proposal-meta";
-        meta.textContent = proposalMeta(draft);
+        meta.textContent = proposalMeta(recipe);
 
-        head.append(kicker, title, meta);
+        head.append(kickerNode, title, meta);
 
         const body = document.createElement("div");
         body.className = "proposal-body";
-        if ((draft.ingredients || []).length) {
-            body.appendChild(proposalBlock("Ingredients", proposalIngredients(draft.ingredients)));
+        if ((recipe.ingredients || []).length) {
+            body.appendChild(proposalBlock("Ingredients", proposalIngredients(recipe.ingredients)));
         }
-        if ((draft.steps || []).length) {
-            body.appendChild(proposalBlock("Steps", proposalSteps(draft.steps)));
+        if ((recipe.steps || []).length) {
+            body.appendChild(proposalBlock("Steps", proposalSteps(recipe.steps)));
         }
 
         const actions = document.createElement("div");
         actions.className = "proposal-actions";
 
-        const take = document.createElement("button");
-        take.type = "button";
-        take.className = "btn btn-small proposal-take";
-        take.textContent = "Move to draft";
+        const outcome = document.createElement("p");
+        outcome.className = "proposal-moved";
+        outcome.hidden = true;
 
-        const note = document.createElement("p");
-        note.className = "proposal-note";
-        note.textContent = "Nothing is stored until you save it there.";
-
-        actions.append(take, note);
-
-        const moved = document.createElement("p");
-        moved.className = "proposal-moved";
-        moved.hidden = true;
-
-        card.append(head, body, actions, moved);
+        card.append(head, body, actions, outcome);
         els.log.appendChild(card);
         scrollLog();
 
-        take.addEventListener("click", function () {
+        return {
+            card: card,
+            actions: actions,
+            /* Collapses the card to its heading and says what became of it. */
+            settle: function (text) {
+                body.hidden = true;
+                actions.hidden = true;
+                outcome.textContent = text;
+                outcome.hidden = false;
+                card.classList.add("proposal--moved");
+                scrollLog();
+            }
+        };
+    }
+
+    function addProposal(draft) {
+        const parts = recipeCard(draft, "Proposed recipe");
+
+        const keep = document.createElement("button");
+        keep.type = "button";
+        keep.className = "btn btn-small proposal-keep";
+        keep.textContent = "Save recipe";
+
+        const manage = document.createElement("button");
+        manage.type = "button";
+        manage.className = "studio-ghost-btn proposal-take";
+        manage.textContent = "Edit in draft";
+
+        const note = document.createElement("p");
+        note.className = "proposal-note";
+        note.textContent = "Nothing is stored until you choose.";
+
+        parts.actions.append(keep, manage, note);
+
+        manage.addEventListener("click", function () {
             renderDraft(draft, "Moved from the chat — edit anything, then save");
-            body.hidden = true;
-            actions.hidden = true;
-            moved.textContent = "Moved to the draft — edit it on the right.";
-            moved.hidden = false;
-            card.classList.add("proposal--moved");
+            parts.settle("Moved to the draft — edit it on the right.");
             toast("The recipe is in the draft pane", "success");
-            scrollLog();
         });
 
-        return card;
+        keep.addEventListener("click", async function () {
+            keep.disabled = true;
+            manage.disabled = true;
+            keep.textContent = "Saving…";
+
+            const result = await storeRecipe(draft);
+
+            if (!result.ok) {
+                // The card stays open: the recipe is still worth editing, and
+                // the draft pane is where every one of these failures is fixed.
+                keep.disabled = false;
+                manage.disabled = false;
+                keep.textContent = "Save recipe";
+                toast(result.message, result.level);
+                return;
+            }
+
+            parts.settle("Saved to your creations.");
+            toast("Saved: " + (result.title || draft.title), "success");
+        });
+
+        return parts.card;
+    }
+
+    /* The agent may also save a dish itself, in the middle of a turn. Nothing is
+       left to decide then — the card only reports what happened and offers the
+       one thing still useful: opening it to make a variant. */
+    function addSavedNotice(recipe) {
+        const parts = recipeCard(recipe, "Saved by the assistant");
+
+        const open = document.createElement("button");
+        open.type = "button";
+        open.className = "studio-ghost-btn proposal-take";
+        open.textContent = "Open in draft";
+
+        const note = document.createElement("p");
+        note.className = "proposal-note";
+        note.textContent = "Already in your creations.";
+
+        parts.actions.append(open, note);
+
+        open.addEventListener("click", function () {
+            openCreation(recipe);
+            parts.settle("Opened in the draft pane.");
+        });
+
+        return parts.card;
     }
 
     /* --------------------------------------------------------- draft editor */
@@ -359,6 +432,7 @@
 
     function renderDraft(draft, statusText) {
         hasDraft = true;
+        openCreationId = draft.id != null ? draft.id : null;
         els.empty.hidden = true;
         els.editor.hidden = false;
 
@@ -379,6 +453,16 @@
         setStatus(statusText || "Proposed just now — edit anything, then save");
         els.save.disabled = false;
         els.save.textContent = "Save";
+    }
+
+    /* Opening something already stored: the same editor, but the Save button
+       starts spent, because pressing it unchanged would only earn a conflict on
+       the title that is already taken. */
+    function openCreation(recipe) {
+        renderDraft(recipe, "Opened from your creations");
+        els.save.disabled = true;
+        els.save.textContent = "Saved";
+        els.creations.hidden = true;
     }
 
     function setStatus(text, saved) {
@@ -439,45 +523,195 @@
         };
     }
 
+    /* -------------------------------------------------------------- saving */
+
+    /* One save path for both buttons.
+     *
+     * The card and the editor send the same shape to the same endpoint, so they
+     * must also fail the same way: a recipe refused from the card would be
+     * refused from the editor for exactly the same reason, and a person who saw
+     * two different sentences for it would reasonably think they were two
+     * different problems.
+     */
+
+    function draftProblem(draft) {
+        if (!draft.title) return "Give the recipe a title first";
+        if (!(draft.ingredients || []).length || !(draft.steps || []).length) {
+            return "A recipe needs at least one ingredient and one step";
+        }
+
+        const unknown = (draft.ingredients || [])
+            .filter(function (line) { return !KNOWN.has(String(line.name || "").trim().toLowerCase()); })
+            .map(function (line) { return line.name; });
+        // The server would refuse this too; saying it here saves the round trip.
+        if (unknown.length) return "Not in the ingredient list: " + unknown.join(", ");
+
+        return null;
+    }
+
+    /* Returns {ok: true, title, recipeId} or {ok: false, message, level}. */
+    async function storeRecipe(draft) {
+        const problem = draftProblem(draft);
+        if (problem) return {ok: false, message: problem, level: "warning"};
+
+        let response;
+        let data = {};
+        try {
+            response = await fetch(SAVE_URL, {
+                method: "POST",
+                headers: {"X-CSRFToken": CSRF, "Content-Type": "application/json"},
+                body: JSON.stringify(draft)
+            });
+            data = await response.json().catch(function () { return {}; });
+        } catch (e) {
+            return {ok: false, message: "Could not reach the server", level: "error"};
+        }
+
+        if (!response.ok) {
+            let text = data.detail || "Could not save the recipe.";
+            if (data.error === "unknown_ingredients" && data.unknown) {
+                text = "Not in the ingredient list: " + data.unknown.join(", ");
+            } else if (data.error === "taboo_ingredient" && data.ingredients) {
+                text = "You marked these as never use: " + data.ingredients.join(", ");
+            } else if (data.error === "already_saved") {
+                // A title is unique per user, so this is what an edited creation
+                // runs into. Naming the way out beats restating the rule.
+                text = "You already have a recipe with this title — rename it to keep both";
+            }
+            return {
+                ok: false,
+                message: text,
+                level: response.status === 409 ? "warning" : "error"
+            };
+        }
+
+        // The list on screen is not patched by hand: the server has just become
+        // the only party that knows the whole truth, so it is asked for it.
+        await refreshCreations();
+
+        return {ok: true, title: data.title, recipeId: data.recipe_id};
+    }
+
     /* ----------------------------------------------------------- creations */
+
+    function creationUrl(id) {
+        return CREATION_URL.replace(/0\/$/, String(id) + "/");
+    }
+
+    function creationRow(recipe) {
+        const item = document.createElement("li");
+        item.className = "creation-row";
+
+        const open = document.createElement("button");
+        open.type = "button";
+        open.className = "creation-item";
+
+        const title = document.createElement("span");
+        title.textContent = recipe.title;
+
+        const meta = document.createElement("span");
+        meta.className = "creation-meta";
+        const bits = [];
+        if (recipe.cuisine) bits.push(recipe.cuisine);
+        bits.push(recipe.cook_time_minutes + " min");
+        bits.push((recipe.ingredients || []).length + " ingredients");
+        meta.textContent = bits.join(" • ");
+
+        open.append(title, meta);
+        open.addEventListener("click", function () {
+            openCreation(recipe);
+        });
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "creation-delete";
+        remove.textContent = "×";
+        remove.title = "Delete this recipe";
+        remove.setAttribute("aria-label", "Delete " + recipe.title);
+        remove.addEventListener("click", function () {
+            deleteCreation(recipe, remove);
+        });
+
+        item.append(open, remove);
+        return item;
+    }
 
     function renderCreations() {
         els.creationsList.replaceChildren();
         creations.forEach(function (recipe) {
-            const item = document.createElement("li");
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "creation-item";
-
-            const title = document.createElement("span");
-            title.textContent = recipe.title;
-
-            const meta = document.createElement("span");
-            meta.className = "creation-meta";
-            const bits = [];
-            if (recipe.cuisine) bits.push(recipe.cuisine);
-            bits.push(recipe.cook_time_minutes + " min");
-            bits.push((recipe.ingredients || []).length + " ingredients");
-            meta.textContent = bits.join(" • ");
-
-            button.append(title, meta);
-            button.addEventListener("click", function () {
-                renderDraft(recipe, "Opened from your creations");
-                els.save.disabled = true;
-                els.save.textContent = "Saved";
-                els.creations.hidden = true;
-            });
-
-            item.appendChild(button);
-            els.creationsList.appendChild(item);
+            els.creationsList.appendChild(creationRow(recipe));
         });
 
         els.creationsEmpty.hidden = creations.length > 0;
         els.creationsCount.textContent = creations.length;
     }
 
+    /* Re-reads the list instead of editing the local copy.
+     *
+     * The page is not the only writer: the agent saves recipes from inside a
+     * chat turn, on a request this script never sees. Refetching after every
+     * write is one small query and leaves nothing to drift. A failure here is
+     * deliberately quiet — the write itself succeeded, and an alarming toast
+     * about a list refresh would misreport what happened.
+     */
+    async function refreshCreations() {
+        try {
+            const response = await fetch(CREATIONS_URL, {headers: {"X-Requested-With": "fetch"}});
+            if (!response.ok) return false;
+            const data = await response.json();
+            if (!Array.isArray(data.recipes)) return false;
+            creations = data.recipes;
+        } catch (e) {
+            return false;
+        }
+        renderCreations();
+        return true;
+    }
+
+    async function deleteCreation(recipe, button) {
+        if (!window.confirm("Delete “" + recipe.title + "”? This cannot be undone.")) return;
+
+        button.disabled = true;
+
+        let response;
+        try {
+            response = await fetch(creationUrl(recipe.id), {
+                method: "DELETE",
+                headers: {"X-CSRFToken": CSRF}
+            });
+        } catch (e) {
+            button.disabled = false;
+            toast("Could not reach the server", "error");
+            return;
+        }
+
+        // 404 means it is already gone — the end state is the one that was asked
+        // for, so the list is refreshed rather than an error shown.
+        if (!response.ok && response.status !== 404) {
+            button.disabled = false;
+            toast("Could not delete the recipe", "error");
+            return;
+        }
+
+        await refreshCreations();
+
+        // The editor may be showing the recipe that just stopped existing. It
+        // stays on screen — the text is still worth something — but it is a
+        // draft again, and the Save button has to say so.
+        if (openCreationId === recipe.id) {
+            openCreationId = null;
+            setStatus("Deleted — save it again to keep this version");
+            els.save.disabled = false;
+            els.save.textContent = "Save";
+        }
+
+        toast("Deleted: " + recipe.title, "info");
+    }
+
     els.creationsToggle.addEventListener("click", function () {
         els.creations.hidden = !els.creations.hidden;
+        // Opening the drawer is the moment a stale list would be noticed.
+        if (!els.creations.hidden) refreshCreations();
     });
     els.creationsClose.addEventListener("click", function () {
         els.creations.hidden = true;
@@ -533,10 +767,15 @@
             }
         } else {
             addMessage(data.reply, "agent");
-            // The draft is shown in the log rather than pushed into the editor:
+            // The recipe is shown in the log rather than pushed into the editor:
             // taking over the right-hand pane unasked would discard whatever the
             // person had already edited there.
             if (data.draft) addProposal(data.draft);
+            if (data.saved) {
+                addSavedNotice(data.saved);
+                refreshCreations();
+                toast("Saved: " + data.saved.title, "success");
+            }
         }
 
         busy = false;
@@ -587,65 +826,29 @@
     els.save.addEventListener("click", async function () {
         const draft = collectDraft();
 
-        if (!draft.title) {
-            toast("Give the recipe a title first", "warning");
-            els.title.focus();
-            return;
-        }
-        if (!draft.ingredients.length || !draft.steps.length) {
-            toast("A recipe needs at least one ingredient and one step", "warning");
-            return;
-        }
-
-        const unknown = draft.ingredients
-            .filter(function (line) { return !KNOWN.has(line.name); })
-            .map(function (line) { return line.name; });
-        if (unknown.length) {
-            // The server would refuse this too; saying it here saves the round trip.
-            toast("Not in the ingredient list: " + unknown.join(", "), "warning");
+        const problem = draftProblem(draft);
+        if (problem) {
+            toast(problem, "warning");
+            if (!draft.title) els.title.focus();
             return;
         }
 
         els.save.disabled = true;
         els.save.textContent = "Saving…";
 
-        let response;
-        let data = {};
-        try {
-            response = await fetch(SAVE_URL, {
-                method: "POST",
-                headers: {"X-CSRFToken": CSRF, "Content-Type": "application/json"},
-                body: JSON.stringify(draft)
-            });
-            data = await response.json().catch(function () { return {}; });
-        } catch (e) {
+        const result = await storeRecipe(draft);
+
+        if (!result.ok) {
             els.save.disabled = false;
             els.save.textContent = "Save";
-            toast("Could not reach the server", "error");
+            toast(result.message, result.level);
             return;
         }
 
-        if (!response.ok) {
-            els.save.disabled = false;
-            els.save.textContent = "Save";
-            let text = data.detail || "Could not save the recipe.";
-            if (data.error === "unknown_ingredients" && data.unknown) {
-                text = "Not in the ingredient list: " + data.unknown.join(", ");
-            } else if (data.error === "taboo_ingredient" && data.ingredients) {
-                text = "You marked these as never use: " + data.ingredients.join(", ");
-            }
-            toast(text, response.status === 409 ? "warning" : "error");
-            return;
-        }
-
+        openCreationId = result.recipeId != null ? result.recipeId : null;
         els.save.textContent = "Saved";
         setStatus("Saved to your creations", true);
-
-        creations.unshift(Object.assign({id: data.recipe_id}, draft, {
-            cook_time_minutes: Number(draft.cook_time_minutes) || 30
-        }));
-        renderCreations();
-        toast("Saved: " + data.title, "success");
+        toast("Saved: " + result.title, "success");
     });
 
     renderCreations();

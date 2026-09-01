@@ -653,6 +653,43 @@
     color: #6ee7a8;
 }
 
+/* A creation is two decisions, not one: opening it and deleting it must not
+   share a hit area, or the list becomes a place where a misplaced click costs
+   somebody a recipe. */
+.creation-row {
+    display: flex;
+    align-items: stretch;
+    gap: 6px;
+}
+
+.creation-item {
+    flex: 1;
+    min-width: 0;
+}
+
+.creation-delete {
+    flex: 0 0 auto;
+    width: 30px;
+    background: transparent;
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    color: var(--text-muted);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.creation-delete:hover {
+    color: var(--danger);
+    border-color: var(--danger);
+}
+
+.creation-delete:disabled {
+    opacity: .45;
+    cursor: default;
+}
+
 /* ---------- narrow screens ---------- */
 
 @media (max-width: 900px) {
