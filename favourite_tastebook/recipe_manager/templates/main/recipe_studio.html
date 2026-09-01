@@ -8,88 +8,95 @@
 {% endblock %}
 
 {% block content %}
-<section class="studio"
-         data-chat-url="{% url 'agent_chat' %}"
-         data-reset-url="{% url 'agent_chat_reset' %}"
-         data-save-url="{% url 'recipe_studio_save' %}"
-         data-creations-url="{% url 'recipe_studio_creations' %}"
-         {# The id is a placeholder the script swaps for a real one. #}
-         data-creation-url="{% url 'recipe_studio_creation_delete' 0 %}"
-         data-settings-url="{% url 'agent_settings' %}"
-         data-csrf="{{ csrf_token }}">
+    <section class="studio"
+             data-chat-url="{% url 'agent_chat' %}"
+             data-reset-url="{% url 'agent_chat_reset' %}"
+             data-save-url="{% url 'recipe_studio_save' %}"
+             data-creations-url="{% url 'recipe_studio_creations' %}"
+            {# The id is a placeholder the script swaps for a real one. #}
+             data-creation-url="{% url 'recipe_studio_creation_delete' 0 %}"
+             data-settings-url="{% url 'agent_settings' %}"
+             data-csrf="{{ csrf_token }}">
 
-    {# ------------------------------------------------------------ left pane #}
-    <div class="studio-pane studio-pane--chat">
-        <header class="studio-head">
-            {% comment %}
+        {# ------------------------------------------------------------ left pane #}
+        <div class="studio-pane studio-pane--chat">
+            <header class="studio-head">
+                {% comment %}
                 Two headings for one pane. The gear does not open a dialogue on
                 top of the conversation - it replaces it, and the heading has to
                 say which of the two you are looking at.
             {% endcomment %}
-            <div id="studio-head-chat">
-                <h1 class="studio-title">Recipe Studio</h1>
-                <p class="studio-sub">Describe what you feel like eating. The assistant invents a dish around your taste profile.</p>
-            </div>
-            <div id="studio-head-settings" hidden>
-                <h1 class="studio-title">Assistant settings</h1>
-                <p class="studio-sub">How the assistant works for you. Every switch takes effect on your next message.</p>
-            </div>
+                <div id="studio-head-chat">
+                    <h1 class="studio-title">Recipe Studio</h1>
+                    <p class="studio-sub">Describe what you feel like eating. The assistant invents a dish around your
+                        taste profile.</p>
+                </div>
+                <div id="studio-head-settings" hidden>
+                    <h1 class="studio-title">Assistant settings</h1>
+                    <p class="studio-sub">How the assistant works for you. Every switch takes effect on your next
+                        message.</p>
+                </div>
 
-            <div class="studio-head-actions">
-                <button type="button" class="studio-ghost-btn" id="studio-reset" title="Start a new conversation">
-                    New chat
-                </button>
-                {% comment %}
+                <div class="studio-head-actions">
+                    <button type="button" class="studio-ghost-btn" id="studio-reset" title="Start a new conversation">
+                        New chat
+                    </button>
+                    {% comment %}
                     One button for both directions: the gear goes to the
                     settings, and from there the same button is the way back. A
                     separate close control would only be a second thing to find
                     in a pane this narrow.
                 {% endcomment %}
-                <button type="button"
-                        class="studio-icon-btn"
-                        id="studio-settings-toggle"
-                        aria-controls="chat-settings"
-                        aria-expanded="false"
-                        title="Assistant settings"
-                        aria-label="Assistant settings">
-                    <svg class="icon-gear" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <circle cx="12" cy="12" r="3"></circle>
-                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                    </svg>
-                    <svg class="icon-chat" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden>
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                </button>
-            </div>
-        </header>
+                    <button type="button"
+                            class="studio-icon-btn"
+                            id="studio-settings-toggle"
+                            aria-controls="chat-settings"
+                            aria-expanded="false"
+                            title="Assistant settings"
+                            aria-label="Assistant settings">
+                        <svg class="icon-gear" width="17" height="17" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                             aria-hidden="true">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                        <svg class="icon-chat" width="17" height="17" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                             aria-hidden="true" hidden>
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </header>
 
-        <div class="chat-log" id="chat-log" aria-live="polite">
-            <div class="chat-hint" id="chat-hint">
-                <p class="chat-hint-title">Ask for anything</p>
-                <div class="chat-suggestions">
-                    <button type="button" class="chat-suggestion">Something warm for a cold evening</button>
-                    <button type="button" class="chat-suggestion">A quick dinner from chicken and rice</button>
-                    <button type="button" class="chat-suggestion">Invent a soup I would like</button>
+            <div class="chat-log" id="chat-log" aria-live="polite">
+                <div class="chat-hint" id="chat-hint">
+                    <p class="chat-hint-title">Ask for anything</p>
+                    <div class="chat-suggestions">
+                        <button type="button" class="chat-suggestion">Something warm for a cold evening</button>
+                        <button type="button" class="chat-suggestion">A quick dinner from chicken and rice</button>
+                        <button type="button" class="chat-suggestion">Invent a soup I would like</button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <form class="chat-form" id="chat-form">
+            <form class="chat-form" id="chat-form">
             <textarea id="chat-input"
                       class="chat-input"
                       rows="1"
                       maxlength="500"
                       placeholder="What should I cook?"
                       autocomplete="off"></textarea>
-            <button type="submit" class="chat-send" id="chat-send" aria-label="Send">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="22" y1="2" x2="11" y2="13"></line>
-                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                </svg>
-            </button>
-        </form>
+                <button type="submit" class="chat-send" id="chat-send" aria-label="Send">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </form>
 
-        {% comment %}
+            {% comment %}
             The settings live inside the chat pane rather than on a settings page
             of their own, because that is where their effect is: the answer to
             "why did it suggest that" sits one click from the suggestion.
@@ -98,10 +105,10 @@
             independent answers have nothing to commit together, and a form that
             must be submitted is a form people leave half-filled.
         {% endcomment %}
-        <section class="chat-settings" id="chat-settings" hidden aria-label="Assistant settings">
-            <div class="settings-scroll">
+            <section class="chat-settings" id="chat-settings" hidden aria-label="Assistant settings">
+                <div class="settings-scroll">
 
-                <label class="setting-row" for="set-use-tastes">
+                    <label class="setting-row" for="set-use-tastes">
                     <span class="setting-copy">
                         <span class="setting-title">Use my taste profile</span>
                         <span class="setting-note">
@@ -111,31 +118,30 @@
                             either way - that is where allergies live.
                         </span>
                     </span>
-                    <span class="switch">
+                        <span class="switch">
                         <input type="checkbox" id="set-use-tastes" data-setting="use_tastes"
                                {% if agent_settings.use_tastes %}checked{% endif %}>
                         <span class="switch-track" aria-hidden="true"></span>
                     </span>
-                </label>
+                    </label>
 
-                {% comment %}
+                    {% comment %}
                     Not an on/off of one thing but a choice between two, so both
                     ends are named and the live one is highlighted. Off is the
                     catalogue, on is the model - stored as a word, not a boolean,
                     because a third source would otherwise have nowhere to go.
                 {% endcomment %}
-                <div class="setting-row setting-row--stacked">
+                    <div class="setting-row setting-row--stacked">
                     <span class="setting-copy">
                         <span class="setting-title">Where dishes come from</span>
                         <span class="setting-note">
-                            Our database is the catalogue somebody wrote, photographed and
-                            measured; the assistant may look dishes up in it and offer them
-                            beside the ones it invents. <em>AI only</em> takes that away, so
-                            every dish is composed from the assistant's own knowledge - far
-                            larger, and checked by nobody here.
+                            Our database is a catalog compiled, photographed, and measured by someone else;
+                            the assistant can search it for dishes and suggest them alongside those it created itself.
+                            Artificial intelligence merely precludes this, so each dish is created based on the assistant's own knowledge which is far more extensive and no one here verifies it.
+                            There's a high risk of hallucinations and a lack of relevant responses.
                         </span>
                     </span>
-                    <span class="switch-pair">
+                        <span class="switch-pair">
                         <span class="switch-end" id="source-label-database">Our database</span>
                         <label class="switch" for="set-recipe-source">
                             <input type="checkbox" id="set-recipe-source" data-setting="recipe_source"
@@ -145,9 +151,9 @@
                         </label>
                         <span class="switch-end" id="source-label-ai">AI only</span>
                     </span>
-                </div>
+                    </div>
 
-                <label class="setting-row" for="set-autosave-drafts">
+                    <label class="setting-row" for="set-autosave-drafts">
                     <span class="setting-copy">
                         <span class="setting-title">Put proposed recipes straight into the draft</span>
                         <span class="setting-note">
@@ -156,31 +162,31 @@
                             draft you have already edited is never overwritten.
                         </span>
                     </span>
-                    <span class="switch">
+                        <span class="switch">
                         <input type="checkbox" id="set-autosave-drafts" data-setting="autosave_drafts"
                                {% if agent_settings.autosave_drafts %}checked{% endif %}>
                         <span class="switch-track" aria-hidden="true"></span>
                     </span>
-                </label>
+                    </label>
 
-            </div>
+                </div>
 
-            <p class="settings-status" id="settings-status" role="status" aria-live="polite"></p>
-        </section>
-    </div>
+                <p class="settings-status" id="settings-status" role="status" aria-live="polite"></p>
+            </section>
+        </div>
 
-    {# ----------------------------------------------------------- right pane #}
-    <div class="studio-pane studio-pane--draft">
-        <header class="studio-head">
-            <div>
-                <h2 class="studio-title studio-title--sm">Draft</h2>
-                <p class="studio-sub" id="draft-status">Nothing yet</p>
-            </div>
-            <div class="studio-head-actions">
-                <button type="button" class="studio-ghost-btn" id="creations-toggle">
-                    My creations <span class="creations-count" id="creations-count">{{ my_recipes|length }}</span>
-                </button>
-                {% comment %}
+        {# ----------------------------------------------------------- right pane #}
+        <div class="studio-pane studio-pane--draft">
+            <header class="studio-head">
+                <div>
+                    <h2 class="studio-title studio-title--sm">Draft</h2>
+                    <p class="studio-sub" id="draft-status">Nothing yet</p>
+                </div>
+                <div class="studio-head-actions">
+                    <button type="button" class="studio-ghost-btn" id="creations-toggle">
+                        My creations <span class="creations-count" id="creations-count">{{ my_recipes|length }}</span>
+                    </button>
+                    {% comment %}
                     The way out of the pane without destroying anything.
 
                     Until now the only control that emptied the draft was
@@ -189,87 +195,96 @@
                     it for real. Close is the third answer, and the one they
                     were looking for.
                 {% endcomment %}
-                <button type="button" class="studio-ghost-btn" id="draft-close" hidden>Close</button>
-                {% comment %}
+                    <button type="button" class="studio-ghost-btn" id="draft-close" hidden>Close</button>
+                    {% comment %}
                     Swapped for each other by the script: a stored recipe has
                     nothing left to save, an unsaved one has nothing to delete.
                 {% endcomment %}
-                <button type="button" class="studio-ghost-btn studio-ghost-btn--danger" id="draft-delete" hidden>Delete</button>
-                <button type="button" class="btn btn-small" id="draft-save" disabled>Save</button>
-            </div>
-        </header>
+                    <button type="button" class="studio-ghost-btn studio-ghost-btn--danger" id="draft-delete" hidden>
+                        Delete
+                    </button>
+                    <button type="button" class="btn btn-small" id="draft-save" disabled>Save</button>
+                </div>
+            </header>
 
-        <div class="draft-empty" id="draft-empty">
-            <div class="draft-empty-mark" aria-hidden="true">
-                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12.5 3.5 15 9l5.5 2.5L15 14l-2.5 5.5L10 14l-5.5-2.5L10 9z"/>
-                </svg>
+            <div class="draft-empty" id="draft-empty">
+                <div class="draft-empty-mark" aria-hidden="true">
+                    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12.5 3.5 15 9l5.5 2.5L15 14l-2.5 5.5L10 14l-5.5-2.5L10 9z"/>
+                    </svg>
+                </div>
+                <p>When the assistant proposes a dish it appears under the chat, with two choices: save it as it is, or
+                    move it here to rework it first.</p>
+                <p class="draft-empty-note">You can rewrite every part of it before saving — the assistant is a first
+                    draft, not the last word.</p>
             </div>
-            <p>When the assistant proposes a dish it appears under the chat, with two choices: save it as it is, or move it here to rework it first.</p>
-            <p class="draft-empty-note">You can rewrite every part of it before saving — the assistant is a first draft, not the last word.</p>
+
+            <form class="draft-editor" id="draft-editor" hidden>
+                <div class="draft-row draft-row--title">
+                    <label class="draft-label" for="draft-title">Title</label>
+                    <input type="text" id="draft-title" class="draft-input draft-input--title" maxlength="255">
+                </div>
+
+                <div class="draft-row draft-row--meta">
+                    <div>
+                        <label class="draft-label" for="draft-cuisine">Cuisine</label>
+                        <input type="text" id="draft-cuisine" class="draft-input" maxlength="100" placeholder="—">
+                    </div>
+                    <div>
+                        <label class="draft-label" for="draft-time">Minutes</label>
+                        <input type="number" id="draft-time" class="draft-input" min="1" max="1440" step="1">
+                    </div>
+                </div>
+
+                <div class="draft-section">
+                    <div class="draft-section-head">
+                        <h3 class="draft-section-title">Ingredients</h3>
+                        <button type="button" class="studio-ghost-btn studio-ghost-btn--tiny" id="add-ingredient">+
+                            Add
+                        </button>
+                    </div>
+                    <div class="ingredient-list" id="ingredient-list"></div>
+                    <p class="draft-note">Only ingredients the app knows can be saved. Start typing to pick one.</p>
+                </div>
+
+                <div class="draft-section">
+                    <div class="draft-section-head">
+                        <h3 class="draft-section-title">Steps</h3>
+                        <button type="button" class="studio-ghost-btn studio-ghost-btn--tiny" id="add-step">+ Add
+                        </button>
+                    </div>
+                    <ol class="step-list" id="step-list"></ol>
+                </div>
+            </form>
+
+            <aside class="creations" id="creations" hidden>
+                <div class="creations-head">
+                    <h3 class="draft-section-title">My creations</h3>
+                    <button type="button" class="studio-ghost-btn studio-ghost-btn--tiny" id="creations-close">Close
+                    </button>
+                </div>
+                <ul class="creations-list" id="creations-list"></ul>
+                <p class="draft-note creations-empty" id="creations-empty">Nothing saved yet.</p>
+            </aside>
         </div>
 
-        <form class="draft-editor" id="draft-editor" hidden>
-            <div class="draft-row draft-row--title">
-                <label class="draft-label" for="draft-title">Title</label>
-                <input type="text" id="draft-title" class="draft-input draft-input--title" maxlength="255">
-            </div>
-
-            <div class="draft-row draft-row--meta">
-                <div>
-                    <label class="draft-label" for="draft-cuisine">Cuisine</label>
-                    <input type="text" id="draft-cuisine" class="draft-input" maxlength="100" placeholder="—">
-                </div>
-                <div>
-                    <label class="draft-label" for="draft-time">Minutes</label>
-                    <input type="number" id="draft-time" class="draft-input" min="1" max="1440" step="1">
-                </div>
-            </div>
-
-            <div class="draft-section">
-                <div class="draft-section-head">
-                    <h3 class="draft-section-title">Ingredients</h3>
-                    <button type="button" class="studio-ghost-btn studio-ghost-btn--tiny" id="add-ingredient">+ Add</button>
-                </div>
-                <div class="ingredient-list" id="ingredient-list"></div>
-                <p class="draft-note">Only ingredients the app knows can be saved. Start typing to pick one.</p>
-            </div>
-
-            <div class="draft-section">
-                <div class="draft-section-head">
-                    <h3 class="draft-section-title">Steps</h3>
-                    <button type="button" class="studio-ghost-btn studio-ghost-btn--tiny" id="add-step">+ Add</button>
-                </div>
-                <ol class="step-list" id="step-list"></ol>
-            </div>
-        </form>
-
-        <aside class="creations" id="creations" hidden>
-            <div class="creations-head">
-                <h3 class="draft-section-title">My creations</h3>
-                <button type="button" class="studio-ghost-btn studio-ghost-btn--tiny" id="creations-close">Close</button>
-            </div>
-            <ul class="creations-list" id="creations-list"></ul>
-            <p class="draft-note creations-empty" id="creations-empty">Nothing saved yet.</p>
-        </aside>
-    </div>
-
-    {% comment %}
+        {% comment %}
         Vocabularies the editor may use. Shipping them with the page keeps an
         edited row from naming something the save would refuse.
     {% endcomment %}
-    <datalist id="ingredient-options">
-        {% for category, names in ingredient_catalog.items %}
-            {% for name in names %}
-                <option value="{{ name }}" label="{{ category }}"></option>
+        <datalist id="ingredient-options">
+            {% for category, names in ingredient_catalog.items %}
+                {% for name in names %}
+                    <option value="{{ name }}" label="{{ category }}"></option>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </datalist>
+        </datalist>
 
-    {{ units|json_script:"units-data" }}
-    {{ importance_levels|json_script:"importance-data" }}
-    {{ my_recipes|json_script:"creations-data" }}
-</section>
+        {{ units|json_script:"units-data" }}
+        {{ importance_levels|json_script:"importance-data" }}
+        {{ my_recipes|json_script:"creations-data" }}
+    </section>
 
-<script src="{% static 'js/recipe_studio.js' %}"></script>
+    <script src="{% static 'js/recipe_studio.js' %}"></script>
 {% endblock %}
