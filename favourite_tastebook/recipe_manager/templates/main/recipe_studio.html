@@ -67,6 +67,11 @@
                 <button type="button" class="studio-ghost-btn" id="creations-toggle">
                     My creations <span class="creations-count" id="creations-count">{{ my_recipes|length }}</span>
                 </button>
+                {% comment %}
+                    Swapped for each other by the script: a stored recipe has
+                    nothing left to save, an unsaved one has nothing to delete.
+                {% endcomment %}
+                <button type="button" class="studio-ghost-btn studio-ghost-btn--danger" id="draft-delete" hidden>Delete</button>
                 <button type="button" class="btn btn-small" id="draft-save" disabled>Save</button>
             </div>
         </header>

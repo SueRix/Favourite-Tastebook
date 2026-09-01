@@ -36,6 +36,7 @@
         editor: document.getElementById("draft-editor"),
         status: document.getElementById("draft-status"),
         save: document.getElementById("draft-save"),
+        remove: document.getElementById("draft-delete"),
         title: document.getElementById("draft-title"),
         cuisine: document.getElementById("draft-cuisine"),
         time: document.getElementById("draft-time"),
@@ -75,9 +76,18 @@
 
     let busy = false;
     let hasDraft = false;
-    // Which stored creation the editor is showing, if any. It is what lets a
-    // deletion elsewhere on the page correct the status line here.
+    /* Which stored creation the editor is showing, if any — null while the pane
+       holds something that exists nowhere but on this screen.
+     *
+     * It is the difference between the two states the pane can be in, and every
+     * control in the header reads it: what the Save button does, whether there
+     * is anything to delete, and whether a deletion somewhere else on the page
+     * was a deletion of THIS. The title is kept beside it because the field can
+     * be edited, and a confirmation dialog must name the recipe that is about to
+     * go, not the new name somebody just typed over it.
+     */
     let openCreationId = null;
+    let openCreationTitle = "";
 
     function toast(text, level, actionText, actionHref) {
         if (window.FT && window.FT.toast) {
@@ -430,9 +440,27 @@
         return row;
     }
 
+    /* Save and Delete take each other's place in the header.
+     *
+     * A recipe that is already stored has nothing left to save — that is what
+     * the greyed-out button used to say, and a dead control is a poor answer to
+     * "what do I do with this now". The thing still worth doing to it is getting
+     * rid of it, so that is the button that stands there instead. The moment an
+     * edit makes it a different recipe again, Save comes back.
+     *
+     * They are never both on screen: the destructive one must not sit a slip
+     * away from the one that gets pressed all day.
+     */
+    function syncDraftActions() {
+        const stored = openCreationId !== null && els.save.disabled;
+        els.remove.hidden = !stored;
+        els.save.hidden = stored;
+    }
+
     function renderDraft(draft, statusText) {
         hasDraft = true;
         openCreationId = draft.id != null ? draft.id : null;
+        openCreationTitle = openCreationId !== null ? (draft.title || "") : "";
         els.empty.hidden = true;
         els.editor.hidden = false;
 
@@ -453,15 +481,47 @@
         setStatus(statusText || "Proposed just now — edit anything, then save");
         els.save.disabled = false;
         els.save.textContent = "Save";
+        syncDraftActions();
     }
 
-    /* Opening something already stored: the same editor, but the Save button
-       starts spent, because pressing it unchanged would only earn a conflict on
-       the title that is already taken. */
+    /* Empties the editor and puts the pane back to its opening state.
+     *
+     * Only one thing calls it: deleting the recipe the editor is showing. The
+     * rows on screen are the recipe that was just deleted, and leaving them
+     * there would make the drawer's Close button hand it back looking stored —
+     * a recipe the person could go on editing and would expect to still exist.
+     */
+    function clearDraft(statusText) {
+        hasDraft = false;
+        openCreationId = null;
+        openCreationTitle = "";
+
+        els.title.value = "";
+        els.cuisine.value = "";
+        els.time.value = "";
+        els.ingredients.replaceChildren();
+        els.steps.replaceChildren();
+
+        els.editor.hidden = true;
+        els.empty.hidden = false;
+
+        setStatus(statusText || "Nothing yet");
+        els.save.disabled = true;
+        els.save.textContent = "Save";
+        // It was disabled by the click that got us here; the next recipe needs
+        // it working again.
+        els.remove.disabled = false;
+        syncDraftActions();
+    }
+
+    /* Opening something already stored: the same editor, but Save gives way to
+       Delete, because pressing Save on an unchanged copy would only earn a
+       conflict on the title that is already taken. */
     function openCreation(recipe) {
         renderDraft(recipe, "Opened from your creations");
         els.save.disabled = true;
         els.save.textContent = "Saved";
+        syncDraftActions();
         els.creations.hidden = true;
     }
 
@@ -478,6 +538,7 @@
         if (!hasDraft) return;
         els.save.disabled = false;
         els.save.textContent = "Save";
+        syncDraftActions();
     }
 
     [els.title, els.cuisine, els.time].forEach(function (field) {
@@ -668,6 +729,9 @@
         return true;
     }
 
+    /* The one delete path, whichever button asked for it — the × in the list or
+       Delete in the draft header. Both name the same recipe and both have to
+       leave the page in the same state afterwards. */
     async function deleteCreation(recipe, button) {
         if (!window.confirm("Delete “" + recipe.title + "”? This cannot be undone.")) return;
 
@@ -695,14 +759,13 @@
 
         await refreshCreations();
 
-        // The editor may be showing the recipe that just stopped existing. It
-        // stays on screen — the text is still worth something — but it is a
-        // draft again, and the Save button has to say so.
-        if (openCreationId === recipe.id) {
-            openCreationId = null;
-            setStatus("Deleted — save it again to keep this version");
-            els.save.disabled = false;
-            els.save.textContent = "Save";
+        // The editor may be showing the recipe that just stopped existing, and
+        // the drawer covers it: closing the drawer would then hand back a recipe
+        // the person has just deleted, still looking stored. It goes with it.
+        // Compared loosely because one id came from the page and one from a
+        // fetch, and a string "12" must not survive as a different recipe.
+        if (openCreationId !== null && Number(openCreationId) === Number(recipe.id)) {
+            clearDraft("Deleted — the draft pane is empty again");
         }
 
         toast("Deleted: " + recipe.title, "info");
@@ -845,10 +908,22 @@
             return;
         }
 
+        // It is a stored creation from here on, so the header swaps Save for the
+        // way back out of it.
         openCreationId = result.recipeId != null ? result.recipeId : null;
+        openCreationTitle = result.title || draft.title;
         els.save.textContent = "Saved";
         setStatus("Saved to your creations", true);
+        syncDraftActions();
         toast("Saved: " + result.title, "success");
+    });
+
+    els.remove.addEventListener("click", function () {
+        if (openCreationId === null) return;
+        deleteCreation(
+            {id: openCreationId, title: openCreationTitle || "this recipe"},
+            els.remove
+        );
     });
 
     renderCreations();
