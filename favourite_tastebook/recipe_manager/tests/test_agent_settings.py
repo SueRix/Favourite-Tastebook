@@ -283,26 +283,47 @@ class AutosaveSwitchTests(TestCase):
             ],
         }
 
-    def test_off_by_default_the_agent_may_not_save(self):
+    def test_off_by_default_the_save_becomes_an_offer(self):
         result = AgentToolsUseCase.save_generated_recipe(self._payload(), user=self.user, session_id="s")
 
-        self.assertFalse(result["ok"])
-        self.assertEqual(result["error"], "autosave_disabled")
+        # Not a refusal. A refused call left the assistant announcing a recipe
+        # with no card under it, because a model that has already composed the
+        # dish does not reliably turn round and call a different tool.
+        self.assertTrue(result["ok"])
+        self.assertTrue(result["proposed"])
+        self.assertFalse(result["saved"])
 
-    def test_nothing_is_written_when_it_refuses(self):
+    def test_nothing_is_written_when_it_is_only_offered(self):
         AgentToolsUseCase.save_generated_recipe(self._payload(), user=self.user, session_id="s")
 
         self.assertFalse(GeneratedRecipe.objects.filter(user=self.user).exists())
 
-    def test_the_refusal_sends_the_agent_to_propose_instead(self):
-        # A bare refusal is what makes a model retry the same call; the person
-        # would then get nothing at all rather than a card they can act on.
+    def test_the_offer_reaches_the_page_as_a_proposal(self):
+        # The draft slot, not the saved one: the page prints the card with Save
+        # and Edit on it, and prints nothing that claims to be stored.
+        AgentToolsUseCase.save_generated_recipe(self._payload(), user=self.user, session_id="s")
+
+        self.assertIsNotNone(AgentDraftStore.take("s"))
+        self.assertIsNone(AgentDraftStore.take_saved("s"))
+
+    def test_the_agent_is_told_not_to_claim_a_save(self):
         result = AgentToolsUseCase.save_generated_recipe(self._payload(), user=self.user, session_id="s")
 
-        self.assertIn("propose_recipe", result["hint"])
+        self.assertIn("Do not say it has been saved", result["hint"])
+
+    def test_a_recipe_it_could_not_accept_is_still_refused(self):
+        # The redirect must not launder a broken recipe into a valid-looking
+        # offer: an unknown ingredient is still the model's to fix.
+        payload = self._payload()
+        payload["ingredients"] = [{"name": "__ut_auto_nonexistent__", "amount": 1, "unit": "g"}]
+
+        result = AgentToolsUseCase.save_generated_recipe(payload, user=self.user, session_id="s")
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["error"], "unknown_ingredients")
 
     def test_proposing_is_never_blocked_by_it(self):
-        # The switch governs saving, not composing: refusing both would leave
+        # The switch governs storing, not composing: blocking both would leave
         # the studio with nothing to show.
         result = AgentToolsUseCase.propose_recipe(self._payload(), user=self.user, session_id="s")
 
@@ -314,7 +335,11 @@ class AutosaveSwitchTests(TestCase):
         result = AgentToolsUseCase.save_generated_recipe(self._payload(), user=self.user, session_id="s")
 
         self.assertTrue(result["ok"])
+        self.assertTrue(result["saved"])
         self.assertTrue(GeneratedRecipe.objects.filter(user=self.user).exists())
+        # And it announces itself through the saved slot, which is the one the
+        # page reacts to by opening the recipe in the editor.
+        self.assertIsNotNone(AgentDraftStore.take_saved("s"))
 
 
 @override_settings(CACHES=LOCAL_CACHE)
@@ -394,6 +419,81 @@ class ChatTurnCarriesTheSettingsTests(TestCase):
 
         self.assertIsNone(result["draft"])
         self.assertFalse(result["autoload_draft"])
+
+
+@override_settings(CACHES=LOCAL_CACHE)
+class SaveWhileTheSwitchIsOffReachesTheChatTests(TestCase):
+    """
+    The whole path, with the assistant doing what it actually does.
+
+    It composes a dish and calls save_generated_recipe — not propose_recipe —
+    on a request the browser never sees. The reported bug was that with the
+    switch off this produced an answer saying the recipe was ready and no card
+    at all: the tool had refused, and the model did not go back and offer it.
+    The tool now offers it, so the turn carries a proposal whichever tool was
+    called.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = get_user_model().objects.create_user(username="__ut_prefs_e2e__", password="x")
+        cls.onion = Ingredient.objects.create(name="__ut_e2e_onion__", category="__ut_e2e_cat__")
+
+    def setUp(self):
+        cache.clear()
+
+    class _Client:
+        """Stands in for n8n: calls the tool mid-turn, exactly as the agent does."""
+
+        def __init__(self, payload):
+            self.payload = payload
+
+        def ask(self, message, context, sid, preferences=None):
+            AgentToolsUseCase.save_generated_recipe(
+                self.payload, user=self.user, session_id=sid
+            )
+            return "Рецепт овощного супа готов."
+
+    def _client(self):
+        client = self._Client({
+            "title": "Овощной суп",
+            "cuisine": "ukrainian",
+            "cook_time_minutes": 35,
+            "steps": ["Нарезать овощи.", "Варить 20 минут."],
+            "ingredients": [
+                {"name": self.onion.name, "amount": 100, "unit": "g", "importance": "required"}
+            ],
+        })
+        client.user = self.user
+        return client
+
+    def test_the_turn_carries_a_card_the_person_can_act_on(self):
+        result = AgentChatUseCase.send(self.user, self.client.session, "суп", client=self._client())
+
+        # A proposal, so the page prints Save and Edit under the reply.
+        self.assertIsNotNone(result["draft"])
+        self.assertEqual(result["draft"]["title"], "Овощной суп")
+        self.assertIsNone(result["saved"])
+
+    def test_and_does_not_move_it_into_the_editor(self):
+        # Which is the whole point of the switch being off.
+        result = AgentChatUseCase.send(self.user, self.client.session, "суп", client=self._client())
+
+        self.assertFalse(result["autoload_draft"])
+
+    def test_and_stores_nothing(self):
+        AgentChatUseCase.send(self.user, self.client.session, "суп", client=self._client())
+
+        self.assertFalse(GeneratedRecipe.objects.filter(user=self.user).exists())
+
+    def test_with_the_switch_on_it_is_stored_and_opened(self):
+        AgentSettingsUseCase.update(self.user, {"autosave_drafts": True})
+
+        result = AgentChatUseCase.send(self.user, self.client.session, "суп", client=self._client())
+
+        self.assertIsNotNone(result["saved"])
+        self.assertTrue(result["autoload_draft"])
+        self.assertTrue(GeneratedRecipe.objects.filter(user=self.user).exists())
 
 
 class StudioPageShipsTheSettingsTests(TestCase):

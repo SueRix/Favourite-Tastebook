@@ -393,8 +393,8 @@ class AgentToolsUseCase:
         Body: {"title", "cuisine", "cook_time_minutes", "steps": [...],
                "ingredients": [{"name", "amount", "unit", "importance"}, ...]}
 
-        Refused outright unless the user has allowed the assistant to put
-        recipes away on its own — see the switch below.
+        Downgraded to a proposal unless the user has allowed the assistant to
+        put recipes away on its own — see the switch below.
         """
         fields = GeneratedRecipeInput.parse(payload)
 
@@ -402,25 +402,39 @@ class AgentToolsUseCase:
             return cls._failure("auth_required", "Only a signed-in user can save recipes.")
 
         # The switch reads "allow the assistant to save recipes into your drafts
-        # by itself", and this is the half of it that a prompt cannot guarantee.
+        # by itself", and this is the half of it a prompt cannot guarantee: the
+        # prompt has always said to save only when asked, and the assistant
+        # reaches for this tool on its own regardless.
         #
-        # The prompt has always said to save only when asked, and the assistant
-        # nonetheless reaches for this tool on its own: the observed result was
-        # a dish already in the collection and a card offering the one thing
-        # left to do with it. Turning that into a refusal costs the person
-        # nothing — the redirect below produces the ordinary proposal card, with
-        # Save on it — and it makes the switch mean what it says in both
-        # positions rather than only in one.
+        # So the call is REDIRECTED, never refused. Refusing was tried and was
+        # worse than the problem: by the time a model calls this it has already
+        # composed the dish and written its answer around it, and nothing in a
+        # failed tool call reliably makes it turn round and call a different
+        # one. What the person saw was the assistant announcing a finished
+        # recipe with no card under it and no button to press — the dish existed
+        # nowhere at all.
+        #
+        # Offering it instead gives exactly the same card the model should have
+        # asked for, with Save on it, and still writes nothing. Which tool the
+        # model reached for stops mattering, which is the only version of this
+        # that does not depend on the model behaving.
         if not AgentPreferenceSelector.for_user(user)["autosave_drafts"]:
-            return {
-                "ok": False,
-                "error": "autosave_disabled",
-                "detail": "This user has not allowed you to save recipes on their behalf.",
-                "hint": (
-                    "Call propose_recipe with the same recipe instead. They will see it "
-                    "and keep it themselves with one click. Do not say the dish was saved."
-                ),
-            }
+            offered = cls.propose_recipe(payload, user=user, session_id=session_id)
+            if not offered.get("ok"):
+                # unknown_ingredients or taboo_ingredient, already worded for a
+                # retry. Pass it through rather than dressing it as a save.
+                return offered
+
+            offered["saved"] = False
+            offered["detail"] = (
+                "This user has not allowed you to save recipes on their behalf, so the "
+                "dish was offered to them instead of stored."
+            )
+            offered["hint"] = (
+                "Tell them the recipe is ready and that they can keep it with the Save "
+                "button under your message. Do not say it has been saved."
+            )
+            return offered
 
         try:
             recipe = SaveGeneratedRecipeUseCase.execute(

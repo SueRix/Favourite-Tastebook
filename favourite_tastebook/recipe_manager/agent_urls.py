@@ -38,6 +38,9 @@ studio's settings panel (see recipe_manager/models.py, AgentPreference):
     use_tastes = False     tastes/ answers with empty loved/liked/disliked. The
                            never_use list still travels, because it is a hard
                            exclusion the save path enforces regardless.
+    autosave_drafts=False  save-generated-recipe/ stores nothing and answers as
+                           propose-recipe/ would (proposed: true, saved: false),
+                           so the dish still reaches the person as a card.
 
 The switches also travel to the workflow in the chat payload so the prompt can
 describe them, but that is a courtesy to the model. The refusals above are what
