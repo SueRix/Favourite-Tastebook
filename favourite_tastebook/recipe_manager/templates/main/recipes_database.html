@@ -5,6 +5,7 @@
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/recipe_card.css' %}">
     <link rel="stylesheet" href="{% static 'css/recipes_database.css' %}">
 {% endblock %}
 
@@ -17,8 +18,35 @@
             </p>
         </header>
 
+        <div class="rdb-mode-row">
+            <div class="rdb-mode-tabs" role="tablist" aria-label="Search mode">
+                <button type="button"
+                        class="rdb-mode-tab active"
+                        data-mode="keyword"
+                        role="tab"
+                        aria-selected="true">Keyword</button>
+                <button type="button"
+                        class="rdb-mode-tab"
+                        data-mode="vector"
+                        role="tab"
+                        aria-selected="false">Semantic</button>
+                <button type="button"
+                        class="rdb-mode-tab"
+                        data-mode="ingredient"
+                        role="tab"
+                        aria-selected="false">Ingredient</button>
+            </div>
+            <span class="rdb-mode-note" id="rdb-mode-note">
+                Exact matches in titles and descriptions.
+            </span>
+        </div>
+
         <div class="rdb-search-bar">
-            <span class="rdb-search-icon" aria-hidden="true">🔍</span>
+            <button type="button"
+                    class="rdb-search-btn"
+                    id="rdb-search-btn"
+                    aria-label="Run search"
+                    onclick="htmx.trigger('#rdb-search-input', 'search')">🔍</button>
             <input
                 type="text"
                 name="keyword"
@@ -28,11 +56,14 @@
                 autocomplete="off"
                 aria-label="Search recipes"
                 hx-get="{% url 'partials_recipes_database_search' %}"
-                hx-trigger="keyup changed delay:300ms, search"
+                hx-include="#rdb-mode-input"
+                hx-trigger="keyup[rdbIsKeywordMode()] changed delay:300ms, keyup[key=='Enter'], search, rdbModeChanged"
                 hx-target="#rdb-results"
                 hx-swap="innerHTML"
                 hx-indicator="#rdb-loading"
             >
+            {# Carries the active strategy key ("keyword" / "vector") into every request. #}
+            <input type="hidden" name="mode" id="rdb-mode-input" value="keyword">
             <span id="rdb-loading" class="rdb-loading htmx-indicator" aria-hidden="true">…</span>
         </div>
 

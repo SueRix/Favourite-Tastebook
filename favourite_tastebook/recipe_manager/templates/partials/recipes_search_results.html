@@ -1,20 +1,44 @@
-{% if keyword|length < 2 %}
+{% if search_error %}
+    <div class="rdb-error">
+        <div class="rdb-error-icon" aria-hidden="true">⚠</div>
+        <div class="rdb-error-title">{{ search_error }}</div>
+        <div class="rdb-error-desc">Switch to <strong>Keyword</strong> mode to keep searching.</div>
+    </div>
+
+{% elif keyword|length < 2 %}
     <div class="rdb-hint">
         <span class="rdb-hint-icon" aria-hidden="true">✦</span>
-        Type at least 2 characters to start searching.
+        {% if mode == "ingredient" %}
+            Name an ingredient, then press Enter.
+        {% elif mode_label %}
+            Describe a dish in a couple of words, then press Enter.
+        {% else %}
+            Type at least 2 characters to start searching.
+        {% endif %}
     </div>
 
 {% elif not recipes %}
     <div class="rdb-empty">
-        <div class="rdb-empty-title">No recipes match "{{ keyword }}"</div>
-        <div class="rdb-empty-desc">Try a shorter or different keyword.</div>
+        {% if mode_label %}
+            <div class="rdb-empty-title">Nothing similar to "{{ keyword }}"</div>
+            <div class="rdb-empty-desc">Try different wording, or switch to Keyword mode.</div>
+        {% else %}
+            <div class="rdb-empty-title">No recipes match "{{ keyword }}"</div>
+            <div class="rdb-empty-desc">Try a shorter or different keyword.</div>
+        {% endif %}
     </div>
 
 {% else %}
     <div class="rdb-summary">
-        Found
-        <strong>{{ recipes|length }}</strong>
-        recipe{{ recipes|length|pluralize }} for
+        {% if mode_label %}
+            <span class="rdb-summary-badge">{{ mode_label }}</span>
+            <strong>{{ recipes|length }}</strong>
+            match{{ recipes|length|pluralize:"es" }} for
+        {% else %}
+            Found
+            <strong>{{ recipes|length }}</strong>
+            recipe{{ recipes|length|pluralize }} for
+        {% endif %}
         <span class="rdb-summary-keyword">"{{ keyword }}"</span>
     </div>
 
@@ -37,7 +61,23 @@
                 </div>
 
                 <div class="rdb-card-body">
-                    <h3 class="rdb-card-title">{{ r.title }}</h3>
+                    <div class="rdb-card-title-row">
+                        <h3 class="rdb-card-title">{{ r.title }}</h3>
+
+                        {# WHAT: Similarity thermometer. WHERE: semantic result cards only. WHY: Reuses the ingredient-scoring indicator so both engines speak one visual language; height and hue come from the calibrated Pinecone score. #}
+                        {% if r.show_match_meter %}
+                            <div class="rdb-card-match"
+                                 title="Similarity {{ r.vector_score_label }} → {{ r.match_percent }}% match">
+                                <span class="match-thermometer" aria-hidden="true">
+                                    <span class="match-thermometer__track">
+                                        <span class="match-thermometer__fill match-thermometer__fill--scored"
+                                              style="--fill-percent: {{ r.match_percent }}%; --fill-hue: {{ r.therm_fill_hue }};"></span>
+                                    </span>
+                                </span>
+                                <span class="rdb-card-match-label">{{ r.match_percent }}%</span>
+                            </div>
+                        {% endif %}
+                    </div>
 
                     <div class="rdb-card-meta">
                         {% if r.cuisine %}

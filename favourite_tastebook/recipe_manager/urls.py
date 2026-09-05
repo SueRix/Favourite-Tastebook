@@ -12,6 +12,18 @@ from .views.recipe_database_search_views import (
     RecipesDatabaseSearchPartialView,
     RecipesDatabaseCardPartialView,
 )
+from .views.agent_chat_views import (
+    AgentChatResetView,
+    AgentChatView,
+    AgentSettingsView,
+)
+from .views.recipe_studio_views import (
+    RecipeStudioCreationDeleteView,
+    RecipeStudioCreationsView,
+    RecipeStudioPreviewView,
+    RecipeStudioSaveView,
+    RecipeStudioView,
+)
 from .views.recipe_saver_views import (
     SavedRecipeListView, SavedRecipeActionView,
 )
@@ -20,6 +32,21 @@ from .views.taste_api_views import CuisineTasteUpdateApiView
 
 urlpatterns = [
     path("", MainTastebookView.as_view(), name="home"),
+
+    # Cooking agent. The browser talks only to these three: neither the service
+    # token nor the signed context ever reaches the page.
+    path("chat/", AgentChatView.as_view(), name="agent_chat"),
+    path("chat/reset/", AgentChatResetView.as_view(), name="agent_chat_reset"),
+    path("chat/settings/", AgentSettingsView.as_view(), name="agent_settings"),
+    path("studio/", RecipeStudioView.as_view(), name="recipe_studio"),
+    path("studio/save/", RecipeStudioSaveView.as_view(), name="recipe_studio_save"),
+    path("studio/preview/", RecipeStudioPreviewView.as_view(), name="recipe_studio_preview"),
+    path("studio/creations/", RecipeStudioCreationsView.as_view(), name="recipe_studio_creations"),
+    path(
+        "studio/creations/<int:recipe_id>/",
+        RecipeStudioCreationDeleteView.as_view(),
+        name="recipe_studio_creation_delete",
+    ),
 
     path("partials/ingredients/", IngredientsPartialView.as_view(), name="partials_ingredients_panel"),
     path("partials/recipes/", RecipesPartialView.as_view(), name="partials_recipes"),

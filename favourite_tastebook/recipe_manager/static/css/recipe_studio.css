@@ -1,0 +1,1126 @@
+/* Recipe Studio — a conversation on the left, the recipe it produces on the right.
+   The two panes scroll independently: you read the draft while the chat runs on. */
+
+/* Author display rules beat the browser's default for [hidden], so the panes
+   that toggle would stay visible without this. */
+.studio [hidden] {
+    display: none !important;
+}
+
+.studio {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    /* One explicit row: anything that unexpectedly becomes a grid item goes
+       to an implicit row instead of halving the panes. */
+    grid-template-rows: minmax(0, 1fr);
+    gap: 14px;
+    flex: 1;
+    min-height: 0;
+    padding-bottom: 4px;
+}
+
+.studio-pane {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    min-width: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ---------- shared head ---------- */
+
+.studio-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 18px 12px;
+    border-bottom: 1px solid var(--border-subtle);
+    flex-shrink: 0;
+}
+
+.studio-head-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.studio-title {
+    font-size: 19px;
+    font-weight: 600;
+    margin: 0 0 3px;
+    color: var(--text-main);
+}
+
+.studio-title--sm {
+    font-size: 15px;
+}
+
+.studio-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 0;
+    max-width: 52ch;
+}
+
+.studio-ghost-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color .15s ease, color .15s ease;
+}
+
+.studio-ghost-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* The way out of the draft pane for a recipe that is already stored. It takes
+   the Save button's place rather than sitting beside it: side by side, the
+   destructive one is a slip away from the one pressed all day. */
+.studio-ghost-btn--danger:hover {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.studio-ghost-btn--tiny {
+    padding: 3px 9px;
+    font-size: 11px;
+}
+
+.btn-small {
+    padding: 6px 16px;
+    font-size: 12px;
+}
+
+.btn:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+/* ---------- chat ---------- */
+
+.chat-log {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.chat-hint {
+    margin: auto 0;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.chat-hint-title {
+    font-size: 13px;
+    margin: 0 0 12px;
+}
+
+.chat-suggestions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+
+.chat-suggestion {
+    background: transparent;
+    border: 1px dashed var(--border-subtle);
+    border-radius: 999px;
+    color: var(--text-muted);
+    font-size: 12.5px;
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: border-color .15s ease, color .15s ease;
+}
+
+.chat-suggestion:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.msg {
+    max-width: 84%;
+    padding: 10px 13px;
+    border-radius: 14px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.msg--user {
+    align-self: flex-end;
+    background: var(--accent);
+    color: #000;
+    border-bottom-right-radius: 4px;
+    font-weight: 500;
+}
+
+.msg--agent {
+    align-self: flex-start;
+    background: #191919;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-main);
+    border-bottom-left-radius: 4px;
+}
+
+.msg--error {
+    align-self: flex-start;
+    background: rgba(255, 77, 79, .08);
+    border: 1px solid rgba(255, 77, 79, .35);
+    color: #ffb3b4;
+    font-size: 13px;
+}
+
+/* Three dots while the agent thinks. It answers in 5-20 seconds, which reads as
+   a hang without something moving on screen. */
+.msg--typing {
+    display: inline-flex;
+    gap: 5px;
+    align-items: center;
+    padding: 14px 15px;
+}
+
+.msg--typing span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    animation: studio-blink 1.3s infinite ease-in-out;
+}
+
+.msg--typing span:nth-child(2) { animation-delay: .18s; }
+.msg--typing span:nth-child(3) { animation-delay: .36s; }
+
+@keyframes studio-blink {
+    0%, 60%, 100% { opacity: .25; transform: translateY(0); }
+    30%           { opacity: 1;   transform: translateY(-3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .msg--typing span { animation: none; opacity: .6; }
+}
+
+/* ---------- proposal card ---------- */
+
+/* The structured half of an answer. It sits in the log at full width rather than
+   as a bubble: it is the dish laid out, not something the assistant said. */
+.proposal {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 13px 15px;
+    border: 1px solid var(--border-subtle);
+    border-left: 2px solid var(--accent);
+    border-radius: 14px;
+    background: #141414;
+}
+
+.proposal-head {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.proposal-kicker {
+    margin: 0;
+    font-size: 10.5px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.proposal-title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-main);
+    overflow-wrap: anywhere;
+}
+
+.proposal-meta {
+    margin: 0;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.proposal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.proposal-block-title {
+    margin: 0 0 6px;
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.proposal-ings {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.proposal-ings li {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: baseline;
+    gap: 10px;
+    padding: 4px 0;
+    font-size: 13px;
+    border-bottom: 1px dashed rgba(255, 255, 255, .05);
+}
+
+.proposal-ings li:last-child { border-bottom: none; }
+
+.proposal-ing-name {
+    color: var(--text-main);
+    overflow-wrap: anywhere;
+}
+
+.proposal-ing-amount {
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.proposal-ing-tag {
+    font-size: 10px;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    padding: 1px 7px;
+}
+
+/* An optional ingredient is a suggestion inside a suggestion — it should not
+   read as loudly as the ones the dish depends on. */
+.proposal-ing--soft .proposal-ing-name { color: var(--text-muted); }
+
+/* Named the same way the editor marks it, so the warning is recognisable once
+   the row is over there. */
+.proposal-ing--unknown .proposal-ing-name {
+    color: #ffb3b4;
+    text-decoration: underline dotted rgba(255, 179, 180, .5);
+    text-underline-offset: 3px;
+}
+
+.proposal-steps {
+    margin: 0;
+    padding-left: 19px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text-main);
+}
+
+.proposal-steps li {
+    margin-bottom: 6px;
+    overflow-wrap: anywhere;
+}
+
+.proposal-steps li:last-child { margin-bottom: 0; }
+.proposal-steps li::marker { color: var(--text-muted); font-size: 11px; }
+
+.proposal-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.proposal-note,
+.proposal-moved {
+    margin: 0;
+    font-size: 11.5px;
+    color: var(--text-muted);
+}
+
+/* Once the recipe is in the editor the card keeps only its heading: enough to
+   read the conversation back, not enough to edit the wrong copy. */
+.proposal--moved {
+    border-left-color: var(--border-subtle);
+    opacity: .7;
+}
+
+.chat-form {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    padding: 12px 14px;
+    border-top: 1px solid var(--border-subtle);
+    flex-shrink: 0;
+}
+
+.chat-input {
+    flex: 1;
+    resize: none;
+    max-height: 140px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle);
+    background: #050505;
+    color: var(--text-main);
+    font-size: 13.5px;
+    font-family: inherit;
+    line-height: 1.5;
+}
+
+.chat-input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.chat-send {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: var(--accent);
+    color: #000;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+}
+
+.chat-send:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+/* ---------- draft ---------- */
+
+.draft-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 24px 34px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.draft-empty p { margin: 0; max-width: 40ch; }
+
+.draft-empty-note {
+    font-size: 12px;
+    opacity: .7;
+}
+
+.draft-empty-mark {
+    color: var(--border-subtle);
+    margin-bottom: 4px;
+}
+
+.draft-editor {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 16px 18px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.draft-label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.draft-input {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border-subtle);
+    background: #050505;
+    color: var(--text-main);
+    font-size: 13px;
+    font-family: inherit;
+}
+
+.draft-input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.draft-input--title {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 12px;
+}
+
+.draft-row--meta {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: 12px;
+}
+
+/* The link and the button that will one day fill it in, on one line: they are
+   two ways to answer the same field, not two fields. */
+.draft-image-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.draft-image-field .draft-input {
+    /* Without the zero minimum the input keeps its full width and pushes the
+       button out of the pane. */
+    flex: 1;
+    min-width: 0;
+}
+
+.draft-image-field .studio-ghost-btn {
+    flex-shrink: 0;
+}
+
+/* Disabled, and honest about it — it stays visible so the field reads as
+   half-built rather than as a plain URL box that will never be anything else. */
+.draft-image-field .studio-ghost-btn[disabled] {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+.draft-image-field .studio-ghost-btn[disabled]:hover {
+    border-color: var(--border-subtle);
+    color: var(--text-muted);
+}
+
+.draft-row--image .draft-note {
+    margin-top: 6px;
+}
+
+.draft-section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 9px;
+}
+
+.draft-section-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-main);
+}
+
+.draft-note {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin: 8px 0 0;
+}
+
+/* ingredient rows */
+
+.ingredient-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ing-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 62px 74px 96px 26px;
+    gap: 6px;
+    align-items: center;
+}
+
+.ing-row .draft-input {
+    padding: 6px 8px;
+    font-size: 12.5px;
+}
+
+.ing-row select.draft-input {
+    /* Native arrows in the dark theme are close to invisible; the extra right
+       padding keeps the value from sitting under it. */
+    padding-right: 4px;
+}
+
+/* An ingredient the catalogue does not know cannot be saved, so say it on the
+   row rather than only when the save is refused. */
+.ing-row--unknown .ing-name {
+    border-color: var(--danger);
+}
+
+.row-remove {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 6px;
+}
+
+.row-remove:hover { color: var(--danger); }
+
+/* steps */
+
+.step-list {
+    list-style: none;
+    counter-reset: step;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.step-row {
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr) 26px;
+    gap: 8px;
+    align-items: start;
+}
+
+.step-row::before {
+    counter-increment: step;
+    content: counter(step);
+    font-size: 11.5px;
+    color: var(--accent);
+    font-weight: 700;
+    padding-top: 9px;
+    text-align: right;
+}
+
+.step-text {
+    resize: vertical;
+    min-height: 34px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    padding: 7px 9px;
+}
+
+.step-row .row-remove { margin-top: 6px; }
+
+/* ---------- creations drawer ---------- */
+
+.creations {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-elevated);
+    display: flex;
+    flex-direction: column;
+    padding: 16px 18px;
+    gap: 10px;
+    z-index: 2;
+}
+
+.creations-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.creations-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-height: 0;
+}
+
+.creation-item {
+    width: 100%;
+    text-align: left;
+    background: #171717;
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 10px 12px;
+    color: var(--text-main);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+}
+
+.creation-item:hover {
+    border-color: var(--accent);
+}
+
+.creation-meta {
+    display: block;
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-top: 3px;
+}
+
+.creations-count {
+    display: inline-block;
+    min-width: 17px;
+    padding: 0 5px;
+    margin-left: 4px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 11px;
+    line-height: 16px;
+    text-align: center;
+}
+
+.studio-saved-badge {
+    font-size: 11px;
+    color: #6ee7a8;
+}
+
+/* A creation is two decisions, not one: opening it and deleting it must not
+   share a hit area, or the list becomes a place where a misplaced click costs
+   somebody a recipe. */
+.creation-row {
+    display: flex;
+    align-items: stretch;
+    gap: 6px;
+}
+
+.creation-item {
+    flex: 1;
+    min-width: 0;
+}
+
+.creation-delete {
+    flex: 0 0 auto;
+    width: 30px;
+    background: transparent;
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    color: var(--text-muted);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.creation-delete:hover {
+    color: var(--danger);
+    border-color: var(--danger);
+}
+
+.creation-delete:disabled {
+    opacity: .45;
+    cursor: default;
+}
+
+/* ---------- assistant settings ---------- */
+
+/* The settings heading follows the same rule as the rows below it: the text
+   runs to the controls beside it rather than to a cap measured in characters.
+   Scoped to this heading — the chat one keeps its narrower measure, and the two
+   are never on screen together. */
+#studio-head-settings {
+    flex: 1;
+    min-width: 0;
+}
+
+#studio-head-settings .studio-sub {
+    max-width: none;
+}
+
+/* The gear. Square rather than a pill, so it reads as one control among the
+   ghost buttons instead of a fourth thing to read. */
+.studio-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border-subtle);
+    border-radius: 9px;
+    cursor: pointer;
+    transition: border-color .15s ease, color .15s ease, transform .25s ease;
+}
+
+.studio-icon-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* Only ever disabled while a request it started is in flight. */
+.studio-icon-btn[disabled] {
+    opacity: .45;
+    cursor: default;
+}
+
+.studio-icon-btn[disabled]:hover {
+    border-color: var(--border-subtle);
+    color: var(--text-muted);
+}
+
+/* A quarter turn on the way in, so pressing the gear looks like it did
+   something even before the eye reaches the panel underneath. */
+.studio-icon-btn[aria-expanded="true"] {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: rotate(90deg);
+}
+
+/* The panel takes the place of the log AND the composer, so it owns the same
+   space and scrolls the same way: the pane never grows a second scrollbar. */
+.chat-settings {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.setting-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 13px 14px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .02);
+    cursor: pointer;
+    transition: border-color .15s ease;
+}
+
+.setting-row:hover {
+    border-color: rgba(255, 255, 255, .16);
+}
+
+/* The two-ended switch needs the full width of the row, so its control drops
+   under the copy instead of fighting it for the right-hand edge. */
+.setting-row--stacked {
+    flex-direction: column;
+    align-items: stretch;
+    cursor: default;
+}
+
+.setting-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+/* The copy claims every pixel the switch does not.
+ *
+ * Without this it is a plain flex item sized to its content, so a paragraph
+ * that could run to the switch stops wherever the words happen to break and
+ * leaves the row half empty. `flex: 1` makes the gap below the only thing
+ * between the two, and min-width: 0 above is what lets a long word wrap inside
+ * it rather than push the switch off the edge.
+ *
+ * Not applied to the stacked row: there the switch sits underneath, the copy is
+ * already full width by `align-items: stretch`, and growing along the main axis
+ * would mean growing in height. */
+.setting-row:not(.setting-row--stacked) .setting-copy {
+    flex: 1;
+}
+
+.setting-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+/* No max-width here on purpose. It used to be capped at 46ch, and `ch` is a
+   fraction of the font size: the measure moved with the browser's zoom and with
+   any change to the size below, so the text stopped at a different place on
+   every machine. The row's own width and the gap to the switch are the limit
+   instead, and both are fixed in px. */
+.setting-note {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text-muted);
+    /* Evens out the ragged edge on the long paragraphs in this panel; ignored
+       by browsers that do not know it, which lose nothing. */
+    text-wrap: pretty;
+}
+
+.setting-note em {
+    font-style: normal;
+    color: var(--text-main);
+}
+
+/* the switch itself */
+
+.switch {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* The checkbox stays in the layout and keeps its own hit area: it is what a
+   screen reader announces and what the keyboard toggles. Only its paint is
+   handed over to the track below it. */
+.switch input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.switch-track {
+    display: block;
+    width: 38px;
+    height: 21px;
+    border-radius: 999px;
+    background: #1c1c1c;
+    border: 1px solid var(--border-subtle);
+    transition: background .18s ease, border-color .18s ease;
+}
+
+.switch-track::after {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    margin: 2px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    transition: transform .18s ease, background .18s ease;
+}
+
+.switch input:checked ~ .switch-track {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+}
+
+.switch input:checked ~ .switch-track::after {
+    background: var(--accent);
+    transform: translateX(17px);
+}
+
+.switch input:focus-visible ~ .switch-track {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* A switch being written is not a switch that can be pressed again. */
+.switch input:disabled {
+    cursor: progress;
+}
+
+.switch input:disabled ~ .switch-track {
+    opacity: .55;
+}
+
+/* two-ended switch */
+
+.switch-pair {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.switch-end {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: color .18s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Only one end is true at a time, so only one is lit. Without this the pair
+   reads as two labels for one switch rather than as the answer to a question. */
+.switch-end--active {
+    color: var(--accent);
+}
+
+.settings-status {
+    margin: 0;
+    padding: 0 18px 14px;
+    font-size: 11.5px;
+    min-height: 16px;
+    color: var(--text-muted);
+}
+
+.settings-status--error {
+    color: var(--danger);
+}
+
+/* ---------- scrollbars ---------- */
+
+/* Five panes on this page scroll, and every one of them was showing the
+   browser's default bar: a wide grey slab against a near-black panel, brighter
+   than the content beside it. The rest of the app already answers this the same
+   way (see the SCROLLBARS block in home.css and .rdb-results in
+   recipes_database.css); the values are copied from there rather than tuned
+   again, because a scrollbar that differs per page is the one thing a scrollbar
+   must never be.
+
+   Firefox takes the two-property form, WebKit needs the pseudo-elements, and
+   both are listed for the same selectors so the two never drift apart. */
+.chat-log,
+.settings-scroll,
+.draft-editor,
+.creations-list {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) rgba(0, 0, 0, 0.25);
+}
+
+.chat-log::-webkit-scrollbar,
+.settings-scroll::-webkit-scrollbar,
+.draft-editor::-webkit-scrollbar,
+.creations-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-log::-webkit-scrollbar-track,
+.settings-scroll::-webkit-scrollbar-track,
+.draft-editor::-webkit-scrollbar-track,
+.creations-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 999px;
+    /* Stops the track from running under the rounded corner of the pane. */
+    margin: 6px 0;
+}
+
+.chat-log::-webkit-scrollbar-thumb,
+.settings-scroll::-webkit-scrollbar-thumb,
+.draft-editor::-webkit-scrollbar-thumb,
+.creations-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    /* The transparent border plus padding-box clip is what keeps the thumb
+       narrower than its track without a second element. */
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.chat-log::-webkit-scrollbar-thumb:hover,
+.settings-scroll::-webkit-scrollbar-thumb:hover,
+.draft-editor::-webkit-scrollbar-thumb:hover,
+.creations-list::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 214, 10, 0.45);
+}
+
+.chat-log::-webkit-scrollbar-thumb:active,
+.settings-scroll::-webkit-scrollbar-thumb:active,
+.draft-editor::-webkit-scrollbar-thumb:active,
+.creations-list::-webkit-scrollbar-thumb:active {
+    background-color: rgba(255, 214, 10, 0.60);
+}
+
+/* A step box is a textarea the person drags open; it scrolls on its own once
+   they stop, and it is small enough that the 6px bar above would eat the text. */
+.step-text,
+.chat-input {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+}
+
+.step-text::-webkit-scrollbar,
+.chat-input::-webkit-scrollbar {
+    width: 4px;
+}
+
+.step-text::-webkit-scrollbar-track,
+.chat-input::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.step-text::-webkit-scrollbar-thumb,
+.chat-input::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+}
+
+.step-text::-webkit-scrollbar-thumb:hover,
+.chat-input::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 214, 10, 0.4);
+}
+
+/* ---------- narrow screens ---------- */
+
+@media (max-width: 900px) {
+    .studio {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: minmax(240px, 1fr) minmax(240px, 1fr);
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 255, 255, 0.2) rgba(0, 0, 0, 0.25);
+    }
+
+    .studio::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .studio::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.25);
+        border-radius: 999px;
+    }
+
+    .studio::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 999px;
+        border: 2px solid transparent;
+        background-clip: padding-box;
+    }
+
+    .ing-row {
+        grid-template-columns: minmax(0, 1fr) 56px 68px 26px;
+    }
+
+    /* Importance is the least useful column on a phone: drop it to the row below
+       rather than squeezing four selects into one line. */
+    .ing-row .ing-importance {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 560px) {
+    .studio-head {
+        flex-wrap: wrap;
+    }
+
+    .setting-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
