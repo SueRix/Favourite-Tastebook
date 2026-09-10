@@ -1,0 +1,127 @@
+# Production stack. Runs standalone, not layered onto docker-compose.yml:
+#   docker compose -f docker-compose.prod.yml up -d --build
+#
+# Against the dev file: no source bind-mount, gunicorn instead of runserver,
+# db/redis/n8n unreachable from outside the host, Caddy in front for TLS.
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: tastebook_db
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+    container_name: tastebook_redis
+    restart: unless-stopped
+    # Cache and broker only; nothing here is worth persisting across a restart.
+    command: redis-server --maxmemory 128mb --maxmemory-policy allkeys-lru --save ""
+
+  web:
+    build: .
+    container_name: tastebook_web
+    restart: unless-stopped
+    command: >
+      sh -c "python manage.py migrate --noinput &&
+             python manage.py collectstatic --noinput &&
+             gunicorn favourite_tastebook.wsgi:application
+               --bind 0.0.0.0:8000 --workers 3 --threads 2 --timeout 60
+               --access-logfile - --error-logfile -"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+    volumes:
+      - media_files:/app/media
+      - static_files:/app/staticfiles
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  celery:
+    build: .
+    container_name: tastebook_celery
+    restart: unless-stopped
+    # max-tasks-per-child recycles workers: Pillow and the Gemini client both
+    # hold onto memory, and a long-lived prefork child only grows.
+    command: celery -A favourite_tastebook worker -l INFO --concurrency=2 --max-tasks-per-child=100
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+    volumes:
+      - media_files:/app/media
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  n8n:
+    # Pin this to whatever `n8n --version` reports on the machine the workflows
+    # come from: :latest can roll a breaking major in on any rebuild, and a
+    # copied volume only migrates forward, never back.
+    image: docker.n8n.io/n8nio/n8n:latest
+    container_name: tastebook_n8n
+    restart: unless-stopped
+    # Editor UI stays on loopback. Django reaches n8n over the compose network,
+    # so nothing has to be published. Open the editor through an SSH tunnel:
+    #   ssh -L 5678:localhost:5678 root@<droplet-ip>   then http://localhost:5678
+    ports:
+      - "127.0.0.1:5678:5678"
+    environment:
+      - GENERIC_TIMEZONE=Europe/Warsaw
+      - TZ=Europe/Warsaw
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+      # Credentials are encrypted with this key. n8n invents a random one on
+      # first start and hides it inside the volume; pinning it here means a
+      # rebuilt volume can still read the credentials it was given.
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
+    volumes:
+      - n8n_data:/home/node/.n8n
+      # Workflow JSON exported from the previous instance, imported on setup.
+      - ./n8n/workflows:/backup/workflows:ro
+    env_file:
+      - .env
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: tastebook_caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - SITE_ADDRESS=${SITE_ADDRESS}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - media_files:/srv/media:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
+  n8n_data:
+  media_files:
+  static_files:
+  caddy_data:
+  caddy_config:
