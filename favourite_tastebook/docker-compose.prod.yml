@@ -34,12 +34,15 @@ services:
     build: .
     container_name: tastebook_web
     restart: unless-stopped
+    # Every line of this folded block must sit at the same indentation: YAML
+    # keeps a real newline before any line indented further, which would end the
+    # gunicorn command and silently drop the flags after it.
     command: >
       sh -c "python manage.py migrate --noinput &&
-             python manage.py collectstatic --noinput &&
-             gunicorn favourite_tastebook.wsgi:application
-               --bind 0.0.0.0:8000 --workers 3 --threads 2 --timeout 60
-               --access-logfile - --error-logfile -"
+      python manage.py collectstatic --noinput &&
+      gunicorn favourite_tastebook.wsgi:application
+      --bind 0.0.0.0:8000 --workers 3 --threads 2 --timeout 60
+      --access-logfile - --error-logfile -"
     environment:
       - DB_HOST=db
       - DB_PORT=5432
