@@ -1,0 +1,16 @@
+# SITE_ADDRESS comes from .env. With an sslip.io hostname (1-2-3-4.sslip.io)
+# Caddy gets a real Let's Encrypt certificate without you owning a domain.
+{$SITE_ADDRESS} {
+	encode zstd gzip
+
+	# Uploaded images go straight off disk; gunicorn never sees the request.
+	handle_path /media/* {
+		root * /srv/media
+		file_server
+	}
+
+	# Everything else, /static/ included — WhiteNoise serves that from the app.
+	reverse_proxy web:8000 {
+		header_up X-Forwarded-Proto {scheme}
+	}
+}

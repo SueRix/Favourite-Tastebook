@@ -1,6 +1,19 @@
+import logging
+
 from django.views.generic import TemplateView
 
 from recipe_manager.application.use_cases.search_recipes import SearchRecipesUseCase
+from recipe_manager.domain.exceptions import VectorSearchException
+from recipe_manager.infrastructure.presentation.vector_match import VectorMatchPresenter
+
+logger = logging.getLogger(__name__)
+
+# Badge shown above semantic result sets. Presentation only: the keyword mode
+# is deliberately absent, it has no similarity to label.
+MODE_LABELS = {
+    "vector": "Semantic",
+    "ingredient": "Ingredient",
+}
 
 
 class RecipesDatabaseView(TemplateView):
@@ -22,14 +35,40 @@ class RecipesDatabaseSearchPartialView(TemplateView):
 
     def get_context_data(self, **kwargs):
         """
-        What: Builds the template context with the cleaned keyword and matching recipes queryset.
+        What: Builds the template context with the cleaned keyword, the selection mode and the matching recipes.
         Where: Invoked by Django's TemplateView during HTMX GET handling.
         Why: Delegates all business logic to the use case so the view stays a thin presenter.
         """
         ctx = super().get_context_data(**kwargs)
         keyword = self.request.GET.get("keyword", "")
+        mode = self.request.GET.get("mode", "keyword")
         ctx["keyword"] = keyword
-        ctx["recipes"] = SearchRecipesUseCase.execute(keyword)
+        ctx["mode"] = mode
+        ctx["mode_label"] = MODE_LABELS.get(mode)
+        ctx["search_error"] = None
+
+        try:
+            # The presenter is a no-op for engines that carry no similarity,
+            # so the keyword path is unaffected.
+            ctx["recipes"] = VectorMatchPresenter.attach(
+                SearchRecipesUseCase.execute(
+                    keyword,
+                    mode=mode,
+                    user=self.request.user,
+                )
+            )
+        except VectorSearchException as exc:
+            # HTMX swaps whatever comes back straight into #rdb-results, so an
+            # unhandled 500 would render Django's error page inside the results
+            # area. Degrade to an empty result set plus a readable message.
+            # Catching the base class keeps future subclasses covered.
+            logger.warning("Vector search failed: %s", exc)
+            ctx["recipes"] = []
+            # The instance message carries transport details (webhook URL,
+            # HTTP body); show the class-level, user-facing text instead and
+            # keep the diagnostics in the logs.
+            ctx["search_error"] = type(exc).message
+
         return ctx
 
 

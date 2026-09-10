@@ -1,0 +1,14 @@
+.git
+.gitignore
+.venv
+venv
+__pycache__
+*.pyc
+.pytest_cache
+.idea
+# Secrets live on the server, never inside an image layer.
+.env
+.env.*
+media
+staticfiles
+docs

@@ -143,8 +143,118 @@
         }
     });
 
+
+    /* ----------------------------------------------------------------------
+       Search mode (Keyword vs. Semantic).
+       The active mode lives in a hidden input that htmx pulls in via
+       hx-include, so the server always receives the strategy key it expects
+       ("keyword" / "vector"). Everything below only keeps that input, the tab
+       styling and localStorage in sync.
+       ---------------------------------------------------------------------- */
+
+    const MODE_STORAGE_KEY = "rdb-search-mode";
+    const DEFAULT_MODE = "keyword";
+
+    const MODE_COPY = {
+        keyword: {
+            placeholder: "Type a keyword (e.g. pasta, chicken, soup)...",
+            note: "Exact matches in titles and descriptions.",
+        },
+        vector: {
+            placeholder: "Describe a dish (e.g. creamy tomato soup), then press Enter...",
+            note: "Meaning-based search. Press Enter or the magnifier to run it.",
+        },
+        ingredient: {
+            placeholder: "Name an ingredient (e.g. smoked paprika), then press Enter...",
+            note: "Recipes built around one ingredient. Press Enter to run it.",
+        },
+    };
+
+    function modeInput() {
+        return document.getElementById("rdb-mode-input");
+    }
+
+    function searchInput() {
+        return document.getElementById("rdb-search-input");
+    }
+
+    /**
+     * True while the classic SQL engine is selected. Called from the input's
+     * hx-trigger filter, so it must stay on the global scope: live keystroke
+     * search is allowed in keyword mode only, and never fires an embedding call.
+     */
+    function rdbIsKeywordMode() {
+        const hidden = modeInput();
+        return !hidden || hidden.value === DEFAULT_MODE;
+    }
+
+    /**
+     * Reads the last used mode, falling back to keyword when storage is
+     * unavailable (private windows) or holds an unknown value.
+     */
+    function readStoredMode() {
+        try {
+            const stored = localStorage.getItem(MODE_STORAGE_KEY);
+            return MODE_COPY[stored] ? stored : DEFAULT_MODE;
+        } catch (err) {
+            return DEFAULT_MODE;
+        }
+    }
+
+    function storeMode(mode) {
+        try {
+            localStorage.setItem(MODE_STORAGE_KEY, mode);
+        } catch (err) {
+            // Remembering the choice is a convenience, not a requirement.
+        }
+    }
+
+    /**
+     * Applies a mode to the whole search bar: hidden input, tab state and copy.
+     * When `rerun` is set, the search is re-issued so the visible results never
+     * belong to the engine the user just switched away from.
+     */
+    function applyMode(mode, rerun) {
+        const copy = MODE_COPY[mode] || MODE_COPY[DEFAULT_MODE];
+        const input = searchInput();
+        const hidden = modeInput();
+        const note = document.getElementById("rdb-mode-note");
+
+        if (hidden) hidden.value = mode;
+        if (input) input.placeholder = copy.placeholder;
+        if (note) note.textContent = copy.note;
+
+        document.querySelectorAll(".rdb-mode-tab").forEach((tab) => {
+            const isActive = tab.dataset.mode === mode;
+            tab.classList.toggle("active", isActive);
+            tab.setAttribute("aria-selected", String(isActive));
+        });
+
+        // Below the 2-char threshold the server only renders a hint, so there
+        // is nothing to refresh and no reason to hit the vector backend.
+        if (rerun && input && input.value.trim().length >= 2) {
+            htmx.trigger(input, "rdbModeChanged");
+        }
+    }
+
+    document.addEventListener("click", (e) => {
+        const tab = e.target.closest && e.target.closest(".rdb-mode-tab");
+        if (!tab || tab.classList.contains("active")) return;
+
+        const mode = tab.dataset.mode;
+        storeMode(mode);
+        applyMode(mode, true);
+    });
+
+    // Restore the previous choice before the first request can go out.
+    document.addEventListener("DOMContentLoaded", () => {
+        if (modeInput()) applyMode(readStoredMode(), false);
+    });
+
     // Expose to global scope: the inline onclick handlers in the partial rely on these names.
     window.toggleFavorite = toggleFavorite;
     window.toggleTasteAction = toggleTasteAction;
     window.closeRecipeDetail = closeRecipeDetail;
+    // Needed by the hx-trigger filter on the search input.
+    window.rdbIsKeywordMode = rdbIsKeywordMode;
 })();
