@@ -42,4 +42,9 @@ local_settings.py
 
 favourite_tastebook/media/
 
-/docs/agent_prompt.md
+# Personal notes and prompts: local only, never published.
+/docs/
+PROJECT_TECH_GUIDE.txt
+# Exported n8n workflows carry the agent system prompt and the exporting
+# account's name and email. They ship with the deployment archive instead.
+favourite_tastebook/n8n/workflows/*.json
