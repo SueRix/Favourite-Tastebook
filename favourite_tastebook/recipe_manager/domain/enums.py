@@ -49,3 +49,19 @@ class TasteLevels(models.IntegerChoices):
 
 #const tabu filter
 TASTE_HATE_LEVEL = -2
+
+
+class AgentRecipeSource(models.TextChoices):
+    """
+    Where the cooking agent is allowed to look for a dish.
+
+    Not a boolean, because the two values are not "on" and "off" of the same
+    thing: DATABASE means the curated catalogue somebody wrote and photographed,
+    AI means the model composing out of its own knowledge. Naming both keeps the
+    setting readable in the admin and leaves room for a third source later.
+    """
+
+    #: The permissive value: the catalogue is available, and so is composing.
+    DATABASE = "database", "Our recipe database"
+    #: The restriction: composed dishes only, the catalogue tools refuse.
+    AI = "ai", "Composed by the assistant only"

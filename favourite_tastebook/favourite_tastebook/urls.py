@@ -13,6 +13,10 @@ urlpatterns = [
 
     path("home/", include("recipe_manager.urls")),
 
+    # Server-to-server tool surface for the n8n cooking agent. Kept off the
+    # browser-facing prefixes so it can be firewalled as a single path.
+    path("api/agent/", include("recipe_manager.agent_urls")),
+
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]
 

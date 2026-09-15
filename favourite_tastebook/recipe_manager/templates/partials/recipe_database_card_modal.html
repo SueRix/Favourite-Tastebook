@@ -25,7 +25,14 @@
 
                         <div style="display: flex; align-items: center; gap: 16px; flex-shrink: 0;">
 
-                            {% if request.user.is_authenticated %}
+                            {% comment %}
+                            Liking, disliking and saving all name a recipe by
+                            id. A preview of a draft has no id to name — it may
+                            never become a recipe at all — so the card is shown
+                            without them rather than with controls pointing at
+                            nothing.
+                        {% endcomment %}
+                            {% if request.user.is_authenticated and not featured.is_preview %}
                                 <button type="button"
                                         class="btn-like btn-up {% if featured.is_liked %}active{% endif %}"
                                         data-id="{{ featured.id }}"

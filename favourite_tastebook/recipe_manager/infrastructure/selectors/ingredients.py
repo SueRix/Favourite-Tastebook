@@ -55,3 +55,33 @@ class IngredientSelector:
             return qs.order_by("category", "name")
 
         return qs.filter(name__icontains=query).order_by("category", "name")
+    @classmethod
+    def catalog_by_category(cls) -> dict:
+        """
+        What: The whole ingredient vocabulary as {category: [name, ...]}.
+        Where: Served to the cooking agent by the `ingredient_catalog` tool.
+        Why: The agent composes recipes out of its own knowledge, but it may only
+             use ingredients we actually know, otherwise a saved recipe could not
+             be checked against the user's taboo list. Grouping by category costs
+             nothing and helps the model pick a sensible substitute when the exact
+             ingredient it had in mind is missing.
+        """
+        catalog: dict = {}
+        rows = Ingredient.objects.values_list("category", "name").order_by("category", "name")
+        for category, name in rows:
+            catalog.setdefault(category, []).append(name)
+        return catalog
+
+    @classmethod
+    def resolve_names(cls, names) -> dict:
+        """
+        Maps ingredient names to rows, keyed by the lowercase name. Names absent
+        from the catalogue simply do not appear in the result — the caller decides
+        whether that is an error.
+        """
+        if not names:
+            return {}
+        return {
+            ingredient.name: ingredient
+            for ingredient in Ingredient.objects.filter(name__in=list(names))
+        }

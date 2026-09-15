@@ -5,13 +5,8 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    python3-dev \
-    libpq-dev \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
-
+# psycopg2-binary ships wheels, so no compiler is needed at build time —
+# this drops roughly 600 MB from the image.
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
